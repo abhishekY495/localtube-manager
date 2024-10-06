@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "NoLogin-YT",
+  "version": "1.0.0",
+  "action": { "default_popup": "src/popup/popup.html" },
+  "content_scripts": [
+    {
+      "js": ["src/content/content.js"],
+      "matches": ["https://www.youtube.com/*"]
+    }
+  ],
+  "permissions": ["storage", "activeTab", "tabs"]
+}
