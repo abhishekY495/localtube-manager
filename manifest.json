@@ -9,5 +9,5 @@
       "matches": ["https://www.youtube.com/*"]
     }
   ],
-  "permissions": ["storage", "activeTab", "tabs"]
+  "permissions": ["storage", "unlimitedStorage"]
 }
