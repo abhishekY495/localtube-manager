@@ -5,8 +5,8 @@
   "action": { "default_popup": "src/popup/popup.html" },
   "content_scripts": [
     {
-      "js": ["src/content/content.js"],
-      "matches": ["https://www.youtube.com/*"]
+      "matches": ["https://www.youtube.com/*"],
+      "js": ["src/content/content.ts"]
     }
   ],
   "permissions": ["storage", "unlimitedStorage"]
