@@ -39,18 +39,13 @@ async function setupLikeButtonListener() {
 
 // Initial setup
 setupLikeButtonListener();
+const urlSlug = getVideoUrlSlug();
+const video = await checkIfVideoIsInLikedDB(String(urlSlug));
+console.log(video ? "video is liked" : "video not liked");
 
 // Listen for URL changes
 let lastUrl = location.href;
 new MutationObserver(async () => {
-  document.addEventListener("DOMContentLoaded", function () {
-    console.log("Document is fully loaded and parsed.");
-    // Your code here
-  });
-  window.addEventListener("load", function () {
-    console.log("Entire page and resources are fully loaded.");
-    // Your code here
-  });
   const url = location.href;
   if (url !== lastUrl) {
     lastUrl = url;
