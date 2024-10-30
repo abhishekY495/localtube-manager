@@ -9,13 +9,13 @@ export async function checkIfVideoIsInLikedDB(urlSlug: string) {
     const actionsElement = document.querySelector("#actions-inner");
     if (!actionsElement) {
       console.log("Waiting for actions element...");
-      return; // Exit early, continue observing
+      return; // Exit and continue observing
     }
 
     const likeBtn = actionsElement.querySelector(".YtLikeButtonViewModelHost");
     if (!likeBtn) {
       console.log("Waiting for like button...");
-      return; // Exit early, continue observing
+      return; // Exit and continue observing
     }
 
     const iconElement = likeBtn.querySelector(
@@ -23,7 +23,7 @@ export async function checkIfVideoIsInLikedDB(urlSlug: string) {
     );
     if (!iconElement) {
       console.log("Waiting for icon element...");
-      return; // Exit early, continue observing
+      return; // Exit and continue observing
     }
 
     setTimeout(() => {
@@ -32,7 +32,7 @@ export async function checkIfVideoIsInLikedDB(urlSlug: string) {
         console.log("Icon updated with likedIcon after delay");
       }
     }, 1000);
-    observer.disconnect(); // Stop observing as everything loaded successfully
+    observer.disconnect(); // Stop observing
   }).observe(document.body, { childList: true, subtree: true });
 
   return video ? true : false;
