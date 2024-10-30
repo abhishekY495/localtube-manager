@@ -3,6 +3,7 @@ export type Video = {
   title: string;
   duration: string;
   channelName: string;
+  addedAt: string;
 };
 
 export type SubscribedChannels = {

@@ -1,3 +1,4 @@
+import { Video } from "../types";
 import { getVideoUrlSlug } from "./getVideoUrlSlug";
 
 export function getVideoObj(document: any) {
@@ -10,11 +11,12 @@ export function getVideoObj(document: any) {
     ".style-scope.ytd-channel-name.complex-string"
   ) as HTMLElement;
 
-  const video = {
+  const video: Video = {
     urlSlug: urlSlug || "",
     title: videoTitle,
     duration: videoDurationElement.innerText,
     channelName: channelNameElement.innerText,
+    addedAt: new Date().toISOString(),
   };
 
   return video;

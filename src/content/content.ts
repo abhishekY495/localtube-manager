@@ -12,26 +12,31 @@ async function setupLikeButtonListener() {
   document.body.addEventListener(
     "click",
     async (event) => {
-      const target = event.target as HTMLElement | null;
-      if (target) {
-        const actionsElement = target.closest("#actions-inner") as HTMLElement;
-        if (actionsElement) {
-          const likeBtn = actionsElement?.querySelector(
-            ".YtLikeButtonViewModelHost"
-          ) as HTMLElement;
-          if (likeBtn) {
-            removePopupModalContainer();
-
-            const video = getVideoObj(document);
-            await toggleLikeVideo(video, likeBtn);
-
-            const videosArr = await getLikedVideos();
-            clickTitle();
-
-            console.log("Liked videos:", videosArr);
-          }
-        }
+      const target = event.target as HTMLElement;
+      if (!target) {
+        console.log("No Target found");
       }
+
+      const actionsElement = target.closest("#actions-inner") as HTMLElement;
+      if (!actionsElement) {
+        console.log("No Actions element found");
+      }
+
+      const likeBtn = actionsElement?.querySelector(
+        ".YtLikeButtonViewModelHost"
+      ) as HTMLElement;
+      if (!likeBtn) {
+        console.log("No Like button found");
+      }
+
+      removePopupModalContainer();
+
+      const video = getVideoObj(document);
+      await toggleLikeVideo(video, likeBtn);
+      clickTitle();
+
+      const videosArr = await getLikedVideos();
+      console.log("Liked videos:", videosArr);
     },
     { passive: true }
   );
