@@ -1,13 +1,6 @@
 import { openDB } from "idb";
 
 export async function initializeYoutubeDB() {
-  // return await openDB("LikedVideosDB", 1, {
-  //   upgrade(db) {
-  //     if (!db.objectStoreNames.contains("likedVideos")) {
-  //       db.createObjectStore("likedVideos", { keyPath: "url" });
-  //     }
-  //   },
-  // });
   return await openDB("YouTubeDB", 1, {
     upgrade(db) {
       // Create likedVideos store
