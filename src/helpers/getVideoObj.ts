@@ -1,7 +1,7 @@
 import { Video } from "../types";
 import { getVideoUrlSlug } from "./getVideoUrlSlug";
 
-export function getVideoObj(document: any) {
+export function getVideoObj(document: Document) {
   const urlSlug = getVideoUrlSlug();
   const videoTitle = document.title.replace(" - YouTube", "");
   const videoDurationElement = document.querySelector(
