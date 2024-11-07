@@ -30,7 +30,7 @@ export async function toggleLikeVideo(video: Video, likeBtn: Element) {
           autoplay: true,
           loop: false,
           canvas: canvasElement,
-          src: "https://gist.githubusercontent.com/abhishekY495/4e81dcc28b3b557c49721dd1051883ab/raw/140a41d7269f6476e9a669ddf5ee102c7cbd2441/like-animation.json",
+          src: chrome.runtime.getURL("./like-animation.json"),
         });
       }
       console.log("Video added to liked videos:", video);

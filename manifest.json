@@ -9,5 +9,11 @@
       "js": ["src/content/content.ts"]
     }
   ],
+  "web_accessible_resources": [
+    {
+      "resources": ["like-animation.json"],
+      "matches": ["https://www.youtube.com/*"]
+    }
+  ],
   "permissions": ["storage", "unlimitedStorage"]
 }
