@@ -45,6 +45,7 @@ export async function checkIfVideoIsInLikedDB(urlSlug: string) {
       }
       console.log(likeButtonViewModelHost);
 
+      // like count
       const likeCountElement = document.querySelector(
         '[aria-label*="likes"]'
       ) as HTMLElement;
@@ -61,6 +62,7 @@ export async function checkIfVideoIsInLikedDB(urlSlug: string) {
       }
       console.log(likeCount?.innerText);
 
+      // setting custom like notliked icons
       likeButtonViewModelHost.innerHTML = `
       <div id="custom-nologin-yt-like-btn">
         <div id="custom-nologin-yt-like-btn-icon" data-custom-no-login-yt-btn-icon-liked=${
@@ -71,6 +73,7 @@ export async function checkIfVideoIsInLikedDB(urlSlug: string) {
         </div>
       </div>
       `;
+      likeButtonViewModelHost.style.display = "block";
 
       const likeBtn = document.querySelector(
         "#custom-nologin-yt-like-btn"

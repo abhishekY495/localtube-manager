@@ -2,6 +2,11 @@ ytd-popup-container {
   display: none;
 }
 
+like-button-view-model .yt-spec-button-shape-next__icon,
+like-button-view-model .yt-spec-button-shape-next__button-text-content {
+  display: none;
+}
+
 #custom-nologin-yt-like-btn {
   display: flex;
   align-items: center;
