@@ -1,3 +1,41 @@
 ytd-popup-container {
   display: none;
 }
+
+#custom-nologin-yt-like-btn {
+  display: flex;
+  align-items: center;
+  background-color: #272727;
+  padding: 6px 12px;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  border-right: 1px solid #525252;
+}
+#custom-nologin-yt-like-btn:hover {
+  background-color: #3f3f3f;
+  cursor: pointer;
+}
+
+#custom-nologin-yt-like-btn-icon {
+  height: 24px;
+}
+
+#custom-nologin-yt-like-count {
+  font-family: "Roboto", "Arial", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+div[data-custom-no-login-yt-btn-icon-liked="initial-liked"] {
+  margin-right: -11px;
+}
+div[data-custom-no-login-yt-btn-icon-liked="initial-not-liked"] {
+  margin-right: 8px;
+}
+
+div[data-custom-no-login-yt-btn-icon-liked="liked"] {
+  margin-right: 8px;
+}
+div[data-custom-no-login-yt-btn-icon-liked="not-liked"] {
+  margin-right: 8px;
+}
