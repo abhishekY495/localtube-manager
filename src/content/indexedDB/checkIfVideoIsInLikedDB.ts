@@ -1,4 +1,3 @@
-import { clickTitle } from "../../helpers/clickTitle";
 import { getVideoObj } from "../../helpers/getVideoObj";
 import { likedIcon, notLikedIcon } from "../../helpers/likedUnlikedIcons";
 import { initializeYoutubeDB } from "./initializeYoutubeDB";
@@ -81,7 +80,6 @@ export async function checkIfVideoIsInLikedDB(urlSlug: string) {
       likeBtn.addEventListener("click", async () => {
         const video = getVideoObj(document);
         await toggleLikeVideo(video, likeBtn);
-        clickTitle();
       });
 
       observer?.disconnect();
