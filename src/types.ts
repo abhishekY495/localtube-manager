@@ -5,6 +5,7 @@ export type Video = {
   channelName: string;
   addedAt: string;
 };
+// https://i.ytimg.com/<urlSlug>/maxresdefault.jpg
 
 export type SubscribedChannels = {
   id: string;

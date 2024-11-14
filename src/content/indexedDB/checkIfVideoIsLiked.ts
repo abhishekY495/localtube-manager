@@ -5,7 +5,7 @@ import { toggleLikeVideo } from "./toggleLikeVideo";
 
 let observer: MutationObserver | null = null;
 
-export async function checkIfVideoIsInLikedDB(urlSlug: string) {
+export async function checkIfVideoIsLiked(urlSlug: string) {
   const db = await initializeYoutubeDB();
   const video = await db.get("likedVideos", urlSlug);
   console.log(video ? "Video liked" : "Video not liked");
@@ -24,7 +24,7 @@ export async function checkIfVideoIsInLikedDB(urlSlug: string) {
         console.log("aboveTheFoldElement not found");
         return;
       }
-      console.log(aboveTheFoldElement);
+      // console.log(aboveTheFoldElement);
 
       const YtdMenuRenderer = aboveTheFoldElement.querySelector(
         "ytd-menu-renderer"
@@ -33,7 +33,7 @@ export async function checkIfVideoIsInLikedDB(urlSlug: string) {
         console.log("YtdMenuRenderer not found");
         return;
       }
-      console.log(YtdMenuRenderer);
+      // console.log(YtdMenuRenderer);
 
       const likeButtonViewModelHost = YtdMenuRenderer.querySelector(
         "like-button-view-model"
@@ -42,7 +42,7 @@ export async function checkIfVideoIsInLikedDB(urlSlug: string) {
         console.log("likeButtonViewModelHost not found");
         return;
       }
-      console.log(likeButtonViewModelHost);
+      // console.log(likeButtonViewModelHost);
 
       // like count
       const likeCountElement = document.querySelector(
@@ -59,7 +59,7 @@ export async function checkIfVideoIsInLikedDB(urlSlug: string) {
         console.log("likeCount not found");
         return;
       }
-      console.log(likeCount?.innerText);
+      // console.log(likeCount?.innerText);
 
       // setting custom like notliked icons
       likeButtonViewModelHost.innerHTML = `
