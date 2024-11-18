@@ -6,8 +6,10 @@ import { checkIfChannelSubscribed } from "./indexedDB/checkIfChannelSubscribed";
 
 const urlSlug = getVideoUrlSlug();
 
-checkIfVideoIsLiked(String(urlSlug));
-checkIfChannelSubscribed();
+if (urlSlug.length > 0) {
+  await checkIfVideoIsLiked(String(urlSlug));
+  await checkIfChannelSubscribed();
+}
 
 let lastUrl = location.href;
 new MutationObserver(async () => {
@@ -15,7 +17,9 @@ new MutationObserver(async () => {
   if (url !== lastUrl) {
     lastUrl = url;
     const urlSlug = getVideoUrlSlug();
-    await checkIfVideoIsLiked(String(urlSlug));
-    await checkIfChannelSubscribed();
+    if (urlSlug.length > 0) {
+      await checkIfVideoIsLiked(String(urlSlug));
+      await checkIfChannelSubscribed();
+    }
   }
 }).observe(document, { subtree: true, childList: true });

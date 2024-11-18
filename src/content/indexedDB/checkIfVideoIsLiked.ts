@@ -45,30 +45,48 @@ export async function checkIfVideoIsLiked(urlSlug: string) {
       // console.log(likeButtonViewModelHost);
 
       // like count
-      const likeCountElement = document.querySelector(
+      let likeCountElement = null;
+      let likeCountElementInYtdMenuRenderer = null;
+      let likeCount = null;
+
+      likeCountElement = document.querySelector(
         '[aria-label*="likes"]'
       ) as HTMLElement;
       if (likeCountElement === null) {
         console.log("likeCountElement not found");
-        return;
+
+        // searching like count in YtdMenuRenderer
+        likeCountElementInYtdMenuRenderer = YtdMenuRenderer.querySelector(
+          ".yt-spec-button-shape-next__button-text-content"
+        ) as HTMLElement;
+        if (likeCountElementInYtdMenuRenderer === null) {
+          console.log("likeCountElementInYtdMenuRenderer not found");
+          return;
+        }
       }
-      const likeCount = likeCountElement.querySelector(
-        ".YtwFactoidRendererValue"
-      ) as HTMLElement;
-      if (likeCount === null) {
-        console.log("likeCount not found");
-        return;
+
+      if (likeCountElement) {
+        likeCount = likeCountElement.querySelector(
+          ".YtwFactoidRendererValue"
+        ) as HTMLElement;
+        if (likeCount === null) {
+          console.log("likeCount not found");
+          return;
+        }
+        likeCount = likeCount?.innerText;
+      } else {
+        likeCount = likeCountElementInYtdMenuRenderer?.innerText;
       }
       // console.log(likeCount?.innerText);
 
-      // setting custom like notliked icons
+      // setting custom liked/notliked icons
       likeButtonViewModelHost.innerHTML = `
       <div id="custom-nologin-yt-like-btn">
         <div id="custom-nologin-yt-like-btn-icon" data-custom-no-login-yt-btn-icon-liked=${
           video ? "initial-liked" : "initial-not-liked"
         }>${video ? likedIcon : notLikedIcon}</div>
         <div id="custom-nologin-yt-like-count">
-        ${likeCount?.innerText}
+        ${likeCount}
         </div>
       </div>
       `;
@@ -85,5 +103,5 @@ export async function checkIfVideoIsLiked(urlSlug: string) {
       observer?.disconnect();
     });
     observer.observe(document.body, { childList: true, subtree: true });
-  }, 1500);
+  }, 1800);
 }

@@ -4,13 +4,15 @@ export type Video = {
   duration: string;
   channelName: string;
   addedAt: string;
+  // https://i.ytimg.com/<urlSlug>/maxresdefault.jpg
 };
-// https://i.ytimg.com/<urlSlug>/maxresdefault.jpg
 
 export type SubscribedChannels = {
   id: string;
+  handle: string;
   name: string;
   imageUrl: string;
+  addedAt: string;
 };
 
 export type Playlists = {
@@ -19,4 +21,5 @@ export type Playlists = {
   url: string;
   coverImage: string;
   videos: Video[];
+  addedAt: string;
 };
