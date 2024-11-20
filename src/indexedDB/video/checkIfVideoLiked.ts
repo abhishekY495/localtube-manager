@@ -1,11 +1,11 @@
-import { getVideoObj } from "../../helpers/getVideoObj";
-import { likedIcon, notLikedIcon } from "../../helpers/likedUnlikedIcons";
-import { initializeYoutubeDB } from "./initializeYoutubeDB";
-import { toggleLikeVideo } from "./toggleLikeVideo";
+import { getVideoObj } from "../../helpers/video/getVideoObj";
+import { likedIcon, notLikedIcon } from "../../helpers/video/likedUnlikedIcons";
+import { initializeYoutubeDB } from "../initializeYoutubeDB";
+import { toggleLikedVideo } from "./toggleLikedVideo";
 
 let observer: MutationObserver | null = null;
 
-export async function checkIfVideoIsLiked(urlSlug: string) {
+export async function checkIfVideoLiked(urlSlug: string) {
   const db = await initializeYoutubeDB();
   const video = await db.get("likedVideos", urlSlug);
   console.log(video ? "Video liked" : "Video not liked");
@@ -97,7 +97,7 @@ export async function checkIfVideoIsLiked(urlSlug: string) {
       ) as HTMLElement;
       likeBtn.addEventListener("click", async () => {
         const video = getVideoObj(document);
-        await toggleLikeVideo(video, likeBtn);
+        await toggleLikedVideo(video, likeBtn);
       });
 
       observer?.disconnect();

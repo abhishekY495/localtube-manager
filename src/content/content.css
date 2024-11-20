@@ -3,6 +3,8 @@ like-button-view-model .yt-spec-button-shape-next__button-text-content {
   display: none;
 }
 
+/* Like/UnLike button */
+
 #custom-nologin-yt-like-btn {
   display: flex;
   align-items: center;
@@ -39,4 +41,26 @@ div[data-custom-no-login-yt-btn-icon-liked="liked"] {
 }
 div[data-custom-no-login-yt-btn-icon-liked="not-liked"] {
   margin-right: 8px;
+}
+
+/* Subscribe button */
+#owner #subscribe-button {
+  display: none;
+}
+
+.custom-nologin-yt-subscribe-btn {
+  background-color: #f1f1f1;
+  color: #0f0f0f;
+  text-align: center;
+  padding: 10px 16px;
+  border-radius: 18px;
+  font-size: 14px;
+  font-family: "Roboto", "Arial", sans-serif;
+  font-weight: 500;
+  height: 16px;
+}
+
+.custom-nologin-yt-subscribe-btn:hover {
+  background-color: #d9d9d9;
+  cursor: pointer;
 }

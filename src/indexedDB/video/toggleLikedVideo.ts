@@ -1,9 +1,9 @@
 import { DotLottie } from "@lottiefiles/dotlottie-web";
+import { initializeYoutubeDB } from "../initializeYoutubeDB";
+import { notLikedIcon } from "../../helpers/video/likedUnlikedIcons";
 import { Video } from "../../types";
-import { initializeYoutubeDB } from "./initializeYoutubeDB";
-import { notLikedIcon } from "../../helpers/likedUnlikedIcons";
 
-export async function toggleLikeVideo(video: Video, likeBtn: Element) {
+export async function toggleLikedVideo(video: Video, likeBtn: Element) {
   const db = await initializeYoutubeDB();
   const tx = db.transaction("likedVideos", "readwrite");
   const likedVideosStore = tx.objectStore("likedVideos");

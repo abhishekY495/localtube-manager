@@ -7,8 +7,8 @@ export type Video = {
   // https://i.ytimg.com/<urlSlug>/maxresdefault.jpg
 };
 
-export type SubscribedChannels = {
-  id: string;
+export type YoutubeChannel = {
+  id: string | null;
   handle: string;
   name: string;
   imageUrl: string;

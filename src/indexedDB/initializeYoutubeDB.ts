@@ -10,7 +10,7 @@ export async function initializeYoutubeDB() {
 
       // Create subscribedChannels store
       if (!db.objectStoreNames.contains("subscribedChannels")) {
-        db.createObjectStore("subscribedChannels", { keyPath: "id" });
+        db.createObjectStore("subscribedChannels", { keyPath: "handle" });
       }
 
       // Create playlists store

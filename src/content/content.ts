@@ -1,13 +1,13 @@
 import "./content.css";
 
-import { checkIfVideoIsLiked } from "./indexedDB/checkIfVideoIsLiked";
-import { getVideoUrlSlug } from "../helpers/getVideoUrlSlug";
-import { checkIfChannelSubscribed } from "./indexedDB/checkIfChannelSubscribed";
+import { checkIfVideoLiked } from "../indexedDB/video/checkIfVideoLiked";
+import { checkIfChannelSubscribed } from "../indexedDB/channel/checkIfChannelSubscribed";
+import { getVideoUrlSlug } from "../helpers/video/getVideoUrlSlug";
 
 const urlSlug = getVideoUrlSlug();
 
 if (urlSlug.length > 0) {
-  await checkIfVideoIsLiked(String(urlSlug));
+  await checkIfVideoLiked(String(urlSlug));
   await checkIfChannelSubscribed();
 }
 
@@ -18,7 +18,7 @@ new MutationObserver(async () => {
     lastUrl = url;
     const urlSlug = getVideoUrlSlug();
     if (urlSlug.length > 0) {
-      await checkIfVideoIsLiked(String(urlSlug));
+      await checkIfVideoLiked(String(urlSlug));
       await checkIfChannelSubscribed();
     }
   }
