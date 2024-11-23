@@ -11,7 +11,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["like-animation.json"],
+      "resources": ["like-animation.json", "subscribe-animation.json"],
       "matches": ["https://www.youtube.com/*"]
     }
   ],

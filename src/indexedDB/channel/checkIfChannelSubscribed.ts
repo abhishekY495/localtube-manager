@@ -1,10 +1,16 @@
+import { getChannelObj } from "../../helpers/channel/getChannelObj";
 import { initializeYoutubeDB } from "../initializeYoutubeDB";
+import { getSubscribedChannels } from "./getSubscibedChannels";
+import { toggleSubscribedChannel } from "./toggleSubscribedChannel";
 
 let observer: MutationObserver | null = null;
 
 export async function checkIfChannelSubscribed() {
   const db = await initializeYoutubeDB();
-  const isSubscribed = await db.get("subscribedChannels", "123aqwe");
+  const isSubscribed = await db.get(
+    "subscribedChannels",
+    "https://www.youtube.com/@GoogleDevelopers"
+  );
   console.log(isSubscribed ? "Subscribed" : "Not subscribed");
 
   if (observer) {
@@ -48,27 +54,21 @@ export async function checkIfChannelSubscribed() {
         "div"
       ) as HTMLElement;
       customSubscribeButton.classList.add("custom-nologin-yt-subscribe-btn");
+
       customSubscribeButton.innerText = isSubscribed
         ? "Subscribed"
         : "Subscribe";
+      if (isSubscribed) {
+        customSubscribeButton.classList.add("custom-yt-channel-subscribed");
+      }
       ownerElement.appendChild(customSubscribeButton);
 
       customSubscribeButton.addEventListener("click", async () => {
-        console.log(123123);
+        const youtubeChannel = getChannelObj(aboveTheFoldElement);
+        await toggleSubscribedChannel(youtubeChannel, customSubscribeButton);
 
-        // const youtubeChannel = getChannelObj(ownerElement);
-        // console.log(youtubeChannel);
-
-        // const db = await initializeYoutubeDB();
-        // const tx = db.transaction("subscribedChannels", "readwrite");
-        // const subscribedChannelsStore = tx.objectStore("subscribedChannels");
-
-        // await subscribedChannelsStore.add(youtubeChannel);
-        // await tx.done;
-        // db.close();
-
-        // const channels = await getSubscribedChannels();
-        // console.log("all channels", channels);
+        const subscribedChannels = await getSubscribedChannels();
+        console.log(subscribedChannels);
       });
 
       observer?.disconnect();
