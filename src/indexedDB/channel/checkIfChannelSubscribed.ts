@@ -26,18 +26,20 @@ export async function checkIfChannelSubscribed() {
       const aboveTheFoldElement = document.querySelector(
         "#above-the-fold"
       ) as HTMLElement;
-      if (!aboveTheFoldElement) {
+      if (aboveTheFoldElement === null) {
         console.log("aboveTheFoldElement not found");
         return;
       }
+      // console.log(aboveTheFoldElement);
 
       const ownerElement = aboveTheFoldElement.querySelector(
         "#owner"
       ) as HTMLElement;
-      if (!ownerElement) {
+      if (ownerElement === null) {
         console.log("ownerElement not found");
         return;
       }
+      // console.log(ownerElement);
 
       // Remove all existing custom subscribe buttons
       const existingButtons = document.querySelectorAll(
