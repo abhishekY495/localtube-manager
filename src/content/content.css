@@ -1,5 +1,7 @@
-like-button-view-model .yt-spec-button-shape-next__icon,
-like-button-view-model .yt-spec-button-shape-next__button-text-content {
+#above-the-fold .YtLikeButtonViewModelHost {
+  display: none;
+}
+#above-the-fold .YtSegmentedLikeDislikeButtonViewModelSegmentedButtonsWrapper {
   display: none;
 }
 

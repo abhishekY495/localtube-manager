@@ -4,6 +4,8 @@ import { initializeYoutubeDB } from "../initializeYoutubeDB";
 import { toggleLikedVideo } from "./toggleLikedVideo";
 
 let observer: MutationObserver | null = null;
+let isProcessing = false;
+let debounceTimeout: number | undefined;
 
 export async function checkIfVideoLiked(urlSlug: string) {
   const db = await initializeYoutubeDB();
@@ -15,8 +17,13 @@ export async function checkIfVideoLiked(urlSlug: string) {
     observer = null;
   }
 
-  setTimeout(() => {
-    observer = new MutationObserver(() => {
+  async function handleLikeElements() {
+    // If already processing, skip
+    if (isProcessing) return;
+
+    try {
+      isProcessing = true;
+
       const aboveTheFoldElement = document.querySelector(
         "#above-the-fold"
       ) as HTMLElement;
@@ -77,31 +84,58 @@ export async function checkIfVideoLiked(urlSlug: string) {
       } else {
         likeCount = likeCountElementInYtdMenuRenderer?.innerText;
       }
-      // console.log(likeCount?.innerText);
+      // console.log(likeCount);
 
-      // setting custom liked/notliked icons
-      likeButtonViewModelHost.innerHTML = `
-      <div id="custom-nologin-yt-like-btn">
+      const likeDislikeButtonsWrapper = YtdMenuRenderer.querySelector(
+        ".YtSegmentedLikeDislikeButtonViewModelSegmentedButtonsWrapper"
+      ) as HTMLElement;
+      if (likeDislikeButtonsWrapper === null) {
+        console.log("likeDislikeButtonsWrapper not found");
+        return;
+      }
+      // console.log(likeDislikeButtonsWrapper);
+
+      // create new liked button with icon
+      const customLikeButtonWrapper = document.createElement("div");
+      customLikeButtonWrapper.id = "custom-nologin-yt-like-btn";
+      customLikeButtonWrapper.innerHTML = `
         <div id="custom-nologin-yt-like-btn-icon" data-custom-no-login-yt-btn-icon-liked=${
           video ? "initial-liked" : "initial-not-liked"
-        }>${video ? likedIcon : notLikedIcon}</div>
-        <div id="custom-nologin-yt-like-count">
-        ${likeCount}
+        }>${video ? likedIcon : notLikedIcon}
         </div>
-      </div>
+        <div id="custom-nologin-yt-like-count">${likeCount}</div>
       `;
-      likeButtonViewModelHost.style.display = "block";
 
-      const likeBtn = document.querySelector(
-        "#custom-nologin-yt-like-btn"
-      ) as HTMLElement;
-      likeBtn.addEventListener("click", async () => {
+      // add click handler
+      customLikeButtonWrapper.addEventListener("click", async () => {
         const video = getVideoObj(document);
-        await toggleLikedVideo(video, likeBtn);
+        await toggleLikedVideo(video, customLikeButtonWrapper);
       });
 
-      observer?.disconnect();
-    });
-    observer.observe(document.body, { childList: true, subtree: true });
-  }, 1800);
+      // insert created btn
+      likeDislikeButtonsWrapper.insertBefore(
+        customLikeButtonWrapper,
+        likeDislikeButtonsWrapper.firstChild
+      );
+      likeDislikeButtonsWrapper.style.display = "flex";
+
+      if (observer) {
+        observer?.disconnect();
+        observer = null;
+        console.log("videos observer disconnected");
+      }
+    } finally {
+      isProcessing = false;
+    }
+  }
+
+  // Debounce function to limit how often we process mutations
+  function debounceHandler() {
+    window.clearTimeout(debounceTimeout);
+    debounceTimeout = window.setTimeout(handleLikeElements, 100);
+  }
+
+  // Create new observer
+  observer = new MutationObserver(debounceHandler);
+  observer.observe(document.body, { childList: true, subtree: true });
 }

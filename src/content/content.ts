@@ -22,6 +22,6 @@ new MutationObserver(async () => {
         await checkIfVideoLiked(String(urlSlug));
         await checkIfChannelSubscribed();
       }
-    }, 1000);
+    }, 800);
   }
 }).observe(document, { subtree: true, childList: true });
