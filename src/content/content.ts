@@ -16,10 +16,12 @@ new MutationObserver(async () => {
   const url = location.href;
   if (url !== lastUrl) {
     lastUrl = url;
-    const urlSlug = getVideoUrlSlug();
-    if (urlSlug.length > 0) {
-      await checkIfVideoLiked(String(urlSlug));
-      await checkIfChannelSubscribed();
-    }
+    setTimeout(async () => {
+      const urlSlug = getVideoUrlSlug();
+      if (urlSlug.length > 0) {
+        await checkIfVideoLiked(String(urlSlug));
+        await checkIfChannelSubscribed();
+      }
+    }, 1000);
   }
 }).observe(document, { subtree: true, childList: true });
