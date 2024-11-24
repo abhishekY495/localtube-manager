@@ -52,7 +52,6 @@ export async function checkIfChannelSubscribed() {
         youtubeChannel.handle
       );
 
-      console.log(youtubeChannel.handle);
       console.log(isSubscribed ? "Subscribed" : "Not subscribed");
 
       // Create new subscribe button

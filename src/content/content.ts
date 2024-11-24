@@ -7,8 +7,8 @@ import { getVideoUrlSlug } from "../helpers/video/getVideoUrlSlug";
 const urlSlug = getVideoUrlSlug();
 
 if (urlSlug.length > 0) {
-  await checkIfVideoLiked(String(urlSlug));
-  await checkIfChannelSubscribed();
+  checkIfVideoLiked(String(urlSlug));
+  checkIfChannelSubscribed();
 }
 
 let lastUrl = location.href;
