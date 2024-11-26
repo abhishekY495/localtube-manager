@@ -4,6 +4,11 @@
 #above-the-fold .YtSegmentedLikeDislikeButtonViewModelSegmentedButtonsWrapper {
   display: none;
 }
+#wrapper
+  yt-flexible-actions-view-model
+  *:not(#wrapper yt-flexible-actions-view-model) {
+  visibility: hidden;
+}
 
 /* Like/UnLike button */
 #custom-nologin-yt-like-btn {
@@ -63,7 +68,22 @@ div[data-custom-no-login-yt-btn-icon-liked="not-liked"] {
   transition: background-color 0.5s ease;
 }
 
-.custom-nologin-yt-subscribe-btn:hover {
+.custom-nologin-yt-subscribe-btn-2 {
+  background-color: #f1f1f1;
+  color: #0f0f0f;
+  text-align: center;
+  padding: 9px 16px;
+  border-radius: 18px;
+  font-size: 14px;
+  font-family: "Roboto", "Arial", sans-serif;
+  font-weight: 500;
+  position: relative;
+  height: 16px;
+  transition: background-color 0.5s ease;
+}
+
+.custom-nologin-yt-subscribe-btn:hover,
+.custom-nologin-yt-subscribe-btn-2:hover {
   background-color: #d9d9d9;
   cursor: pointer;
 }

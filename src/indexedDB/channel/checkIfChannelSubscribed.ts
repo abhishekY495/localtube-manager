@@ -45,7 +45,11 @@ export async function checkIfChannelSubscribed() {
       const existingButtons = document.querySelectorAll(
         ".custom-nologin-yt-subscribe-btn"
       );
-      existingButtons.forEach((button) => button.remove());
+      if (existingButtons) {
+        existingButtons.forEach((button) => button.remove());
+      } else {
+        console.log("No previous subscribe btn found.");
+      }
 
       // Get channel info and subscription status
       const youtubeChannel = getChannelObj(aboveTheFoldElement);
