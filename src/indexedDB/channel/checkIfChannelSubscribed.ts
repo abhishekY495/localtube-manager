@@ -1,4 +1,4 @@
-import { getChannelObj } from "../../helpers/channel/getChannelObj";
+import { getChannelObjFromVideoPage } from "../../helpers/channel/getChannelObjFromVideoPage";
 import { initializeYoutubeDB } from "../initializeYoutubeDB";
 import { getSubscribedChannels } from "./getSubscibedChannels";
 import { toggleSubscribedChannel } from "./toggleSubscribedChannel";
@@ -52,7 +52,7 @@ export async function checkIfChannelSubscribed() {
       }
 
       // Get channel info and subscription status
-      const youtubeChannel = getChannelObj(aboveTheFoldElement);
+      const youtubeChannel = getChannelObjFromVideoPage(aboveTheFoldElement);
       const isSubscribed = await db.get(
         "subscribedChannels",
         youtubeChannel.handle

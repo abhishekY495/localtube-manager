@@ -27,14 +27,6 @@ export async function checkIfChannelSubscribedFromChannelPage(
     try {
       isProcessing = true;
 
-      // Disconnect observer after successful processing
-      if (observer) {
-        observer.disconnect();
-        observer = null;
-        isProcessing = false;
-        console.log("channel observer disconnected");
-      }
-
       const pageHeaderElement = document.querySelector(
         "#page-header"
       ) as HTMLElement;
@@ -98,7 +90,6 @@ export async function checkIfChannelSubscribedFromChannelPage(
       );
       if (myCustomSubscribeButton.length !== 0) {
         console.log("previous subscribe btn found, removing it");
-        console.log(myCustomSubscribeButton);
         myCustomSubscribeButton.forEach((button) => button.remove());
       } else {
         console.log("No previous subscribe btn found.");
@@ -117,6 +108,14 @@ export async function checkIfChannelSubscribedFromChannelPage(
       }
       customSubscribeButton.style.visibility = "visible";
       channelActionsViewModal.prepend(customSubscribeButton);
+
+      // Disconnect observer after successful processing
+      if (observer) {
+        observer.disconnect();
+        observer = null;
+        isProcessing = false;
+        console.log("channel-page observer disconnected");
+      }
     } finally {
       isProcessing = false;
     }
