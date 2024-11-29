@@ -25,9 +25,7 @@ export function getChannelObjFromVideoPage(aboveTheFoldElement: HTMLElement) {
     name: channelId2?.innerText,
     handle: channelHandle?.href,
     id: channelId1?.href?.replace("/videos", "") || channelId2.href,
-    imageUrl:
-      imageUrl?.replace("=s48", "=s400") ||
-      "https://raw.githubusercontent.com/abhishekY495/no-login-yt-images/refs/heads/main/default-channel-image.png?token=GHSAT0AAAAAACPOFNMWHBQPLRRRCPN7GTJWZ2BXGOQ",
+    imageUrl: imageUrl?.replace("=s48", "=s176") || "",
     addedAt: new Date().toISOString(),
   };
 
