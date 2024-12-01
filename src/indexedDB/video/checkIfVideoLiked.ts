@@ -95,6 +95,17 @@ export async function checkIfVideoLiked(urlSlug: string) {
       }
       // console.log(likeDislikeButtonsWrapper);
 
+      // remove previous liked btn
+      const myCustomLikeButton = document.querySelectorAll(
+        "#custom-nologin-yt-like-btn"
+      );
+      if (myCustomLikeButton.length !== 0) {
+        myCustomLikeButton.forEach((button) => button.remove());
+        console.log("removed previous like btn");
+      } else {
+        console.log("no previous like btn found.");
+      }
+
       // create new liked button with icon
       const customLikeButtonWrapper = document.createElement("div");
       customLikeButtonWrapper.id = "custom-nologin-yt-like-btn";

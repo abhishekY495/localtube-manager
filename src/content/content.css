@@ -54,46 +54,44 @@ div[data-custom-no-login-yt-btn-icon-liked="not-liked"] {
   display: none;
 }
 
-.custom-nologin-yt-subscribe-btn {
+.custom-nologin-yt-subscribe-btn-video-page {
   background-color: #f1f1f1;
   color: #0f0f0f;
   text-align: center;
-  padding: 10px 16px 11px 16px;
+  padding: 10px 16px;
   border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   font-size: 14px;
   font-family: "Roboto", "Arial", sans-serif;
   font-weight: 500;
   height: 16px;
   position: relative;
-  transition: background-color 0.5s ease;
 }
-
-.custom-nologin-yt-subscribe-btn-2 {
+.custom-nologin-yt-subscribe-btn-channel-page {
   background-color: #f1f1f1;
   color: #0f0f0f;
   text-align: center;
   padding: 9px 16px;
   border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   font-size: 14px;
   font-family: "Roboto", "Arial", sans-serif;
   font-weight: 500;
-  position: relative;
   height: 16px;
-  transition: background-color 0.5s ease;
+  position: relative;
 }
 
-.custom-nologin-yt-subscribe-btn:hover,
-.custom-nologin-yt-subscribe-btn-2:hover {
+.custom-nologin-yt-subscribe-btn-video-page:hover,
+.custom-nologin-yt-subscribe-btn-channel-page:hover {
   background-color: #d9d9d9;
   cursor: pointer;
 }
 
-.custom-yt-channel-subscribed {
-  background-color: rgba(255, 255, 255, 0.102);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.custom-nologin-yt-channel-subscribed {
+  background-color: #272727;
   color: #f1f1f1;
 }
-.custom-yt-channel-subscribed:hover {
+.custom-nologin-yt-channel-subscribed:hover {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
@@ -102,6 +100,6 @@ div[data-custom-no-login-yt-btn-icon-liked="not-liked"] {
   height: 16px;
 }
 
-.custom-yt-channel-subscribed-animate-bg {
+.custom-nologin-yt-channel-subscribed-animate-bg {
   background-color: #f57 !important;
 }

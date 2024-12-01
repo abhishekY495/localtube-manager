@@ -1,7 +1,7 @@
 import "./content.css";
 
 import { checkIfVideoLiked } from "../indexedDB/video/checkIfVideoLiked";
-import { checkIfChannelSubscribed } from "../indexedDB/channel/checkIfChannelSubscribed";
+import { checkIfChannelSubscribedFromVideoPage } from "../indexedDB/channel/checkIfChannelSubscribedFromVideoPage";
 import { getVideoUrlSlug } from "../helpers/video/getVideoUrlSlug";
 import { getChannelUrl } from "../helpers/channel/getChannelUrl";
 import { checkIfChannelSubscribedFromChannelPage } from "../indexedDB/channel/checkIfChannelSubscribedFromChannelPage";
@@ -10,7 +10,7 @@ const videoUrlSlug = getVideoUrlSlug();
 
 if (videoUrlSlug.length > 0) {
   checkIfVideoLiked(String(videoUrlSlug));
-  checkIfChannelSubscribed();
+  checkIfChannelSubscribedFromVideoPage();
 } else {
   const channelUrl = getChannelUrl();
   await checkIfChannelSubscribedFromChannelPage(channelUrl);
@@ -25,7 +25,7 @@ new MutationObserver(async () => {
       const videoUrlSlug = getVideoUrlSlug();
       if (videoUrlSlug.length > 0) {
         await checkIfVideoLiked(String(videoUrlSlug));
-        await checkIfChannelSubscribed();
+        await checkIfChannelSubscribedFromVideoPage();
       } else {
         const channelUrl = getChannelUrl();
         await checkIfChannelSubscribedFromChannelPage(channelUrl);

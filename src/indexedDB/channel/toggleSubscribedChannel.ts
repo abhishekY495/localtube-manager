@@ -17,7 +17,9 @@ export async function toggleSubscribedChannel(
     if (subscribedChannel) {
       await subscribedChannelsStore.delete(channel.handle);
       console.log("unsubscribed from", subscribedChannel.name);
-      customSubscribeButton.classList.remove("custom-yt-channel-subscribed");
+      customSubscribeButton.classList.remove(
+        "custom-nologin-yt-channel-subscribed"
+      );
       customSubscribeButton.innerText = "Subscribe";
     } else {
       await subscribedChannelsStore.add(channel);
@@ -31,6 +33,7 @@ export async function toggleSubscribedChannel(
       canvasElement.style.position = "absolute";
       canvasElement.style.top = "-52px";
       canvasElement.style.left = "-17px";
+      canvasElement.style.visibility = "visible";
       new DotLottie({
         autoplay: true,
         loop: false,
@@ -38,18 +41,26 @@ export async function toggleSubscribedChannel(
         src: chrome.runtime.getURL("./subscribe-animation.json"),
       });
       console.log("subscribed to", channel.name);
-      customSubscribeButton.classList.add("custom-yt-channel-subscribed");
+      customSubscribeButton.style.transition = "background-color 0.5s ease";
       customSubscribeButton.classList.add(
-        "custom-yt-channel-subscribed-animate-bg"
+        "custom-nologin-yt-channel-subscribed"
+      );
+      customSubscribeButton.classList.add(
+        "custom-nologin-yt-channel-subscribed-animate-bg"
       );
 
       setTimeout(() => {
         customSubscribeButton.classList.remove(
-          "custom-yt-channel-subscribed-animate-bg"
+          "custom-nologin-yt-channel-subscribed-animate-bg"
         );
-      }, 300);
+      }, 600);
+      setTimeout(() => {
+        customSubscribeButton.style.transition = "none";
+        canvasElement.remove();
+      }, 800);
 
       const subscribedText = document.createElement("p");
+      subscribedText.style.visibility = "visible";
       subscribedText.innerText = "Subscribed";
       customSubscribeButton.appendChild(subscribedText);
     }

@@ -7,7 +7,7 @@ let observer: MutationObserver | null = null;
 let isProcessing = false;
 let debounceTimeout: number | undefined;
 
-export async function checkIfChannelSubscribed() {
+export async function checkIfChannelSubscribedFromVideoPage() {
   const db = await initializeYoutubeDB();
 
   // Clean up existing observer
@@ -43,7 +43,7 @@ export async function checkIfChannelSubscribed() {
 
       // Remove all existing custom subscribe buttons
       const existingButtons = document.querySelectorAll(
-        ".custom-nologin-yt-subscribe-btn"
+        ".custom-nologin-yt-subscribe-btn-video-page"
       );
       if (existingButtons) {
         existingButtons.forEach((button) => button.remove());
@@ -62,14 +62,20 @@ export async function checkIfChannelSubscribed() {
 
       // Create new subscribe button
       const customSubscribeButton = document.createElement("div");
-      customSubscribeButton.classList.add("custom-nologin-yt-subscribe-btn");
+      customSubscribeButton.classList.add(
+        "custom-nologin-yt-subscribe-btn-video-page"
+      );
 
       if (isSubscribed) {
         customSubscribeButton.innerText = "Subscribed";
-        customSubscribeButton.classList.add("custom-yt-channel-subscribed");
+        customSubscribeButton.classList.add(
+          "custom-nologin-yt-channel-subscribed"
+        );
       } else {
         customSubscribeButton.innerText = "Subscribe";
-        customSubscribeButton.classList.remove("custom-yt-channel-subscribed");
+        customSubscribeButton.classList.remove(
+          "custom-nologin-yt-channel-subscribed"
+        );
       }
 
       // Add click handler

@@ -65,7 +65,7 @@ export async function checkIfChannelSubscribedFromChannelPage(
         return;
       }
       const channelHandle = channelHandleElement.innerText;
-      console.log(channelHandle);
+      // console.log(channelHandle);
 
       const channel: YoutubeChannel = await db.get(
         "subscribedChannels",
@@ -83,13 +83,15 @@ export async function checkIfChannelSubscribedFromChannelPage(
       // final subscription check
       if (isSubscribedFromHandle || isSubscribedFromId) {
         isSubscribed = true;
+        console.log("subscribed to", channelHandle);
       } else {
         isSubscribed = false;
+        console.log("not subscribed to", channelHandle);
       }
 
       // remove previous created button
       const myCustomSubscribeButton = document.querySelectorAll(
-        ".custom-nologin-yt-subscribe-btn-2"
+        ".custom-nologin-yt-subscribe-btn-channel-page"
       );
       if (myCustomSubscribeButton.length !== 0) {
         console.log("previous subscribe btn found, removing it");
@@ -100,14 +102,20 @@ export async function checkIfChannelSubscribedFromChannelPage(
 
       // Create new subscribe button
       const customSubscribeButton = document.createElement("div");
-      customSubscribeButton.classList.add("custom-nologin-yt-subscribe-btn-2");
+      customSubscribeButton.classList.add(
+        "custom-nologin-yt-subscribe-btn-channel-page"
+      );
 
       if (isSubscribed) {
         customSubscribeButton.innerText = "Subscribed";
-        customSubscribeButton.classList.add("custom-yt-channel-subscribed");
+        customSubscribeButton.classList.add(
+          "custom-nologin-yt-channel-subscribed"
+        );
       } else {
         customSubscribeButton.innerText = "Subscribe";
-        customSubscribeButton.classList.remove("custom-yt-channel-subscribed");
+        customSubscribeButton.classList.remove(
+          "custom-nologin-yt-channel-subscribed"
+        );
       }
 
       // Add click handler
