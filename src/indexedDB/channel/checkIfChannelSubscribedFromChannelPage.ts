@@ -7,6 +7,7 @@ import { toggleSubscribedChannel } from "./toggleSubscribedChannel";
 let observer: MutationObserver | null = null;
 let isProcessing = false;
 let debounceTimeout: number | undefined;
+let pageHeaderErrorCount: number = 0;
 
 export async function checkIfChannelSubscribedFromChannelPage(
   channelUrl: string
@@ -35,6 +36,17 @@ export async function checkIfChannelSubscribedFromChannelPage(
       ) as HTMLElement;
       if (pageHeaderElement === null) {
         console.log("pageHeaderElement not found");
+        pageHeaderErrorCount += 1;
+        console.log(pageHeaderErrorCount);
+        if (pageHeaderErrorCount > 80) {
+          console.log(pageHeaderErrorCount);
+          if (observer) {
+            observer.disconnect();
+            observer = null;
+            isProcessing = false;
+            console.log("channel-page observer disconnected");
+          }
+        }
         return;
       }
       // console.log(pageHeaderElement);
