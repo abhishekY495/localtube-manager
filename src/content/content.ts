@@ -12,11 +12,8 @@ if (videoUrlSlug.length > 0) {
   checkIfVideoLiked(String(videoUrlSlug));
   checkIfChannelSubscribedFromVideoPage();
 } else {
-  const url = location.href;
-  if (url !== "https://www.youtube.com/") {
-    const channelUrl = getChannelUrl();
-    await checkIfChannelSubscribedFromChannelPage(channelUrl);
-  }
+  const channelUrl = getChannelUrl();
+  checkIfChannelSubscribedFromChannelPage(channelUrl);
 }
 
 let lastUrl = location.href;
@@ -30,10 +27,8 @@ new MutationObserver(async () => {
         await checkIfVideoLiked(String(videoUrlSlug));
         await checkIfChannelSubscribedFromVideoPage();
       } else {
-        if (url !== "https://www.youtube.com/") {
-          const channelUrl = getChannelUrl();
-          await checkIfChannelSubscribedFromChannelPage(channelUrl);
-        }
+        const channelUrl = getChannelUrl();
+        await checkIfChannelSubscribedFromChannelPage(channelUrl);
       }
     }, 800);
   }

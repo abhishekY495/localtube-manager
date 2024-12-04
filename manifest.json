@@ -9,6 +9,7 @@
       "js": ["src/content/content.ts"]
     }
   ],
+  "options_page": "src/dashboard/dashboard.html",
   "web_accessible_resources": [
     {
       "resources": ["like-animation.json", "subscribe-animation.json"],
