@@ -1,7 +1,10 @@
 #above-the-fold .YtLikeButtonViewModelHost {
   display: none;
 }
-#above-the-fold .YtSegmentedLikeDislikeButtonViewModelSegmentedButtonsWrapper {
+#above-the-fold .ytSegmentedLikeDislikeButtonViewModelSegmentedButtonsWrapper {
+  display: none;
+}
+.ytLikeButtonViewModelHost {
   display: none;
 }
 #wrapper

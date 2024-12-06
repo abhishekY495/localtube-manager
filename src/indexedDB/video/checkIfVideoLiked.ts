@@ -87,7 +87,7 @@ export async function checkIfVideoLiked(urlSlug: string) {
       // console.log(likeCount);
 
       const likeDislikeButtonsWrapper = YtdMenuRenderer.querySelector(
-        ".YtSegmentedLikeDislikeButtonViewModelSegmentedButtonsWrapper"
+        ".ytSegmentedLikeDislikeButtonViewModelSegmentedButtonsWrapper"
       ) as HTMLElement;
       if (likeDislikeButtonsWrapper === null) {
         console.log("likeDislikeButtonsWrapper not found");
