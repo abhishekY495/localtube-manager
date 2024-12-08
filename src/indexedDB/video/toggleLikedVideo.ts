@@ -1,29 +1,17 @@
 import { DotLottie } from "@lottiefiles/dotlottie-web";
-import { initializeYoutubeDB } from "../initializeYoutubeDB";
 import { notLikedIcon } from "../../helpers/video/likedUnlikedIcons";
-import { Video } from "../../types";
+import { ResponseData, Video } from "../../types";
 
 export async function toggleLikedVideo(video: Video, likeBtn: Element) {
-  const db = await initializeYoutubeDB();
-  const tx = db.transaction("likedVideos", "readwrite");
-  const likedVideosStore = tx.objectStore("likedVideos");
   const iconElement = likeBtn.querySelector("#custom-nologin-yt-like-btn-icon");
 
   try {
-    const existingVideo: Video = await likedVideosStore.get(video.urlSlug);
-    if (existingVideo) {
-      await likedVideosStore.delete(video.urlSlug);
-      // unlike icon
-      iconElement?.setAttribute(
-        "data-custom-no-login-yt-btn-icon-liked",
-        "not-liked"
-      );
-      if (iconElement) {
-        iconElement.innerHTML = notLikedIcon;
-      }
-      console.log("Video removed from liked videos:", existingVideo.title);
-    } else {
-      await likedVideosStore.add(video);
+    const responseData: ResponseData = await chrome.runtime.sendMessage({
+      task: "toggleLikedVideo",
+      data: { video },
+    });
+
+    if (responseData?.data?.videoLiked) {
       iconElement?.setAttribute(
         "data-custom-no-login-yt-btn-icon-liked",
         "liked"
@@ -43,7 +31,17 @@ export async function toggleLikedVideo(video: Video, likeBtn: Element) {
       }
       console.log("Video added to liked videos:", video);
     }
-    await tx.done;
+    if (responseData?.data?.videoUnLiked) {
+      // unlike icon
+      iconElement?.setAttribute(
+        "data-custom-no-login-yt-btn-icon-liked",
+        "not-liked"
+      );
+      if (iconElement) {
+        iconElement.innerHTML = notLikedIcon;
+      }
+      console.log("Video removed from liked videos:", video.title);
+    }
   } catch (error) {
     console.error("Error toggling liked video:", error);
   }

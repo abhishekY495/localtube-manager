@@ -9,6 +9,10 @@
       "js": ["src/content/content.ts"]
     }
   ],
+  "background": {
+    "service_worker": "src/service-worker.ts",
+    "type": "module"
+  },
   "options_page": "src/dashboard/dashboard.html",
   "web_accessible_resources": [
     {

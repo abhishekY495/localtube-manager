@@ -23,3 +23,13 @@ export type Playlists = {
   videos: Video[];
   addedAt: string;
 };
+
+export type RequestData = {
+  task: string;
+  data: Record<string, any>;
+};
+
+export type ResponseData = {
+  success: boolean;
+  data: Record<string, any>;
+};

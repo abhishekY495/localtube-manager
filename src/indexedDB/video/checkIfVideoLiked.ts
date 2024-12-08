@@ -1,6 +1,6 @@
 import { getVideoObj } from "../../helpers/video/getVideoObj";
 import { likedIcon, notLikedIcon } from "../../helpers/video/likedUnlikedIcons";
-import { initializeYoutubeDB } from "../initializeYoutubeDB";
+import { ResponseData } from "../../types";
 import { toggleLikedVideo } from "./toggleLikedVideo";
 
 let observer: MutationObserver | null = null;
@@ -8,9 +8,12 @@ let isProcessing = false;
 let debounceTimeout: number | undefined;
 
 export async function checkIfVideoLiked(urlSlug: string) {
-  const db = await initializeYoutubeDB();
-  const video = await db.get("likedVideos", urlSlug);
-  console.log(video ? "Video liked" : "Video not liked");
+  const responseData: ResponseData = await chrome.runtime.sendMessage({
+    task: "checkIfVideoLiked",
+    data: { urlSlug },
+  });
+  const isVideoLiked = responseData?.data?.isVideoLiked;
+  console.log(isVideoLiked ? "Video liked" : "Video not liked");
 
   if (observer) {
     observer.disconnect();
@@ -111,8 +114,8 @@ export async function checkIfVideoLiked(urlSlug: string) {
       customLikeButtonWrapper.id = "custom-nologin-yt-like-btn";
       customLikeButtonWrapper.innerHTML = `
         <div id="custom-nologin-yt-like-btn-icon" data-custom-no-login-yt-btn-icon-liked=${
-          video ? "initial-liked" : "initial-not-liked"
-        }>${video ? likedIcon : notLikedIcon}
+          isVideoLiked ? "initial-liked" : "initial-not-liked"
+        }>${isVideoLiked ? likedIcon : notLikedIcon}
         </div>
         <div id="custom-nologin-yt-like-count">${likeCount}</div>
       `;
@@ -133,7 +136,7 @@ export async function checkIfVideoLiked(urlSlug: string) {
       if (observer) {
         observer?.disconnect();
         observer = null;
-        console.log("videos observer disconnected");
+        console.log("video observer disconnected");
       }
     } finally {
       isProcessing = false;
