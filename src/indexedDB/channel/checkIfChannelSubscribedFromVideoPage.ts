@@ -1,5 +1,5 @@
 import { getChannelObjFromVideoPage } from "../../helpers/channel/getChannelObjFromVideoPage";
-import { initializeYoutubeDB } from "../initializeYoutubeDB";
+import { ResponseData } from "../../types";
 import { getSubscribedChannels } from "./getSubscibedChannels";
 import { toggleSubscribedChannel } from "./toggleSubscribedChannel";
 
@@ -8,8 +8,6 @@ let isProcessing = false;
 let debounceTimeout: number | undefined;
 
 export async function checkIfChannelSubscribedFromVideoPage() {
-  const db = await initializeYoutubeDB();
-
   // Clean up existing observer
   if (observer) {
     observer.disconnect();
@@ -53,12 +51,12 @@ export async function checkIfChannelSubscribedFromVideoPage() {
 
       // Get channel info and subscription status
       const youtubeChannel = getChannelObjFromVideoPage(aboveTheFoldElement);
-      const isSubscribed = await db.get(
-        "subscribedChannels",
-        youtubeChannel.handle
-      );
-
-      console.log(isSubscribed ? "Subscribed" : "Not subscribed");
+      const responseData: ResponseData = await chrome.runtime.sendMessage({
+        task: "checkIfChannelSubscribed",
+        data: { channelHandle: youtubeChannel.handle },
+      });
+      const isChannelSubscribed = responseData?.data?.isChannelSubscribed;
+      console.log(isChannelSubscribed ? "Subscribed" : "Not subscribed");
 
       // Create new subscribe button
       const customSubscribeButton = document.createElement("div");
@@ -66,7 +64,7 @@ export async function checkIfChannelSubscribedFromVideoPage() {
         "custom-nologin-yt-subscribe-btn-video-page"
       );
 
-      if (isSubscribed) {
+      if (isChannelSubscribed) {
         customSubscribeButton.innerText = "Subscribed";
         customSubscribeButton.classList.add(
           "custom-nologin-yt-channel-subscribed"

@@ -1,28 +1,18 @@
 import { DotLottie } from "@lottiefiles/dotlottie-web";
-import { YoutubeChannel } from "../../types";
-import { initializeYoutubeDB } from "../initializeYoutubeDB";
+import { ResponseData, YoutubeChannel } from "../../types";
 
 export async function toggleSubscribedChannel(
   channel: YoutubeChannel,
   customSubscribeButton: HTMLElement
 ) {
-  const db = await initializeYoutubeDB();
-  const tx = db.transaction("subscribedChannels", "readwrite");
-  const subscribedChannelsStore = tx.objectStore("subscribedChannels");
-
   try {
-    const subscribedChannel: YoutubeChannel = await subscribedChannelsStore.get(
-      channel.handle
-    );
-    if (subscribedChannel) {
-      await subscribedChannelsStore.delete(channel.handle);
-      console.log("unsubscribed from", subscribedChannel.name);
-      customSubscribeButton.classList.remove(
-        "custom-nologin-yt-channel-subscribed"
-      );
-      customSubscribeButton.innerText = "Subscribe";
-    } else {
-      await subscribedChannelsStore.add(channel);
+    const responseData: ResponseData = await chrome.runtime.sendMessage({
+      task: "toggleSubscribedChannel",
+      data: { channel },
+    });
+    const isChannelSubscribed = responseData?.data?.isChannelSubscribed;
+
+    if (isChannelSubscribed) {
       customSubscribeButton.innerHTML = "";
 
       // subscribe animation
@@ -63,8 +53,13 @@ export async function toggleSubscribedChannel(
       subscribedText.style.visibility = "visible";
       subscribedText.innerText = "Subscribed";
       customSubscribeButton.appendChild(subscribedText);
+    } else {
+      console.log("unsubscribed from", channel.name);
+      customSubscribeButton.classList.remove(
+        "custom-nologin-yt-channel-subscribed"
+      );
+      customSubscribeButton.innerText = "Subscribe";
     }
-    await tx.done;
   } catch (error) {
     console.error("Error toggling subscribed channel:", error);
   }

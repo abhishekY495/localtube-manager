@@ -10,8 +10,9 @@ export async function toggleLikedVideo(video: Video, likeBtn: Element) {
       task: "toggleLikedVideo",
       data: { video },
     });
+    const isVideoLiked = responseData?.data?.isVideoLiked;
 
-    if (responseData?.data?.videoLiked) {
+    if (isVideoLiked) {
       iconElement?.setAttribute(
         "data-custom-no-login-yt-btn-icon-liked",
         "liked"
@@ -30,8 +31,7 @@ export async function toggleLikedVideo(video: Video, likeBtn: Element) {
         });
       }
       console.log("Video added to liked videos:", video);
-    }
-    if (responseData?.data?.videoUnLiked) {
+    } else {
       // unlike icon
       iconElement?.setAttribute(
         "data-custom-no-login-yt-btn-icon-liked",
