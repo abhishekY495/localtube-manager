@@ -8,7 +8,6 @@ const checkIfVideoLiked = async (urlSlug: string) => {
   const video = await db.get("likedVideos", urlSlug);
   return video;
 };
-
 const addVideoToLikedStore = async (video: Video) => {
   const db = await initializeYoutubeDB();
   const tx = db.transaction("likedVideos", "readwrite");
@@ -16,7 +15,6 @@ const addVideoToLikedStore = async (video: Video) => {
   await likedVideosStore.add(video);
   await tx.done;
 };
-
 const removeVideoFromLikedStore = async (urlSlug: string) => {
   const db = await initializeYoutubeDB();
   const tx = db.transaction("likedVideos", "readwrite");
@@ -30,7 +28,6 @@ const checkIfChannelSubscribed = async (channelHandle: string) => {
   const channel = await db.get("subscribedChannels", channelHandle);
   return channel;
 };
-
 const addChannelToSubscribedChannelStore = async (channel: YoutubeChannel) => {
   const db = await initializeYoutubeDB();
   const tx = db.transaction("subscribedChannels", "readwrite");
@@ -38,7 +35,6 @@ const addChannelToSubscribedChannelStore = async (channel: YoutubeChannel) => {
   await subscribedChannelsStore.add(channel);
   await tx.done;
 };
-
 const removeChannelFromSubscribedChannelStore = async (
   channelHandle: string
 ) => {
@@ -121,7 +117,7 @@ chrome.runtime.onMessage.addListener(
           // @ts-ignore
           sendResponse({
             success: true,
-            data: { isChannelSubscribed: channel ? true : false },
+            data: { isChannelSubscribed: channel ? true : false, channel },
           });
         } catch (error) {
           // @ts-ignore

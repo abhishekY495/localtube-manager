@@ -1,6 +1,5 @@
 import { getChannelObjFromChannelPage } from "../../helpers/channel/getChannelObjFromChannelPage";
-import { YoutubeChannel } from "../../types";
-import { initializeYoutubeDB } from "../initializeYoutubeDB";
+import { ResponseData, YoutubeChannel } from "../../types";
 import { getSubscribedChannels } from "./getSubscibedChannels";
 import { toggleSubscribedChannel } from "./toggleSubscribedChannel";
 
@@ -12,7 +11,6 @@ let pageHeaderErrorCount: number = 0;
 export async function checkIfChannelSubscribedFromChannelPage(
   channelUrl: string
 ) {
-  const db = await initializeYoutubeDB();
   let isSubscribed: boolean = false;
   let isSubscribedFromId: boolean = false;
   let isSubscribedFromHandle: boolean = false;
@@ -79,16 +77,17 @@ export async function checkIfChannelSubscribedFromChannelPage(
       const channelHandle = channelHandleElement.innerText;
       // console.log(channelHandle);
 
-      const channel: YoutubeChannel = await db.get(
-        "subscribedChannels",
-        `https://www.youtube.com/${channelHandle}`
-      );
+      const responseData: ResponseData = await chrome.runtime.sendMessage({
+        task: "checkIfChannelSubscribed",
+        data: { channelHandle },
+      });
+      const channel: YoutubeChannel = responseData?.data?.channel;
       if (channel) {
         isSubscribedFromHandle = true;
         console.log("subscribed from handle");
         if (!isSubscribedFromHandle) {
           console.log("not subscribed from handle, checking id");
-          isSubscribedFromId = channel.id === channelUrl;
+          isSubscribedFromId = channel?.id === channelUrl;
         }
       }
 
