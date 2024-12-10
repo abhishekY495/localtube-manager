@@ -79,7 +79,7 @@ export async function checkIfChannelSubscribedFromChannelPage(
 
       const responseData: ResponseData = await chrome.runtime.sendMessage({
         task: "checkIfChannelSubscribed",
-        data: { channelHandle },
+        data: { channelHandle: `https://www.youtube.com/${channelHandle}` },
       });
       const channel: YoutubeChannel = responseData?.data?.channel;
       if (channel) {
