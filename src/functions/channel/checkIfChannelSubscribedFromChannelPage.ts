@@ -1,7 +1,6 @@
+import { toggleSubscribedChannel } from "./toggleSubscribedChannel";
 import { getChannelObjFromChannelPage } from "../../helpers/channel/getChannelObjFromChannelPage";
 import { ResponseData, YoutubeChannel } from "../../types";
-import { getSubscribedChannels } from "./getSubscibedChannels";
-import { toggleSubscribedChannel } from "./toggleSubscribedChannel";
 
 let observer: MutationObserver | null = null;
 let isProcessing = false;
@@ -133,8 +132,6 @@ export async function checkIfChannelSubscribedFromChannelPage(
       customSubscribeButton.addEventListener("click", async () => {
         const youtubeChannel = getChannelObjFromChannelPage(pageHeaderElement);
         await toggleSubscribedChannel(youtubeChannel, customSubscribeButton);
-        const subscribedChannels = await getSubscribedChannels();
-        console.log(subscribedChannels);
       });
 
       // Append button and style visible

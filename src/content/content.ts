@@ -1,10 +1,10 @@
 import "./content.css";
 
-import { checkIfVideoLiked } from "../indexedDB/video/checkIfVideoLiked";
-import { checkIfChannelSubscribedFromVideoPage } from "../indexedDB/channel/checkIfChannelSubscribedFromVideoPage";
+import { checkIfVideoLiked } from "../functions/video/checkIfVideoLiked";
+import { checkIfChannelSubscribedFromVideoPage } from "../functions/channel/checkIfChannelSubscribedFromVideoPage";
+import { checkIfChannelSubscribedFromChannelPage } from "../functions/channel/checkIfChannelSubscribedFromChannelPage";
 import { getVideoUrlSlug } from "../helpers/video/getVideoUrlSlug";
 import { getChannelUrl } from "../helpers/channel/getChannelUrl";
-import { checkIfChannelSubscribedFromChannelPage } from "../indexedDB/channel/checkIfChannelSubscribedFromChannelPage";
 
 const videoUrlSlug = getVideoUrlSlug();
 

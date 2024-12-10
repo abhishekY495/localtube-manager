@@ -1,49 +1,16 @@
-import { initializeYoutubeDB } from "./indexedDB/initializeYoutubeDB";
+import {
+  addChannelToSubscribedChannelStore,
+  checkIfChannelSubscribed,
+  removeChannelFromSubscribedChannelStore,
+} from "./indexedDB/channel";
+import {
+  addVideoToLikedStore,
+  checkIfVideoLiked,
+  removeVideoFromLikedStore,
+} from "./indexedDB/video";
 import { RequestData, Video, YoutubeChannel } from "./types";
 
 console.log("hello from background script");
-
-const checkIfVideoLiked = async (urlSlug: string) => {
-  const db = await initializeYoutubeDB();
-  const video = await db.get("likedVideos", urlSlug);
-  return video;
-};
-const addVideoToLikedStore = async (video: Video) => {
-  const db = await initializeYoutubeDB();
-  const tx = db.transaction("likedVideos", "readwrite");
-  const likedVideosStore = tx.objectStore("likedVideos");
-  await likedVideosStore.add(video);
-  await tx.done;
-};
-const removeVideoFromLikedStore = async (urlSlug: string) => {
-  const db = await initializeYoutubeDB();
-  const tx = db.transaction("likedVideos", "readwrite");
-  const likedVideosStore = tx.objectStore("likedVideos");
-  await likedVideosStore.delete(urlSlug);
-  await tx.done;
-};
-
-const checkIfChannelSubscribed = async (channelHandle: string) => {
-  const db = await initializeYoutubeDB();
-  const channel = await db.get("subscribedChannels", channelHandle);
-  return channel;
-};
-const addChannelToSubscribedChannelStore = async (channel: YoutubeChannel) => {
-  const db = await initializeYoutubeDB();
-  const tx = db.transaction("subscribedChannels", "readwrite");
-  const subscribedChannelsStore = tx.objectStore("subscribedChannels");
-  await subscribedChannelsStore.add(channel);
-  await tx.done;
-};
-const removeChannelFromSubscribedChannelStore = async (
-  channelHandle: string
-) => {
-  const db = await initializeYoutubeDB();
-  const tx = db.transaction("subscribedChannels", "readwrite");
-  const subscribedChannelsStore = tx.objectStore("subscribedChannels");
-  await subscribedChannelsStore.delete(channelHandle);
-  await tx.done;
-};
 
 chrome.runtime.onMessage.addListener(
   (request: RequestData, sender, sendResponse) => {
@@ -107,6 +74,9 @@ chrome.runtime.onMessage.addListener(
         }
       })();
       return true;
+    }
+
+    if (request.task === "clearLikedVideos") {
     }
 
     if (request.task === "checkIfChannelSubscribed") {

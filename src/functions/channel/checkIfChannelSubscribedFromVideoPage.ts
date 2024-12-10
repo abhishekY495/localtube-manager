@@ -1,6 +1,5 @@
 import { getChannelObjFromVideoPage } from "../../helpers/channel/getChannelObjFromVideoPage";
 import { ResponseData } from "../../types";
-import { getSubscribedChannels } from "./getSubscibedChannels";
 import { toggleSubscribedChannel } from "./toggleSubscribedChannel";
 
 let observer: MutationObserver | null = null;
@@ -79,8 +78,6 @@ export async function checkIfChannelSubscribedFromVideoPage() {
       // Add click handler
       customSubscribeButton.addEventListener("click", async () => {
         await toggleSubscribedChannel(youtubeChannel, customSubscribeButton);
-        const subscribedChannels = await getSubscribedChannels();
-        console.log(subscribedChannels);
       });
 
       // Append button
