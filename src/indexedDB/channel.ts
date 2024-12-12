@@ -32,6 +32,13 @@ export const getSubscribedChannels = async () => {
   const subscribedChannels = await db.getAll("subscribedChannels");
   return subscribedChannels;
 };
+export const getSubscribedChannelsCount = async () => {
+  const db = await initializeYoutubeDB();
+  const tx = db.transaction("subscribedChannels", "readonly");
+  const store = tx.objectStore("subscribedChannels");
+  const count = await store.count();
+  return count;
+};
 
 export const clearSubscribedChannels = async () => {
   const db = await initializeYoutubeDB();

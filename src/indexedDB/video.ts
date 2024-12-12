@@ -28,6 +28,13 @@ export const getLikedVideos = async () => {
   const likedVideos = await db.getAll("likedVideos");
   return likedVideos;
 };
+export const getLikedVideosCount = async () => {
+  const db = await initializeYoutubeDB();
+  const tx = db.transaction("likedVideos", "readonly");
+  const store = tx.objectStore("likedVideos");
+  const count = await store.count();
+  return count;
+};
 
 export const clearLikedVideos = async () => {
   const db = await initializeYoutubeDB();

@@ -1,4 +1,100 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
 body {
   background-color: #252525;
   color: white;
+  padding: 20px;
+  text-align: center;
+  font-family: "Segoe UI", sans-serif;
+}
+
+#dashboard-btn {
+  font-family: "Segoe UI", sans-serif;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  background: #ff0733;
+  color: white;
+  font-weight: 600;
+  font-size: 20px;
+  text-align: center;
+  letter-spacing: 0.5px;
+  width: 100%;
+  padding: 9px 0 15px 0;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px #ff0734a1;
+}
+#dashboard-btn:hover {
+  background: #ff0734e8;
+}
+#dashboard-btn:active {
+  box-shadow: none;
+  transform: translateY(3px);
+  transition: all 0.2s ease;
+}
+
+#arrow {
+  transition: transform 0.2s ease;
+  background: #ff4063;
+  padding: 4px;
+  border-radius: 100%;
+  width: 20px;
+  height: 20px;
+  margin-bottom: -4px;
+}
+
+#dashboard-btn:hover #arrow {
+  transform: rotate(-30deg);
+  transition: transform 0.2s ease;
+}
+
+#count-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  font-family: "Segoe UI", sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  width: 100%;
+  height: 100%;
+  font-size: 16px;
+}
+
+#liked-videos-count-container,
+#subscribed-channels-count-container,
+#playlists-count-container {
+  border: 1px solid #cccccc30;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  width: 64px;
+  height: 64px;
+  padding: 10px 5px 13px 5px;
+}
+#liked-videos-count-container:hover,
+#subscribed-channels-count-container:hover,
+#playlists-count-container:hover {
+  cursor: pointer;
+  background-color: #cccccc12;
+  transition: all 0.1s ease;
+}
+
+#liked-videos-icon,
+#subscribed-channels-icon,
+#playlists-icon {
+  padding-left: 3px;
+}
+
+#liked-videos-count,
+#subscribed-channels-count,
+#playlists-count {
+  /* padding-bottom: 8px; */
 }

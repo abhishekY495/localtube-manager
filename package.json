@@ -10,12 +10,14 @@
   },
   "devDependencies": {
     "@crxjs/vite-plugin": "^2.0.0-beta.26",
+    "@types/numeral": "^2.0.5",
     "chrome-types": "^0.1.312",
-    "idb": "^8.0.0",
     "typescript": "~5.6.2",
     "vite": "^5.4.9"
   },
   "dependencies": {
-    "@lottiefiles/dotlottie-web": "^0.36.0"
+    "@lottiefiles/dotlottie-web": "^0.36.0",
+    "idb": "^8.0.0",
+    "numeral": "^2.0.6"
   }
 }
