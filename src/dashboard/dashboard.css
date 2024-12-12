@@ -1,4 +1,109 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 body {
-  background-color: #333;
+  background-color: #0f0f0f;
   color: white;
+  max-width: 1000px;
+  padding: 20px;
+  margin: auto;
+  font-family: Roboto, sans-serif;
+}
+
+h1 {
+  font-size: 36px;
+  margin-bottom: 18px;
+}
+
+#options-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.liked-videos-icon-count-container,
+.subscribed-channels-icon-count-container,
+.playlists-icon-count-container,
+.import-export-icon-container {
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100px;
+  padding: 10px 5px 13px 5px;
+  font-family: "Segoe UI", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  user-select: none;
+}
+.liked-videos-icon-count-container:hover,
+.subscribed-channels-icon-count-container:hover,
+.playlists-icon-count-container:hover,
+.import-export-icon-container:hover {
+  cursor: pointer;
+}
+
+.liked-videos-icon-count-container {
+  border: 2px solid #64aee947;
+  background-color: #64aee924;
+}
+.liked-videos-icon-count-container:hover {
+  background-color: #64aee933;
+  transition: all 0.1s ease;
+}
+
+.subscribed-channels-icon-count-container {
+  border: 2px solid #ff000069;
+  background-color: #ff00002b;
+}
+.subscribed-channels-icon-count-container:hover {
+  background-color: #ff000045;
+  transition: all 0.1s ease;
+}
+
+.playlists-icon-count-container {
+  border: 2px solid #ffa50047;
+  background-color: #ffa50024;
+}
+.playlists-icon-count-container:hover {
+  transition: all 0.1s ease;
+  background-color: #ffa50033;
+}
+
+.import-export-icon-container {
+  border: 2px solid #800080cf;
+  background-color: #80008045;
+}
+.import-export-icon-container:hover {
+  transition: all 0.1s ease;
+  background-color: #80008069;
+}
+
+#liked-videos-icon,
+#subscribed-channels-icon,
+#playlists-icon,
+#import-export-icon {
+  padding-left: 5px;
+}
+
+.selected-liked-videos-icon-count-container {
+  border: 2px solid #008cff;
+  background-color: #64aee933;
+}
+.selected-subscribed-channels-icon-count-container {
+  border: 2px solid #ff0000;
+  background-color: #ff000045;
+}
+.selected-playlists-icon-count-container {
+  border: 2px solid #ffa500;
+  background-color: #ffa50033;
+}
+.selected-import-export-icon-container {
+  border: 2px solid #ff00ff;
+  background-color: #80008069;
 }
