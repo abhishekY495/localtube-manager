@@ -77,7 +77,7 @@ export async function checkIfVideoLiked(urlSlug: string) {
 
       if (likeCountElement) {
         likeCount = likeCountElement.querySelector(
-          ".YtwFactoidRendererValue"
+          ".ytwFactoidRendererValue"
         ) as HTMLElement;
         if (likeCount === null) {
           console.log("likeCount not found");
