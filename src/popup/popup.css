@@ -4,7 +4,7 @@
 }
 
 body {
-  background-color: #252525;
+  background-color: #0f0f0f;
   color: white;
   padding: 20px;
   text-align: center;
@@ -71,7 +71,7 @@ body {
 #liked-videos-count-container,
 #subscribed-channels-count-container,
 #playlists-count-container {
-  border: 1px solid #cccccc30;
+  border: 1px solid #cccccc3a;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
@@ -83,7 +83,7 @@ body {
 #subscribed-channels-count-container:hover,
 #playlists-count-container:hover {
   cursor: pointer;
-  background-color: #cccccc12;
+  background-color: #cccccc1e;
   transition: all 0.1s ease;
 }
 
@@ -91,10 +91,4 @@ body {
 #subscribed-channels-icon,
 #playlists-icon {
   padding-left: 3px;
-}
-
-#liked-videos-count,
-#subscribed-channels-count,
-#playlists-count {
-  /* padding-bottom: 8px; */
 }
