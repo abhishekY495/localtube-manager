@@ -101,4 +101,11 @@ h1 {
   border: 1px solid #343434;
   margin-top: 20px;
   border-radius: 5px;
+  display: none;
+}
+#liked-videos-container,
+#subscribed-channels-container,
+#playlists-container,
+#import-export-container {
+  display: none;
 }
