@@ -29,10 +29,9 @@ export function renderLikedVideos(
           <a 
             class="liked-video-title" 
             href="https://www.youtube.com/watch?v=${video.urlSlug}"
-          >
-            ${video.title}
-          </a>
-          <p class="liked-video-channel-name">${video.channelName}</p>
+            title="${video.title}"
+          >${video.title}</a>
+          <p class="liked-video-channel-name" title="${video.channelName}">${video.channelName}</p>
           <button class="remove-btn">Remove</button>
         </div>
       </div>

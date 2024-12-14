@@ -109,3 +109,73 @@ h1 {
 #import-export-container {
   display: none;
 }
+
+#liked-videos-count,
+#subscribed-channels-count,
+#playlists-count {
+  font-weight: 600;
+}
+
+/* modal */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #00000054;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  padding-top: 220px;
+  z-index: 100;
+  backdrop-filter: blur(3px);
+  transition: all 0.2s ease;
+}
+
+.modal {
+  background: #383838;
+  color: #e4e4e4;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px 16px 20px 20px;
+  border-radius: 10px;
+}
+
+.modal-heading {
+  font-size: 24px;
+  font-weight: 700;
+  padding: 5px 5px 8px 5px;
+  border-bottom: 1px solid #4a4a4a;
+}
+.modal-buttons-container {
+  display: flex;
+  gap: 20px;
+}
+.modal-buttons-container button {
+  padding: 8px 14px 10px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  border: none;
+}
+
+.modal-remove-btn,
+.modal-unsubscribe-btn {
+  background-color: #ff4646;
+}
+.modal-remove-btn:hover,
+.modal-unsubscribe-btn:hover {
+  background-color: #ff3333;
+}
+.modal-cancel-btn {
+  background-color: #7e7e7e;
+}
+.modal-cancel-btn:hover {
+  background-color: #757575;
+}
