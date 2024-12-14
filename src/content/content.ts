@@ -30,6 +30,6 @@ new MutationObserver(async () => {
         const channelUrl = getChannelUrl();
         await checkIfChannelSubscribedFromChannelPage(channelUrl);
       }
-    }, 800);
+    }, 1000);
   }
 }).observe(document, { subtree: true, childList: true });

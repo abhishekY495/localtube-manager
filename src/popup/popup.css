@@ -8,11 +8,11 @@ body {
   color: white;
   padding: 20px;
   text-align: center;
-  font-family: "Segoe UI", sans-serif;
+  font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
 }
 
 #dashboard-btn {
-  font-family: "Segoe UI", sans-serif;
+  font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
   display: flex;
   gap: 10px;
   justify-content: center;
@@ -60,7 +60,7 @@ body {
   display: flex;
   justify-content: center;
   gap: 10px;
-  font-family: "Segoe UI", sans-serif;
+  font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
   font-size: 16px;
   font-weight: 500;
   letter-spacing: 0.5px;
@@ -79,12 +79,24 @@ body {
   height: 64px;
   padding: 10px 5px 13px 5px;
 }
-#liked-videos-count-container:hover,
-#subscribed-channels-count-container:hover,
+
+#liked-videos-count-container:hover {
+  cursor: pointer;
+  background-color: #64aee933;
+  border-color: #008cff;
+  transition: all 0.2s ease;
+}
+#subscribed-channels-count-container:hover {
+  cursor: pointer;
+  background-color: #ff000045;
+  border-color: #ff0000;
+  transition: all 0.2s ease;
+}
 #playlists-count-container:hover {
   cursor: pointer;
-  background-color: #cccccc1e;
-  transition: all 0.1s ease;
+  background-color: #ffa50033;
+  border-color: #ffa500;
+  transition: all 0.2s ease;
 }
 
 #liked-videos-icon,

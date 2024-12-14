@@ -1,20 +1,73 @@
-import "./dashboard.css";
+import "./css/dashboard.css";
+import "./css/likedVideos.css";
 import { getSubscribedChannels } from "../indexedDB/channel";
 import { getLikedVideos } from "../indexedDB/video";
+import { renderLikedVideos } from "./helpers/renderLikedVideos";
+import numeral from "numeral";
 
 console.log("hello from dashboard");
 
-const likedVideosIconCountContainer: HTMLElement | null =
-  document.querySelector(".liked-videos-icon-count-container");
-const subscribedChannelsIconCountContainer: HTMLElement | null =
-  document.querySelector(".subscribed-channels-icon-count-container");
-const playlistsIconCountContainer: HTMLElement | null = document.querySelector(
-  ".playlists-icon-count-container"
-);
-const importExportIconContainer: HTMLElement | null = document.querySelector(
-  ".import-export-icon-container"
-);
+const likedVideosArr = await getLikedVideos();
+const subscribedChannelsArr = await getSubscribedChannels();
+console.log(likedVideosArr);
+console.log(subscribedChannelsArr);
 
+const likedVideosIconCountContainer = document.querySelector(
+  ".liked-videos-icon-count-container"
+) as HTMLElement;
+const subscribedChannelsIconCountContainer = document.querySelector(
+  ".subscribed-channels-icon-count-container"
+) as HTMLElement;
+const playlistsIconCountContainer = document.querySelector(
+  ".playlists-icon-count-container"
+) as HTMLElement;
+const importExportIconContainer = document.querySelector(
+  ".import-export-icon-container"
+) as HTMLElement;
+//
+const likedVideosCount = document.querySelector(
+  "#liked-videos-count"
+) as HTMLElement;
+const subscribedChannelsCount = document.querySelector(
+  "#subscribed-channels-count"
+) as HTMLElement;
+const playlistsCount = document.querySelector(
+  "#playlists-count"
+) as HTMLElement;
+//
+const dashboardContainer = document.querySelector(
+  "#dashboard-container"
+) as HTMLElement;
+const likedVideosContainer = document.querySelector(
+  "#liked-videos-container"
+) as HTMLElement;
+const subscribedChannelsContainer = document.querySelector(
+  "#subscribed-channels-container"
+) as HTMLElement;
+const playlistsContainer = document.querySelector(
+  "#playlists-container"
+) as HTMLElement;
+const importExportContainer = document.querySelector(
+  "#import-export-container"
+) as HTMLElement;
+
+//
+//
+
+//
+//
+
+// Setting count
+if (likedVideosCount) {
+  likedVideosCount.innerText = numeral(likedVideosArr.length).format("0a");
+}
+if (subscribedChannelsCount) {
+  subscribedChannelsCount.innerText = numeral(
+    subscribedChannelsArr.length
+  ).format("0a");
+}
+
+// Setting option based on url slug
 const location = window.location.href;
 const url = location.split("#")[0];
 const slug = location.split("#")[1];
@@ -22,22 +75,39 @@ if (slug === "liked-videos") {
   likedVideosIconCountContainer?.classList.add(
     "selected-liked-videos-icon-count-container"
   );
+  dashboardContainer.style.display = "none";
+  if (likedVideosArr) {
+    renderLikedVideos(likedVideosArr, likedVideosContainer, likedVideosCount);
+  }
 } else if (slug === "subscribed-channels") {
   subscribedChannelsIconCountContainer?.classList.add(
     "selected-subscribed-channels-icon-count-container"
   );
+  dashboardContainer.style.display = "none";
 } else if (slug === "playlists") {
   playlistsIconCountContainer?.classList.add(
     "selected-playlists-icon-count-container"
   );
+  dashboardContainer.style.display = "none";
+} else {
+  if (dashboardContainer) {
+    dashboardContainer.style.display = "block";
+    likedVideosContainer.style.display = "none";
+    subscribedChannelsContainer.style.display = "none";
+    playlistsContainer.style.display = "none";
+    importExportContainer.style.display = "none";
+    renderLikedVideos(likedVideosArr, likedVideosContainer, likedVideosCount);
+  }
 }
 
-const likedVideosArr = await getLikedVideos();
-const subscribedChannelsArr = await getSubscribedChannels();
-console.log(likedVideosArr);
-console.log(subscribedChannelsArr);
+//
+//
 
-likedVideosIconCountContainer?.addEventListener("click", () => {
+//
+//
+
+// Setting event listeners on options
+likedVideosIconCountContainer?.addEventListener("click", async () => {
   likedVideosIconCountContainer?.classList.add(
     "selected-liked-videos-icon-count-container"
   );
@@ -51,6 +121,15 @@ likedVideosIconCountContainer?.addEventListener("click", () => {
     "selected-import-export-icon-container"
   );
   window.location.href = `${url}#liked-videos`;
+  const likedVideosArr = await getLikedVideos();
+  if (likedVideosArr) {
+    renderLikedVideos(likedVideosArr, likedVideosContainer, likedVideosCount);
+  }
+  dashboardContainer.style.display = "none";
+  likedVideosContainer.style.display = "block";
+  subscribedChannelsContainer.style.display = "none";
+  playlistsContainer.style.display = "none";
+  importExportContainer.style.display = "none";
 });
 
 subscribedChannelsIconCountContainer?.addEventListener("click", () => {
@@ -67,6 +146,11 @@ subscribedChannelsIconCountContainer?.addEventListener("click", () => {
     "selected-import-export-icon-container"
   );
   window.location.href = `${url}#subscribed-channels`;
+  dashboardContainer.style.display = "none";
+  likedVideosContainer.style.display = "none";
+  subscribedChannelsContainer.style.display = "block";
+  playlistsContainer.style.display = "none";
+  importExportContainer.style.display = "none";
 });
 
 playlistsIconCountContainer?.addEventListener("click", () => {
@@ -83,6 +167,11 @@ playlistsIconCountContainer?.addEventListener("click", () => {
     "selected-import-export-icon-container"
   );
   window.location.href = `${url}#playlists`;
+  dashboardContainer.style.display = "none";
+  likedVideosContainer.style.display = "none";
+  subscribedChannelsContainer.style.display = "none";
+  playlistsContainer.style.display = "block";
+  importExportContainer.style.display = "none";
 });
 
 importExportIconContainer?.addEventListener("click", () => {
@@ -99,4 +188,9 @@ importExportIconContainer?.addEventListener("click", () => {
     "selected-playlists-icon-count-container"
   );
   window.location.href = `${url}#import-export`;
+  dashboardContainer.style.display = "none";
+  likedVideosContainer.style.display = "none";
+  subscribedChannelsContainer.style.display = "none";
+  playlistsContainer.style.display = "none";
+  importExportContainer.style.display = "block";
 });

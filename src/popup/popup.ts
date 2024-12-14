@@ -19,7 +19,7 @@ const playlistsCountContainer: HTMLElement | null = document.querySelector(
 if (dashboardBtn) {
   dashboardBtn.addEventListener("click", async () => {
     chrome.tabs.create({
-      url: chrome.runtime.getURL("src/dashboard/dashboard.html#liked-videos"),
+      url: chrome.runtime.getURL("src/dashboard/dashboard.html"),
     });
   });
 }

@@ -1,20 +1,22 @@
 * {
   margin: 0;
   padding: 0;
+  text-decoration: none;
 }
 
 body {
   background-color: #0f0f0f;
   color: white;
-  max-width: 1000px;
-  padding: 20px;
+  max-width: 1200px;
+  padding: 20px 0 80px 0;
   margin: auto;
-  font-family: Roboto, sans-serif;
+  font-family: "Roboto", "Arial", sans-serif;
+  overflow-y: scroll;
 }
 
 h1 {
   font-size: 36px;
-  margin-bottom: 18px;
+  margin-bottom: 12px;
 }
 
 #options-container {
@@ -22,12 +24,16 @@ h1 {
   justify-content: center;
   align-items: center;
   gap: 10px;
+  padding-bottom: 20px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #474747;
 }
 
 .liked-videos-icon-count-container,
 .subscribed-channels-icon-count-container,
 .playlists-icon-count-container,
 .import-export-icon-container {
+  border: 2px solid #cccccc3a;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
@@ -35,52 +41,31 @@ h1 {
   width: 100%;
   height: 100px;
   padding: 10px 5px 13px 5px;
-  font-family: "Segoe UI", sans-serif;
-  font-size: 18px;
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
   font-weight: 500;
   letter-spacing: 0.5px;
   user-select: none;
 }
-.liked-videos-icon-count-container:hover,
-.subscribed-channels-icon-count-container:hover,
-.playlists-icon-count-container:hover,
-.import-export-icon-container:hover {
-  cursor: pointer;
-}
 
-.liked-videos-icon-count-container {
-  border: 2px solid #64aee947;
-  background-color: #64aee924;
-}
 .liked-videos-icon-count-container:hover {
+  cursor: pointer;
   background-color: #64aee933;
-  transition: all 0.1s ease;
-}
-
-.subscribed-channels-icon-count-container {
-  border: 2px solid #ff000069;
-  background-color: #ff00002b;
+  transition: all 0.2s ease;
 }
 .subscribed-channels-icon-count-container:hover {
+  cursor: pointer;
   background-color: #ff000045;
-  transition: all 0.1s ease;
-}
-
-.playlists-icon-count-container {
-  border: 2px solid #ffa50047;
-  background-color: #ffa50024;
+  transition: all 0.2s ease;
 }
 .playlists-icon-count-container:hover {
-  transition: all 0.1s ease;
+  cursor: pointer;
+  transition: all 0.2s ease;
   background-color: #ffa50033;
 }
-
-.import-export-icon-container {
-  border: 2px solid #800080cf;
-  background-color: #80008045;
-}
 .import-export-icon-container:hover {
-  transition: all 0.1s ease;
+  cursor: pointer;
+  transition: all 0.2s ease;
   background-color: #80008069;
 }
 
@@ -92,18 +77,28 @@ h1 {
 }
 
 .selected-liked-videos-icon-count-container {
-  border: 2px solid #008cff;
+  border-color: #008cff;
   background-color: #64aee933;
 }
 .selected-subscribed-channels-icon-count-container {
-  border: 2px solid #ff0000;
+  border-color: #ff0000;
   background-color: #ff000045;
 }
 .selected-playlists-icon-count-container {
-  border: 2px solid #ffa500;
+  border-color: #ffa500;
   background-color: #ffa50033;
 }
 .selected-import-export-icon-container {
-  border: 2px solid #ff00ff;
+  border-color: #ff00ff;
   background-color: #80008069;
+}
+
+#dashboard-container {
+  text-align: center;
+  font-size: 24px;
+  padding: 50px;
+  background-color: #181818;
+  border: 1px solid #343434;
+  margin-top: 20px;
+  border-radius: 5px;
 }
