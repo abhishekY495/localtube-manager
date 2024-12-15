@@ -122,7 +122,7 @@ export async function checkIfVideoLiked(urlSlug: string) {
 
       // add click handler
       customLikeButtonWrapper.addEventListener("click", async () => {
-        const video = getVideoObj(document);
+        const video = getVideoObj(document, aboveTheFoldElement);
         await toggleLikedVideo(video, customLikeButtonWrapper);
       });
 
