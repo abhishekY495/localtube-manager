@@ -1,4 +1,5 @@
 import numeral from "numeral";
+import defaultVideoThumbnail from "/src/dashboard/assets/default-video-thumbnail.jpg";
 import { ResponseData, Video } from "../../types";
 
 export function renderLikedVideos(
@@ -7,44 +8,67 @@ export function renderLikedVideos(
   likedVideosCount: HTMLElement
 ) {
   likedVideosContainer.innerHTML = "";
-  likedVideosArr
-    .sort(
-      (a, b) => new Date(b.addedAt).getTime() - new Date(a.addedAt).getTime()
-    )
-    .map((video: Video, index: number) => {
-      likedVideosContainer.innerHTML += `
-      <div class="liked-video">
-        <p class="liked-video-index">${index}</p>
-        <div class="liked-video-container-1">
-          <a href="https://www.youtube.com/watch?v=${video.urlSlug}">
-            <img 
-              class="liked-video-thumbnail"
-              src="https://i.ytimg.com/vi/${video.urlSlug}/mqdefault.jpg"
-              alt="${video.title}"
-            />
-          </a>
-          <span class="liked-video-duration">${video.duration}</span>
+  if (likedVideosArr.length === 0) {
+    likedVideosContainer.innerHTML += `
+        <p class="no-video-or-channel-message">
+          Visit <a href="https://www.youtube.com" class="youtube">YouTube</a> to Like videos
+        </p>
+      `;
+  } else {
+    likedVideosArr
+      .sort(
+        (a, b) => new Date(b.addedAt).getTime() - new Date(a.addedAt).getTime()
+      )
+      .map((video: Video, index: number) => {
+        likedVideosContainer.innerHTML += `
+        <div class="liked-video">
+          <p class="liked-video-index">${index}</p>
+          <div class="liked-video-container-1">
+            <a href="https://www.youtube.com/watch?v=${video.urlSlug}">
+              <img 
+                class="liked-video-thumbnail"
+                src="https://i.ytimg.com/vi/${video.urlSlug}/mqdefault.jpg"
+                alt="${video.title}"
+                onerror="this.onerror=null; this.src='${defaultVideoThumbnail}';"
+              />
+            </a>
+            <span class="liked-video-duration">${video.duration}</span>
+          </div>
+          <div class="liked-video-container-2">
+            <a 
+              class="liked-video-title" 
+              href="https://www.youtube.com/watch?v=${video.urlSlug}"
+              title="${video.title}"
+            >${video.title}</a>
+            <p class="liked-video-channel-name" title="${video.channelName}">${
+          video.channelName
+        }</p>
+            <p class="liked-video-channel-handle" title="${
+              video?.channelHandle
+            }">${
+          video?.channelHandle?.includes("@")
+            ? "@" + video?.channelHandle?.split("@")[1]
+            : video?.channelHandle?.split("/")[4]
+        }</p>
+            <button class="remove-btn">Remove</button>
+          </div>
         </div>
-        <div class="liked-video-container-2">
-          <a 
-            class="liked-video-title" 
-            href="https://www.youtube.com/watch?v=${video.urlSlug}"
-            title="${video.title}"
-          >${video.title}</a>
-          <p class="liked-video-channel-name" title="${video.channelName}">${video.channelName}</p>
-          <button class="remove-btn">Remove</button>
-        </div>
-      </div>
-    `;
-    });
+      `;
+      });
 
-  // Add event listeners for remove buttons
-  const removeButtons = likedVideosContainer.querySelectorAll(".remove-btn");
-  removeButtons.forEach((btn, index) => {
-    btn.addEventListener("click", () => {
-      showModal(likedVideosArr, index, likedVideosContainer, likedVideosCount);
+    // Add event listeners for remove buttons
+    const removeButtons = likedVideosContainer.querySelectorAll(".remove-btn");
+    removeButtons.forEach((btn, index) => {
+      btn.addEventListener("click", () => {
+        showModal(
+          likedVideosArr,
+          index,
+          likedVideosContainer,
+          likedVideosCount
+        );
+      });
     });
-  });
+  }
 }
 
 function showModal(

@@ -61,7 +61,7 @@ div[data-custom-no-login-yt-btn-icon-liked="not-liked"] {
   background-color: #f1f1f1;
   color: #0f0f0f;
   text-align: center;
-  padding: 10px 16px;
+  padding: 8px 16px 10px 16px;
   border-radius: 18px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   font-size: 14px;
@@ -74,7 +74,7 @@ div[data-custom-no-login-yt-btn-icon-liked="not-liked"] {
   background-color: #f1f1f1;
   color: #0f0f0f;
   text-align: center;
-  padding: 9px 16px;
+  padding: 8px 16px 10px 16px;
   border-radius: 18px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   font-size: 14px;

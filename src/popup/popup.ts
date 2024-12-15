@@ -56,8 +56,8 @@ if (playlistsCountContainer) {
   );
   const subscribedChannelsCountElement: HTMLElement | null =
     document.querySelector("#subscribed-channels-count");
-  const playlistsCountElement: HTMLElement | null =
-    document.querySelector("#playlists-count");
+  // const playlistsCountElement: HTMLElement | null =
+  //   document.querySelector("#playlists-count");
 
   const likedVideosCount = await getLikedVideosCount();
   const subscribedChannelsCount = await getSubscribedChannelsCount();

@@ -13,7 +13,7 @@ import { RequestData, Video, YoutubeChannel } from "./types";
 console.log("hello from background script");
 
 chrome.runtime.onMessage.addListener(
-  (request: RequestData, sender, sendResponse) => {
+  (request: RequestData, _sender, sendResponse) => {
     console.log(request);
 
     if (request?.task === "checkIfVideoLiked") {

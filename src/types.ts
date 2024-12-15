@@ -3,8 +3,9 @@ export type Video = {
   title: string;
   duration: string;
   channelName: string;
+  channelHandle: string;
   addedAt: string;
-  // https://i.ytimg.com/<urlSlug>/maxresdefault.jpg
+  // video-thumbnail -> https://i.ytimg.com/vi/<urlSlug>/mqdefault.jpg
 };
 
 export type YoutubeChannel = {

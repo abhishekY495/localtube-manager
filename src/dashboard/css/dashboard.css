@@ -116,6 +116,27 @@ h1 {
   font-weight: 600;
 }
 
+.no-video-or-channel-message {
+  text-align: center;
+  font-size: 24px;
+  padding: 50px;
+  background-color: #181818;
+  border: 1px solid #343434;
+  margin-top: 10px;
+  border-radius: 5px;
+  grid-column: 1/6;
+}
+
+.youtube {
+  text-decoration: 1px underline #ff2149;
+  color: #ff0733;
+  margin: 0 2px;
+  text-underline-offset: 5px;
+}
+.youtube:hover {
+  color: #ff2149;
+}
+
 /* modal */
 
 .modal-overlay {

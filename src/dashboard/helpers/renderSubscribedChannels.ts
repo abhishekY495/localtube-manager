@@ -1,4 +1,5 @@
 import numeral from "numeral";
+import defaultChannelImage from "/src/dashboard/assets/default-channel-image.jpg";
 import { ResponseData, YoutubeChannel } from "../../types";
 
 export function renderSubscribedChannels(
@@ -7,46 +8,68 @@ export function renderSubscribedChannels(
   subscribedChannelsCount: HTMLElement
 ) {
   subscribedChannelsContainer.innerHTML = "";
-  subscribedChannelsArr
-    .sort(
-      (a, b) => new Date(b.addedAt).getTime() - new Date(a.addedAt).getTime()
-    )
-    .map((channel: YoutubeChannel) => {
-      subscribedChannelsContainer.innerHTML += `
+  if (subscribedChannelsArr.length === 0) {
+    subscribedChannelsContainer.innerHTML += `
+        <p class="no-video-or-channel-message">
+          Visit <a href="https://www.youtube.com" class="youtube">YouTube</a> to Subscribe channels
+        </p>
+      `;
+  } else {
+    subscribedChannelsArr
+      .sort(
+        (a, b) => new Date(b.addedAt).getTime() - new Date(a.addedAt).getTime()
+      )
+      .map((channel: YoutubeChannel) => {
+        subscribedChannelsContainer.innerHTML += `
       <div class="subscribed-channel">
         <a href=${channel.handle}>
-            <img 
-                class="subscribed-channel-image"
-                src=${channel.imageUrl} 
-                alt="${channel.name}"
-            />
+            ${
+              channel.imageUrl.length === 0
+                ? `
+              <img 
+                  class="subscribed-channel-image"
+                  src=${defaultChannelImage}
+                  alt="${channel.name}"
+              />
+              `
+                : `
+                <img 
+                    class="subscribed-channel-image"
+                    src=${channel.imageUrl} 
+                    alt="${channel.name}"
+                />
+                `
+            }
         </a>
         <div class="subscribed-channel-name-handle-container">
             <p 
                 class="subscribed-channel-name"
                 title="${channel.name}">${channel.name}</p>
-            <p class="subscribed-channel-handle">@${
-              channel.handle.split("@")[1]
+            <p class="subscribed-channel-handle">${
+              channel.handle.includes("@")
+                ? "@" + channel.handle.split("@")[1]
+                : channel.handle.split("/")[4]
             }</p>
         </div>
         <button class="unsubscribe-btn">Unsubscribe</button>
       </div>
     `;
-    });
+      });
 
-  // Add event listeners for unsubscribe buttons
-  const removeButtons =
-    subscribedChannelsContainer.querySelectorAll(".unsubscribe-btn");
-  removeButtons.forEach((btn, index) => {
-    btn.addEventListener("click", () => {
-      showModal(
-        subscribedChannelsArr,
-        index,
-        subscribedChannelsContainer,
-        subscribedChannelsCount
-      );
+    // Add event listeners for unsubscribe buttons
+    const removeButtons =
+      subscribedChannelsContainer.querySelectorAll(".unsubscribe-btn");
+    removeButtons.forEach((btn, index) => {
+      btn.addEventListener("click", () => {
+        showModal(
+          subscribedChannelsArr,
+          index,
+          subscribedChannelsContainer,
+          subscribedChannelsCount
+        );
+      });
     });
-  });
+  }
 }
 
 function showModal(

@@ -19,7 +19,7 @@ export async function toggleLikedVideo(video: Video, likeBtn: Element) {
       );
       // like animation
       if (iconElement) {
-        iconElement.innerHTML = `<canvas id="custom-nologin-yt-dotlottie-canvas" style="width: 58px; height: 58px; margin-top:-16px; margin-left:-16px; margin-right:-18px;"></canvas>`;
+        iconElement.innerHTML = `<canvas id="custom-nologin-yt-dotlottie-canvas" style="width: 58px; height: 58px; margin-top:-18px; margin-left:-16px; margin-right:-18px;"></canvas>`;
         const canvasElement = document.querySelector(
           "#custom-nologin-yt-dotlottie-canvas"
         ) as HTMLCanvasElement;

@@ -18,13 +18,15 @@ export function getVideoObj(
     "ytd-video-owner-renderer"
   ) as HTMLElement;
   const channelLinks = videoOwnerRendererElement.querySelectorAll("a");
-  const channelId = channelLinks[1];
+  const channelHandle = channelLinks[0];
+  const channelId2 = channelLinks[1];
 
   const video: Video = {
     urlSlug: urlSlug || "",
     title: videoTitle,
     duration: videoDurationElement.innerText,
-    channelName: channelId?.innerText,
+    channelName: channelId2?.innerText,
+    channelHandle: channelHandle?.href,
     addedAt: new Date().toISOString(),
   };
 
