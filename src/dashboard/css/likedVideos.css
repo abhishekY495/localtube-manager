@@ -11,8 +11,7 @@
   border-bottom: 1px solid #cccccc21;
 }
 .liked-video:hover {
-  background-color: #ffffff1a;
-  transition: all 0.1s ease;
+  background-color: #ffffff0f;
 }
 
 .liked-video-index {
@@ -44,7 +43,7 @@
 .liked-video-container-2 {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
   padding-left: 10px;
 }
 .liked-video-title {
@@ -67,6 +66,7 @@
   font-weight: 600;
   letter-spacing: 0.3px;
   color: #a0a0a0;
+  margin-top: 2px;
 }
 
 .remove-btn {
@@ -75,7 +75,7 @@
   color: #dddddd;
   font-size: 14px;
   font-weight: 600;
-  margin-top: 36px;
+  margin-top: 35px;
   padding: 6px 16px 8px 16px;
   border: 1px solid #cccccc30;
   border-radius: 15px;

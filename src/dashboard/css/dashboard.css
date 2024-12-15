@@ -8,7 +8,7 @@ body {
   background-color: #0f0f0f;
   color: white;
   max-width: 1200px;
-  padding: 20px 0 80px 0;
+  padding: 20px 10px 80px 10px;
   margin: auto;
   font-family: "Roboto", "Arial", sans-serif;
   overflow-y: scroll;

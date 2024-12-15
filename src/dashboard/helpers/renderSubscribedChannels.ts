@@ -17,26 +17,27 @@ export function renderSubscribedChannels(
   } else {
     subscribedChannelsArr
       .sort(
-        (a, b) => new Date(b.addedAt).getTime() - new Date(a.addedAt).getTime()
+        (a, b) =>
+          new Date(b?.addedAt)?.getTime() - new Date(a?.addedAt)?.getTime()
       )
       .map((channel: YoutubeChannel) => {
         subscribedChannelsContainer.innerHTML += `
       <div class="subscribed-channel">
-        <a href=${channel.handle}>
+        <a href=${channel?.handle}>
             ${
-              channel.imageUrl.length === 0
+              channel?.imageUrl.length === 0
                 ? `
               <img 
                   class="subscribed-channel-image"
                   src=${defaultChannelImage}
-                  alt="${channel.name}"
+                  alt="${channel?.name}"
               />
               `
                 : `
                 <img 
                     class="subscribed-channel-image"
-                    src=${channel.imageUrl} 
-                    alt="${channel.name}"
+                    src=${channel?.imageUrl} 
+                    alt="${channel?.name}"
                 />
                 `
             }
@@ -44,11 +45,11 @@ export function renderSubscribedChannels(
         <div class="subscribed-channel-name-handle-container">
             <p 
                 class="subscribed-channel-name"
-                title="${channel.name}">${channel.name}</p>
+                title="${channel?.name}">${channel?.name}</p>
             <p class="subscribed-channel-handle">${
-              channel.handle.includes("@")
-                ? "@" + channel.handle.split("@")[1]
-                : channel.handle.split("/")[4]
+              channel?.handle.includes("@")
+                ? "@" + channel?.handle.split("@")[1]
+                : channel?.handle.split("/")[4]
             }</p>
         </div>
         <button class="unsubscribe-btn">Unsubscribe</button>
@@ -104,7 +105,7 @@ function showModal(
 
     if (success) {
       const newsubscribedChannelsArr = subscribedChannelsArr.filter(
-        (subscribedChannel) => subscribedChannel.handle !== channel.handle
+        (subscribedChannel) => subscribedChannel?.handle !== channel?.handle
       );
       subscribedChannelsCount.innerText = numeral(
         newsubscribedChannelsArr.length

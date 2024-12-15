@@ -17,39 +17,42 @@ export function renderLikedVideos(
   } else {
     likedVideosArr
       .sort(
-        (a, b) => new Date(b.addedAt).getTime() - new Date(a.addedAt).getTime()
+        (a, b) =>
+          new Date(b?.addedAt)?.getTime() - new Date(a?.addedAt)?.getTime()
       )
       .map((video: Video, index: number) => {
         likedVideosContainer.innerHTML += `
         <div class="liked-video">
           <p class="liked-video-index">${index}</p>
           <div class="liked-video-container-1">
-            <a href="https://www.youtube.com/watch?v=${video.urlSlug}">
+            <a href="https://www.youtube.com/watch?v=${video?.urlSlug}">
               <img 
                 class="liked-video-thumbnail"
-                src="https://i.ytimg.com/vi/${video.urlSlug}/mqdefault.jpg"
-                alt="${video.title}"
+                src="https://i.ytimg.com/vi/${video?.urlSlug}/mqdefault.jpg"
+                alt="${video?.title}"
                 onerror="this.onerror=null; this.src='${defaultVideoThumbnail}';"
               />
             </a>
-            <span class="liked-video-duration">${video.duration}</span>
+            <span class="liked-video-duration">${video?.duration}</span>
           </div>
           <div class="liked-video-container-2">
             <a 
               class="liked-video-title" 
-              href="https://www.youtube.com/watch?v=${video.urlSlug}"
-              title="${video.title}"
-            >${video.title}</a>
-            <p class="liked-video-channel-name" title="${video.channelName}">${
-          video.channelName
-        }</p>
-            <p class="liked-video-channel-handle" title="${
-              video?.channelHandle
-            }">${
+              href="https://www.youtube.com/watch?v=${video?.urlSlug}"
+              title="${video?.title}"
+            >${video?.title}</a>
+            <div>
+              <p class="liked-video-channel-name" title="${
+                video?.channelName
+              }">${video?.channelName}</p>
+              <p class="liked-video-channel-handle" title="${
+                video?.channelHandle
+              }">${
           video?.channelHandle?.includes("@")
             ? "@" + video?.channelHandle?.split("@")[1]
             : video?.channelHandle?.split("/")[4]
         }</p>
+            </div>
             <button class="remove-btn">Remove</button>
           </div>
         </div>
@@ -103,7 +106,7 @@ function showModal(
 
     if (success) {
       const newLikedVideosArr = likedVideosArr.filter(
-        (likedVideo) => likedVideo.urlSlug !== video.urlSlug
+        (likedVideo) => likedVideo?.urlSlug !== video?.urlSlug
       );
       likedVideosCount.innerText = numeral(newLikedVideosArr.length).format(
         "0a"

@@ -1,19 +1,19 @@
 #subscribed-channels-container {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  /* justify-items: center; */
 }
 
 .subscribed-channel {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 28px;
+  background: #1c1c1c87;
+  margin: 8px;
+  padding: 22px;
   border-radius: 8px;
 }
 .subscribed-channel:hover {
   background-color: #ffffff1a;
-  transition: all 0.1s ease;
 }
 
 .subscribed-channel-image {
@@ -22,7 +22,7 @@
 }
 
 .subscribed-channel-name-handle-container {
-  padding: 8px 0 10px 0;
+  padding: 8px 0;
   text-align: center;
 }
 
