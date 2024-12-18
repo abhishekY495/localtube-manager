@@ -23,7 +23,7 @@ export function renderLikedVideos(
       .map((video: Video, index: number) => {
         likedVideosContainer.innerHTML += `
         <div class="liked-video">
-          <p class="liked-video-index">${index}</p>
+          <p class="liked-video-index">${index + 1}</p>
           <div class="liked-video-container-1">
             <a href="https://www.youtube.com/watch?v=${video?.urlSlug}">
               <img 
