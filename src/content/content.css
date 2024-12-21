@@ -13,6 +13,10 @@
   visibility: hidden;
 }
 
+#end-actions .ytd-playlist-panel-renderer {
+  display: none;
+}
+
 /* Like/UnLike button */
 #custom-nologin-yt-like-btn {
   display: flex;
@@ -105,4 +109,25 @@ div[data-custom-no-login-yt-btn-icon-liked="not-liked"] {
 
 .custom-nologin-yt-channel-subscribed-animate-bg {
   background-color: #f57 !important;
+}
+
+/* Playlist */
+.custom-nologin-yt-save-playlist-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  color: white;
+  background-color: #3f3f3f;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 13px;
+  margin: 4px;
+  border: 1px solid #6b6b6b;
+  border-radius: 16px;
+}
+
+.custom-nologin-yt-save-playlist-btn:hover {
+  cursor: pointer;
+  background-color: #313131;
 }

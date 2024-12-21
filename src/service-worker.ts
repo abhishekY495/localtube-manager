@@ -4,11 +4,16 @@ import {
   removeChannelFromSubscribedChannelStore,
 } from "./indexedDB/channel";
 import {
+  addPlaylistToYoutubePlaylistStore,
+  checkIfYoutubePlaylistSaved,
+  removePlaylistToYoutubePlaylistStore,
+} from "./indexedDB/playlist";
+import {
   addVideoToLikedStore,
   checkIfVideoLiked,
   removeVideoFromLikedStore,
 } from "./indexedDB/video";
-import { RequestData, Video, YoutubeChannel } from "./types";
+import { RequestData, Video, YoutubeChannel, YoutubePlaylist } from "./types";
 
 console.log("hello from background script");
 
@@ -123,6 +128,67 @@ chrome.runtime.onMessage.addListener(
             sendResponse({
               success: true,
               data: { isChannelSubscribed: true },
+            });
+          }
+        } catch (error) {
+          // @ts-ignore
+          sendResponse({
+            success: false,
+            error: {
+              message: error instanceof Error ? error?.message : String(error),
+              name: error instanceof Error ? error?.name : "Unknown Error",
+            },
+          });
+        }
+      })();
+      return true;
+    }
+
+    if (request.task === "checkIfYoutubePlaylistSaved") {
+      const urlSlug = request?.data?.playlistUrlSlug;
+      (async () => {
+        try {
+          const playlist = await checkIfYoutubePlaylistSaved(urlSlug);
+          // @ts-ignore
+          sendResponse({
+            success: true,
+            data: { isYoutubePlaylistSaved: playlist ? true : false },
+          });
+        } catch (error) {
+          // @ts-ignore
+          sendResponse({
+            success: false,
+            error: {
+              message: error instanceof Error ? error?.message : String(error),
+              name: error instanceof Error ? error?.name : "Unknown Error",
+            },
+          });
+        }
+      })();
+      return true;
+    }
+
+    if (request.task === "toggleYoutubePlaylist") {
+      const playlistData: YoutubePlaylist = request?.data?.playlist;
+      (async () => {
+        try {
+          console.log(345, playlistData);
+          // check if youtube playlist exists
+          const urlSlug = playlistData.urlSlug;
+          const playlist = await checkIfYoutubePlaylistSaved(urlSlug);
+          if (playlist) {
+            await removePlaylistToYoutubePlaylistStore(urlSlug);
+            // @ts-ignore
+            sendResponse({
+              success: true,
+              data: { isYoutubePlaylistSaved: false },
+            });
+          } else {
+            await addPlaylistToYoutubePlaylistStore(playlistData);
+            // @ts-ignore
+            sendResponse({
+              success: true,
+              data: { isYoutubePlaylistSaved: true },
             });
           }
         } catch (error) {

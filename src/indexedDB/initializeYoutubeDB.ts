@@ -13,12 +13,14 @@ export async function initializeYoutubeDB() {
         db.createObjectStore("subscribedChannels", { keyPath: "handle" });
       }
 
-      // Create playlists store
-      if (!db.objectStoreNames.contains("playlists")) {
-        db.createObjectStore("playlists", {
-          keyPath: "id",
-          autoIncrement: true,
-        });
+      // Create youtubePlaylists store
+      if (!db.objectStoreNames.contains("youtubePlaylists")) {
+        db.createObjectStore("youtubePlaylists", { keyPath: "urlSlug" });
+      }
+
+      // Create localPlaylists store
+      if (!db.objectStoreNames.contains("localPlaylists")) {
+        db.createObjectStore("localPlaylists", { keyPath: "name" });
       }
     },
   });

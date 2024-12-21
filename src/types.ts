@@ -16,10 +16,17 @@ export type YoutubeChannel = {
   addedAt: string;
 };
 
-export type Playlists = {
+export type YoutubePlaylist = {
   name: string;
-  createdBy: string;
-  url: string;
+  urlSlug: string;
+  coverImageUrlSlug: string;
+  videosCount: number;
+  channelName: string;
+  addedAt: string;
+};
+
+export type LocalPlaylist = {
+  name: string;
   coverImage: string;
   videos: Video[];
   addedAt: string;

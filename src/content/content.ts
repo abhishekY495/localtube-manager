@@ -1,19 +1,22 @@
 import "./content.css";
-
 import { checkIfVideoLiked } from "../functions/video/checkIfVideoLiked";
 import { checkIfChannelSubscribedFromVideoPage } from "../functions/channel/checkIfChannelSubscribedFromVideoPage";
 import { checkIfChannelSubscribedFromChannelPage } from "../functions/channel/checkIfChannelSubscribedFromChannelPage";
 import { getVideoUrlSlug } from "../helpers/video/getVideoUrlSlug";
-import { getChannelUrl } from "../helpers/channel/getChannelUrl";
+import { getCurrentUrl } from "../helpers/getCurrentUrl";
+import { checkIfYoutubePlaylistExistsFromVideoPage } from "../functions/playlist/checkIfYoutubePlaylistExistsFromVideoPage";
 
 const videoUrlSlug = getVideoUrlSlug();
+const currentUrl = getCurrentUrl();
 
 if (videoUrlSlug.length > 0) {
   checkIfVideoLiked(String(videoUrlSlug));
   checkIfChannelSubscribedFromVideoPage();
+  if (currentUrl.includes("list=")) {
+    checkIfYoutubePlaylistExistsFromVideoPage(currentUrl);
+  }
 } else {
-  const channelUrl = getChannelUrl();
-  checkIfChannelSubscribedFromChannelPage(channelUrl);
+  checkIfChannelSubscribedFromChannelPage(currentUrl);
 }
 
 let lastUrl = location.href;
@@ -23,12 +26,18 @@ new MutationObserver(async () => {
     lastUrl = url;
     setTimeout(async () => {
       const videoUrlSlug = getVideoUrlSlug();
+      const currentUrl = getCurrentUrl();
       if (videoUrlSlug.length > 0) {
-        await checkIfVideoLiked(String(videoUrlSlug));
-        await checkIfChannelSubscribedFromVideoPage();
+        const tasks = [
+          checkIfVideoLiked(String(videoUrlSlug)),
+          checkIfChannelSubscribedFromVideoPage(),
+        ];
+        if (currentUrl.includes("list=")) {
+          tasks.push(checkIfYoutubePlaylistExistsFromVideoPage(currentUrl));
+        }
+        await Promise.all(tasks);
       } else {
-        const channelUrl = getChannelUrl();
-        await checkIfChannelSubscribedFromChannelPage(channelUrl);
+        await checkIfChannelSubscribedFromChannelPage(currentUrl);
       }
     }, 1000);
   }
