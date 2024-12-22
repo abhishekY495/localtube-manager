@@ -6,9 +6,9 @@ import numeral from "numeral";
 import { getSubscribedChannels } from "../indexedDB/channel";
 import { getLikedVideos } from "../indexedDB/video";
 import { getYoutubePlaylists } from "../indexedDB/playlist";
-import { renderLikedVideos } from "./helpers/renderLikedVideos";
-import { renderSubscribedChannels } from "./helpers/renderSubscribedChannels";
-import { renderPlaylists } from "./helpers/renderPlaylists";
+import { renderLikedVideos } from "./functions/renderLikedVideos";
+import { renderSubscribedChannels } from "./functions/renderSubscribedChannels";
+import { renderPlaylists } from "./functions/renderPlaylists";
 import { Video, YoutubeChannel, YoutubePlaylist } from "../types";
 
 console.log("hello from dashboard");
