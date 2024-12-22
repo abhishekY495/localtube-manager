@@ -25,7 +25,7 @@ export const removePlaylistToYoutubePlaylistStore = async (urlSLug: string) => {
   await tx.done;
 };
 
-export const getYoutubePlaylist = async () => {
+export const getYoutubePlaylists = async () => {
   const db = await initializeYoutubeDB();
   const playlists = await db.getAll("youtubePlaylists");
   return playlists;

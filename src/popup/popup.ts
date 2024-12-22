@@ -1,6 +1,7 @@
 import "./popup.css";
 import { getSubscribedChannelsCount } from "../indexedDB/channel";
 import { getLikedVideosCount } from "../indexedDB/video";
+import { getYoutubePlaylistCount } from "../indexedDB/playlist";
 import numeral from "numeral";
 
 console.log("hello from popup.js");
@@ -56,12 +57,12 @@ if (playlistsCountContainer) {
   );
   const subscribedChannelsCountElement: HTMLElement | null =
     document.querySelector("#subscribed-channels-count");
-  // const playlistsCountElement: HTMLElement | null =
-  //   document.querySelector("#playlists-count");
+  const playlistsCountElement: HTMLElement | null =
+    document.querySelector("#playlists-count");
 
   const likedVideosCount = await getLikedVideosCount();
   const subscribedChannelsCount = await getSubscribedChannelsCount();
-  // const playlistsCount = await getplaylistsCount();
+  const playlistsCount = await getYoutubePlaylistCount();
 
   if (likedVideosCountElement) {
     const count = numeral(likedVideosCount).format("0a");
@@ -71,8 +72,8 @@ if (playlistsCountContainer) {
     const count = numeral(subscribedChannelsCount).format("0a");
     subscribedChannelsCountElement.innerText = count;
   }
-  // if (playlistsCountElement) {
-  //   const count = numeral(playlistsCount).format("0a");
-  //   playlistsCountElement.innerText = count;
-  // }
+  if (playlistsCountElement) {
+    const count = numeral(playlistsCount).format("0a");
+    playlistsCountElement.innerText = count;
+  }
 })();

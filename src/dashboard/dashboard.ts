@@ -1,21 +1,26 @@
 import "./css/dashboard.css";
 import "./css/likedVideos.css";
 import "./css/subscribedChannels.css";
+import "./css/youtubePlaylist.css";
 import numeral from "numeral";
 import { getSubscribedChannels } from "../indexedDB/channel";
 import { getLikedVideos } from "../indexedDB/video";
+import { getYoutubePlaylists } from "../indexedDB/playlist";
 import { renderLikedVideos } from "./helpers/renderLikedVideos";
 import { renderSubscribedChannels } from "./helpers/renderSubscribedChannels";
-import { Video, YoutubeChannel } from "../types";
+import { renderPlaylists } from "./helpers/renderPlaylists";
+import { Video, YoutubeChannel, YoutubePlaylist } from "../types";
 
 console.log("hello from dashboard");
 
 let likedVideosArr: Video[] = [];
 let subscribedChannelsArr: YoutubeChannel[] = [];
+let youtubePlaylistsArr: YoutubePlaylist[] = [];
 
 (async () => {
   likedVideosArr = await getLikedVideos();
   subscribedChannelsArr = await getSubscribedChannels();
+  youtubePlaylistsArr = await getYoutubePlaylists();
 
   const likedVideosIconCountContainer = document.querySelector(
     ".liked-videos-icon-count-container"
@@ -36,9 +41,9 @@ let subscribedChannelsArr: YoutubeChannel[] = [];
   const subscribedChannelsCount = document.querySelector(
     "#subscribed-channels-count"
   ) as HTMLElement;
-  // const playlistsCount = document.querySelector(
-  //   "#playlists-count"
-  // ) as HTMLElement;
+  const playlistsCount = document.querySelector(
+    "#playlists-count"
+  ) as HTMLElement;
   //
   const dashboardContainer = document.querySelector(
     "#dashboard-container"
@@ -71,7 +76,9 @@ let subscribedChannelsArr: YoutubeChannel[] = [];
       subscribedChannelsArr.length
     ).format("0a");
   }
-
+  if (playlistsCount) {
+    playlistsCount.innerText = numeral(youtubePlaylistsArr.length).format("0a");
+  }
   // Setting option based on url slug
   const location = window.location.href;
   const url = location.split("#")[0];
@@ -108,6 +115,14 @@ let subscribedChannelsArr: YoutubeChannel[] = [];
     playlistsIconCountContainer?.classList.add(
       "selected-playlists-icon-count-container"
     );
+    if (youtubePlaylistsArr) {
+      renderPlaylists(youtubePlaylistsArr, playlistsContainer, playlistsCount);
+    }
+    dashboardContainer.style.display = "none";
+    likedVideosContainer.style.display = "none";
+    subscribedChannelsContainer.style.display = "none";
+    playlistsContainer.style.display = "grid";
+    importExportContainer.style.display = "none";
   } else {
     if (dashboardContainer) {
       dashboardContainer.style.display = "block";
@@ -180,7 +195,7 @@ let subscribedChannelsArr: YoutubeChannel[] = [];
     importExportContainer.style.display = "none";
   });
 
-  playlistsIconCountContainer?.addEventListener("click", () => {
+  playlistsIconCountContainer?.addEventListener("click", async () => {
     playlistsIconCountContainer?.classList.add(
       "selected-playlists-icon-count-container"
     );
@@ -194,10 +209,14 @@ let subscribedChannelsArr: YoutubeChannel[] = [];
       "selected-import-export-icon-container"
     );
     window.location.href = `${url}#playlists`;
+    const youtubePlaylistsArr = await getYoutubePlaylists();
+    if (youtubePlaylistsArr) {
+      renderPlaylists(youtubePlaylistsArr, playlistsContainer, playlistsCount);
+    }
     dashboardContainer.style.display = "none";
     likedVideosContainer.style.display = "none";
     subscribedChannelsContainer.style.display = "none";
-    playlistsContainer.style.display = "block";
+    playlistsContainer.style.display = "grid";
     importExportContainer.style.display = "none";
   });
 

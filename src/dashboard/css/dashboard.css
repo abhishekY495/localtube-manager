@@ -187,11 +187,13 @@ h1 {
 }
 
 .modal-remove-btn,
-.modal-unsubscribe-btn {
+.modal-unsubscribe-btn,
+.modal-remove-youtube-playlist-btn {
   background-color: #ff4646;
 }
 .modal-remove-btn:hover,
-.modal-unsubscribe-btn:hover {
+.modal-unsubscribe-btn:hover,
+.modal-remove-youtube-playlist-btn:hover {
   background-color: #ff3333;
 }
 .modal-cancel-btn {
