@@ -172,7 +172,6 @@ chrome.runtime.onMessage.addListener(
       const playlistData: YoutubePlaylist = request?.data?.playlist;
       (async () => {
         try {
-          console.log(345, playlistData);
           // check if youtube playlist exists
           const urlSlug = playlistData.urlSlug;
           const playlist = await checkIfYoutubePlaylistSaved(urlSlug);
