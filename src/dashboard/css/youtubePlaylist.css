@@ -38,13 +38,14 @@
 
 .youtube-playlist-name {
   color: white;
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 600;
   display: inline-block;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .youtube-playlist-channelname {
   font-size: 12px;
   font-weight: 500;
