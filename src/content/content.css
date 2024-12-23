@@ -12,8 +12,10 @@
   *:not(#wrapper yt-flexible-actions-view-model) {
   visibility: hidden;
 }
-
 #end-actions .ytd-playlist-panel-renderer {
+  display: none;
+}
+yt-flexible-actions-view-model .yt-flexible-actions-view-model-wiz__action-row {
   display: none;
 }
 
@@ -112,7 +114,8 @@ div[data-custom-no-login-yt-btn-icon-liked="not-liked"] {
 }
 
 /* Playlist */
-.custom-nologin-yt-save-playlist-btn {
+.custom-nologin-yt-save-playlist-btn,
+.custom-nologin-yt-save-playlist-btn-2 {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -126,8 +129,14 @@ div[data-custom-no-login-yt-btn-icon-liked="not-liked"] {
   border: 1px solid #6b6b6b;
   border-radius: 16px;
 }
+.custom-nologin-yt-save-playlist-btn-2 {
+  padding: 10px 13px 12px 13px;
+  font-size: 16px;
+  border-radius: 8px;
+}
 
-.custom-nologin-yt-save-playlist-btn:hover {
+.custom-nologin-yt-save-playlist-btn:hover,
+.custom-nologin-yt-save-playlist-btn-2:hover {
   cursor: pointer;
   background-color: #313131;
 }

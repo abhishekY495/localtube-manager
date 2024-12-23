@@ -1,6 +1,6 @@
 import { YoutubePlaylist } from "../../types";
 
-export function getPlaylistObj(containerElement: HTMLElement) {
+export function getPlaylistObjFromVideoPage(containerElement: HTMLElement) {
   const playlistHeaderElement = containerElement.querySelector(
     "#header-description"
   ) as HTMLElement;

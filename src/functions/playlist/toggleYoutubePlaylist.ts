@@ -6,7 +6,8 @@ import { ResponseData, YoutubePlaylist } from "../../types";
 
 export async function toggleYoutubePlaylist(
   playlist: YoutubePlaylist,
-  customSavePlaylistButtonWrapper: Element
+  customSavePlaylistButtonWrapper: Element,
+  playlistPage?: boolean
 ) {
   try {
     const responseData: ResponseData = await chrome.runtime.sendMessage({
@@ -19,13 +20,21 @@ export async function toggleYoutubePlaylist(
       if (isYoutubePlaylistSaved) {
         console.log("Playlist saved", playlist);
         customSavePlaylistButtonWrapper.innerHTML = `
-          <div class="custom-nologin-yt-save-playlist-btn">
+          <div class="${
+            playlistPage
+              ? "custom-nologin-yt-save-playlist-btn-2"
+              : "custom-nologin-yt-save-playlist-btn"
+          }">
             ${savedPlaylistIcon}
             <p>Saved Playlist</p>
           </div>`;
       } else {
         customSavePlaylistButtonWrapper.innerHTML = `
-          <div class="custom-nologin-yt-save-playlist-btn">
+          <div class="${
+            playlistPage
+              ? "custom-nologin-yt-save-playlist-btn-2"
+              : "custom-nologin-yt-save-playlist-btn"
+          }">
             ${notSavedPlaylistIcon}
             <p>Save Playlist</p>
           </div>`;

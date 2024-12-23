@@ -1,4 +1,4 @@
-import { getPlaylistObj } from "../../helpers/playlist/getPlaylistObj";
+import { getPlaylistObjFromVideoPage } from "../../helpers/playlist/getPlaylistObjFromVideoPage";
 import {
   notSavedPlaylistIcon,
   savedPlaylistIcon,
@@ -81,7 +81,7 @@ export async function checkIfYoutubePlaylistExistsFromVideoPage(url: string) {
       }
       // console.log(playlistActionsElement);
 
-      // remove previous liked btn
+      // remove previous save playlist btn
       const mycustomSavePlaylistButtonWrapper = document.querySelectorAll(
         "#custom-nologin-yt-save-playlist-btn-wrapper"
       );
@@ -92,6 +92,7 @@ export async function checkIfYoutubePlaylistExistsFromVideoPage(url: string) {
         console.log("no previous save playlist btn found.");
       }
 
+      // create and append custom save platlist btn
       const customSavePlaylistButtonWrapper = document.createElement("div");
       customSavePlaylistButtonWrapper.id =
         "custom-nologin-yt-save-playlist-btn-wrapper";
@@ -104,7 +105,7 @@ export async function checkIfYoutubePlaylistExistsFromVideoPage(url: string) {
 
       customSavePlaylistButtonWrapper.addEventListener("click", async (e) => {
         e.stopPropagation();
-        const playlist = getPlaylistObj(containerElement);
+        const playlist = getPlaylistObjFromVideoPage(containerElement);
         await toggleYoutubePlaylist(playlist, customSavePlaylistButtonWrapper);
       });
 

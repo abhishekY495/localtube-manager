@@ -5,6 +5,7 @@ import { checkIfChannelSubscribedFromChannelPage } from "../functions/channel/ch
 import { getVideoUrlSlug } from "../helpers/video/getVideoUrlSlug";
 import { getCurrentUrl } from "../helpers/getCurrentUrl";
 import { checkIfYoutubePlaylistExistsFromVideoPage } from "../functions/playlist/checkIfYoutubePlaylistExistsFromVideoPage";
+import { checkIfYoutubePlaylistExistsFromPlaylistPage } from "../functions/playlist/checkIfYoutubePlaylistExistsFromPlaylistPage";
 
 const videoUrlSlug = getVideoUrlSlug();
 const currentUrl = getCurrentUrl();
@@ -15,6 +16,8 @@ if (videoUrlSlug.length > 0) {
   if (currentUrl.includes("list=")) {
     checkIfYoutubePlaylistExistsFromVideoPage(currentUrl);
   }
+} else if (currentUrl.includes("playlist?list=")) {
+  checkIfYoutubePlaylistExistsFromPlaylistPage(currentUrl);
 } else {
   checkIfChannelSubscribedFromChannelPage(currentUrl);
 }
@@ -36,6 +39,8 @@ new MutationObserver(async () => {
           tasks.push(checkIfYoutubePlaylistExistsFromVideoPage(currentUrl));
         }
         await Promise.all(tasks);
+      } else if (currentUrl.includes("playlist?list=")) {
+        checkIfYoutubePlaylistExistsFromPlaylistPage(currentUrl);
       } else {
         await checkIfChannelSubscribedFromChannelPage(currentUrl);
       }

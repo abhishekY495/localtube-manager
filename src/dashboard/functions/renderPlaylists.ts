@@ -59,7 +59,7 @@ export function renderPlaylists(
               </a>
               <p class="youtube-playlist-channelname" title="${
                 playlist.channelName
-              }">@${playlist.channelName}</p>
+              }">@${playlist.channelName.trim()}</p>
             </div>
             <button class="remove-youtube-playlist-btn">Remove</button>
           </div>
