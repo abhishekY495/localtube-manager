@@ -74,7 +74,7 @@ export async function checkIfYoutubePlaylistExistsFromPlaylistPage(
         console.log("pageHeaderViewModel not found");
         return;
       }
-      console.log(pageHeaderViewModel);
+      // console.log(pageHeaderViewModel);
 
       const ytFlexibleActionViewModel = pageHeaderViewModel.querySelector(
         "yt-flexible-actions-view-model"
