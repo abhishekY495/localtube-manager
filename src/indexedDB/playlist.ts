@@ -1,12 +1,12 @@
-import { YoutubePlaylist } from "../types";
+import { LocalPlaylist, YoutubePlaylist } from "../types";
 import { initializeYoutubeDB } from "./initializeYoutubeDB";
 
+// Youtube
 export const checkIfYoutubePlaylistSaved = async (urlSLug: string) => {
   const db = await initializeYoutubeDB();
   const playlist = await db.get("youtubePlaylists", urlSLug);
   return playlist;
 };
-
 export const addPlaylistToYoutubePlaylistStore = async (
   playlist: YoutubePlaylist
 ) => {
@@ -16,7 +16,6 @@ export const addPlaylistToYoutubePlaylistStore = async (
   await youtubePlaylistsStore.add(playlist);
   await tx.done;
 };
-
 export const removePlaylistToYoutubePlaylistStore = async (urlSLug: string) => {
   const db = await initializeYoutubeDB();
   const tx = db.transaction("youtubePlaylists", "readwrite");
@@ -24,7 +23,6 @@ export const removePlaylistToYoutubePlaylistStore = async (urlSLug: string) => {
   await youtubePlaylistsStore.delete(urlSLug);
   await tx.done;
 };
-
 export const getYoutubePlaylists = async () => {
   const db = await initializeYoutubeDB();
   const playlists = await db.getAll("youtubePlaylists");
@@ -37,8 +35,46 @@ export const getYoutubePlaylistCount = async () => {
   const count = await store.count();
   return count;
 };
-
 export const clearYoutubePlaylist = async () => {
   const db = await initializeYoutubeDB();
   await db.clear("youtubePlaylists");
+};
+
+// Local
+export const checkIfLocalPlaylistSaved = async (urlSLug: string) => {
+  const db = await initializeYoutubeDB();
+  const playlist = await db.get("localPlaylists", urlSLug);
+  return playlist;
+};
+export const addPlaylistToLocalPlaylistStore = async (
+  playlist: LocalPlaylist
+) => {
+  const db = await initializeYoutubeDB();
+  const tx = db.transaction("localPlaylists", "readwrite");
+  const localPlaylistsStore = tx.objectStore("localPlaylists");
+  await localPlaylistsStore.add(playlist);
+  await tx.done;
+};
+export const removePlaylistToLocalPlaylistStore = async (urlSLug: string) => {
+  const db = await initializeYoutubeDB();
+  const tx = db.transaction("localPlaylists", "readwrite");
+  const localPlaylistsStore = tx.objectStore("localPlaylists");
+  await localPlaylistsStore.delete(urlSLug);
+  await tx.done;
+};
+export const getLocalPlaylists = async () => {
+  const db = await initializeYoutubeDB();
+  const playlists = await db.getAll("localPlaylists");
+  return playlists;
+};
+export const getLocalPlaylistCount = async () => {
+  const db = await initializeYoutubeDB();
+  const tx = db.transaction("localPlaylists", "readonly");
+  const store = tx.objectStore("localPlaylists");
+  const count = await store.count();
+  return count;
+};
+export const clearLocalPlaylist = async () => {
+  const db = await initializeYoutubeDB();
+  await db.clear("localPlaylists");
 };

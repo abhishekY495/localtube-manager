@@ -1,6 +1,43 @@
+#playlists-main-container {
+  display: flex;
+  flex-direction: column;
+}
+
 #playlists-container {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
+}
+
+#playlist-selection-btn-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.youtube-playlists-btn,
+.local-playlists-btn {
+  font-size: 20px;
+  width: 100%;
+  padding: 14px;
+  font-weight: 600;
+  border: 2px solid #cccccc3a;
+  border-radius: 5px;
+  background: #1a1a1a;
+  color: #bbb;
+}
+.youtube-playlists-btn:hover,
+.local-playlists-btn:hover {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: #ffa50024;
+}
+
+.playlist-type-selected {
+  border-color: #a56b00;
+  background-color: #ffa50024;
+  color: #fff;
 }
 
 .youtube-playlist {

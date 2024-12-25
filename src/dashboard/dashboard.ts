@@ -5,7 +5,7 @@ import "./css/youtubePlaylist.css";
 import numeral from "numeral";
 import { getSubscribedChannels } from "../indexedDB/channel";
 import { getLikedVideos } from "../indexedDB/video";
-import { getYoutubePlaylists } from "../indexedDB/playlist";
+import { getLocalPlaylists, getYoutubePlaylists } from "../indexedDB/playlist";
 import { renderLikedVideos } from "./functions/renderLikedVideos";
 import { renderSubscribedChannels } from "./functions/renderSubscribedChannels";
 import { renderPlaylists } from "./functions/renderPlaylists";
@@ -16,6 +16,7 @@ console.log("hello from dashboard");
 let likedVideosArr: Video[] = [];
 let subscribedChannelsArr: YoutubeChannel[] = [];
 let youtubePlaylistsArr: YoutubePlaylist[] = [];
+let selectedPlaylistType: "youtube" | "local" = "youtube";
 
 (async () => {
   likedVideosArr = await getLikedVideos();
@@ -54,6 +55,15 @@ let youtubePlaylistsArr: YoutubePlaylist[] = [];
   const subscribedChannelsContainer = document.querySelector(
     "#subscribed-channels-container"
   ) as HTMLElement;
+  const playlistsMainContainer = document.querySelector(
+    "#playlists-main-container"
+  ) as HTMLElement;
+  const youtubePlaylistsBtn = document.querySelector(
+    ".youtube-playlists-btn"
+  ) as HTMLButtonElement;
+  const localPlaylistsBtn = document.querySelector(
+    ".local-playlists-btn"
+  ) as HTMLButtonElement;
   const playlistsContainer = document.querySelector(
     "#playlists-container"
   ) as HTMLElement;
@@ -93,6 +103,7 @@ let youtubePlaylistsArr: YoutubePlaylist[] = [];
     dashboardContainer.style.display = "none";
     likedVideosContainer.style.display = "flex";
     subscribedChannelsContainer.style.display = "none";
+    playlistsMainContainer.style.display = "none";
     playlistsContainer.style.display = "none";
     importExportContainer.style.display = "none";
   } else if (slug === "subscribed-channels") {
@@ -109,6 +120,7 @@ let youtubePlaylistsArr: YoutubePlaylist[] = [];
     dashboardContainer.style.display = "none";
     likedVideosContainer.style.display = "none";
     subscribedChannelsContainer.style.display = "grid";
+    playlistsMainContainer.style.display = "none";
     playlistsContainer.style.display = "none";
     importExportContainer.style.display = "none";
   } else if (slug === "playlists") {
@@ -121,6 +133,7 @@ let youtubePlaylistsArr: YoutubePlaylist[] = [];
     dashboardContainer.style.display = "none";
     likedVideosContainer.style.display = "none";
     subscribedChannelsContainer.style.display = "none";
+    playlistsMainContainer.style.display = "flex";
     playlistsContainer.style.display = "grid";
     importExportContainer.style.display = "none";
   } else {
@@ -128,6 +141,7 @@ let youtubePlaylistsArr: YoutubePlaylist[] = [];
       dashboardContainer.style.display = "block";
       likedVideosContainer.style.display = "none";
       subscribedChannelsContainer.style.display = "none";
+      playlistsMainContainer.style.display = "none";
       playlistsContainer.style.display = "none";
       importExportContainer.style.display = "none";
       renderLikedVideos(likedVideosArr, likedVideosContainer, likedVideosCount);
@@ -162,6 +176,7 @@ let youtubePlaylistsArr: YoutubePlaylist[] = [];
     dashboardContainer.style.display = "none";
     likedVideosContainer.style.display = "flex";
     subscribedChannelsContainer.style.display = "none";
+    playlistsMainContainer.style.display = "none";
     playlistsContainer.style.display = "none";
     importExportContainer.style.display = "none";
   });
@@ -191,6 +206,7 @@ let youtubePlaylistsArr: YoutubePlaylist[] = [];
     dashboardContainer.style.display = "none";
     likedVideosContainer.style.display = "none";
     subscribedChannelsContainer.style.display = "grid";
+    playlistsMainContainer.style.display = "none";
     playlistsContainer.style.display = "none";
     importExportContainer.style.display = "none";
   });
@@ -209,15 +225,47 @@ let youtubePlaylistsArr: YoutubePlaylist[] = [];
       "selected-import-export-icon-container"
     );
     window.location.href = `${url}#playlists`;
-    const youtubePlaylistsArr = await getYoutubePlaylists();
-    if (youtubePlaylistsArr) {
-      renderPlaylists(youtubePlaylistsArr, playlistsContainer, playlistsCount);
+    if (selectedPlaylistType === "youtube") {
+      const youtubePlaylistsArr = await getYoutubePlaylists();
+      if (youtubePlaylistsArr) {
+        renderPlaylists(
+          youtubePlaylistsArr,
+          playlistsContainer,
+          playlistsCount
+        );
+      }
+    }
+    if (selectedPlaylistType === "local") {
+      const localPlaylistsArr = await getLocalPlaylists();
+      if (localPlaylistsArr) {
+        renderPlaylists(localPlaylistsArr, playlistsContainer, playlistsCount);
+      }
     }
     dashboardContainer.style.display = "none";
     likedVideosContainer.style.display = "none";
     subscribedChannelsContainer.style.display = "none";
+    playlistsMainContainer.style.display = "flex";
     playlistsContainer.style.display = "grid";
     importExportContainer.style.display = "none";
+  });
+
+  youtubePlaylistsBtn?.addEventListener("click", async () => {
+    localPlaylistsBtn.classList.remove("playlist-type-selected");
+    youtubePlaylistsBtn.classList.add("playlist-type-selected");
+    selectedPlaylistType = "youtube";
+    const youtubePlaylistsArr = await getYoutubePlaylists();
+    if (youtubePlaylistsArr) {
+      renderPlaylists(youtubePlaylistsArr, playlistsContainer, playlistsCount);
+    }
+  });
+  localPlaylistsBtn?.addEventListener("click", async () => {
+    youtubePlaylistsBtn.classList.remove("playlist-type-selected");
+    localPlaylistsBtn.classList.add("playlist-type-selected");
+    selectedPlaylistType = "local";
+    const localPlaylistsArr = await getLocalPlaylists();
+    if (localPlaylistsArr) {
+      renderPlaylists(localPlaylistsArr, playlistsContainer, playlistsCount);
+    }
   });
 
   importExportIconContainer?.addEventListener("click", () => {
@@ -237,6 +285,7 @@ let youtubePlaylistsArr: YoutubePlaylist[] = [];
     dashboardContainer.style.display = "none";
     likedVideosContainer.style.display = "none";
     subscribedChannelsContainer.style.display = "none";
+    playlistsMainContainer.style.display = "none";
     playlistsContainer.style.display = "none";
     importExportContainer.style.display = "block";
   });
