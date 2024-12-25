@@ -7,7 +7,7 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
-  background-color: #1c1c1c;
+  background-color: #161616;
   padding: 12px;
   margin: 8px;
   border-radius: 4px;
@@ -72,7 +72,7 @@
 }
 
 .remove-youtube-playlist-btn {
-  background-color: #333;
+  background-color: #252525;
   color: #dddddd;
   font-size: 14px;
   font-weight: 600;
