@@ -16,10 +16,7 @@ export function renderSubscribedChannels(
       `;
   } else {
     subscribedChannelsArr
-      .sort(
-        (a, b) =>
-          new Date(b?.addedAt)?.getTime() - new Date(a?.addedAt)?.getTime()
-      )
+      .sort((a, b) => a.name.localeCompare(b.name))
       .map((channel: YoutubeChannel) => {
         subscribedChannelsContainer.innerHTML += `
       <div class="subscribed-channel">
