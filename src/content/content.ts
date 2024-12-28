@@ -1,9 +1,9 @@
 import "./content.css";
+import { getVideoUrlSlug } from "../helpers/video/getVideoUrlSlug";
+import { getCurrentUrl } from "../helpers/getCurrentUrl";
 import { checkIfVideoLiked } from "../functions/video/checkIfVideoLiked";
 import { checkIfChannelSubscribedFromVideoPage } from "../functions/channel/checkIfChannelSubscribedFromVideoPage";
 import { checkIfChannelSubscribedFromChannelPage } from "../functions/channel/checkIfChannelSubscribedFromChannelPage";
-import { getVideoUrlSlug } from "../helpers/video/getVideoUrlSlug";
-import { getCurrentUrl } from "../helpers/getCurrentUrl";
 import { checkIfYoutubePlaylistExistsFromVideoPage } from "../functions/playlist/checkIfYoutubePlaylistExistsFromVideoPage";
 import { checkIfYoutubePlaylistExistsFromPlaylistPage } from "../functions/playlist/checkIfYoutubePlaylistExistsFromPlaylistPage";
 
