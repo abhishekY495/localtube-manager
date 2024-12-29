@@ -64,8 +64,8 @@ export const removePlaylistToLocalPlaylistStore = async (urlSLug: string) => {
 };
 export const getLocalPlaylists = async () => {
   const db = await initializeYoutubeDB();
-  const playlists = await db.getAll("localPlaylists");
-  return playlists;
+  const localPlaylists = await db.getAll("localPlaylists");
+  return localPlaylists;
 };
 export const getLocalPlaylistCount = async () => {
   const db = await initializeYoutubeDB();

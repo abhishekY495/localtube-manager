@@ -4,8 +4,10 @@ import {
   removeChannelFromSubscribedChannelStore,
 } from "./indexedDB/channel";
 import {
+  addPlaylistToLocalPlaylistStore,
   addPlaylistToYoutubePlaylistStore,
   checkIfYoutubePlaylistSaved,
+  getLocalPlaylists,
   removePlaylistToYoutubePlaylistStore,
 } from "./indexedDB/playlist";
 import {
@@ -13,7 +15,13 @@ import {
   checkIfVideoLiked,
   removeVideoFromLikedStore,
 } from "./indexedDB/video";
-import { RequestData, Video, YoutubeChannel, YoutubePlaylist } from "./types";
+import {
+  LocalPlaylist,
+  RequestData,
+  Video,
+  YoutubeChannel,
+  YoutubePlaylist,
+} from "./types";
 
 console.log("hello from background script");
 
@@ -21,6 +29,7 @@ chrome.runtime.onMessage.addListener(
   (request: RequestData, _sender, sendResponse) => {
     console.log(request);
 
+    // video
     if (request?.task === "checkIfVideoLiked") {
       const urlSlug = request?.data?.urlSlug;
       (async () => {
@@ -44,7 +53,6 @@ chrome.runtime.onMessage.addListener(
       })();
       return true;
     }
-
     if (request.task === "toggleLikedVideo") {
       const videoData: Video = request?.data?.video;
       (async () => {
@@ -81,9 +89,7 @@ chrome.runtime.onMessage.addListener(
       return true;
     }
 
-    if (request.task === "clearLikedVideos") {
-    }
-
+    // channel
     if (request.task === "checkIfChannelSubscribed") {
       const channelHandle = request?.data?.channelHandle;
       (async () => {
@@ -107,7 +113,6 @@ chrome.runtime.onMessage.addListener(
       })();
       return true;
     }
-
     if (request.task === "toggleSubscribedChannel") {
       const youtubeChannelData: YoutubeChannel = request?.data?.channel;
       (async () => {
@@ -144,6 +149,7 @@ chrome.runtime.onMessage.addListener(
       return true;
     }
 
+    // youtube playlist
     if (request.task === "checkIfYoutubePlaylistSaved") {
       const urlSlug = request?.data?.playlistUrlSlug;
       (async () => {
@@ -167,7 +173,6 @@ chrome.runtime.onMessage.addListener(
       })();
       return true;
     }
-
     if (request.task === "toggleYoutubePlaylist") {
       const playlistData: YoutubePlaylist = request?.data?.playlist;
       (async () => {
@@ -190,6 +195,53 @@ chrome.runtime.onMessage.addListener(
               data: { isYoutubePlaylistSaved: true },
             });
           }
+        } catch (error) {
+          // @ts-ignore
+          sendResponse({
+            success: false,
+            error: {
+              message: error instanceof Error ? error?.message : String(error),
+              name: error instanceof Error ? error?.name : "Unknown Error",
+            },
+          });
+        }
+      })();
+      return true;
+    }
+
+    // local playlist
+    if (request.task === "getLocalPlaylists") {
+      (async () => {
+        try {
+          const playlists = await getLocalPlaylists();
+          // @ts-ignore
+          sendResponse({
+            success: true,
+            data: { playlists },
+          });
+        } catch (error) {
+          // @ts-ignore
+          sendResponse({
+            success: false,
+            error: {
+              message: error instanceof Error ? error?.message : String(error),
+              name: error instanceof Error ? error?.name : "Unknown Error",
+            },
+          });
+        }
+      })();
+      return true;
+    }
+    if (request.task === "createLocalPlaylist") {
+      const localPlaylist: LocalPlaylist = request?.data?.playlist;
+      (async () => {
+        try {
+          await addPlaylistToLocalPlaylistStore(localPlaylist);
+          // @ts-ignore
+          sendResponse({
+            success: true,
+            data: { isLocalPlaylistCraeted: true },
+          });
         } catch (error) {
           // @ts-ignore
           sendResponse({

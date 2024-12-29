@@ -27,7 +27,6 @@ export type YoutubePlaylist = {
 
 export type LocalPlaylist = {
   name: string;
-  coverImage: string;
   videos: Video[];
   addedAt: string;
 };

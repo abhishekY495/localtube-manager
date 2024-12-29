@@ -18,6 +18,13 @@
 yt-flexible-actions-view-model .yt-flexible-actions-view-model-wiz__action-row {
   display: none;
 }
+#flexible-item-buttons {
+  display: flex;
+  gap: 8px;
+}
+#flexible-item-buttons yt-button-view-model.ytd-menu-renderer {
+  display: none;
+}
 
 /* Like/UnLike button */
 #custom-nologin-yt-like-btn {
@@ -139,4 +146,134 @@ div[data-custom-no-login-yt-btn-icon-liked="not-liked"] {
 .custom-nologin-yt-save-playlist-btn-2:hover {
   cursor: pointer;
   background-color: #313131;
+}
+
+/* Save video to local playlist */
+.custom-nologin-yt-save-video-to-local-playlist-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: #272727;
+  padding: 6px 16px;
+  font-family: "Roboto", "Arial", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 18px;
+  height: 24px;
+  user-select: none;
+}
+.custom-nologin-yt-save-video-to-local-playlist-btn:hover {
+  background-color: #3f3f3f;
+  cursor: pointer;
+}
+
+/* modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #00000056;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  padding-top: 220px;
+  z-index: 500;
+  transition: all 0.2s ease;
+}
+
+.modal {
+  background: #383838;
+  color: #e4e4e4;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px 16px 20px 20px;
+  border-radius: 10px;
+}
+
+.modal-header-container {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #4a4a4a;
+}
+
+.modal-heading {
+  font-size: 24px;
+  font-weight: 500;
+  padding: 5px 5px 8px 5px;
+}
+
+.nologin-yt-cross-icon-container {
+  margin-top: 6px;
+  cursor: pointer;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.playlists-container {
+  display: flex;
+  flex-direction: column;
+  height: 200px;
+  font-size: 16px;
+  overflow-y: scroll;
+}
+
+.no-local-playlist-msg {
+  text-align: center;
+  font-weight: 700;
+  font-size: 22px;
+  margin: auto;
+  color: #ff5270;
+  text-decoration: 1px underline #fd3f62;
+  text-underline-offset: 5px;
+}
+
+.modal-content input[type="text"] {
+  padding: 8px 10px;
+  margin-top: 3px;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+}
+
+.modal-content input[type="text"]:focus {
+  border: none;
+  outline: 1px solid #ff4444;
+}
+
+.playlist {
+  padding: 8px;
+  border-radius: 5px;
+}
+.playlist:hover {
+  background-color: #525252;
+  cursor: pointer;
+}
+
+.create-playlist-btn,
+.create-playlist-btn-real {
+  padding: 8px 14px 10px 14px;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #7e7e7e;
+  color: white;
+  border: none;
+  margin-top: 10px;
+}
+.create-playlist-btn:hover,
+.create-playlist-btn-real:hover {
+  cursor: pointer;
+  background-color: #757575;
+}
+
+.create-playlist-btn-real:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
 }
