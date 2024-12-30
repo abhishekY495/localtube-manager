@@ -1,7 +1,5 @@
-import { crossIcon } from "../../../helpers/playlist/crossIcon";
 import { savedPlaylistIcon } from "../../../helpers/playlist/savedNotsavedPlaylistIcon";
 import { getVideoObj } from "../../../helpers/video/getVideoObj";
-import { getLocalPlaylists } from "../../../indexedDB/playlist";
 import { LocalPlaylist, ResponseData } from "../../../types";
 import { showAddVideoToModal } from "./modalFunctions";
 
@@ -10,8 +8,6 @@ let isProcessing = false;
 let debounceTimeout: number | undefined;
 
 export async function addVideoToLocalPlaylist(urlSlug: string) {
-  console.log(123123, urlSlug);
-
   if (observer) {
     observer.disconnect();
     observer = null;

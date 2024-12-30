@@ -9,19 +9,26 @@ import { getLocalPlaylists, getYoutubePlaylists } from "../indexedDB/playlist";
 import { renderLikedVideos } from "./functions/renderLikedVideos";
 import { renderSubscribedChannels } from "./functions/renderSubscribedChannels";
 import { renderPlaylists } from "./functions/renderPlaylists";
-import { Video, YoutubeChannel, YoutubePlaylist } from "../types";
+import {
+  LocalPlaylist,
+  Video,
+  YoutubeChannel,
+  YoutubePlaylist,
+} from "../types";
 
 console.log("hello from dashboard");
 
 let likedVideosArr: Video[] = [];
 let subscribedChannelsArr: YoutubeChannel[] = [];
 let youtubePlaylistsArr: YoutubePlaylist[] = [];
+let localPlaylistsArr: LocalPlaylist[] = [];
 let selectedPlaylistType: "youtube" | "local" = "youtube";
 
 (async () => {
   likedVideosArr = await getLikedVideos();
   subscribedChannelsArr = await getSubscribedChannels();
   youtubePlaylistsArr = await getYoutubePlaylists();
+  localPlaylistsArr = await getLocalPlaylists();
 
   const likedVideosIconCountContainer = document.querySelector(
     ".liked-videos-icon-count-container"
@@ -44,6 +51,12 @@ let selectedPlaylistType: "youtube" | "local" = "youtube";
   ) as HTMLElement;
   const playlistsCount = document.querySelector(
     "#playlists-count"
+  ) as HTMLElement;
+  const youtubePlaylistsCount = document.querySelector(
+    ".youtube-playlists-count"
+  ) as HTMLElement;
+  const localPlaylistsCount = document.querySelector(
+    ".local-playlists-count"
   ) as HTMLElement;
   //
   const dashboardContainer = document.querySelector(
@@ -87,7 +100,15 @@ let selectedPlaylistType: "youtube" | "local" = "youtube";
     ).format("0a");
   }
   if (playlistsCount) {
-    playlistsCount.innerText = numeral(youtubePlaylistsArr.length).format("0a");
+    youtubePlaylistsCount.innerText = numeral(
+      youtubePlaylistsArr.length
+    ).format("0a");
+    localPlaylistsCount.innerText = numeral(localPlaylistsArr.length).format(
+      "0a"
+    );
+    const totalPlaylistCount =
+      youtubePlaylistsArr.length + localPlaylistsArr.length;
+    playlistsCount.innerText = numeral(totalPlaylistCount).format("0a");
   }
   // Setting option based on url slug
   const location = window.location.href;
