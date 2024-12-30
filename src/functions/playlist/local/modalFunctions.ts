@@ -46,17 +46,20 @@ export function showAddVideoToModal(
     }
   });
 
-  //
-  //
-  // // // // // // // // // // // // // // // //
-  //
-  //
-
   // Add event listener to create playlist btn
   const createPlaylistBtn = modal.querySelector(".create-playlist-btn")!;
   createPlaylistBtn.addEventListener("click", () => {
-    modal.innerHTML = "";
-    modal.innerHTML = `
+    showCreateLocalPlaylist(modal, video, localPlaylists);
+  });
+}
+
+function showCreateLocalPlaylist(
+  modal: HTMLElement,
+  video: Video,
+  localPlaylists: LocalPlaylist[]
+) {
+  modal.innerHTML = "";
+  modal.innerHTML = `
     <div class="modal">
       <div class="modal-header-container">
         <p class="modal-heading">Create Local Playlist</p>
@@ -68,49 +71,47 @@ export function showAddVideoToModal(
       </form>
     </div>
     `;
-    // Add event listener to cross icon
-    const crossIconContainer2 = modal.querySelector(
-      ".nologin-yt-cross-icon-container"
-    )!;
-    crossIconContainer2.addEventListener("click", () => modal.remove());
+  // Add event listener to cross icon
+  const crossIconContainer2 = modal.querySelector(
+    ".nologin-yt-cross-icon-container"
+  )!;
+  crossIconContainer2.addEventListener("click", () => modal.remove());
 
-    // form submission
-    const form = modal.querySelector(".create-local-playlist-form")!;
-    const playlistNameInput = modal.querySelector(
-      ".playlist-name-input"
-    )! as HTMLInputElement;
-    //
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const playlistName = playlistNameInput.value.trim();
-      if (playlistName.length !== 0) {
-        const playlist: LocalPlaylist = {
-          name: playlistName,
-          addedAt: new Date().toISOString(),
-          videos: [video],
-        };
-        const playListNameExists = localPlaylists.some(
-          (playlist) =>
-            playlist.name.toLowerCase() === playlistName.toLowerCase()
-        );
+  // form submission
+  const form = modal.querySelector(".create-local-playlist-form")!;
+  const playlistNameInput = modal.querySelector(
+    ".playlist-name-input"
+  )! as HTMLInputElement;
+  //
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const playlistName = playlistNameInput.value.trim();
+    if (playlistName.length !== 0) {
+      const playlist: LocalPlaylist = {
+        name: playlistName,
+        addedAt: new Date().toISOString(),
+        videos: [video],
+      };
+      const playListNameExists = localPlaylists.some(
+        (playlist) => playlist.name.toLowerCase() === playlistName.toLowerCase()
+      );
 
-        if (playListNameExists) {
-          alert("Playlist name aleady exists");
-        } else {
-          const responseData: ResponseData = await chrome.runtime.sendMessage({
-            task: "createLocalPlaylist",
-            data: { playlist },
-          });
-          console.log(responseData);
-          if (responseData?.success) {
-            modal.remove();
-          } else {
-            alert("Something went wrong, Refresh and try again.");
-          }
-        }
+      if (playListNameExists) {
+        alert("Playlist name aleady exists");
       } else {
-        alert("Playlist name cannot be empty");
+        const responseData: ResponseData = await chrome.runtime.sendMessage({
+          task: "createLocalPlaylist",
+          data: { playlist },
+        });
+        console.log(responseData);
+        if (responseData?.success) {
+          modal.remove();
+        } else {
+          alert("Something went wrong, Refresh and try again.");
+        }
       }
-    });
+    } else {
+      alert("Playlist name cannot be empty");
+    }
   });
 }
