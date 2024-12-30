@@ -7,7 +7,7 @@ let observer: MutationObserver | null = null;
 let isProcessing = false;
 let debounceTimeout: number | undefined;
 
-export async function addVideoToLocalPlaylist(urlSlug: string) {
+export async function addVideoToLocalPlaylist() {
   if (observer) {
     observer.disconnect();
     observer = null;

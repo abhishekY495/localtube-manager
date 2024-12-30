@@ -13,7 +13,7 @@ const currentUrl = getCurrentUrl();
 
 if (videoUrlSlug.length > 0) {
   checkIfVideoLiked(String(videoUrlSlug));
-  addVideoToLocalPlaylist(String(videoUrlSlug));
+  addVideoToLocalPlaylist();
   checkIfChannelSubscribedFromVideoPage();
   if (currentUrl.includes("list=")) {
     checkIfYoutubePlaylistExistsFromVideoPage(currentUrl);
@@ -36,7 +36,7 @@ new MutationObserver(async () => {
         const tasks = [
           checkIfVideoLiked(String(videoUrlSlug)),
           checkIfChannelSubscribedFromVideoPage(),
-          addVideoToLocalPlaylist(String(videoUrlSlug)),
+          addVideoToLocalPlaylist(),
         ];
         if (currentUrl.includes("list=")) {
           tasks.push(checkIfYoutubePlaylistExistsFromVideoPage(currentUrl));
