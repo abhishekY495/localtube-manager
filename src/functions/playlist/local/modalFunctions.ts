@@ -19,12 +19,15 @@ export function showAddVideoToModal(
             ${
               localPlaylists.length === 0
                 ? `<p class="no-local-playlist-msg">No Local Playlists</p>`
-                : localPlaylists.map((playlist) => {
-                    return `<label class="playlist">
-                    <input type="checkbox" />
-                    ${playlist.name}
-                    </label>`;
-                  })
+                : localPlaylists
+                    .map((playlist) => {
+                      return `
+                      <label class="playlist">
+                        <input type="checkbox" />
+                        ${playlist.name}
+                      </label>`;
+                    })
+                    .join("")
             }
         </div>
         <button class="create-playlist-btn">Create +</button>
