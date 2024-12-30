@@ -16,7 +16,9 @@ export const addPlaylistToYoutubePlaylistStore = async (
   await youtubePlaylistsStore.add(playlist);
   await tx.done;
 };
-export const removePlaylistToYoutubePlaylistStore = async (urlSLug: string) => {
+export const removePlaylistFromYoutubePlaylistStore = async (
+  urlSLug: string
+) => {
   const db = await initializeYoutubeDB();
   const tx = db.transaction("youtubePlaylists", "readwrite");
   const youtubePlaylistsStore = tx.objectStore("youtubePlaylists");
@@ -55,7 +57,7 @@ export const addPlaylistToLocalPlaylistStore = async (
   await localPlaylistsStore.add(playlist);
   await tx.done;
 };
-export const removePlaylistToLocalPlaylistStore = async (urlSLug: string) => {
+export const removePlaylistFromLocalPlaylistStore = async (urlSLug: string) => {
   const db = await initializeYoutubeDB();
   const tx = db.transaction("localPlaylists", "readwrite");
   const localPlaylistsStore = tx.objectStore("localPlaylists");

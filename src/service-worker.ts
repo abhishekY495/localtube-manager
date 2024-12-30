@@ -8,7 +8,7 @@ import {
   addPlaylistToYoutubePlaylistStore,
   checkIfYoutubePlaylistSaved,
   getLocalPlaylists,
-  removePlaylistToYoutubePlaylistStore,
+  removePlaylistFromYoutubePlaylistStore,
 } from "./indexedDB/playlist";
 import {
   addVideoToLikedStore,
@@ -181,7 +181,7 @@ chrome.runtime.onMessage.addListener(
           const urlSlug = playlistData.urlSlug;
           const playlist = await checkIfYoutubePlaylistSaved(urlSlug);
           if (playlist) {
-            await removePlaylistToYoutubePlaylistStore(urlSlug);
+            await removePlaylistFromYoutubePlaylistStore(urlSlug);
             // @ts-ignore
             sendResponse({
               success: true,
