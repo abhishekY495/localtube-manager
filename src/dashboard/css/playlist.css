@@ -79,6 +79,11 @@
   width: 190px;
 }
 
+.local-playlist-container-1:hover,
+.local-playlist-container-2:hover {
+  cursor: pointer;
+}
+
 .youtube-playlist-name,
 .local-playlist-name {
   color: white;

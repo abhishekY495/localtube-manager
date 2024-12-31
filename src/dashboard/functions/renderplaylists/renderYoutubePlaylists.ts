@@ -24,23 +24,27 @@ export function renderYoutubePlaylists(
         playlistsContainer.innerHTML += `
           <div class="youtube-playlist">
             <div class="youtube-playlist-container-1">
-              ${
-                playlist?.coverImageUrlSlug?.length === 0
-                  ? `
-                    <img 
-                        class="youtube-playlist-image"
-                        src=${defaultChannelImage}
-                        alt="${playlist?.name}"
-                    />
-                    `
-                  : `
-                    <img 
-                        class="youtube-playlist-image"
-                        src="https://i.ytimg.com/vi/${playlist?.coverImageUrlSlug}/mqdefault.jpg" 
-                        alt="${playlist?.name}"
-                    />
-                    `
-              }
+              <a href="https://www.youtube.com/playlist?list=${
+                playlist?.urlSlug
+              }">
+                ${
+                  playlist?.coverImageUrlSlug?.length === 0
+                    ? `
+                  <img 
+                  class="youtube-playlist-image"
+                  src=${defaultChannelImage}
+                  alt="${playlist?.name}"
+                  />
+                  `
+                    : `
+                  <img 
+                  class="youtube-playlist-image"
+                  src="https://i.ytimg.com/vi/${playlist?.coverImageUrlSlug}/mqdefault.jpg" 
+                  alt="${playlist?.name}"
+                  />
+                  `
+                }
+              </a>
               <span class="youtube-playlist-videos-count">
               <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" height="12" viewBox="0 0 12 12" width="12" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;"><path d="M1 3h10v1H1V3Zm0 2h6v1H1V5Zm0 2h6v1H1V7Zm7-2 4 2.5L8 10V5Z"></path></svg>${
                 playlist?.videosCount
