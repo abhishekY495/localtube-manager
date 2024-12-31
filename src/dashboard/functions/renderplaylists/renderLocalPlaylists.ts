@@ -1,90 +1,75 @@
 import numeral from "numeral";
-import defaultChannelImage from "/src/dashboard/assets/default-channel-image.jpg";
-import { ResponseData, YoutubePlaylist } from "../../types";
+import defaultChannelImage from "/src/dashboard/assets/default-playlist-image.jpg";
+import { LocalPlaylist, ResponseData } from "../../../types";
 
-export function renderPlaylists(
-  youtubePlaylistsArr: YoutubePlaylist[],
+export function renderLocalPlaylists(
+  localPlaylistArr: LocalPlaylist[],
   playlistsContainer: HTMLElement,
   playlistsCount: HTMLElement
 ) {
   playlistsContainer.innerHTML = "";
-  if (youtubePlaylistsArr.length === 0) {
+  if (localPlaylistArr.length === 0) {
     playlistsContainer.innerHTML += `
         <p class="no-video-or-channel-message">
           No saved playlists
         </p>
       `;
   } else {
-    youtubePlaylistsArr
+    localPlaylistArr
       .sort(
         (a, b) =>
           new Date(b?.addedAt)?.getTime() - new Date(a?.addedAt)?.getTime()
       )
-      .map((playlist: YoutubePlaylist) => {
+      .map((playlist: LocalPlaylist) => {
         playlistsContainer.innerHTML += `
-          <div class="youtube-playlist">
-            <div class="youtube-playlist-container-1">
-              <a href="https://www.youtube.com/playlist?list=${
-                playlist?.urlSlug
-              }">
+          <div class="local-playlist">
+            <div class="local-playlist-container-1">
                 ${
-                  playlist?.coverImageUrlSlug?.length === 0
+                  playlist?.videos?.length === 0
                     ? `
                     <img 
-                        class="youtube-playlist-image"
-                        src=${defaultChannelImage}
+                        class="local-playlist-image"
+                        src="${defaultChannelImage}"
                         alt="${playlist?.name}"
                     />
                     `
                     : `
                     <img 
-                        class="youtube-playlist-image"
-                        src="https://i.ytimg.com/vi/${playlist?.coverImageUrlSlug}/mqdefault.jpg" 
+                        class="local-playlist-image"
+                        src="https://i.ytimg.com/vi/${playlist?.videos[0]?.urlSlug}/mqdefault.jpg" 
                         alt="${playlist?.name}"
                     />
                     `
                 }
-              </a>
-              <span class="youtube-playlist-videos-count">
+              <span class="local-playlist-videos-count">
               <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" height="12" viewBox="0 0 12 12" width="12" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;"><path d="M1 3h10v1H1V3Zm0 2h6v1H1V5Zm0 2h6v1H1V7Zm7-2 4 2.5L8 10V5Z"></path></svg>${
-                playlist?.videosCount
+                playlist?.videos?.length
               }</span>
             </div>
-            <div class="youtube-playlist-container-2">
-              <a href="https://www.youtube.com/playlist?list=${
-                playlist?.urlSlug
-              }" class="youtube-playlist-name" title="${playlist?.name}">${
+            <div class="local-playlist-container-2">
+              <p class="local-playlist-name" title="${playlist?.name}">${
           playlist?.name
-        }
-              </a>
-              <p class="youtube-playlist-channelname" title="${
-                playlist?.channelName
-              }">@${playlist?.channelName?.trim()}</p>
+        }</p>
             </div>
-            <button class="remove-youtube-playlist-btn">Remove</button>
+            <button class="remove-local-playlist-btn">Remove</button>
           </div>
         `;
       });
 
     // Add event listeners for unsubscribe buttons
     const removeButtons = playlistsContainer.querySelectorAll(
-      ".remove-youtube-playlist-btn"
+      ".remove-local-playlist-btn"
     );
     removeButtons.forEach((btn, index) => {
       btn.addEventListener("click", () => {
-        showModal(
-          youtubePlaylistsArr,
-          index,
-          playlistsContainer,
-          playlistsCount
-        );
+        showModal(localPlaylistArr, index, playlistsContainer, playlistsCount);
       });
     });
   }
 }
 
 function showModal(
-  youtubePlaylistsArr: YoutubePlaylist[],
+  localPlaylistArr: LocalPlaylist[],
   index: number,
   playlistsContainer: HTMLElement,
   playlistsCount: HTMLElement
@@ -96,7 +81,7 @@ function showModal(
     <div class="modal">
       <p class="modal-heading">Are you sure?</p>
       <div class="modal-buttons-container">
-        <button class="modal-remove-youtube-playlist-btn">Remove</button>
+        <button class="modal-remove-playlist-btn">Remove</button>
         <button class="modal-cancel-btn">Cancel</button>
       </div>
     </div>
@@ -104,24 +89,24 @@ function showModal(
   document.body.appendChild(modal);
 
   // Add event listener to "Remove" button
-  const removeBtn = modal.querySelector(".modal-remove-youtube-playlist-btn")!;
-  const playlist = youtubePlaylistsArr[index];
+  const removeBtn = modal.querySelector(".modal-remove-playlist-btn")!;
+  const playlist = localPlaylistArr[index];
   removeBtn.addEventListener("click", async () => {
     const responseData: ResponseData = await chrome.runtime.sendMessage({
-      task: "toggleYoutubePlaylist",
+      task: "removeLocalPlaylist",
       data: { playlist },
     });
     const success = responseData?.success;
 
     if (success) {
-      const newyoutubePlaylistsArr = youtubePlaylistsArr.filter(
-        (youtubePLaylist) => youtubePLaylist?.urlSlug !== playlist?.urlSlug
+      const newLocalPlaylistArr = localPlaylistArr.filter(
+        (localPlaylist) => localPlaylist?.name !== playlist?.name
       );
-      playlistsCount.innerText = numeral(newyoutubePlaylistsArr.length).format(
+      playlistsCount.innerText = numeral(newLocalPlaylistArr.length).format(
         "0a"
       );
-      renderPlaylists(
-        newyoutubePlaylistsArr,
+      renderLocalPlaylists(
+        newLocalPlaylistArr,
         playlistsContainer,
         playlistsCount
       );

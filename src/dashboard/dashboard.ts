@@ -1,7 +1,7 @@
 import "./css/dashboard.css";
 import "./css/likedVideos.css";
 import "./css/subscribedChannels.css";
-import "./css/youtubePlaylist.css";
+import "./css/playlist.css";
 import numeral from "numeral";
 import { getSubscribedChannels } from "../indexedDB/channel";
 import { getLikedVideos } from "../indexedDB/video";
@@ -11,7 +11,8 @@ import {
 } from "../indexedDB/playlist";
 import { renderLikedVideos } from "./functions/renderLikedVideos";
 import { renderSubscribedChannels } from "./functions/renderSubscribedChannels";
-import { renderPlaylists } from "./functions/renderPlaylists";
+import { renderYoutubePlaylists } from "./functions/renderplaylists/renderYoutubePlaylists";
+import { renderLocalPlaylists } from "./functions/renderplaylists/renderLocalPlaylists";
 import {
   LocalPlaylist,
   Video,
@@ -152,7 +153,11 @@ let selectedPlaylistType: "youtube" | "local" = "youtube";
       "selected-playlists-icon-count-container"
     );
     if (youtubePlaylistsArr) {
-      renderPlaylists(youtubePlaylistsArr, playlistsContainer, playlistsCount);
+      renderYoutubePlaylists(
+        youtubePlaylistsArr,
+        playlistsContainer,
+        playlistsCount
+      );
     }
     dashboardContainer.style.display = "none";
     likedVideosContainer.style.display = "none";
@@ -252,7 +257,7 @@ let selectedPlaylistType: "youtube" | "local" = "youtube";
     if (selectedPlaylistType === "youtube") {
       const youtubePlaylistsArr = await getYoutubePlaylists();
       if (youtubePlaylistsArr) {
-        renderPlaylists(
+        renderYoutubePlaylists(
           youtubePlaylistsArr,
           playlistsContainer,
           playlistsCount
@@ -262,7 +267,11 @@ let selectedPlaylistType: "youtube" | "local" = "youtube";
     if (selectedPlaylistType === "local") {
       const localPlaylistsArr = await getLocalPlaylistsDetailed();
       if (localPlaylistsArr) {
-        renderPlaylists(localPlaylistsArr, playlistsContainer, playlistsCount);
+        renderLocalPlaylists(
+          localPlaylistsArr,
+          playlistsContainer,
+          playlistsCount
+        );
       }
     }
     dashboardContainer.style.display = "none";
@@ -279,7 +288,11 @@ let selectedPlaylistType: "youtube" | "local" = "youtube";
     selectedPlaylistType = "youtube";
     const youtubePlaylistsArr = await getYoutubePlaylists();
     if (youtubePlaylistsArr) {
-      renderPlaylists(youtubePlaylistsArr, playlistsContainer, playlistsCount);
+      renderYoutubePlaylists(
+        youtubePlaylistsArr,
+        playlistsContainer,
+        playlistsCount
+      );
     }
   });
   localPlaylistsBtn?.addEventListener("click", async () => {
@@ -288,7 +301,11 @@ let selectedPlaylistType: "youtube" | "local" = "youtube";
     selectedPlaylistType = "local";
     const localPlaylistsArr = await getLocalPlaylistsDetailed();
     if (localPlaylistsArr) {
-      renderPlaylists(localPlaylistsArr, playlistsContainer, playlistsCount);
+      renderLocalPlaylists(
+        localPlaylistsArr,
+        playlistsContainer,
+        playlistsCount
+      );
     }
   });
 

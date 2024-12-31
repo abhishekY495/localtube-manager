@@ -9,6 +9,7 @@ import {
   addVideoToLocalPlaylist,
   checkIfYoutubePlaylistSaved,
   getLocalPlaylistsNotDetailed,
+  removePlaylistFromLocalPlaylistStore,
   removePlaylistFromYoutubePlaylistStore,
   removeVideoFromLocalPlaylist,
 } from "./indexedDB/playlist";
@@ -243,6 +244,29 @@ chrome.runtime.onMessage.addListener(
           sendResponse({
             success: true,
             data: { isLocalPlaylistCreated: true },
+          });
+        } catch (error) {
+          // @ts-ignore
+          sendResponse({
+            success: false,
+            error: {
+              message: error instanceof Error ? error?.message : String(error),
+              name: error instanceof Error ? error?.name : "Unknown Error",
+            },
+          });
+        }
+      })();
+      return true;
+    }
+    if (request.task === "removeLocalPlaylist") {
+      const localPlaylist: LocalPlaylist = request?.data?.playlist;
+      (async () => {
+        try {
+          await removePlaylistFromLocalPlaylistStore(localPlaylist.name);
+          // @ts-ignore
+          sendResponse({
+            success: true,
+            data: { isLocalPlaylistRemoved: true },
           });
         } catch (error) {
           // @ts-ignore

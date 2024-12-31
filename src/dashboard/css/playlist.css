@@ -40,7 +40,8 @@
   color: #fff;
 }
 
-.youtube-playlist {
+.youtube-playlist,
+.local-playlist {
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -49,31 +50,37 @@
   margin: 8px;
   border-radius: 4px;
 }
-.youtube-playlist:hover {
+.youtube-playlist:hover,
+.local-playlist:hover {
   background-color: #d5d5d51a;
 }
-.youtube-playlist:hover .youtube-playlist-image {
+.youtube-playlist:hover .youtube-playlist-image,
+.local-playlist:hover .local-playlist-image {
   opacity: 0.9;
 }
 
-.youtube-playlist-image {
+.youtube-playlist-image,
+.local-playlist-image {
   width: 100%;
   border-radius: 4px;
 }
 
-.youtube-playlist-container-1 {
+.youtube-playlist-container-1,
+.local-playlist-container-1 {
   position: relative;
 }
 
-.youtube-playlist-container-2 {
+.youtube-playlist-container-2,
+.local-playlist-container-2 {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 3px;
   margin: 3px 0 5px 0;
   width: 190px;
 }
 
-.youtube-playlist-name {
+.youtube-playlist-name,
+.local-playlist-name {
   color: white;
   font-size: 16px;
   font-weight: 600;
@@ -93,7 +100,8 @@
   text-overflow: ellipsis;
 }
 
-.youtube-playlist-videos-count {
+.youtube-playlist-videos-count,
+.local-playlist-videos-count {
   display: flex;
   gap: 2px;
   position: absolute;
@@ -108,7 +116,8 @@
   align-items: center;
 }
 
-.remove-youtube-playlist-btn {
+.remove-youtube-playlist-btn,
+.remove-local-playlist-btn {
   background-color: #252525;
   color: #dddddd;
   font-size: 14px;
@@ -117,7 +126,8 @@
   border: 1px solid #cccccc30;
   border-radius: 4px;
 }
-.remove-youtube-playlist-btn:hover {
+.remove-youtube-playlist-btn:hover,
+.remove-local-playlist-btn:hover {
   cursor: pointer;
   background-color: #801a1a9e;
 }
