@@ -241,6 +241,7 @@ let selectedPlaylistType: "youtube" | "local" = "youtube";
   });
 
   playlistsIconCountContainer?.addEventListener("click", async () => {
+    playlistsContainer.style.display = "grid";
     playlistsIconCountContainer?.classList.add(
       "selected-playlists-icon-count-container"
     );
@@ -283,6 +284,7 @@ let selectedPlaylistType: "youtube" | "local" = "youtube";
   });
 
   youtubePlaylistsBtn?.addEventListener("click", async () => {
+    playlistsContainer.style.display = "grid";
     localPlaylistsBtn.classList.remove("playlist-type-selected");
     youtubePlaylistsBtn.classList.add("playlist-type-selected");
     selectedPlaylistType = "youtube";
@@ -296,6 +298,7 @@ let selectedPlaylistType: "youtube" | "local" = "youtube";
     }
   });
   localPlaylistsBtn?.addEventListener("click", async () => {
+    playlistsContainer.style.display = "grid";
     youtubePlaylistsBtn.classList.remove("playlist-type-selected");
     localPlaylistsBtn.classList.add("playlist-type-selected");
     selectedPlaylistType = "local";
