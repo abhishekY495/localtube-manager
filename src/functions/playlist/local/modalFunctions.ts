@@ -1,11 +1,15 @@
 import { crossIcon } from "../../../helpers/playlist/crossIcon";
-import { LocalPlaylist, ResponseData, Video } from "../../../types";
+import {
+  LocalPlaylist,
+  LocalPlaylistNotDetailed,
+  ResponseData,
+  Video,
+} from "../../../types";
 
 export function showAddVideoToModal(
-  localPlaylists: LocalPlaylist[],
+  localPlaylists: LocalPlaylistNotDetailed[],
   video: Video
 ) {
-  console.log(localPlaylists);
   const modal = document.createElement("div");
   modal.className = "modal-overlay";
   modal.innerHTML = `
@@ -16,25 +20,56 @@ export function showAddVideoToModal(
         </div>
         <div class="modal-content">
         <div class="playlists-container">
-            ${
-              localPlaylists.length === 0
-                ? `<p class="no-local-playlist-msg">No Local Playlists</p>`
-                : localPlaylists
-                    .map((playlist) => {
-                      return `
-                      <label class="playlist">
-                        <input type="checkbox" />
-                        ${playlist.name}
-                      </label>`;
-                    })
-                    .join("")
-            }
+          ${
+            localPlaylists.length === 0
+              ? `<p class="no-local-playlist-msg">No Local Playlists</p>`
+              : localPlaylists
+                  .map((playlist) => {
+                    const isSlugInPlaylist = playlist.videos.includes(
+                      video.urlSlug
+                    );
+                    return `
+                    <label class="playlist">
+                      <input type="checkbox" ${
+                        isSlugInPlaylist ? "checked" : ""
+                      } data-playlist-name="${playlist.name}" />
+                      ${playlist.name}
+                    </label>`;
+                  })
+                  .join("")
+          }
         </div>
         <button class="create-playlist-btn">Create +</button>
         </div>
     </div>
-    `;
+  `;
   document.body.appendChild(modal);
+
+  // Add event listener to checkboxes
+  const checkboxes = modal.querySelectorAll(
+    ".playlists-container input[type='checkbox']"
+  )!;
+  checkboxes.forEach((checkbox) => {
+    checkbox.addEventListener("change", async (e) => {
+      const target = e.target as HTMLInputElement;
+      const playlistName = target.dataset.playlistName;
+      if (target.checked) {
+        console.log("playlist added");
+        const responseData: ResponseData = await chrome.runtime.sendMessage({
+          task: "addVideoToLocalPlaylist",
+          data: { playlistName, videoData: video },
+        });
+        console.log(responseData);
+      } else {
+        console.log("playlist removed");
+        const responseData: ResponseData = await chrome.runtime.sendMessage({
+          task: "removeVideoFromLocalPlaylist",
+          data: { playlistName, videoData: video },
+        });
+        console.log(responseData);
+      }
+    });
+  });
 
   // Add event listener to cross icon
   const crossIconContainer = modal.querySelector(
@@ -59,7 +94,7 @@ export function showAddVideoToModal(
 function showCreateLocalPlaylist(
   modal: HTMLElement,
   video: Video,
-  localPlaylists: LocalPlaylist[]
+  localPlaylists: LocalPlaylistNotDetailed[]
 ) {
   modal.innerHTML = "";
   modal.innerHTML = `

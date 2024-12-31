@@ -1,4 +1,4 @@
-import { LocalPlaylist, YoutubePlaylist } from "../types";
+import { LocalPlaylist, Video, YoutubePlaylist } from "../types";
 import { initializeYoutubeDB } from "./initializeYoutubeDB";
 
 // Youtube
@@ -64,10 +64,54 @@ export const removePlaylistFromLocalPlaylistStore = async (urlSLug: string) => {
   await localPlaylistsStore.delete(urlSLug);
   await tx.done;
 };
-export const getLocalPlaylists = async () => {
+
+export const addVideoToLocalPlaylist = async (
+  playlistName: string,
+  video: Video
+) => {
+  const db = await initializeYoutubeDB();
+  const playlist: LocalPlaylist = await db.get("localPlaylists", playlistName);
+  if (playlist) {
+    playlist.videos.push(video);
+    await db.put("localPlaylists", playlist);
+  } else {
+    throw new Error(`${playlistName} playlist not found.`);
+  }
+  return playlist;
+};
+export const removeVideoFromLocalPlaylist = async (
+  playlistName: string,
+  video: Video
+) => {
+  const db = await initializeYoutubeDB();
+  const playlist: LocalPlaylist = await db.get("localPlaylists", playlistName);
+  if (playlist) {
+    playlist.videos = playlist.videos.filter(
+      (existingVideo) => existingVideo.urlSlug !== video.urlSlug
+    );
+    await db.put("localPlaylists", playlist);
+  } else {
+    throw new Error(`${playlistName} playlist not found.`);
+  }
+  return playlist;
+};
+
+export const getLocalPlaylistsDetailed = async () => {
   const db = await initializeYoutubeDB();
   const localPlaylists = await db.getAll("localPlaylists");
   return localPlaylists;
+};
+export const getLocalPlaylistsNotDetailed = async () => {
+  const db = await initializeYoutubeDB();
+  const localPlaylists = await db.getAll("localPlaylists");
+  const newLocalPlaylists = localPlaylists.map((playlist) => {
+    return {
+      name: playlist.name,
+      addedAt: playlist.addedAt,
+      videos: playlist.videos.map((video: Video) => video.urlSlug),
+    };
+  });
+  return newLocalPlaylists;
 };
 export const getLocalPlaylistCount = async () => {
   const db = await initializeYoutubeDB();

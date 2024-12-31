@@ -5,7 +5,10 @@ import "./css/youtubePlaylist.css";
 import numeral from "numeral";
 import { getSubscribedChannels } from "../indexedDB/channel";
 import { getLikedVideos } from "../indexedDB/video";
-import { getLocalPlaylists, getYoutubePlaylists } from "../indexedDB/playlist";
+import {
+  getLocalPlaylistsDetailed,
+  getYoutubePlaylists,
+} from "../indexedDB/playlist";
 import { renderLikedVideos } from "./functions/renderLikedVideos";
 import { renderSubscribedChannels } from "./functions/renderSubscribedChannels";
 import { renderPlaylists } from "./functions/renderPlaylists";
@@ -28,7 +31,7 @@ let selectedPlaylistType: "youtube" | "local" = "youtube";
   likedVideosArr = await getLikedVideos();
   subscribedChannelsArr = await getSubscribedChannels();
   youtubePlaylistsArr = await getYoutubePlaylists();
-  localPlaylistsArr = await getLocalPlaylists();
+  localPlaylistsArr = await getLocalPlaylistsDetailed();
 
   const likedVideosIconCountContainer = document.querySelector(
     ".liked-videos-icon-count-container"
@@ -257,7 +260,7 @@ let selectedPlaylistType: "youtube" | "local" = "youtube";
       }
     }
     if (selectedPlaylistType === "local") {
-      const localPlaylistsArr = await getLocalPlaylists();
+      const localPlaylistsArr = await getLocalPlaylistsDetailed();
       if (localPlaylistsArr) {
         renderPlaylists(localPlaylistsArr, playlistsContainer, playlistsCount);
       }
@@ -283,7 +286,7 @@ let selectedPlaylistType: "youtube" | "local" = "youtube";
     youtubePlaylistsBtn.classList.remove("playlist-type-selected");
     localPlaylistsBtn.classList.add("playlist-type-selected");
     selectedPlaylistType = "local";
-    const localPlaylistsArr = await getLocalPlaylists();
+    const localPlaylistsArr = await getLocalPlaylistsDetailed();
     if (localPlaylistsArr) {
       renderPlaylists(localPlaylistsArr, playlistsContainer, playlistsCount);
     }

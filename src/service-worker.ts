@@ -6,9 +6,11 @@ import {
 import {
   addPlaylistToLocalPlaylistStore,
   addPlaylistToYoutubePlaylistStore,
+  addVideoToLocalPlaylist,
   checkIfYoutubePlaylistSaved,
-  getLocalPlaylists,
+  getLocalPlaylistsNotDetailed,
   removePlaylistFromYoutubePlaylistStore,
+  removeVideoFromLocalPlaylist,
 } from "./indexedDB/playlist";
 import {
   addVideoToLikedStore,
@@ -213,7 +215,7 @@ chrome.runtime.onMessage.addListener(
     if (request.task === "getLocalPlaylists") {
       (async () => {
         try {
-          const playlists = await getLocalPlaylists();
+          const playlists = await getLocalPlaylistsNotDetailed();
           // @ts-ignore
           sendResponse({
             success: true,
@@ -240,7 +242,55 @@ chrome.runtime.onMessage.addListener(
           // @ts-ignore
           sendResponse({
             success: true,
-            data: { isLocalPlaylistCraeted: true },
+            data: { isLocalPlaylistCreated: true },
+          });
+        } catch (error) {
+          // @ts-ignore
+          sendResponse({
+            success: false,
+            error: {
+              message: error instanceof Error ? error?.message : String(error),
+              name: error instanceof Error ? error?.name : "Unknown Error",
+            },
+          });
+        }
+      })();
+      return true;
+    }
+    if (request.task === "addVideoToLocalPlaylist") {
+      const playlistName: string = request?.data?.playlistName;
+      const videoData: Video = request?.data?.videoData;
+      (async () => {
+        try {
+          await addVideoToLocalPlaylist(playlistName, videoData);
+          // @ts-ignore
+          sendResponse({
+            success: true,
+            data: { isVideoAddedToLocalPlaylist: true },
+          });
+        } catch (error) {
+          // @ts-ignore
+          sendResponse({
+            success: false,
+            error: {
+              message: error instanceof Error ? error?.message : String(error),
+              name: error instanceof Error ? error?.name : "Unknown Error",
+            },
+          });
+        }
+      })();
+      return true;
+    }
+    if (request.task === "removeVideoFromLocalPlaylist") {
+      const playlistName: string = request?.data?.playlistName;
+      const videoData: Video = request?.data?.videoData;
+      (async () => {
+        try {
+          await removeVideoFromLocalPlaylist(playlistName, videoData);
+          // @ts-ignore
+          sendResponse({
+            success: true,
+            data: { isVideoRemovedFromLocalPlaylist: true },
           });
         } catch (error) {
           // @ts-ignore

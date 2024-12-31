@@ -6,14 +6,14 @@ import { checkIfChannelSubscribedFromVideoPage } from "../functions/channel/chec
 import { checkIfChannelSubscribedFromChannelPage } from "../functions/channel/checkIfChannelSubscribedFromChannelPage";
 import { checkIfYoutubePlaylistExistsFromVideoPage } from "../functions/playlist/checkIfYoutubePlaylistExistsFromVideoPage";
 import { checkIfYoutubePlaylistExistsFromPlaylistPage } from "../functions/playlist/checkIfYoutubePlaylistExistsFromPlaylistPage";
-import { addVideoToLocalPlaylist } from "../functions/playlist/local/addVideoToLocalPlaylist";
+import { toggleLocalPlaylist } from "../functions/playlist/local/toggleLocalPlaylist";
 
 const videoUrlSlug = getVideoUrlSlug();
 const currentUrl = getCurrentUrl();
 
 if (videoUrlSlug.length > 0) {
   checkIfVideoLiked(String(videoUrlSlug));
-  addVideoToLocalPlaylist();
+  toggleLocalPlaylist();
   checkIfChannelSubscribedFromVideoPage();
   if (currentUrl.includes("list=")) {
     checkIfYoutubePlaylistExistsFromVideoPage(currentUrl);
@@ -36,7 +36,7 @@ new MutationObserver(async () => {
         const tasks = [
           checkIfVideoLiked(String(videoUrlSlug)),
           checkIfChannelSubscribedFromVideoPage(),
-          addVideoToLocalPlaylist(),
+          toggleLocalPlaylist(),
         ];
         if (currentUrl.includes("list=")) {
           tasks.push(checkIfYoutubePlaylistExistsFromVideoPage(currentUrl));

@@ -1,13 +1,13 @@
 import { savedPlaylistIcon } from "../../../helpers/playlist/savedNotsavedPlaylistIcon";
 import { getVideoObj } from "../../../helpers/video/getVideoObj";
-import { LocalPlaylist, ResponseData } from "../../../types";
+import { LocalPlaylistNotDetailed, ResponseData } from "../../../types";
 import { showAddVideoToModal } from "./modalFunctions";
 
 let observer: MutationObserver | null = null;
 let isProcessing = false;
 let debounceTimeout: number | undefined;
 
-export async function addVideoToLocalPlaylist() {
+export async function toggleLocalPlaylist() {
   if (observer) {
     observer.disconnect();
     observer = null;
@@ -90,7 +90,8 @@ export async function addVideoToLocalPlaylist() {
           const responseData: ResponseData = await chrome.runtime.sendMessage({
             task: "getLocalPlaylists",
           });
-          const localPlaylists: LocalPlaylist[] = responseData?.data?.playlists;
+          const localPlaylists: LocalPlaylistNotDetailed[] =
+            responseData?.data?.playlists;
           const video = getVideoObj(document, aboveTheFoldElement);
           showAddVideoToModal(localPlaylists, video);
         }

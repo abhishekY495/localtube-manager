@@ -31,6 +31,12 @@ export type LocalPlaylist = {
   addedAt: string;
 };
 
+export type LocalPlaylistNotDetailed = {
+  name: string;
+  videos: string[];
+  addedAt: string;
+};
+
 export type RequestData = {
   task: string;
   data: Record<string, any>;
