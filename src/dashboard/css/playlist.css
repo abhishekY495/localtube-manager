@@ -166,7 +166,7 @@
 
 .selected-playlist-video-container-1 {
   position: relative;
-  width: 100px;
+  width: 110px;
 }
 
 .selected-playlist-videos-container {
@@ -242,6 +242,22 @@
 .channel-name {
   color: #a0a0a0;
   font-size: 12px;
+}
+
+.remove-video-from-playlist-btn {
+  width: fit-content;
+  background-color: #333;
+  color: #dddddd;
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 8px;
+  padding: 4px 10px;
+  border: 1px solid #cccccc30;
+  border-radius: 5px;
+}
+.remove-video-from-playlist-btn:hover {
+  cursor: pointer;
+  background-color: #801a1a9e;
 }
 
 /* iframe */

@@ -188,12 +188,14 @@ h1 {
 
 .modal-remove-btn,
 .modal-unsubscribe-btn,
-.modal-remove-playlist-btn {
+.modal-remove-playlist-btn,
+.modal-remove-video-from-playlist-btn {
   background-color: #ff4646;
 }
 .modal-remove-btn:hover,
 .modal-unsubscribe-btn:hover,
-.modal-remove-playlist-btn:hover {
+.modal-remove-playlist-btn:hover,
+.modal-remove-video-from-playlist-btn:hover {
   background-color: #ff3333;
 }
 .modal-cancel-btn {

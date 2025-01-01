@@ -80,74 +80,145 @@ export function renderLocalPlaylists(
         const playlistIndex = playlistDiv.getAttribute("data-index");
         if (playlistIndex !== null) {
           const selectedPlaylist = localPlaylistArr[Number(playlistIndex)];
-          playlistsContainer.style.display = "block";
-          playlistsContainer.innerHTML = "";
-          playlistsContainer.innerHTML = `
-            <div class="selected-playlist">
-              <div class="selected-playlist-container-1">
-                <p class="selected-playlist-name">${selectedPlaylist?.name}</p>
-                <div class="selected-playlist-videos-container">
-                  ${selectedPlaylist?.videos
-                    .map((video, index) => {
-                      return `
-                      <div class="selected-playlist-video ${
-                        index === 0 && "selected-video"
-                      }" data-index="${index}">
-                        <div class="selected-playlist-video-container-1">
-                          <img
-                            class="video-thumbnail" 
-                            src="https://i.ytimg.com/vi/${
-                              video?.urlSlug
-                            }/mqdefault.jpg"
-                            alt="${video?.title}"
-                            onerror="this.onerror=null; this.src='${defaultVideoThumbnail}';"
-                          />
-                          <span class="video-duration">${video?.duration}</span>
-                        </div>
-                        <div class="selected-playlist-video-container-2">
-                          <p class="video-title">${video?.title}</p>
-                          <p class="channel-name">${video?.channelName}</p>
-                        </div>
-                      </div>
-                    `;
-                    })
-                    .join("")}               
-                </div>
-              </div>
-              <div class="selected-playlist-container-2">
-                <iframe class="video-iframe" width="100%" height="100%" src="https://www.youtube.com/embed/${
-                  selectedPlaylist?.videos[0]?.urlSlug
-                }"></iframe>
-              </div>
-            </div>
-          `;
-
-          // Add event listener to each video div
-          const videoDivs = playlistsContainer.querySelectorAll(
-            ".selected-playlist-video"
-          );
-          const iframe = playlistsContainer.querySelector(
-            ".video-iframe"
-          )! as HTMLIFrameElement;
-
-          videoDivs.forEach((videoDiv) => {
-            videoDiv.addEventListener("click", () => {
-              videoDivs.forEach((div) =>
-                div.classList.remove("selected-video")
-              );
-              videoDiv.classList.add("selected-video");
-              const videoIndex = videoDiv.getAttribute("data-index");
-              const clickedVideo = selectedPlaylist?.videos[Number(videoIndex)];
-
-              if (clickedVideo) {
-                iframe.src = `https://www.youtube.com/embed/${clickedVideo.urlSlug}`;
-              }
-            });
-          });
+          showSelectedPlaylistVideos(playlistsContainer, selectedPlaylist);
         }
       }
     });
   }
+}
+
+function showSelectedPlaylistVideos(
+  playlistsContainer: HTMLElement,
+  selectedPlaylist: LocalPlaylist
+) {
+  playlistsContainer.style.display = "block";
+  playlistsContainer.innerHTML = "";
+  playlistsContainer.innerHTML = `
+    <div class="selected-playlist">
+      <div class="selected-playlist-container-1">
+        <p class="selected-playlist-name">${selectedPlaylist?.name}</p>
+        <div class="selected-playlist-videos-container">
+          ${selectedPlaylist?.videos
+            .map((video, index) => {
+              return `
+              <div class="selected-playlist-video ${
+                index === 0 && "selected-video"
+              }" data-index="${index}">
+                <div class="selected-playlist-video-container-1">
+                  <img
+                    class="video-thumbnail" 
+                    src="https://i.ytimg.com/vi/${video?.urlSlug}/mqdefault.jpg"
+                    alt="${video?.title}"
+                    onerror="this.onerror=null; this.src='${defaultVideoThumbnail}';"
+                  />
+                  <span class="video-duration">${video?.duration}</span>
+                </div>
+                <div class="selected-playlist-video-container-2">
+                  <p class="video-title">${video?.title}</p>
+                  <p class="channel-name">${video?.channelName}</p>
+                  <button class="remove-video-from-playlist-btn">Remove</button>
+                </div>
+              </div>
+            `;
+            })
+            .join("")}               
+        </div>
+      </div>
+      <div class="selected-playlist-container-2">
+        <iframe class="video-iframe" allowfullscreen width="100%" height="100%" src="https://www.youtube.com/embed/${
+          selectedPlaylist?.videos[0]?.urlSlug
+        }"></iframe>
+      </div>
+    </div>
+  `;
+
+  // Add event listener to each video div
+  const videoDivs = playlistsContainer.querySelectorAll(
+    ".selected-playlist-video"
+  );
+  const iframe = playlistsContainer.querySelector(
+    ".video-iframe"
+  )! as HTMLIFrameElement;
+  videoDivs.forEach((videoDiv) => {
+    videoDiv.addEventListener("click", () => {
+      videoDivs.forEach((div) => div.classList.remove("selected-video"));
+      videoDiv.classList.add("selected-video");
+      const videoIndex = videoDiv.getAttribute("data-index");
+      const clickedVideo = selectedPlaylist?.videos[Number(videoIndex)];
+
+      if (clickedVideo) {
+        iframe.src = `https://www.youtube.com/embed/${clickedVideo.urlSlug}`;
+      }
+    });
+  });
+
+  // Add event listener to remove btns
+  const removeBtns = playlistsContainer.querySelectorAll(
+    ".remove-video-from-playlist-btn"
+  )! as NodeList;
+  if (removeBtns.length !== 0) {
+    removeBtns.forEach((removeBtn, index) => {
+      removeBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        showRemoveVideoFromPlaylistModal(
+          selectedPlaylist,
+          index,
+          playlistsContainer
+        );
+      });
+    });
+  }
+}
+
+function showRemoveVideoFromPlaylistModal(
+  selectedPlaylist: LocalPlaylist,
+  index: number,
+  playlistsContainer: HTMLElement
+) {
+  // Create modal HTML structure
+  const modal = document.createElement("div");
+  modal.className = "modal-overlay";
+  modal.innerHTML = `
+    <div class="modal">
+      <p class="modal-heading">Are you sure?</p>
+      <div class="modal-buttons-container">
+        <button class="modal-remove-video-from-playlist-btn">Remove</button>
+        <button class="modal-cancel-btn">Cancel</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  // Add event listener to "Remove" button
+  const removeBtn = modal.querySelector(
+    ".modal-remove-video-from-playlist-btn"
+  )!;
+  const video = selectedPlaylist.videos[index];
+  removeBtn.addEventListener("click", async () => {
+    const responseData: ResponseData = await chrome.runtime.sendMessage({
+      task: "removeVideoFromLocalPlaylist",
+      data: { playlistName: selectedPlaylist.name, videoData: video },
+    });
+    const success = responseData?.success;
+    const updatedPlaylist = responseData?.data?.updatedPlaylist;
+
+    if (success) {
+      showSelectedPlaylistVideos(playlistsContainer, updatedPlaylist);
+    }
+
+    closeModal(modal);
+  });
+
+  // Add event listener to "Cancel" button
+  const cancelBtn = modal.querySelector(".modal-cancel-btn")!;
+  cancelBtn.addEventListener("click", () => closeModal(modal));
+
+  // Close modal when clicking outside of it
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      closeModal(modal);
+    }
+  });
 }
 
 function showModal(

@@ -310,11 +310,14 @@ chrome.runtime.onMessage.addListener(
       const videoData: Video = request?.data?.videoData;
       (async () => {
         try {
-          await removeVideoFromLocalPlaylist(playlistName, videoData);
+          const updatedPlaylist = await removeVideoFromLocalPlaylist(
+            playlistName,
+            videoData
+          );
           // @ts-ignore
           sendResponse({
             success: true,
-            data: { isVideoRemovedFromLocalPlaylist: true },
+            data: { isVideoRemovedFromLocalPlaylist: true, updatedPlaylist },
           });
         } catch (error) {
           // @ts-ignore
