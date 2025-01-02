@@ -1,4 +1,5 @@
 import "./content.css";
+import "notyf/notyf.min.css";
 import { getVideoUrlSlug } from "../helpers/video/getVideoUrlSlug";
 import { getCurrentUrl } from "../helpers/getCurrentUrl";
 import { checkIfVideoLiked } from "../functions/video/checkIfVideoLiked";

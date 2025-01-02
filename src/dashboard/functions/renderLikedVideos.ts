@@ -1,6 +1,9 @@
 import numeral from "numeral";
-import defaultVideoThumbnail from "/src/dashboard/assets/default-video-thumbnail.jpg";
+import { Notyf } from "notyf";
 import { ResponseData, Video } from "../../types";
+import defaultVideoThumbnail from "/src/dashboard/assets/default-video-thumbnail.jpg";
+
+const notyf = new Notyf();
 
 export function renderLikedVideos(
   likedVideosArr: Video[],
@@ -102,7 +105,7 @@ function showModal(
       task: "toggleLikedVideo",
       data: { video },
     });
-    const success = responseData?.success;
+    const { success, error } = responseData;
 
     if (success) {
       const newLikedVideosArr = likedVideosArr.filter(
@@ -116,9 +119,19 @@ function showModal(
         likedVideosContainer,
         likedVideosCount
       );
+      closeModal(modal);
+    } else {
+      console.error("Error removing liked video", error);
+      notyf.open({
+        type: "error",
+        message: "Something went wrong <br />Please refresh and try again",
+        position: { x: "left", y: "bottom" },
+        duration: 3000,
+        dismissible: true,
+        className: "toast-message",
+        icon: false,
+      });
     }
-
-    closeModal(modal);
   });
 
   // Add event listener to "Cancel" button

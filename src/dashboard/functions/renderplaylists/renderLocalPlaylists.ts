@@ -1,7 +1,10 @@
 import numeral from "numeral";
+import { Notyf } from "notyf";
+import { LocalPlaylist, ResponseData } from "../../../types";
 import defaultChannelImage from "/src/dashboard/assets/default-playlist-image.jpg";
 import defaultVideoThumbnail from "/src/dashboard/assets/default-video-thumbnail.jpg";
-import { LocalPlaylist, ResponseData } from "../../../types";
+
+const notyf = new Notyf();
 
 export function renderLocalPlaylists(
   localPlaylistArr: LocalPlaylist[],
@@ -12,7 +15,7 @@ export function renderLocalPlaylists(
   if (localPlaylistArr.length === 0) {
     playlistsContainer.innerHTML += `
         <p class="no-video-or-channel-message">
-          No saved playlists
+          No Local playlists
         </p>
       `;
   } else {
@@ -64,7 +67,12 @@ export function renderLocalPlaylists(
     removeButtons.forEach((btn, index) => {
       btn.addEventListener("click", (e) => {
         e.stopPropagation();
-        showModal(localPlaylistArr, index, playlistsContainer, playlistsCount);
+        showRemovePlaylistModal(
+          localPlaylistArr,
+          index,
+          playlistsContainer,
+          playlistsCount
+        );
       });
     });
 
@@ -85,6 +93,75 @@ export function renderLocalPlaylists(
       }
     });
   }
+}
+
+function showRemovePlaylistModal(
+  localPlaylistArr: LocalPlaylist[],
+  index: number,
+  playlistsContainer: HTMLElement,
+  playlistsCount: HTMLElement
+) {
+  // Create modal HTML structure
+  const modal = document.createElement("div");
+  modal.className = "modal-overlay";
+  modal.innerHTML = `
+    <div class="modal">
+      <p class="modal-heading">Are you sure?</p>
+      <div class="modal-buttons-container">
+        <button class="modal-remove-playlist-btn">Remove</button>
+        <button class="modal-cancel-btn">Cancel</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  // Add event listener to "Remove" button
+  const removeBtn = modal.querySelector(".modal-remove-playlist-btn")!;
+  const playlist = localPlaylistArr[index];
+  removeBtn.addEventListener("click", async () => {
+    const responseData: ResponseData = await chrome.runtime.sendMessage({
+      task: "removeLocalPlaylist",
+      data: { playlist },
+    });
+    const { success, error } = responseData;
+
+    if (success) {
+      const newLocalPlaylistArr = localPlaylistArr.filter(
+        (localPlaylist) => localPlaylist?.name !== playlist?.name
+      );
+      playlistsCount.innerText = numeral(newLocalPlaylistArr.length).format(
+        "0a"
+      );
+      renderLocalPlaylists(
+        newLocalPlaylistArr,
+        playlistsContainer,
+        playlistsCount
+      );
+      closeModal(modal);
+    } else {
+      console.error("Error removing local playlist", error);
+      notyf.open({
+        type: "error",
+        message: "Something went wrong <br />Please refresh and try again",
+        position: { x: "left", y: "bottom" },
+        duration: 3000,
+        dismissible: true,
+        className: "toast-message",
+        icon: false,
+      });
+    }
+  });
+
+  // Add event listener to "Cancel" button
+  const cancelBtn = modal.querySelector(".modal-cancel-btn")!;
+  cancelBtn.addEventListener("click", () => closeModal(modal));
+
+  // Close modal when clicking outside of it
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      closeModal(modal);
+    }
+  });
 }
 
 function showSelectedPlaylistVideos(
@@ -199,73 +276,24 @@ function showRemoveVideoFromPlaylistModal(
       task: "removeVideoFromLocalPlaylist",
       data: { playlistName: selectedPlaylist.name, videoData: video },
     });
-    const success = responseData?.success;
-    const updatedPlaylist = responseData?.data?.updatedPlaylist;
+    const { success, data, error } = responseData;
 
     if (success) {
+      const updatedPlaylist = data?.updatedPlaylist;
       showSelectedPlaylistVideos(playlistsContainer, updatedPlaylist);
-    }
-
-    closeModal(modal);
-  });
-
-  // Add event listener to "Cancel" button
-  const cancelBtn = modal.querySelector(".modal-cancel-btn")!;
-  cancelBtn.addEventListener("click", () => closeModal(modal));
-
-  // Close modal when clicking outside of it
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) {
       closeModal(modal);
+    } else {
+      console.error("Error removing video from local playlist", error);
+      notyf.open({
+        type: "error",
+        message: "Something went wrong <br />Please refresh and try again",
+        position: { x: "left", y: "bottom" },
+        duration: 3000,
+        dismissible: true,
+        className: "toast-message",
+        icon: false,
+      });
     }
-  });
-}
-
-function showModal(
-  localPlaylistArr: LocalPlaylist[],
-  index: number,
-  playlistsContainer: HTMLElement,
-  playlistsCount: HTMLElement
-) {
-  // Create modal HTML structure
-  const modal = document.createElement("div");
-  modal.className = "modal-overlay";
-  modal.innerHTML = `
-    <div class="modal">
-      <p class="modal-heading">Are you sure?</p>
-      <div class="modal-buttons-container">
-        <button class="modal-remove-playlist-btn">Remove</button>
-        <button class="modal-cancel-btn">Cancel</button>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(modal);
-
-  // Add event listener to "Remove" button
-  const removeBtn = modal.querySelector(".modal-remove-playlist-btn")!;
-  const playlist = localPlaylistArr[index];
-  removeBtn.addEventListener("click", async () => {
-    const responseData: ResponseData = await chrome.runtime.sendMessage({
-      task: "removeLocalPlaylist",
-      data: { playlist },
-    });
-    const success = responseData?.success;
-
-    if (success) {
-      const newLocalPlaylistArr = localPlaylistArr.filter(
-        (localPlaylist) => localPlaylist?.name !== playlist?.name
-      );
-      playlistsCount.innerText = numeral(newLocalPlaylistArr.length).format(
-        "0a"
-      );
-      renderLocalPlaylists(
-        newLocalPlaylistArr,
-        playlistsContainer,
-        playlistsCount
-      );
-    }
-
-    closeModal(modal);
   });
 
   // Add event listener to "Cancel" button

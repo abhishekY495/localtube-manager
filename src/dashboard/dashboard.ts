@@ -2,6 +2,7 @@ import "./css/dashboard.css";
 import "./css/likedVideos.css";
 import "./css/subscribedChannels.css";
 import "./css/playlist.css";
+import "notyf/notyf.min.css";
 import numeral from "numeral";
 import { getSubscribedChannels } from "../indexedDB/channel";
 import { getLikedVideos } from "../indexedDB/video";

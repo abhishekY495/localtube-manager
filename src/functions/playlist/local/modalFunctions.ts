@@ -1,3 +1,4 @@
+import { Notyf } from "notyf";
 import { crossIcon } from "../../../helpers/playlist/crossIcon";
 import {
   LocalPlaylist,
@@ -5,6 +6,8 @@ import {
   ResponseData,
   Video,
 } from "../../../types";
+
+const notyf = new Notyf();
 
 export function showAddVideoToModal(
   localPlaylists: LocalPlaylistNotDetailed[],
@@ -54,19 +57,41 @@ export function showAddVideoToModal(
       const target = e.target as HTMLInputElement;
       const playlistName = target.dataset.playlistName;
       if (target.checked) {
-        console.log("playlist added");
         const responseData: ResponseData = await chrome.runtime.sendMessage({
           task: "addVideoToLocalPlaylist",
           data: { playlistName, videoData: video },
         });
-        console.log(responseData);
+        const { error } = responseData;
+        if (error) {
+          console.error("Error adding video to local playlists:", error);
+          notyf.open({
+            type: "error",
+            message: "Something went wrong <br />Please refresh and try again",
+            position: { x: "left", y: "bottom" },
+            duration: 3000,
+            dismissible: true,
+            className: "toast-message",
+            icon: false,
+          });
+        }
       } else {
-        console.log("playlist removed");
         const responseData: ResponseData = await chrome.runtime.sendMessage({
           task: "removeVideoFromLocalPlaylist",
           data: { playlistName, videoData: video },
         });
-        console.log(responseData);
+        const { error } = responseData;
+        if (error) {
+          console.error("Error removing video from local playlists:", error);
+          notyf.open({
+            type: "error",
+            message: "Something went wrong <br />Please refresh and try again",
+            position: { x: "left", y: "bottom" },
+            duration: 3000,
+            dismissible: true,
+            className: "toast-message",
+            icon: false,
+          });
+        }
       }
     });
   });
@@ -141,11 +166,20 @@ function showCreateLocalPlaylist(
           task: "createLocalPlaylist",
           data: { playlist },
         });
-        console.log(responseData);
-        if (responseData?.success) {
+        const { error, success } = responseData;
+        if (success) {
           modal.remove();
         } else {
-          alert("Something went wrong, Refresh and try again.");
+          console.error("Error creating local playlists:", error);
+          notyf.open({
+            type: "error",
+            message: "Something went wrong <br />Please refresh and try again",
+            position: { x: "left", y: "bottom" },
+            duration: 3000,
+            dismissible: true,
+            className: "toast-message",
+            icon: false,
+          });
         }
       }
     } else {

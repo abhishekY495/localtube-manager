@@ -277,3 +277,11 @@ div[data-custom-no-login-yt-btn-icon-liked="not-liked"] {
   cursor: not-allowed;
   opacity: 0.6;
 }
+
+/* Toast */
+
+.toast-message {
+  font-family: "Roboto", "Arial", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+}

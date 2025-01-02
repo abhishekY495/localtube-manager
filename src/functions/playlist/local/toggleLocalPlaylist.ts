@@ -1,11 +1,13 @@
+import { Notyf } from "notyf";
+import { LocalPlaylistNotDetailed, ResponseData } from "../../../types";
 import { savedPlaylistIcon } from "../../../helpers/playlist/savedNotsavedPlaylistIcon";
 import { getVideoObj } from "../../../helpers/video/getVideoObj";
-import { LocalPlaylistNotDetailed, ResponseData } from "../../../types";
 import { showAddVideoToModal } from "./modalFunctions";
 
 let observer: MutationObserver | null = null;
 let isProcessing = false;
 let debounceTimeout: number | undefined;
+const notyf = new Notyf();
 
 export async function toggleLocalPlaylist() {
   if (observer) {
@@ -90,10 +92,24 @@ export async function toggleLocalPlaylist() {
           const responseData: ResponseData = await chrome.runtime.sendMessage({
             task: "getLocalPlaylists",
           });
-          const localPlaylists: LocalPlaylistNotDetailed[] =
-            responseData?.data?.playlists;
-          const video = getVideoObj(document, aboveTheFoldElement);
-          showAddVideoToModal(localPlaylists, video);
+          const { success, data, error } = responseData;
+          if (success) {
+            const localPlaylists: LocalPlaylistNotDetailed[] = data?.playlists;
+            const video = getVideoObj(document, aboveTheFoldElement);
+            showAddVideoToModal(localPlaylists, video);
+          } else {
+            console.error("Error getting local playlists:", error);
+            notyf.open({
+              type: "error",
+              message:
+                "Something went wrong <br />Please refresh and try again",
+              position: { x: "left", y: "bottom" },
+              duration: 3000,
+              dismissible: true,
+              className: "toast-message",
+              icon: false,
+            });
+          }
         }
       );
 

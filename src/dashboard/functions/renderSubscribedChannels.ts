@@ -1,6 +1,9 @@
 import numeral from "numeral";
-import defaultChannelImage from "/src/dashboard/assets/default-channel-image.jpg";
+import { Notyf } from "notyf";
 import { ResponseData, YoutubeChannel } from "../../types";
+import defaultChannelImage from "/src/dashboard/assets/default-channel-image.jpg";
+
+const notyf = new Notyf();
 
 export function renderSubscribedChannels(
   subscribedChannelsArr: YoutubeChannel[],
@@ -98,7 +101,7 @@ function showModal(
       task: "toggleSubscribedChannel",
       data: { channel },
     });
-    const success = responseData?.success;
+    const { success, error } = responseData;
 
     if (success) {
       const newsubscribedChannelsArr = subscribedChannelsArr.filter(
@@ -112,9 +115,19 @@ function showModal(
         subscribedChannelsContainer,
         subscribedChannelsCount
       );
+      closeModal(modal);
+    } else {
+      console.error("Error unsubscribing channel", error);
+      notyf.open({
+        type: "error",
+        message: "Something went wrong <br />Please refresh and try again",
+        position: { x: "left", y: "bottom" },
+        duration: 3000,
+        dismissible: true,
+        className: "toast-message",
+        icon: false,
+      });
     }
-
-    closeModal(modal);
   });
 
   // Add event listener to "Cancel" button

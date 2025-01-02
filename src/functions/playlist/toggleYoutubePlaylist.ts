@@ -1,8 +1,11 @@
+import { Notyf } from "notyf";
+import { ResponseData, YoutubePlaylist } from "../../types";
 import {
   notSavedPlaylistIcon,
   savedPlaylistIcon,
 } from "../../helpers/playlist/savedNotsavedPlaylistIcon";
-import { ResponseData, YoutubePlaylist } from "../../types";
+
+const notyf = new Notyf();
 
 export async function toggleYoutubePlaylist(
   playlist: YoutubePlaylist,
@@ -14,37 +17,53 @@ export async function toggleYoutubePlaylist(
       task: "toggleYoutubePlaylist",
       data: { playlist },
     });
-    const isYoutubePlaylistSaved = responseData?.data?.isYoutubePlaylistSaved;
+    const { success, data, error } = responseData;
 
-    if (responseData?.success) {
+    if (success) {
+      const isYoutubePlaylistSaved = data?.isYoutubePlaylistSaved;
       if (isYoutubePlaylistSaved) {
-        console.log("Playlist saved", playlist);
         customSavePlaylistButtonWrapper.innerHTML = `
-          <div class="${
-            playlistPage
-              ? "custom-nologin-yt-save-playlist-btn-2"
-              : "custom-nologin-yt-save-playlist-btn"
-          }">
-            ${savedPlaylistIcon}
-            <p>Saved Playlist</p>
-          </div>`;
+            <div class="${
+              playlistPage
+                ? "custom-nologin-yt-save-playlist-btn-2"
+                : "custom-nologin-yt-save-playlist-btn"
+            }">
+              ${savedPlaylistIcon}
+              <p>Saved Playlist</p>
+            </div>`;
       } else {
         customSavePlaylistButtonWrapper.innerHTML = `
-          <div class="${
-            playlistPage
-              ? "custom-nologin-yt-save-playlist-btn-2"
-              : "custom-nologin-yt-save-playlist-btn"
-          }">
-            ${notSavedPlaylistIcon}
-            <p>Save Playlist</p>
-          </div>`;
-        console.log("Playlist removed", playlist.name);
+            <div class="${
+              playlistPage
+                ? "custom-nologin-yt-save-playlist-btn-2"
+                : "custom-nologin-yt-save-playlist-btn"
+            }">
+              ${notSavedPlaylistIcon}
+              <p>Save Playlist</p>
+            </div>`;
       }
     } else {
-      console.log("Something went wrong");
-      console.log(responseData);
+      console.error("Error toggling youtube playlist:", error);
+      notyf.open({
+        type: "error",
+        message: "Something went wrong <br />Please refresh and try again",
+        position: { x: "left", y: "bottom" },
+        duration: 3000,
+        dismissible: true,
+        className: "toast-message",
+        icon: false,
+      });
     }
   } catch (error) {
-    console.error("Error toggling liked video:", error);
+    console.error("Error toggling youtube playlist:", error);
+    notyf.open({
+      type: "error",
+      message: "Something went wrong <br />Please refresh and try again",
+      position: { x: "left", y: "bottom" },
+      duration: 3000,
+      dismissible: true,
+      className: "toast-message",
+      icon: false,
+    });
   }
 }

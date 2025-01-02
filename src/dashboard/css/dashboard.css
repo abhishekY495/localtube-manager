@@ -204,3 +204,11 @@ h1 {
 .modal-cancel-btn:hover {
   background-color: #757575;
 }
+
+/* Toast */
+
+.toast-message {
+  font-family: "Roboto", "Arial", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+}

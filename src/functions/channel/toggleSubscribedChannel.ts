@@ -1,5 +1,8 @@
 import { DotLottie } from "@lottiefiles/dotlottie-web";
+import { Notyf } from "notyf";
 import { ResponseData, YoutubeChannel } from "../../types";
+
+const notyf = new Notyf();
 
 export async function toggleSubscribedChannel(
   channel: YoutubeChannel,
@@ -10,57 +13,78 @@ export async function toggleSubscribedChannel(
       task: "toggleSubscribedChannel",
       data: { channel },
     });
-    const isChannelSubscribed = responseData?.data?.isChannelSubscribed;
+    const { success, data, error } = responseData;
 
-    if (isChannelSubscribed) {
-      customSubscribeButton.innerHTML = "";
+    if (success) {
+      const isChannelSubscribed = data?.isChannelSubscribed;
+      if (isChannelSubscribed) {
+        customSubscribeButton.innerHTML = "";
 
-      // subscribe animation
-      const canvasElement = document.createElement("canvas");
-      customSubscribeButton.appendChild(canvasElement);
-      canvasElement.width = 140;
-      canvasElement.height = 140;
-      canvasElement.style.position = "absolute";
-      canvasElement.style.top = "-52px";
-      canvasElement.style.left = "-17px";
-      canvasElement.style.visibility = "visible";
-      new DotLottie({
-        autoplay: true,
-        loop: false,
-        canvas: canvasElement,
-        src: chrome.runtime.getURL("./subscribe-animation.json"),
-      });
-      console.log("subscribed to", channel.name);
-      customSubscribeButton.style.transition = "background-color 0.5s ease";
-      customSubscribeButton.classList.add(
-        "custom-nologin-yt-channel-subscribed"
-      );
-      customSubscribeButton.classList.add(
-        "custom-nologin-yt-channel-subscribed-animate-bg"
-      );
-
-      setTimeout(() => {
-        customSubscribeButton.classList.remove(
+        // subscribe animation
+        const canvasElement = document.createElement("canvas");
+        customSubscribeButton.appendChild(canvasElement);
+        canvasElement.width = 140;
+        canvasElement.height = 140;
+        canvasElement.style.position = "absolute";
+        canvasElement.style.top = "-52px";
+        canvasElement.style.left = "-17px";
+        canvasElement.style.visibility = "visible";
+        new DotLottie({
+          autoplay: true,
+          loop: false,
+          canvas: canvasElement,
+          src: chrome.runtime.getURL("./subscribe-animation.json"),
+        });
+        customSubscribeButton.style.transition = "background-color 0.5s ease";
+        customSubscribeButton.classList.add(
+          "custom-nologin-yt-channel-subscribed"
+        );
+        customSubscribeButton.classList.add(
           "custom-nologin-yt-channel-subscribed-animate-bg"
         );
-      }, 600);
-      setTimeout(() => {
-        customSubscribeButton.style.transition = "none";
-        canvasElement.remove();
-      }, 800);
 
-      const subscribedText = document.createElement("p");
-      subscribedText.style.visibility = "visible";
-      subscribedText.innerText = "Subscribed";
-      customSubscribeButton.appendChild(subscribedText);
+        setTimeout(() => {
+          customSubscribeButton.classList.remove(
+            "custom-nologin-yt-channel-subscribed-animate-bg"
+          );
+        }, 600);
+        setTimeout(() => {
+          customSubscribeButton.style.transition = "none";
+          canvasElement.remove();
+        }, 800);
+
+        const subscribedText = document.createElement("p");
+        subscribedText.style.visibility = "visible";
+        subscribedText.innerText = "Subscribed";
+        customSubscribeButton.appendChild(subscribedText);
+      } else {
+        customSubscribeButton.classList.remove(
+          "custom-nologin-yt-channel-subscribed"
+        );
+        customSubscribeButton.innerText = "Subscribe";
+      }
     } else {
-      console.log("unsubscribed from", channel.name);
-      customSubscribeButton.classList.remove(
-        "custom-nologin-yt-channel-subscribed"
-      );
-      customSubscribeButton.innerText = "Subscribe";
+      console.error("Error toggling subscribed channel:", error);
+      notyf.open({
+        type: "error",
+        message: "Something went wrong <br />Please refresh and try again",
+        position: { x: "left", y: "bottom" },
+        duration: 3000,
+        dismissible: true,
+        className: "toast-message",
+        icon: false,
+      });
     }
   } catch (error) {
     console.error("Error toggling subscribed channel:", error);
+    notyf.open({
+      type: "error",
+      message: "Something went wrong <br />Please refresh and try again",
+      position: { x: "left", y: "bottom" },
+      duration: 3000,
+      dismissible: true,
+      className: "toast-message",
+      icon: false,
+    });
   }
 }

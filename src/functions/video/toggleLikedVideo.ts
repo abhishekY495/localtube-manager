@@ -1,6 +1,9 @@
 import { DotLottie } from "@lottiefiles/dotlottie-web";
-import { notLikedIcon } from "../../helpers/video/likedUnlikedIcons";
+import { Notyf } from "notyf";
 import { ResponseData, Video } from "../../types";
+import { notLikedIcon } from "../../helpers/video/likedUnlikedIcons";
+
+const notyf = new Notyf();
 
 export async function toggleLikedVideo(video: Video, likeBtn: Element) {
   const iconElement = likeBtn.querySelector("#custom-nologin-yt-like-btn-icon");
@@ -10,39 +13,60 @@ export async function toggleLikedVideo(video: Video, likeBtn: Element) {
       task: "toggleLikedVideo",
       data: { video },
     });
-    const isVideoLiked = responseData?.data?.isVideoLiked;
+    const { success, data, error } = responseData;
 
-    if (isVideoLiked) {
-      iconElement?.setAttribute(
-        "data-custom-no-login-yt-btn-icon-liked",
-        "liked"
-      );
-      // like animation
-      if (iconElement) {
-        iconElement.innerHTML = `<canvas id="custom-nologin-yt-dotlottie-canvas" style="width: 58px; height: 58px; margin-top:-18px; margin-left:-16px; margin-right:-18px;"></canvas>`;
-        const canvasElement = document.querySelector(
-          "#custom-nologin-yt-dotlottie-canvas"
-        ) as HTMLCanvasElement;
-        new DotLottie({
-          autoplay: true,
-          loop: false,
-          canvas: canvasElement,
-          src: chrome.runtime.getURL("./like-animation.json"),
-        });
+    if (success) {
+      const isVideoLiked = data?.isVideoLiked;
+      if (isVideoLiked) {
+        iconElement?.setAttribute(
+          "data-custom-no-login-yt-btn-icon-liked",
+          "liked"
+        );
+        // like animation
+        if (iconElement) {
+          iconElement.innerHTML = `<canvas id="custom-nologin-yt-dotlottie-canvas" style="width: 58px; height: 58px; margin-top:-18px; margin-left:-16px; margin-right:-18px;"></canvas>`;
+          const canvasElement = document.querySelector(
+            "#custom-nologin-yt-dotlottie-canvas"
+          ) as HTMLCanvasElement;
+          new DotLottie({
+            autoplay: true,
+            loop: false,
+            canvas: canvasElement,
+            src: chrome.runtime.getURL("./like-animation.json"),
+          });
+        }
+      } else {
+        // unlike icon
+        iconElement?.setAttribute(
+          "data-custom-no-login-yt-btn-icon-liked",
+          "not-liked"
+        );
+        if (iconElement) {
+          iconElement.innerHTML = notLikedIcon;
+        }
       }
-      console.log("Video added to liked videos:", video);
     } else {
-      // unlike icon
-      iconElement?.setAttribute(
-        "data-custom-no-login-yt-btn-icon-liked",
-        "not-liked"
-      );
-      if (iconElement) {
-        iconElement.innerHTML = notLikedIcon;
-      }
-      console.log("Video removed from liked videos:", video.title);
+      console.error("Error toggling liked video:", error);
+      notyf.open({
+        type: "error",
+        message: "Something went wrong <br />Please refresh and try again",
+        position: { x: "left", y: "bottom" },
+        duration: 3000,
+        dismissible: true,
+        className: "toast-message",
+        icon: false,
+      });
     }
   } catch (error) {
     console.error("Error toggling liked video:", error);
+    notyf.open({
+      type: "error",
+      message: "Something went wrong <br />Please refresh and try again",
+      position: { x: "left", y: "bottom" },
+      duration: 3000,
+      dismissible: true,
+      className: "toast-message",
+      icon: false,
+    });
   }
 }

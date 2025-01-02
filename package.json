@@ -18,6 +18,7 @@
   "dependencies": {
     "@lottiefiles/dotlottie-web": "^0.36.0",
     "idb": "^8.0.0",
+    "notyf": "^3.10.0",
     "numeral": "^2.0.6"
   }
 }

@@ -45,4 +45,5 @@ export type RequestData = {
 export type ResponseData = {
   success: boolean;
   data: Record<string, any>;
+  error: { message: string; name: string };
 };

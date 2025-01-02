@@ -1,6 +1,9 @@
 import numeral from "numeral";
-import defaultChannelImage from "/src/dashboard/assets/default-channel-image.jpg";
+import { Notyf } from "notyf";
 import { ResponseData, YoutubePlaylist } from "../../../types";
+import defaultChannelImage from "/src/dashboard/assets/default-channel-image.jpg";
+
+const notyf = new Notyf();
 
 export function renderYoutubePlaylists(
   youtubePlaylistsArr: YoutubePlaylist[],
@@ -11,7 +14,7 @@ export function renderYoutubePlaylists(
   if (youtubePlaylistsArr.length === 0) {
     playlistsContainer.innerHTML += `
         <p class="no-video-or-channel-message">
-          No saved playlists
+          No YouTube playlists
         </p>
       `;
   } else {
@@ -111,7 +114,7 @@ function showModal(
       task: "toggleYoutubePlaylist",
       data: { playlist },
     });
-    const success = responseData?.success;
+    const { success, error } = responseData;
 
     if (success) {
       const newYoutubePlaylistsArr = youtubePlaylistsArr.filter(
@@ -125,9 +128,19 @@ function showModal(
         playlistsContainer,
         playlistsCount
       );
+      closeModal(modal);
+    } else {
+      console.error("Error removing youtube playlist", error);
+      notyf.open({
+        type: "error",
+        message: "Something went wrong <br />Please refresh and try again",
+        position: { x: "left", y: "bottom" },
+        duration: 3000,
+        dismissible: true,
+        className: "toast-message",
+        icon: false,
+      });
     }
-
-    closeModal(modal);
   });
 
   // Add event listener to "Cancel" button
