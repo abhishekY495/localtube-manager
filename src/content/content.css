@@ -7,6 +7,9 @@
 .ytLikeButtonViewModelHost {
   display: none;
 }
+#top-level-buttons-computed segmented-like-dislike-button-view-model {
+  display: none;
+}
 #top-level-buttons-computed like-button-view-model {
   display: none;
 }
@@ -34,10 +37,10 @@ yt-flexible-actions-view-model .yt-flexible-actions-view-model-wiz__action-row {
   display: flex;
   align-items: center;
   background-color: #272727;
-  padding: 6px 12px;
-  border-top-left-radius: 15px;
-  border-bottom-left-radius: 15px;
+  padding: 6px 16px;
+  border-radius: 15px;
   border-right: 1px solid #525252;
+  border-left: 1px solid #525252;
 }
 #custom-nologin-yt-like-btn:hover {
   background-color: #3f3f3f;
@@ -164,6 +167,8 @@ div[data-custom-no-login-yt-btn-icon-liked="not-liked"] {
   border-radius: 18px;
   height: 24px;
   user-select: none;
+  border-right: 1px solid #525252;
+  border-left: 1px solid #525252;
 }
 .custom-nologin-yt-save-video-to-local-playlist-btn:hover {
   background-color: #3f3f3f;

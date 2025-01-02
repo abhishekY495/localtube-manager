@@ -1,6 +1,6 @@
 import { Notyf } from "notyf";
 import { LocalPlaylistNotDetailed, ResponseData } from "../../../types";
-import { savedPlaylistIcon } from "../../../helpers/playlist/savedNotsavedPlaylistIcon";
+import { notSavedPlaylistIcon } from "../../../helpers/playlist/savedNotsavedPlaylistIcon";
 import { getVideoObj } from "../../../helpers/video/getVideoObj";
 import { showAddVideoToModal } from "./modalFunctions";
 
@@ -79,7 +79,7 @@ export async function toggleLocalPlaylist() {
         "custom-nologin-yt-save-video-to-local-playlist-btn-wrapper";
       customSaveVideoToLocalPlaylistButtonWrapper.innerHTML = `
         <div class="custom-nologin-yt-save-video-to-local-playlist-btn">
-            ${savedPlaylistIcon}
+            ${notSavedPlaylistIcon}
             <p>Add to</p>
         </div>`;
       flexibleItemButtons.appendChild(

@@ -45,14 +45,14 @@ export async function checkIfVideoLiked(urlSlug: string) {
       }
       // console.log(YtdMenuRenderer);
 
-      const likeButtonViewModelHost = YtdMenuRenderer.querySelector(
-        "like-button-view-model"
+      const topLevelButtonsComputedElement = YtdMenuRenderer.querySelector(
+        "#top-level-buttons-computed"
       ) as HTMLElement;
-      if (likeButtonViewModelHost === null) {
-        console.log("likeButtonViewModelHost not found");
+      if (topLevelButtonsComputedElement === null) {
+        console.log("topLevelButtonsComputedElement not found");
         return;
       }
-      // console.log(likeButtonViewModelHost);
+      // console.log(topLevelButtonsComputedElement);
 
       // like count
       let likeCountElement = null;
@@ -127,11 +127,10 @@ export async function checkIfVideoLiked(urlSlug: string) {
       });
 
       // insert created btn
-      likeDislikeButtonsWrapper.insertBefore(
+      topLevelButtonsComputedElement.insertBefore(
         customLikeButtonWrapper,
-        likeDislikeButtonsWrapper.firstChild
+        topLevelButtonsComputedElement.firstChild
       );
-      likeDislikeButtonsWrapper.style.display = "flex";
 
       if (observer) {
         observer?.disconnect();
