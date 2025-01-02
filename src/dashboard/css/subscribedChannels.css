@@ -19,6 +19,7 @@
 .subscribed-channel-image {
   border-radius: 100%;
   width: 120px;
+  height: 120px;
 }
 
 .subscribed-channel-name-handle-container {
