@@ -22,7 +22,9 @@ if (videoUrlSlug.length > 0) {
 } else if (currentUrl.includes("playlist?list=")) {
   checkIfYoutubePlaylistExistsFromPlaylistPage(currentUrl);
 } else {
-  checkIfChannelSubscribedFromChannelPage(currentUrl);
+  if (currentUrl.length > "https://www.youtube.com/".length) {
+    checkIfChannelSubscribedFromChannelPage(currentUrl);
+  }
 }
 
 let lastUrl = location.href;
@@ -46,7 +48,9 @@ new MutationObserver(async () => {
       } else if (currentUrl.includes("playlist?list=")) {
         checkIfYoutubePlaylistExistsFromPlaylistPage(currentUrl);
       } else {
-        await checkIfChannelSubscribedFromChannelPage(currentUrl);
+        if (currentUrl.length > "https://www.youtube.com/".length) {
+          await checkIfChannelSubscribedFromChannelPage(currentUrl);
+        }
       }
     }, 1000);
   }
