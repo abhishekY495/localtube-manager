@@ -7,6 +7,9 @@
 .ytLikeButtonViewModelHost {
   display: none;
 }
+#top-level-buttons-computed like-button-view-model {
+  display: none;
+}
 #wrapper
   yt-flexible-actions-view-model
   *:not(#wrapper yt-flexible-actions-view-model) {
