@@ -1,9 +1,9 @@
-import { getPlaylistObjFromVideoPage } from "../../helpers/playlist/getPlaylistObjFromVideoPage";
+import { getPlaylistObjFromVideoPage } from "../../../helpers/playlist/getPlaylistObjFromVideoPage";
 import {
   notSavedPlaylistIcon,
   savedPlaylistIcon,
-} from "../../helpers/playlist/savedNotsavedPlaylistIcon";
-import { ResponseData } from "../../types";
+} from "../../../helpers/playlist/savedNotsavedPlaylistIcon";
+import { ResponseData } from "../../../types";
 import { toggleYoutubePlaylist } from "./toggleYoutubePlaylist";
 
 let observer: MutationObserver | null = null;

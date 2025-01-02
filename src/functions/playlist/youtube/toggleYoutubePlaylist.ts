@@ -1,9 +1,9 @@
 import { Notyf } from "notyf";
-import { ResponseData, YoutubePlaylist } from "../../types";
+import { ResponseData, YoutubePlaylist } from "../../../types";
 import {
   notSavedPlaylistIcon,
   savedPlaylistIcon,
-} from "../../helpers/playlist/savedNotsavedPlaylistIcon";
+} from "../../../helpers/playlist/savedNotsavedPlaylistIcon";
 
 const notyf = new Notyf();
 
