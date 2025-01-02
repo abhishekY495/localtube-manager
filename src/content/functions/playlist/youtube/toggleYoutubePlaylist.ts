@@ -1,5 +1,5 @@
 import { Notyf } from "notyf";
-import { ResponseData, YoutubePlaylist } from "../../../types";
+import { ResponseData, YoutubePlaylist } from "../../../../types";
 import {
   notSavedPlaylistIcon,
   savedPlaylistIcon,

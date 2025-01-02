@@ -5,7 +5,7 @@ import {
   LocalPlaylistNotDetailed,
   ResponseData,
   Video,
-} from "../../../types";
+} from "../../../../types";
 
 const notyf = new Notyf();
 

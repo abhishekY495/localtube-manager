@@ -1,4 +1,4 @@
-import { YoutubeChannel } from "../../types";
+import { YoutubeChannel } from "../../../types";
 
 export function getChannelObjFromChannelPage(pageHeaderElement: HTMLElement) {
   const dynamicTextViewModelEement = pageHeaderElement.querySelector(

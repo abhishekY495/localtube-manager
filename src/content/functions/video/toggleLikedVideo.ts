@@ -1,6 +1,6 @@
 import { DotLottie } from "@lottiefiles/dotlottie-web";
 import { Notyf } from "notyf";
-import { ResponseData, Video } from "../../types";
+import { ResponseData, Video } from "../../../types";
 import { notLikedIcon } from "../../helpers/video/likedUnlikedIcons";
 
 const notyf = new Notyf();

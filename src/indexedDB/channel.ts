@@ -1,5 +1,5 @@
-import { initializeYoutubeDB } from "./initializeYoutubeDB";
 import { YoutubeChannel } from "../types";
+import { initializeYoutubeDB } from "./initializeYoutubeDB";
 
 export const checkIfChannelSubscribed = async (channelHandle: string) => {
   const db = await initializeYoutubeDB();

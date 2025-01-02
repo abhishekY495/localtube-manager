@@ -1,5 +1,5 @@
 import { getChannelObjFromVideoPage } from "../../helpers/channel/getChannelObjFromVideoPage";
-import { ResponseData } from "../../types";
+import { ResponseData } from "../../../types";
 import { toggleSubscribedChannel } from "./toggleSubscribedChannel";
 
 let observer: MutationObserver | null = null;

@@ -1,6 +1,6 @@
 import { getVideoObj } from "../../helpers/video/getVideoObj";
 import { likedIcon, notLikedIcon } from "../../helpers/video/likedUnlikedIcons";
-import { ResponseData } from "../../types";
+import { ResponseData } from "../../../types";
 import { toggleLikedVideo } from "./toggleLikedVideo";
 
 let observer: MutationObserver | null = null;

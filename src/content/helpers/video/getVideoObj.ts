@@ -1,4 +1,4 @@
-import { Video } from "../../types";
+import { Video } from "../../../types";
 import { getVideoUrlSlug } from "./getVideoUrlSlug";
 
 export function getVideoObj(

@@ -1,5 +1,5 @@
 import { Notyf } from "notyf";
-import { LocalPlaylistNotDetailed, ResponseData } from "../../../types";
+import { LocalPlaylistNotDetailed, ResponseData } from "../../../../types";
 import { notSavedPlaylistIcon } from "../../../helpers/playlist/savedNotsavedPlaylistIcon";
 import { getVideoObj } from "../../../helpers/video/getVideoObj";
 import { showAddVideoToModal } from "./modalFunctions";

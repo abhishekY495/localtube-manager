@@ -1,6 +1,6 @@
 import { DotLottie } from "@lottiefiles/dotlottie-web";
 import { Notyf } from "notyf";
-import { ResponseData, YoutubeChannel } from "../../types";
+import { ResponseData, YoutubeChannel } from "../../../types";
 
 const notyf = new Notyf();
 

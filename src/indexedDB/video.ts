@@ -1,5 +1,5 @@
-import { initializeYoutubeDB } from "./initializeYoutubeDB";
 import { Video } from "../types";
+import { initializeYoutubeDB } from "./initializeYoutubeDB";
 
 export const checkIfVideoLiked = async (urlSlug: string) => {
   const db = await initializeYoutubeDB();

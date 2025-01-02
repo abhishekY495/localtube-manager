@@ -1,6 +1,6 @@
 import { toggleSubscribedChannel } from "./toggleSubscribedChannel";
 import { getChannelObjFromChannelPage } from "../../helpers/channel/getChannelObjFromChannelPage";
-import { ResponseData, YoutubeChannel } from "../../types";
+import { ResponseData, YoutubeChannel } from "../../../types";
 
 let observer: MutationObserver | null = null;
 let isProcessing = false;

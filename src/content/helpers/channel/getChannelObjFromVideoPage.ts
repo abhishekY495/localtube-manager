@@ -1,4 +1,4 @@
-import { YoutubeChannel } from "../../types";
+import { YoutubeChannel } from "../../../types";
 
 export function getChannelObjFromVideoPage(aboveTheFoldElement: HTMLElement) {
   const ownerElement = aboveTheFoldElement.querySelector(

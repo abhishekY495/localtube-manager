@@ -1,13 +1,13 @@
 import "./content.css";
 import "notyf/notyf.min.css";
-import { getVideoUrlSlug } from "../helpers/video/getVideoUrlSlug";
-import { getCurrentUrl } from "../helpers/getCurrentUrl";
-import { checkIfVideoLiked } from "../functions/video/checkIfVideoLiked";
-import { checkIfChannelSubscribedFromVideoPage } from "../functions/channel/checkIfChannelSubscribedFromVideoPage";
-import { checkIfChannelSubscribedFromChannelPage } from "../functions/channel/checkIfChannelSubscribedFromChannelPage";
-import { checkIfYoutubePlaylistExistsFromVideoPage } from "../functions/playlist/youtube/checkIfYoutubePlaylistExistsFromVideoPage";
-import { checkIfYoutubePlaylistExistsFromPlaylistPage } from "../functions/playlist/youtube/checkIfYoutubePlaylistExistsFromPlaylistPage";
-import { toggleLocalPlaylist } from "../functions/playlist/local/toggleLocalPlaylist";
+import { getVideoUrlSlug } from "./helpers/video/getVideoUrlSlug";
+import { getCurrentUrl } from "./helpers/getCurrentUrl";
+import { checkIfVideoLiked } from "./functions/video/checkIfVideoLiked";
+import { checkIfChannelSubscribedFromVideoPage } from "./functions/channel/checkIfChannelSubscribedFromVideoPage";
+import { checkIfChannelSubscribedFromChannelPage } from "./functions/channel/checkIfChannelSubscribedFromChannelPage";
+import { checkIfYoutubePlaylistExistsFromVideoPage } from "./functions/playlist/youtube/checkIfYoutubePlaylistExistsFromVideoPage";
+import { checkIfYoutubePlaylistExistsFromPlaylistPage } from "./functions/playlist/youtube/checkIfYoutubePlaylistExistsFromPlaylistPage";
+import { toggleLocalPlaylist } from "./functions/playlist/local/toggleLocalPlaylist";
 
 const videoUrlSlug = getVideoUrlSlug();
 const currentUrl = getCurrentUrl();
