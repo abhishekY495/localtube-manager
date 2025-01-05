@@ -5,6 +5,7 @@ export type Video = {
   channelName: string;
   channelHandle: string;
   addedAt: string;
+  // video-thumbnail -> https://i.ytimg.com/vi/<urlSlug>/mqdefault.jpg
 };
 
 export type YoutubeChannel = {
