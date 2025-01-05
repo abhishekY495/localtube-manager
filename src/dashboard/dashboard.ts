@@ -166,6 +166,25 @@ let selectedPlaylistType: "youtube" | "local" = "youtube";
     playlistsMainContainer.style.display = "flex";
     playlistsContainer.style.display = "grid";
     importExportContainer.style.display = "none";
+  } else if (slug === "import-export") {
+    importExportIconContainer?.classList.add(
+      "selected-import-export-icon-container"
+    );
+    likedVideosIconCountContainer?.classList.remove(
+      "selected-liked-videos-icon-count-container"
+    );
+    subscribedChannelsIconCountContainer?.classList.remove(
+      "selected-subscribed-channels-icon-count-container"
+    );
+    playlistsIconCountContainer?.classList.remove(
+      "selected-playlists-icon-count-container"
+    );
+    dashboardContainer.style.display = "none";
+    likedVideosContainer.style.display = "none";
+    subscribedChannelsContainer.style.display = "none";
+    playlistsMainContainer.style.display = "none";
+    playlistsContainer.style.display = "none";
+    importExportContainer.style.display = "flex";
   } else {
     if (dashboardContainer) {
       dashboardContainer.style.display = "block";
@@ -174,7 +193,6 @@ let selectedPlaylistType: "youtube" | "local" = "youtube";
       playlistsMainContainer.style.display = "none";
       playlistsContainer.style.display = "none";
       importExportContainer.style.display = "none";
-      renderLikedVideos(likedVideosArr, likedVideosContainer, likedVideosCount);
     }
   }
 
@@ -332,6 +350,6 @@ let selectedPlaylistType: "youtube" | "local" = "youtube";
     subscribedChannelsContainer.style.display = "none";
     playlistsMainContainer.style.display = "none";
     playlistsContainer.style.display = "none";
-    importExportContainer.style.display = "block";
+    importExportContainer.style.display = "flex";
   });
 })();

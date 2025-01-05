@@ -7,6 +7,7 @@
   </head>
   <body>
     <h1>Dashboard</h1>
+    <button id="clear-all-btn">Clear All</button>
     <div id="options-container">
       <div class="liked-videos-icon-count-container">
         <svg
@@ -120,7 +121,31 @@
       </div>
       <div id="playlists-container"></div>
     </div>
-    <div id="import-export-container"></div>
+    <div id="import-export-container">
+      <form id="import-container">
+        <p id="import-msg">* Importing will remove existing data</p>
+        <label id="import-file-label">
+          <p id="import-file-label-text">Select a file</p>
+          <p id="import-file-name-display">No File Selected</p>
+          <input
+            id="import-file-input"
+            type="file"
+            accept=".json"
+            placeholder="No file chosen"
+            name="importFile"
+            required
+          />
+        </label>
+        <button id="import-btn" type="submit">Import</button>
+      </form>
+      <div id="export-container">
+        <p id="export-file-name">
+          NoLoginYT.json - <span id="export-file-size"></span>
+        </p>
+        <button id="export-btn">Export</button>
+      </div>
+    </div>
     <script type="module" src="./dashboard.ts"></script>
+    <script type="module" src="./functions/importExport.ts"></script>
   </body>
 </html>

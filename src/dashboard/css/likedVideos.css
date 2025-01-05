@@ -59,15 +59,13 @@
 }
 .liked-video-channel-name {
   font-size: 14px;
-  font-weight: 500;
   color: #aaa;
 }
 .liked-video-channel-handle {
   font-size: 12px;
-  font-weight: 600;
   letter-spacing: 0.3px;
   color: #a0a0a0;
-  margin-top: 2px;
+  margin-top: 1px;
 }
 
 .remove-btn {
@@ -76,7 +74,7 @@
   color: #dddddd;
   font-size: 14px;
   font-weight: 600;
-  margin-top: 35px;
+  margin-top: 26px;
   padding: 6px 16px 8px 16px;
   border: 1px solid #cccccc30;
   border-radius: 15px;
