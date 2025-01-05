@@ -8,9 +8,9 @@ body {
   background-color: #0f0f0f;
   color: white;
   max-width: 1500px;
-  padding: 20px 10px 80px 10px;
+  padding: 5px 10px 80px 10px;
   margin: auto;
-  font-family: "Roboto", "Arial", sans-serif;
+  font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
   overflow-y: scroll;
 }
 
@@ -41,7 +41,7 @@ h1 {
   width: 100%;
   height: 100px;
   padding: 10px 5px 13px 5px;
-  font-family: Roboto, sans-serif;
+  font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
   font-size: 16px;
   font-weight: 500;
   letter-spacing: 0.5px;
@@ -208,7 +208,121 @@ h1 {
 /* Toast */
 
 .toast-message {
-  font-family: "Roboto", "Arial", sans-serif;
+  font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
   font-size: 14px;
   font-weight: 600;
+}
+
+/* import export */
+#import-export-container {
+  flex-direction: row;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+#import-container,
+#export-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  height: 280px;
+  border-radius: 5px;
+  border: 2px solid #333;
+}
+#import-container:hover,
+#export-container:hover {
+  background-color: #181818;
+}
+
+#import-file-input {
+  position: absolute;
+  opacity: 0;
+}
+
+#import-file-label {
+  display: flex;
+  border: 1px solid #595959;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+#import-file-label-text {
+  background-color: #595959;
+  color: #c9c9c9;
+  text-align: center;
+  padding: 8px 20px 11px 20px;
+}
+
+#import-file-name-display {
+  color: #c9c9c9;
+  padding: 8px 8px 8px 12px;
+  text-align: left;
+  width: 320px;
+}
+
+#import-msg {
+  text-align: left;
+  margin-bottom: -8px;
+  color: red;
+  font-size: 16px;
+  width: 460px;
+  font-weight: 500;
+}
+
+#export-file-name {
+  color: #c9c9c9;
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: -22px;
+  text-underline-offset: 4px;
+  text-decoration: 1px underline #777777;
+}
+
+#export-btn,
+#import-btn {
+  color: white;
+  background-color: #d41ed4;
+  padding: 8px 32px;
+  border: 2px solid #800080;
+  border-radius: 5px;
+  font-size: 25px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  box-shadow: 0 4px #800080;
+  transition: all 0.2s ease;
+}
+#import-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+#export-btn:hover,
+#import-btn:hover {
+  cursor: pointer;
+  background-color: #bb2ebb;
+}
+
+#export-btn:active,
+#import-btn:active {
+  box-shadow: none;
+  transform: translateY(3px);
+  transition: all 0.2s ease;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.import-loader {
+  animation: rotate 2s linear infinite;
 }

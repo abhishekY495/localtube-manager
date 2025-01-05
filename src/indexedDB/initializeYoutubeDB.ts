@@ -1,7 +1,7 @@
 import { openDB } from "idb";
 
 export async function initializeYoutubeDB() {
-  return await openDB("YouTubeDB", 2, {
+  return await openDB("YouTubeDB", 1, {
     upgrade(db) {
       // Create licenseKey store
       if (!db.objectStoreNames.contains("licenseKey")) {
