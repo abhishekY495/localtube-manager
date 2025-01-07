@@ -1,9 +1,8 @@
 import { Notyf } from "notyf";
-import { formatFileSize } from "../helpers/formatFileSize";
-import { clearDB } from "../../indexedDB/clearDB";
-import { exportDB } from "../../indexedDB/exportDB";
-import { importDB } from "../../indexedDB/importDB";
-import { loader } from "../helpers/loader";
+import { loader } from "../../helpers/loader";
+import { importDB } from "../../../indexedDB/importDB";
+
+let countdown: number = 9;
 
 (async () => {
   const notyf = new Notyf();
@@ -19,26 +18,7 @@ import { loader } from "../helpers/loader";
   const fileNameDisplay = document.getElementById(
     "import-file-name-display"
   )! as HTMLParagraphElement;
-  //
-  //
-  const exportBtn = document.getElementById("export-btn")! as HTMLButtonElement;
-  const exportFileSize = document.getElementById(
-    "export-file-size"
-  )! as HTMLSpanElement;
   let selectedFile: any = null;
-  let isImporting: boolean = false;
-
-  const exportData = await exportDB();
-  const blob = new Blob([exportData], { type: "application/json" });
-  exportFileSize.innerText = formatFileSize(blob.size);
-  exportBtn?.addEventListener("click", async () => {
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "NoLoginYT.json";
-    a.click();
-    a.remove();
-  });
 
   importFileInput.addEventListener("change", (e) => {
     const target = e.target as HTMLInputElement;
@@ -71,14 +51,12 @@ import { loader } from "../helpers/loader";
 
   importForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    isImporting = true;
     importButton.innerHTML = `Importing ${loader}`;
     if (selectedFile) {
       const content = await selectedFile.text();
       try {
         const { success, error } = await importDB(content);
         if (success) {
-          isImporting = false;
           notyf.open({
             type: "success",
             message: "Data Imported Successfully",
@@ -88,6 +66,24 @@ import { loader } from "../helpers/loader";
             className: "toast-message",
             icon: false,
           });
+          importButton.innerHTML = "Import";
+          showModal(countdown);
+          const counter = document.querySelector(
+            ".counter"
+          )! as HTMLSpanElement;
+          const intervalId = setInterval(() => {
+            counter.innerText = String(countdown);
+            countdown--;
+
+            if (countdown < 0) {
+              clearInterval(intervalId);
+              const currentLocation = window.location;
+              window.location.href =
+                currentLocation.origin +
+                "/src/dashboard/dashboard.html#liked-videos";
+              location.reload();
+            }
+          }, 1000);
         }
         if (error) {
           notyf.open({
@@ -99,7 +95,6 @@ import { loader } from "../helpers/loader";
             className: "toast-message",
             icon: false,
           });
-          isImporting = false;
           importButton.innerHTML = "Import";
         }
       } catch (error) {
@@ -113,7 +108,6 @@ import { loader } from "../helpers/loader";
           className: "toast-message",
           icon: false,
         });
-        isImporting = false;
         importButton.innerHTML = "Import";
       }
     } else {
@@ -127,17 +121,32 @@ import { loader } from "../helpers/loader";
         className: "toast-message",
         icon: false,
       });
-      isImporting = false;
       importButton.innerHTML = "Import";
     }
   });
 })();
 
-const clearAllBtn = document.getElementById(
-  "clear-all-btn"
-)! as HTMLButtonElement;
-clearAllBtn.addEventListener("click", async () => {
-  const { success, error } = await clearDB();
-  console.log(success);
-  console.log(error);
-});
+function showModal(countdown: number) {
+  // Create modal HTML structure
+  const modal = document.createElement("div");
+  modal.className = "modal-overlay";
+  modal.innerHTML = `
+    <div class="modal">
+      <p class="modal-heading">Import Successful</p>
+      <div class="import-modal-buttons-container">
+        <p>Data imported successfully, Click the reload button to see your data. The page will automatically reload in <span class="counter">${countdown}</span> seconds</p>
+        <button class="modal-reload-btn">Reload</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  // Add event listener to "Reload" button
+  const reloadBtn = modal.querySelector(".modal-reload-btn")!;
+  reloadBtn.addEventListener("click", async () => {
+    const currentLocation = window.location;
+    window.location.href =
+      currentLocation.origin + "/src/dashboard/dashboard.html#liked-videos";
+    location.reload();
+  });
+}

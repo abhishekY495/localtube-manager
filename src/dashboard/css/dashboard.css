@@ -326,3 +326,30 @@ h1 {
 .import-loader {
   animation: rotate 2s linear infinite;
 }
+
+.import-modal-buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 15px;
+}
+
+.modal-reload-btn {
+  background-color: #30c0c6;
+  color: black;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 8px 14px 10px 14px;
+  border-radius: 4px;
+  border: none;
+  transition: all 0.2s ease;
+}
+.modal-reload-btn:hover {
+  cursor: pointer;
+  background-color: #30c1c6e7;
+}
+
+.counter {
+  font-weight: 500;
+  color: #30c0c6;
+}
