@@ -152,10 +152,14 @@
   font-weight: 600;
   width: 420px;
   padding-bottom: 5px;
+  margin-top: -5px;
   display: inline-block;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.selected-playlist-name span {
+  color: #636363;
 }
 
 .selected-playlist-container-1 {

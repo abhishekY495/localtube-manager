@@ -198,7 +198,7 @@ div[data-custom-no-login-yt-btn-icon-liked="not-liked"] {
   display: flex;
   flex-direction: column;
   gap: 5px;
-  padding: 10px 16px 20px 20px;
+  padding: 10px 16px 20px 16px;
   border-radius: 10px;
 }
 
@@ -266,7 +266,7 @@ div[data-custom-no-login-yt-btn-icon-liked="not-liked"] {
 
 .create-playlist-btn,
 .create-playlist-btn-real {
-  padding: 8px 14px 10px 14px;
+  padding: 9px 14px 10px 14px;
   border-radius: 4px;
   font-size: 16px;
   font-weight: 600;

@@ -22,6 +22,7 @@ import { renderLikedVideos } from "./functions/renderLikedVideos";
 import { renderSubscribedChannels } from "./functions/renderSubscribedChannels";
 import { renderYoutubePlaylists } from "./functions/renderplaylists/renderYoutubePlaylists";
 import { renderLocalPlaylists } from "./functions/renderplaylists/renderLocalPlaylists";
+import { loader2 } from "./helpers/laoder2";
 
 const notyf = new Notyf();
 let likedVideosArr: Video[] = [];
@@ -362,45 +363,90 @@ const clearAllBtn = document.getElementById(
   "clear-all-btn"
 )! as HTMLButtonElement;
 clearAllBtn.addEventListener("click", async () => {
-  const { success, error } = await clearDB();
-  if (success) {
-    notyf.open({
-      type: "success",
-      message: "Data Cleared Successfully",
-      position: { x: "left", y: "top" },
-      duration: 3000,
-      dismissible: true,
-      className: "toast-message",
-      icon: false,
-    });
-    showModal();
-    const counter = document.querySelector(".counter")! as HTMLSpanElement;
-    const intervalId = setInterval(() => {
-      counter.innerText = String(countdown);
-      countdown--;
-
-      if (countdown < 0) {
-        clearInterval(intervalId);
-        const currentLocation = window.location;
-        window.location.href =
-          currentLocation.origin + "/src/dashboard/dashboard.html#liked-videos";
-        location.reload();
-      }
-    }, 1000);
-  } else if (error) {
-    notyf.open({
-      type: "error",
-      message: "No File Selected",
-      position: { x: "left", y: "bottom" },
-      duration: 4000,
-      dismissible: true,
-      className: "toast-message",
-      icon: false,
-    });
-  }
+  showModal();
 });
 
+let allowModalClose = true;
 function showModal() {
+  // Create modal HTML structure
+  const modal = document.createElement("div");
+  modal.className = "modal-overlay";
+  modal.innerHTML = `
+    <div class="modal">
+      <p class="modal-heading">Are you sure?</p>
+      <p class="modal-message">This will permanently clear all your data in <span>Liked videos</span>, <span>Subscribed channels</span>, <span>Youtube playlists</span> and <span>Local playlists</span>. You won't be able to recover them. Proceed with caution.</p>
+      <div class="modal-buttons-container">
+        <button class="modal-clear-all-btn">Clear All</button>
+        <button class="modal-cancel-btn">Cancel</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  const clearAllBtn = modal.querySelector(
+    ".modal-clear-all-btn"
+  )! as HTMLButtonElement;
+  const cancelBtn = modal.querySelector(
+    ".modal-cancel-btn"
+  )! as HTMLButtonElement;
+
+  // Add event listener to "Clear All" button
+  clearAllBtn.addEventListener("click", async () => {
+    clearAllBtn.innerHTML = `Clearing ${loader2}`;
+    cancelBtn.disabled = true;
+    allowModalClose = false;
+    const { success, error } = await clearDB();
+    if (success) {
+      closeModal(modal);
+      showClearedDataModal();
+      notyf.open({
+        type: "success",
+        message: "Data Cleared Successfully",
+        position: { x: "left", y: "top" },
+        duration: 3000,
+        dismissible: true,
+        className: "toast-message",
+        icon: false,
+      });
+      const counter = document.querySelector(".counter")! as HTMLSpanElement;
+      const intervalId = setInterval(() => {
+        counter.innerText = String(countdown);
+        countdown--;
+        if (countdown < 0) {
+          clearInterval(intervalId);
+          const currentLocation = window.location;
+          window.location.href =
+            currentLocation.origin +
+            "/src/dashboard/dashboard.html#liked-videos";
+          location.reload();
+        }
+      }, 1000);
+    } else if (error) {
+      clearAllBtn.textContent = "Clear All";
+      notyf.open({
+        type: "error",
+        message: "Something went wrong <br />Please refresh and try again ",
+        position: { x: "left", y: "bottom" },
+        duration: 4000,
+        dismissible: true,
+        className: "toast-message",
+        icon: false,
+      });
+    }
+  });
+
+  // Add event listener to "Cancel" button
+  cancelBtn.addEventListener("click", () => closeModal(modal));
+
+  // Close modal when clicking outside of it
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal && allowModalClose) {
+      closeModal(modal);
+    }
+  });
+}
+
+function showClearedDataModal() {
   // Create modal HTML structure
   const modal = document.createElement("div");
   modal.className = "modal-overlay";
@@ -423,4 +469,8 @@ function showModal() {
       currentLocation.origin + "/src/dashboard/dashboard.html#liked-videos";
     location.reload();
   });
+}
+
+function closeModal(modal: HTMLElement) {
+  modal.remove();
 }

@@ -173,7 +173,9 @@ function showSelectedPlaylistVideos(
   playlistsContainer.innerHTML = `
     <div class="selected-playlist">
       <div class="selected-playlist-container-1">
-        <p class="selected-playlist-name">${selectedPlaylist?.name}</p>
+        <p class="selected-playlist-name"><span>•</span> ${
+          selectedPlaylist?.name
+        }</p>
         <div class="selected-playlist-videos-container">
           ${selectedPlaylist?.videos
             .map((video, index) => {
