@@ -25,8 +25,9 @@ import {
   YoutubeChannel,
   YoutubePlaylist,
 } from "./types";
+import icon from "./assets/128.jpeg";
 
-console.log("hello from background script");
+chrome.action.setIcon({ path: icon });
 
 chrome.runtime.onMessage.addListener(
   (request: RequestData, _sender, sendResponse) => {

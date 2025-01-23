@@ -3,129 +3,84 @@ import {
   notSavedPlaylistIcon,
   savedPlaylistIcon,
 } from "../../../helpers/playlist/savedNotsavedPlaylistIcon";
+import { waitForAllElements } from "../../../helpers/waitForAllElements";
 import { ResponseData } from "../../../../types";
 import { toggleYoutubePlaylist } from "./toggleYoutubePlaylist";
 
-let observer: MutationObserver | null = null;
-let isProcessing = false;
-let debounceTimeout: number | undefined;
+const selectors = [
+  "#columns",
+  "ytd-playlist-panel-renderer",
+  "#container",
+  "#playlist-actions",
+];
 
 export async function checkIfYoutubePlaylistExistsFromVideoPage(url: string) {
+  console.log("🎬 Starting checkIfYoutubePlaylistExistsFromVideoPage");
+
   // Extract the playlist Id from the URL
   const params = new URL(url).searchParams;
   const playlistUrlSlug = params.get("list");
+  console.log(`🎵 Playlist ID: ${playlistUrlSlug}`);
 
+  // Check playlist saved status
+  console.log("📡 Checking if playlist is saved...");
   const responseData: ResponseData = await chrome.runtime.sendMessage({
     task: "checkIfYoutubePlaylistSaved",
     data: { playlistUrlSlug },
   });
   const isYoutubePlaylistSaved = responseData?.data?.isYoutubePlaylistSaved;
   console.log(
-    isYoutubePlaylistSaved
-      ? "youtube playlist saved"
-      : "youtube playlist not saved"
+    `💾 Playlist saved status: ${
+      isYoutubePlaylistSaved ? "Saved" : "Not saved"
+    }`
   );
 
-  if (observer) {
-    observer.disconnect();
-    observer = null;
+  // Wait for all elements to be loaded
+  await waitForAllElements(selectors);
+  console.log("✨ All elements are ready");
+
+  const columnsElement = document.querySelector(selectors[0]) as HTMLElement;
+  const ytdPlaylistPanelRendererElement = columnsElement.querySelector(
+    selectors[1]
+  ) as HTMLElement;
+  const containerElement = ytdPlaylistPanelRendererElement.querySelector(
+    selectors[2]
+  ) as HTMLElement;
+  const playlistActionsElement = containerElement.querySelector(
+    selectors[3]
+  ) as HTMLElement;
+
+  // Remove any existing buttons
+  const mycustomSavePlaylistButtonWrapper = document.querySelectorAll(
+    "#custom-nologin-yt-save-playlist-btn-wrapper"
+  );
+  if (mycustomSavePlaylistButtonWrapper.length > 0) {
+    mycustomSavePlaylistButtonWrapper.forEach((button) => button.remove());
+    console.log(
+      `🗑️ Removing ${mycustomSavePlaylistButtonWrapper.length} existing button(s)`
+    );
   }
 
-  async function handleLikeElements() {
-    // If already processing, skip
-    if (isProcessing) return;
-
-    try {
-      isProcessing = true;
-
-      const columnsElement = document.querySelector("#columns") as HTMLElement;
-      if (columnsElement === null) {
-        console.log("columnsElement not found");
-        return;
-      }
-      // console.log(columnsElement);
-
-      const secondaryElement = columnsElement.querySelector(
-        "#secondary"
-      ) as HTMLElement;
-      if (secondaryElement === null) {
-        console.log("secondaryElement not found");
-        return;
-      }
-      // console.log(secondaryElement);
-
-      const ytdPlaylistPanelRendererElement = columnsElement.querySelector(
-        "ytd-playlist-panel-renderer"
-      ) as HTMLElement;
-      if (ytdPlaylistPanelRendererElement === null) {
-        console.log("ytdPlaylistPanelRendererElement not found");
-        return;
-      }
-      // console.log(ytdPlaylistPanelRendererElement);
-
-      const containerElement = ytdPlaylistPanelRendererElement.querySelector(
-        "#container"
-      ) as HTMLElement;
-      if (containerElement === null) {
-        console.log("containerElement not found");
-        return;
-      }
-      // console.log(containerElement);
-
-      const playlistActionsElement = containerElement.querySelector(
-        "#playlist-actions"
-      ) as HTMLElement;
-      if (playlistActionsElement === null) {
-        console.log("playlistActionsElement not found");
-        return;
-      }
-      // console.log(playlistActionsElement);
-
-      // remove previous save playlist btn
-      const mycustomSavePlaylistButtonWrapper = document.querySelectorAll(
-        "#custom-nologin-yt-save-playlist-btn-wrapper"
-      );
-      if (mycustomSavePlaylistButtonWrapper.length !== 0) {
-        mycustomSavePlaylistButtonWrapper.forEach((button) => button.remove());
-        console.log("removed previous save playlist btn");
-      } else {
-        console.log("no previous save playlist btn found.");
-      }
-
-      // create and append custom save platlist btn
-      const customSavePlaylistButtonWrapper = document.createElement("div");
-      customSavePlaylistButtonWrapper.id =
-        "custom-nologin-yt-save-playlist-btn-wrapper";
-      customSavePlaylistButtonWrapper.innerHTML = `
+  // Create and append new button
+  console.log("🎨 Creating new save playlist button");
+  const customSavePlaylistButtonWrapper = document.createElement("div");
+  customSavePlaylistButtonWrapper.id =
+    "custom-nologin-yt-save-playlist-btn-wrapper";
+  customSavePlaylistButtonWrapper.innerHTML = `
         <div class="custom-nologin-yt-save-playlist-btn">
           ${isYoutubePlaylistSaved ? savedPlaylistIcon : notSavedPlaylistIcon}
           <p>${isYoutubePlaylistSaved ? "Saved" : "Save"} Playlist</p>
         </div>`;
-      playlistActionsElement.append(customSavePlaylistButtonWrapper);
 
-      customSavePlaylistButtonWrapper.addEventListener("click", async (e) => {
-        e.stopPropagation();
-        const playlist = getPlaylistObjFromVideoPage(containerElement);
-        await toggleYoutubePlaylist(playlist, customSavePlaylistButtonWrapper);
-      });
+  playlistActionsElement.append(customSavePlaylistButtonWrapper);
+  console.log("✅ Save playlist button added to page");
 
-      if (observer) {
-        observer?.disconnect();
-        observer = null;
-        console.log("playlist observer disconnected");
-      }
-    } finally {
-      isProcessing = false;
-    }
-  }
+  customSavePlaylistButtonWrapper.addEventListener("click", async (e) => {
+    console.log("👆 Save playlist button clicked");
+    e.stopPropagation();
+    const playlist = getPlaylistObjFromVideoPage(containerElement);
+    await toggleYoutubePlaylist(playlist, customSavePlaylistButtonWrapper);
+  });
 
-  // Debounce function to limit how often we process mutations
-  function debounceHandler() {
-    window.clearTimeout(debounceTimeout);
-    debounceTimeout = window.setTimeout(handleLikeElements, 100);
-  }
-
-  // Create new observer
-  observer = new MutationObserver(debounceHandler);
-  observer.observe(document.body, { childList: true, subtree: true });
+  console.log("🎉 Setup completed successfully");
 }
