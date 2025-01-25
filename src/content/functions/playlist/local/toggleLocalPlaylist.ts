@@ -14,7 +14,7 @@ const selectors = [
   "yt-button-view-model.ytd-menu-renderer",
 ];
 
-export async function toggleLocalPlaylist() {
+export async function toggleLocalPlaylist(videoUrlSlug: string) {
   console.log("🎬 Starting toggleLocalPlaylist");
 
   try {
@@ -65,21 +65,24 @@ export async function toggleLocalPlaylist() {
 
     // Add click event listener
     customSaveVideoToLocalPlaylistButtonWrapper.addEventListener("click", () =>
-      addToLocalPlaylist(aboveTheFoldElement)
+      addToLocalPlaylist(aboveTheFoldElement, videoUrlSlug)
     );
   } catch (error) {
     console.log(error);
   }
 }
 
-async function addToLocalPlaylist(aboveTheFoldElement: HTMLElement) {
+async function addToLocalPlaylist(
+  aboveTheFoldElement: HTMLElement,
+  videoUrlSlug: string
+) {
   const responseData: ResponseData = await chrome.runtime.sendMessage({
     task: "getLocalPlaylists",
   });
   const { success, data, error } = responseData;
   if (success) {
     const localPlaylists: LocalPlaylistNotDetailed[] = data?.playlists;
-    const video = getVideoObj(document, aboveTheFoldElement);
+    const video = getVideoObj(document, aboveTheFoldElement, videoUrlSlug);
     showAddVideoToModal(localPlaylists, video);
   } else {
     console.error("Error getting local playlists:", error);

@@ -1,11 +1,10 @@
 import { Video } from "../../../types";
-import { getVideoUrlSlug } from "./getVideoUrlSlug";
 
 export function getVideoObj(
   document: Document,
-  aboveTheFoldElement: HTMLElement
+  aboveTheFoldElement: HTMLElement,
+  videoUrlSlug: string
 ) {
-  const urlSlug = getVideoUrlSlug();
   const videoTitle = document.title.replace(" - YouTube", "");
   const videoDurationElement = document.querySelector(
     ".ytp-time-duration"
@@ -22,7 +21,7 @@ export function getVideoObj(
   const channelId2 = channelLinks[1];
 
   const video: Video = {
-    urlSlug: urlSlug || "",
+    urlSlug: videoUrlSlug || "",
     title: videoTitle,
     duration: videoDurationElement.innerText,
     channelName: channelId2?.innerText,

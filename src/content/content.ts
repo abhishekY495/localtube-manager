@@ -1,6 +1,5 @@
 import "./content.css";
 import "notyf/notyf.min.css";
-import { getVideoUrlSlug } from "./helpers/video/getVideoUrlSlug";
 import { getCurrentUrl } from "./helpers/getCurrentUrl";
 import { checkIfVideoLiked } from "./functions/video/checkIfVideoLiked";
 import { checkIfChannelSubscribedFromVideoPage } from "./functions/channel/checkIfChannelSubscribedFromVideoPage";
@@ -9,49 +8,41 @@ import { checkIfYoutubePlaylistExistsFromVideoPage } from "./functions/playlist/
 import { checkIfYoutubePlaylistExistsFromPlaylistPage } from "./functions/playlist/youtube/checkIfYoutubePlaylistExistsFromPlaylistPage";
 import { toggleLocalPlaylist } from "./functions/playlist/local/toggleLocalPlaylist";
 
-const videoUrlSlug = getVideoUrlSlug();
-const currentUrl = getCurrentUrl();
+const processPage = (url: string) => {
+  if (!url) return;
 
-if (videoUrlSlug.length > 0) {
-  checkIfVideoLiked(String(videoUrlSlug));
-  toggleLocalPlaylist();
-  checkIfChannelSubscribedFromVideoPage();
-  if (currentUrl.includes("list=")) {
-    checkIfYoutubePlaylistExistsFromVideoPage(currentUrl);
-  }
-} else if (currentUrl.includes("playlist?list=")) {
-  checkIfYoutubePlaylistExistsFromPlaylistPage(currentUrl);
-} else {
-  if (currentUrl.length > "https://www.youtube.com/".length) {
-    checkIfChannelSubscribedFromChannelPage(currentUrl);
-  }
-}
+  const params = new URL(url).searchParams;
+  const videoUrlSlug = params.get("v");
 
+  if (videoUrlSlug) {
+    checkIfVideoLiked(videoUrlSlug);
+    checkIfChannelSubscribedFromVideoPage();
+    toggleLocalPlaylist(videoUrlSlug);
+
+    if (params.get("list")) {
+      const playlistUrlSlug = params.get("list")!;
+      checkIfYoutubePlaylistExistsFromVideoPage(playlistUrlSlug);
+    }
+  } else if (url.includes("playlist?list=")) {
+    const playlistUrlSlug = params.get("list")!;
+    checkIfYoutubePlaylistExistsFromPlaylistPage(playlistUrlSlug);
+  } else if (url.length > "https://www.youtube.com/".length) {
+    checkIfChannelSubscribedFromChannelPage(url);
+  }
+};
+
+// Initial page load
+(function init() {
+  const currentUrl = getCurrentUrl();
+  processPage(currentUrl);
+})();
+
+// URL change observer
 let lastUrl = location.href;
-new MutationObserver(async () => {
+new MutationObserver(() => {
   const url = location.href;
   if (url !== lastUrl) {
     lastUrl = url;
-    setTimeout(async () => {
-      const videoUrlSlug = getVideoUrlSlug();
-      const currentUrl = getCurrentUrl();
-      if (videoUrlSlug.length > 0) {
-        const tasks = [
-          checkIfVideoLiked(String(videoUrlSlug)),
-          checkIfChannelSubscribedFromVideoPage(),
-          toggleLocalPlaylist(),
-        ];
-        if (currentUrl.includes("list=")) {
-          tasks.push(checkIfYoutubePlaylistExistsFromVideoPage(currentUrl));
-        }
-        await Promise.all(tasks);
-      } else if (currentUrl.includes("playlist?list=")) {
-        checkIfYoutubePlaylistExistsFromPlaylistPage(currentUrl);
-      } else {
-        if (currentUrl.length > "https://www.youtube.com/".length) {
-          await checkIfChannelSubscribedFromChannelPage(currentUrl);
-        }
-      }
-    }, 1000);
+    setTimeout(() => processPage(getCurrentUrl()), 1000);
   }
 }).observe(document, { subtree: true, childList: true });

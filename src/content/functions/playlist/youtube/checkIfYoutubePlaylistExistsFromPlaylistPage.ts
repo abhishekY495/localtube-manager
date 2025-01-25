@@ -16,12 +16,9 @@ const selectors = [
 ];
 
 export async function checkIfYoutubePlaylistExistsFromPlaylistPage(
-  url: string
+  playlistUrlSlug: string
 ) {
   console.log("🎬 Starting checkIfYoutubePlaylistExistsFromPlaylistPage");
-
-  const params = new URL(url).searchParams;
-  const playlistUrlSlug = params.get("list");
   console.log(`🎵 Playlist ID: ${playlistUrlSlug}`);
 
   // Check playlist saved status
