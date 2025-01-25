@@ -1,14 +1,14 @@
 import { YoutubeChannel } from "../../../types";
 
-export function getChannelObjFromVideoPage(aboveTheFoldElement: HTMLElement) {
-  const ownerElement = aboveTheFoldElement.querySelector(
-    "#owner"
+export function getChannelObjFromVideoPage(
+  aboveTheFoldElement: HTMLElement,
+  ownerElement: HTMLElement
+) {
+  const socialLinksElement = aboveTheFoldElement.querySelector(
+    "#social-links"
   ) as HTMLElement;
   const videoOwnerRendererElement = ownerElement.querySelector(
     "ytd-video-owner-renderer"
-  ) as HTMLElement;
-  const socialLinksElement = aboveTheFoldElement.querySelector(
-    "#social-links"
   ) as HTMLElement;
 
   const channelSocialLinks = socialLinksElement.querySelectorAll("a");
@@ -18,8 +18,8 @@ export function getChannelObjFromVideoPage(aboveTheFoldElement: HTMLElement) {
   const channelHandle = channelLinks[0];
   const channelId2 = channelLinks[1];
 
-  const imageElement = channelHandle.querySelector("img") as HTMLElement;
-  const imageUrl = imageElement.getAttribute("src") || "";
+  const imageElement = channelHandle.querySelector("img") as HTMLImageElement;
+  const imageUrl = imageElement.getAttribute("src") || imageElement.src || "";
 
   const channel: YoutubeChannel = {
     name: channelId2?.innerText,

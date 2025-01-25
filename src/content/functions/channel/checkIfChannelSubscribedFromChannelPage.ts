@@ -1,163 +1,101 @@
 import { toggleSubscribedChannel } from "./toggleSubscribedChannel";
 import { getChannelObjFromChannelPage } from "../../helpers/channel/getChannelObjFromChannelPage";
 import { ResponseData, YoutubeChannel } from "../../../types";
+import { waitForAllElements } from "../../helpers/waitForAllElements";
 
-let observer: MutationObserver | null = null;
-let isProcessing = false;
-let debounceTimeout: number | undefined;
-let pageHeaderErrorCount: number = 0;
+const selectors1 = ["#page-header", "yt-flexible-actions-view-model"];
+const selectors2 = ["#page-header", "yt-content-metadata-view-model"];
 
 export async function checkIfChannelSubscribedFromChannelPage(
   channelUrl: string
 ) {
+  console.log("🎬 Starting checkIfChannelSubscribedFromChannelPage");
   let isSubscribed: boolean = false;
   let isSubscribedFromId: boolean = false;
   let isSubscribedFromHandle: boolean = false;
 
-  // Clean up existing observer
-  if (observer) {
-    observer.disconnect();
-    observer = null;
-    isProcessing = false;
-  }
+  try {
+    // Wait for all elements to be loaded
+    await waitForAllElements(selectors1);
+    await waitForAllElements(selectors2);
+    console.log("✨ All elements are ready");
 
-  async function handleChannelElements() {
-    // If already processing, skip
-    if (isProcessing) return;
+    // Now we can safely get all elements
+    const pageHeaderElement = document.querySelector(
+      selectors1[0]
+    ) as HTMLElement;
+    const channelActionsViewModal = pageHeaderElement.querySelector(
+      selectors1[1]
+    ) as HTMLElement;
+    const contentMetadataViewModel = pageHeaderElement.querySelector(
+      selectors2[1]
+    ) as HTMLElement;
 
-    try {
-      isProcessing = true;
+    const channelHandleElement = contentMetadataViewModel.querySelector(
+      "span"
+    ) as HTMLElement;
+    const channelHandle = channelHandleElement.innerText;
 
-      const pageHeaderElement = document.querySelector(
-        "#page-header"
-      ) as HTMLElement;
-      if (pageHeaderElement === null) {
-        console.log("pageHeaderElement not found");
-        pageHeaderErrorCount += 1;
-        console.log(pageHeaderErrorCount);
-        if (pageHeaderErrorCount > 80) {
-          console.log(pageHeaderErrorCount);
-          if (observer) {
-            observer.disconnect();
-            observer = null;
-            isProcessing = false;
-            console.log("channel-page observer disconnected");
-          }
-        }
-        return;
+    // Get channel info and subscription status
+    const responseData: ResponseData = await chrome.runtime.sendMessage({
+      task: "checkIfChannelSubscribed",
+      data: { channelHandle: `https://www.youtube.com/${channelHandle}` },
+    });
+    const channel: YoutubeChannel = responseData?.data?.channel;
+    if (channel) {
+      isSubscribedFromHandle = true;
+      console.log("subscribed from handle");
+      if (!isSubscribedFromHandle) {
+        console.log("not subscribed from handle, checking id");
+        isSubscribedFromId = channel?.id === channelUrl;
       }
-      // console.log(pageHeaderElement);
-
-      const channelActionsViewModal = pageHeaderElement.querySelector(
-        "yt-flexible-actions-view-model"
-      ) as HTMLElement;
-      if (channelActionsViewModal === null) {
-        console.log("channelActionsViewModal not found");
-        return;
-      }
-      // console.log(channelActionsViewModal);
-
-      const contentMetadataViewModel = pageHeaderElement.querySelector(
-        "yt-content-metadata-view-model"
-      ) as HTMLElement;
-      if (contentMetadataViewModel === null) {
-        console.log("contentMetadataViewModel not found");
-        return;
-      }
-      // console.log(contentMetadataViewModel);
-
-      const channelHandleElement = contentMetadataViewModel.querySelector(
-        "span"
-      ) as HTMLElement;
-      if (channelHandleElement === null) {
-        console.log("channelHandleElement not found");
-        return;
-      }
-      const channelHandle = channelHandleElement.innerText;
-      // console.log(channelHandle);
-
-      const responseData: ResponseData = await chrome.runtime.sendMessage({
-        task: "checkIfChannelSubscribed",
-        data: { channelHandle: `https://www.youtube.com/${channelHandle}` },
-      });
-      const channel: YoutubeChannel = responseData?.data?.channel;
-      if (channel) {
-        isSubscribedFromHandle = true;
-        console.log("subscribed from handle");
-        if (!isSubscribedFromHandle) {
-          console.log("not subscribed from handle, checking id");
-          isSubscribedFromId = channel?.id === channelUrl;
-        }
-      }
-
-      // final subscription check
-      if (isSubscribedFromHandle || isSubscribedFromId) {
-        isSubscribed = true;
-        console.log("subscribed to", channelHandle);
-      } else {
-        isSubscribed = false;
-        console.log("not subscribed to", channelHandle);
-      }
-
-      // remove previous created button
-      const myCustomSubscribeButton = document.querySelectorAll(
-        ".custom-nologin-yt-subscribe-btn-channel-page"
-      );
-      if (myCustomSubscribeButton.length !== 0) {
-        console.log("previous subscribe btn found, removing it");
-        myCustomSubscribeButton.forEach((button) => button.remove());
-      } else {
-        console.log("No previous subscribe btn found.");
-      }
-
-      // Create new subscribe button
-      const customSubscribeButton = document.createElement("div");
-      customSubscribeButton.classList.add(
-        "custom-nologin-yt-subscribe-btn-channel-page"
-      );
-
-      if (isSubscribed) {
-        customSubscribeButton.innerText = "Subscribed";
-        customSubscribeButton.classList.add(
-          "custom-nologin-yt-channel-subscribed"
-        );
-      } else {
-        customSubscribeButton.innerText = "Subscribe";
-        customSubscribeButton.classList.remove(
-          "custom-nologin-yt-channel-subscribed"
-        );
-      }
-
-      // Add click handler
-      customSubscribeButton.addEventListener("click", async () => {
-        const youtubeChannel = getChannelObjFromChannelPage(pageHeaderElement);
-        await toggleSubscribedChannel(youtubeChannel, customSubscribeButton);
-      });
-
-      // Append button and style visible
-      customSubscribeButton.style.visibility = "visible";
-      channelActionsViewModal.prepend(customSubscribeButton);
-
-      // Disconnect observer after successful processing
-      if (observer) {
-        observer.disconnect();
-        observer = null;
-        isProcessing = false;
-        console.log("channel-page observer disconnected");
-      }
-    } finally {
-      isProcessing = false;
     }
-  }
+    // final subscription check
+    if (isSubscribedFromHandle || isSubscribedFromId) {
+      isSubscribed = true;
+      console.log("subscribed to", channelHandle);
+    } else {
+      isSubscribed = false;
+      console.log("not subscribed to", channelHandle);
+    }
 
-  // Debounce function to limit how often we process mutations
-  function debounceHandler() {
-    console.log("searching");
-    window.clearTimeout(debounceTimeout);
-    debounceTimeout = window.setTimeout(handleChannelElements, 100);
-  }
+    // Remove any existing buttons
+    const myCustomSubscribeButtons = document.querySelectorAll(
+      ".custom-nologin-yt-subscribe-btn-channel-page"
+    );
+    if (myCustomSubscribeButtons.length > 0) {
+      console.log(
+        `🗑️ Removing ${myCustomSubscribeButtons.length} existing button(s)`
+      );
+      myCustomSubscribeButtons.forEach((button) => button.remove());
+    }
 
-  // Create new observer
-  observer = new MutationObserver(debounceHandler);
-  observer.observe(document.body, { childList: true, subtree: true });
+    // Create and append new button
+    const customSubscribeButton = document.createElement("div");
+    customSubscribeButton.classList.add(
+      "custom-nologin-yt-subscribe-btn-channel-page"
+    );
+    if (isSubscribed) {
+      customSubscribeButton.innerText = "Subscribed";
+      customSubscribeButton.classList.add(
+        "custom-nologin-yt-channel-subscribed"
+      );
+    } else {
+      customSubscribeButton.innerText = "Subscribe";
+      customSubscribeButton.classList.remove(
+        "custom-nologin-yt-channel-subscribed"
+      );
+    }
+    customSubscribeButton.style.visibility = "visible";
+    channelActionsViewModal.prepend(customSubscribeButton);
+
+    // Add click event listener
+    customSubscribeButton.addEventListener("click", async () => {
+      console.log("👆 Subscribe button clicked");
+      const youtubeChannel = getChannelObjFromChannelPage(pageHeaderElement);
+      await toggleSubscribedChannel(youtubeChannel, customSubscribeButton);
+    });
+  } catch (error) {
+    console.log(error);
+  }
 }
