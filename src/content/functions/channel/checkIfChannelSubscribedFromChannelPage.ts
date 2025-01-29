@@ -61,7 +61,7 @@ export async function checkIfChannelSubscribedFromChannelPage(
 
     // Remove any existing buttons
     const myCustomSubscribeButtons = document.querySelectorAll(
-      ".custom-nologin-yt-subscribe-btn-channel-page"
+      ".custom-ltm-subscribe-btn-channel-page"
     );
     if (myCustomSubscribeButtons.length > 0) {
       console.log(
@@ -73,18 +73,14 @@ export async function checkIfChannelSubscribedFromChannelPage(
     // Create and append new button
     const customSubscribeButton = document.createElement("div");
     customSubscribeButton.classList.add(
-      "custom-nologin-yt-subscribe-btn-channel-page"
+      "custom-ltm-subscribe-btn-channel-page"
     );
     if (isSubscribed) {
       customSubscribeButton.innerText = "Subscribed";
-      customSubscribeButton.classList.add(
-        "custom-nologin-yt-channel-subscribed"
-      );
+      customSubscribeButton.classList.add("custom-ltm-channel-subscribed");
     } else {
       customSubscribeButton.innerText = "Subscribe";
-      customSubscribeButton.classList.remove(
-        "custom-nologin-yt-channel-subscribed"
-      );
+      customSubscribeButton.classList.remove("custom-ltm-channel-subscribed");
     }
     customSubscribeButton.style.visibility = "visible";
     channelActionsViewModal.prepend(customSubscribeButton);

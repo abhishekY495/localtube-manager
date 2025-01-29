@@ -36,7 +36,7 @@ export async function toggleLocalPlaylist(videoUrlSlug: string) {
     // Remove any existing buttons
     const prevCustomSaveVideoToLocalPlaylistButtonWrappers =
       document.querySelectorAll(
-        "#custom-nologin-yt-save-video-to-local-playlist-btn-wrapper"
+        "#custom-ltm-save-video-to-local-playlist-btn-wrapper"
       );
     if (prevCustomSaveVideoToLocalPlaylistButtonWrappers.length > 0) {
       console.log(
@@ -52,9 +52,9 @@ export async function toggleLocalPlaylist(videoUrlSlug: string) {
     const customSaveVideoToLocalPlaylistButtonWrapper =
       document.createElement("div");
     customSaveVideoToLocalPlaylistButtonWrapper.id =
-      "custom-nologin-yt-save-video-to-local-playlist-btn-wrapper";
+      "custom-ltm-save-video-to-local-playlist-btn-wrapper";
     customSaveVideoToLocalPlaylistButtonWrapper.innerHTML = `
-        <div class="custom-nologin-yt-save-video-to-local-playlist-btn">
+        <div class="custom-ltm-save-video-to-local-playlist-btn">
           ${notSavedPlaylistIcon}
           <p>Add to</p>
         </div>`;

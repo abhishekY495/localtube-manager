@@ -6,7 +6,7 @@ import { notLikedIcon } from "../../helpers/video/likedUnlikedIcons";
 const notyf = new Notyf();
 
 export async function toggleLikedVideo(video: Video, likeBtn: Element) {
-  const iconElement = likeBtn.querySelector("#custom-nologin-yt-like-btn-icon");
+  const iconElement = likeBtn.querySelector("#custom-ltm-like-btn-icon");
 
   try {
     const responseData: ResponseData = await chrome.runtime.sendMessage({
@@ -24,9 +24,9 @@ export async function toggleLikedVideo(video: Video, likeBtn: Element) {
         );
         // like animation
         if (iconElement) {
-          iconElement.innerHTML = `<canvas id="custom-nologin-yt-dotlottie-canvas" style="width: 58px; height: 58px; margin-top:-18px; margin-left:-16px; margin-right:-18px;"></canvas>`;
+          iconElement.innerHTML = `<canvas id="custom-ltm-dotlottie-canvas" style="width: 58px; height: 58px; margin-top:-18px; margin-left:-16px; margin-right:-18px;"></canvas>`;
           const canvasElement = document.querySelector(
-            "#custom-nologin-yt-dotlottie-canvas"
+            "#custom-ltm-dotlottie-canvas"
           ) as HTMLCanvasElement;
           new DotLottie({
             autoplay: true,

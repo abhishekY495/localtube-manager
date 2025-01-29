@@ -33,7 +33,7 @@ yt-flexible-actions-view-model .yt-flexible-actions-view-model-wiz__action-row {
 }
 
 /* Like/UnLike button */
-#custom-nologin-yt-like-btn {
+#custom-ltm-like-btn {
   display: flex;
   align-items: center;
   background-color: #272727;
@@ -42,16 +42,16 @@ yt-flexible-actions-view-model .yt-flexible-actions-view-model-wiz__action-row {
   border-right: 1px solid #525252;
   border-left: 1px solid #525252;
 }
-#custom-nologin-yt-like-btn:hover {
+#custom-ltm-like-btn:hover {
   background-color: #3f3f3f;
   cursor: pointer;
 }
 
-#custom-nologin-yt-like-btn-icon {
+#custom-ltm-like-btn-icon {
   height: 24px;
 }
 
-#custom-nologin-yt-like-count {
+#custom-ltm-like-count {
   font-family: "Roboto", "Arial", sans-serif;
   font-size: 1.4rem;
   font-weight: 500;
@@ -76,7 +76,7 @@ div[data-custom-no-login-yt-btn-icon-liked="not-liked"] {
   display: none;
 }
 
-.custom-nologin-yt-subscribe-btn-video-page {
+.custom-ltm-subscribe-btn-video-page {
   background-color: #f1f1f1;
   color: #0f0f0f;
   text-align: center;
@@ -89,7 +89,7 @@ div[data-custom-no-login-yt-btn-icon-liked="not-liked"] {
   height: 16px;
   position: relative;
 }
-.custom-nologin-yt-subscribe-btn-channel-page {
+.custom-ltm-subscribe-btn-channel-page {
   background-color: #f1f1f1;
   color: #0f0f0f;
   text-align: center;
@@ -103,32 +103,32 @@ div[data-custom-no-login-yt-btn-icon-liked="not-liked"] {
   position: relative;
 }
 
-.custom-nologin-yt-subscribe-btn-video-page:hover,
-.custom-nologin-yt-subscribe-btn-channel-page:hover {
+.custom-ltm-subscribe-btn-video-page:hover,
+.custom-ltm-subscribe-btn-channel-page:hover {
   background-color: #d9d9d9;
   cursor: pointer;
 }
 
-.custom-nologin-yt-channel-subscribed {
+.custom-ltm-channel-subscribed {
   background-color: #272727;
   color: #f1f1f1;
 }
-.custom-nologin-yt-channel-subscribed:hover {
+.custom-ltm-channel-subscribed:hover {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
-#custom-nologin-yt-subscribe-dotlottie-canvas {
+#custom-ltm-subscribe-dotlottie-canvas {
   width: fit-content;
   height: 16px;
 }
 
-.custom-nologin-yt-channel-subscribed-animate-bg {
+.custom-ltm-channel-subscribed-animate-bg {
   background-color: #f57 !important;
 }
 
 /* Playlist */
-.custom-nologin-yt-save-playlist-btn,
-.custom-nologin-yt-save-playlist-btn-2 {
+.custom-ltm-save-playlist-btn,
+.custom-ltm-save-playlist-btn-2 {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -142,20 +142,20 @@ div[data-custom-no-login-yt-btn-icon-liked="not-liked"] {
   border: 1px solid #6b6b6b;
   border-radius: 16px;
 }
-.custom-nologin-yt-save-playlist-btn-2 {
+.custom-ltm-save-playlist-btn-2 {
   padding: 10px 13px 12px 13px;
   font-size: 16px;
   border-radius: 8px;
 }
 
-.custom-nologin-yt-save-playlist-btn:hover,
-.custom-nologin-yt-save-playlist-btn-2:hover {
+.custom-ltm-save-playlist-btn:hover,
+.custom-ltm-save-playlist-btn-2:hover {
   cursor: pointer;
   background-color: #313131;
 }
 
 /* Save video to local playlist */
-.custom-nologin-yt-save-video-to-local-playlist-btn {
+.custom-ltm-save-video-to-local-playlist-btn {
   display: flex;
   align-items: center;
   gap: 5px;
@@ -170,7 +170,7 @@ div[data-custom-no-login-yt-btn-icon-liked="not-liked"] {
   border-right: 1px solid #525252;
   border-left: 1px solid #525252;
 }
-.custom-nologin-yt-save-video-to-local-playlist-btn:hover {
+.custom-ltm-save-video-to-local-playlist-btn:hover {
   background-color: #3f3f3f;
   cursor: pointer;
 }
@@ -214,7 +214,7 @@ div[data-custom-no-login-yt-btn-icon-liked="not-liked"] {
   padding: 5px 5px 8px 5px;
 }
 
-.nologin-yt-cross-icon-container {
+.ltm-cross-icon-container {
   margin-top: 6px;
   cursor: pointer;
 }

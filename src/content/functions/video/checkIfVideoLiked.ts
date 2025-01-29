@@ -54,7 +54,7 @@ export async function checkIfVideoLiked(urlSlug: string) {
 
     // Remove any existing buttons
     const myCustomLikeButtons = document.querySelectorAll(
-      "#custom-nologin-yt-like-btn"
+      "#custom-ltm-like-btn"
     );
     if (myCustomLikeButtons.length > 0) {
       console.log(
@@ -66,13 +66,13 @@ export async function checkIfVideoLiked(urlSlug: string) {
     // Create and append new button
     console.log("🎨 Creating new like button");
     const customLikeButtonWrapper = document.createElement("div");
-    customLikeButtonWrapper.id = "custom-nologin-yt-like-btn";
+    customLikeButtonWrapper.id = "custom-ltm-like-btn";
     customLikeButtonWrapper.innerHTML = `
-        <div id="custom-nologin-yt-like-btn-icon" data-custom-no-login-yt-btn-icon-liked=${
+        <div id="custom-ltm-like-btn-icon" data-custom-no-login-yt-btn-icon-liked=${
           isVideoLiked ? "initial-liked" : "initial-not-liked"
         }>${isVideoLiked ? likedIcon : notLikedIcon}
         </div>
-        <div id="custom-nologin-yt-like-count">${likeCount}</div>
+        <div id="custom-ltm-like-count">${likeCount}</div>
       `;
     topLevelButtonsComputedElement.insertBefore(
       customLikeButtonWrapper,
@@ -83,7 +83,7 @@ export async function checkIfVideoLiked(urlSlug: string) {
     // Add click event listener
     customLikeButtonWrapper.addEventListener("click", async () => {
       console.log("👆 Like button clicked");
-      const video = getVideoObj(document, aboveTheFoldElement);
+      const video = getVideoObj(document, aboveTheFoldElement, urlSlug);
       await toggleLikedVideo(video, customLikeButtonWrapper);
     });
   } catch (error) {

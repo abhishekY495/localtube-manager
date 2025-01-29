@@ -19,7 +19,7 @@ export function showAddVideoToModal(
     <div class="modal">
         <div class="modal-header-container">
             <p class="modal-heading">Add video to</p>
-            <div class="nologin-yt-cross-icon-container">${crossIcon}</div>
+            <div class="ltm-cross-icon-container">${crossIcon}</div>
         </div>
         <div class="modal-content">
         <div class="playlists-container">
@@ -97,9 +97,7 @@ export function showAddVideoToModal(
   });
 
   // Add event listener to cross icon
-  const crossIconContainer = modal.querySelector(
-    ".nologin-yt-cross-icon-container"
-  )!;
+  const crossIconContainer = modal.querySelector(".ltm-cross-icon-container")!;
   crossIconContainer.addEventListener("click", () => modal.remove());
 
   // Close modal when clicking outside of it
@@ -126,7 +124,7 @@ function showCreateLocalPlaylist(
     <div class="modal">
       <div class="modal-header-container">
         <p class="modal-heading">Create Local Playlist</p>
-        <div class="nologin-yt-cross-icon-container">${crossIcon}</div>
+        <div class="ltm-cross-icon-container">${crossIcon}</div>
       </div>
       <form class="modal-content create-local-playlist-form">
         <input type="text" placeholder="Playlist name" class="playlist-name-input" required />
@@ -135,9 +133,7 @@ function showCreateLocalPlaylist(
     </div>
     `;
   // Add event listener to cross icon
-  const crossIconContainer2 = modal.querySelector(
-    ".nologin-yt-cross-icon-container"
-  )!;
+  const crossIconContainer2 = modal.querySelector(".ltm-cross-icon-container")!;
   crossIconContainer2.addEventListener("click", () => modal.remove());
 
   // form submission

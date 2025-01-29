@@ -36,16 +36,14 @@ export async function toggleSubscribedChannel(
           src: chrome.runtime.getURL("./subscribe-animation.json"),
         });
         customSubscribeButton.style.transition = "background-color 0.5s ease";
+        customSubscribeButton.classList.add("custom-ltm-channel-subscribed");
         customSubscribeButton.classList.add(
-          "custom-nologin-yt-channel-subscribed"
-        );
-        customSubscribeButton.classList.add(
-          "custom-nologin-yt-channel-subscribed-animate-bg"
+          "custom-ltm-channel-subscribed-animate-bg"
         );
 
         setTimeout(() => {
           customSubscribeButton.classList.remove(
-            "custom-nologin-yt-channel-subscribed-animate-bg"
+            "custom-ltm-channel-subscribed-animate-bg"
           );
         }, 600);
         setTimeout(() => {
@@ -58,9 +56,7 @@ export async function toggleSubscribedChannel(
         subscribedText.innerText = "Subscribed";
         customSubscribeButton.appendChild(subscribedText);
       } else {
-        customSubscribeButton.classList.remove(
-          "custom-nologin-yt-channel-subscribed"
-        );
+        customSubscribeButton.classList.remove("custom-ltm-channel-subscribed");
         customSubscribeButton.innerText = "Subscribe";
       }
     } else {

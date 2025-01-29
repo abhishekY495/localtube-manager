@@ -57,7 +57,7 @@ export async function checkIfYoutubePlaylistExistsFromPlaylistPage(
 
   // Remove any existing buttons
   const existingButtons = document.querySelectorAll(
-    "#custom-nologin-yt-save-playlist-btn-wrapper-2"
+    "#custom-ltm-save-playlist-btn-wrapper-2"
   );
   if (existingButtons.length > 0) {
     console.log(`🗑️ Removing ${existingButtons.length} existing button(s)`);
@@ -67,10 +67,9 @@ export async function checkIfYoutubePlaylistExistsFromPlaylistPage(
   // Create and append new button
   console.log("🎨 Creating new save playlist button");
   const customSavePlaylistButtonWrapper = document.createElement("div");
-  customSavePlaylistButtonWrapper.id =
-    "custom-nologin-yt-save-playlist-btn-wrapper-2";
+  customSavePlaylistButtonWrapper.id = "custom-ltm-save-playlist-btn-wrapper-2";
   customSavePlaylistButtonWrapper.innerHTML = `
-    <div class="custom-nologin-yt-save-playlist-btn-2">
+    <div class="custom-ltm-save-playlist-btn-2">
       ${isYoutubePlaylistSaved ? savedPlaylistIcon : notSavedPlaylistIcon}
       <p>${isYoutubePlaylistSaved ? "Saved" : "Save"} Playlist</p>
     </div>`;

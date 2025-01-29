@@ -23,7 +23,7 @@ export async function checkIfChannelSubscribedFromVideoPage() {
 
     // Remove any existing buttons
     const existingButtons = document.querySelectorAll(
-      ".custom-nologin-yt-subscribe-btn-video-page"
+      ".custom-ltm-subscribe-btn-video-page"
     );
     if (existingButtons.length > 0) {
       console.log(`🗑️ Removing ${existingButtons.length} existing button(s)`);
@@ -48,19 +48,13 @@ export async function checkIfChannelSubscribedFromVideoPage() {
 
     // Create and append new button
     const customSubscribeButton = document.createElement("div");
-    customSubscribeButton.classList.add(
-      "custom-nologin-yt-subscribe-btn-video-page"
-    );
+    customSubscribeButton.classList.add("custom-ltm-subscribe-btn-video-page");
     if (isChannelSubscribed) {
       customSubscribeButton.innerText = "Subscribed";
-      customSubscribeButton.classList.add(
-        "custom-nologin-yt-channel-subscribed"
-      );
+      customSubscribeButton.classList.add("custom-ltm-channel-subscribed");
     } else {
       customSubscribeButton.innerText = "Subscribe";
-      customSubscribeButton.classList.remove(
-        "custom-nologin-yt-channel-subscribed"
-      );
+      customSubscribeButton.classList.remove("custom-ltm-channel-subscribed");
     }
     ownerElement.appendChild(customSubscribeButton);
 

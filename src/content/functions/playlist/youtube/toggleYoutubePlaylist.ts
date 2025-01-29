@@ -25,8 +25,8 @@ export async function toggleYoutubePlaylist(
         customSavePlaylistButtonWrapper.innerHTML = `
             <div class="${
               playlistPage
-                ? "custom-nologin-yt-save-playlist-btn-2"
-                : "custom-nologin-yt-save-playlist-btn"
+                ? "custom-ltm-save-playlist-btn-2"
+                : "custom-ltm-save-playlist-btn"
             }">
               ${savedPlaylistIcon}
               <p>Saved Playlist</p>
@@ -35,8 +35,8 @@ export async function toggleYoutubePlaylist(
         customSavePlaylistButtonWrapper.innerHTML = `
             <div class="${
               playlistPage
-                ? "custom-nologin-yt-save-playlist-btn-2"
-                : "custom-nologin-yt-save-playlist-btn"
+                ? "custom-ltm-save-playlist-btn-2"
+                : "custom-ltm-save-playlist-btn"
             }">
               ${notSavedPlaylistIcon}
               <p>Save Playlist</p>
