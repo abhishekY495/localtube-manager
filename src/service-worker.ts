@@ -25,9 +25,6 @@ import {
   YoutubeChannel,
   YoutubePlaylist,
 } from "./types";
-import icon from "./assets/128.jpeg";
-
-chrome.action.setIcon({ path: icon });
 
 chrome.runtime.onMessage.addListener(
   (request: RequestData, _sender, sendResponse) => {
