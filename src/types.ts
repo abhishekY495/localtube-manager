@@ -47,3 +47,8 @@ export type ResponseData = {
   data: Record<string, any>;
   error: { message: string; name: string };
 };
+
+export type LicenseKey = {
+  key: string;
+  isValid: boolean;
+};

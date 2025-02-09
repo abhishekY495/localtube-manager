@@ -397,3 +397,291 @@ h1 {
   padding: 0 5px 8px 5px;
   border-bottom: 1px solid #515151;
 }
+
+/* License */
+#license-key-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.license-management-selection-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.buy-license-key,
+.i-have-license-key-btn {
+  background-color: #282828;
+  color: white;
+  font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
+  font-weight: 500;
+  user-select: none;
+  padding: 10px 40px 14px 40px;
+  border-radius: 5px;
+  font-size: 18px;
+  border: none;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px #909090a1;
+}
+.buy-license-key:hover,
+.i-have-license-key-btn:hover {
+  cursor: pointer;
+  background-color: #343434;
+  transition: all 0.1s ease-in-out;
+}
+.buy-license-key:active,
+.i-have-license-key-btn:active {
+  box-shadow: none;
+  transform: translateY(3px);
+  transition: all 0.2s ease;
+}
+
+#arrow {
+  transition: transform 0.2s ease;
+  background: #585858;
+  padding: 4px;
+  border-radius: 100%;
+  width: 20px;
+  height: 20px;
+  margin-bottom: -4px;
+}
+
+.buy-license-key:hover #arrow {
+  transform: rotate(-30deg);
+  transition: transform 0.2s ease;
+}
+
+.license-key-form {
+  width: 450px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+  border-radius: 5px;
+  border: 2px solid #303030;
+  padding: 20px;
+}
+
+.license-key-input {
+  font-size: 18px;
+  outline: none;
+  border: none;
+  width: 95%;
+  border-radius: 5px;
+  padding: 8px 10px;
+}
+
+.license-key-submit-btn {
+  font-size: 20px;
+  background-color: #1372c0;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  width: 150px;
+  padding: 8px;
+}
+.license-key-submit-btn:hover {
+  cursor: pointer;
+  background-color: #157ed4;
+}
+.license-key-submit-btn:disabled {
+  background-color: #1f5583;
+  cursor: not-allowed;
+}
+
+/* Initial Modal */
+#initial-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #00000054;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  padding-top: 180px;
+  z-index: 100;
+  backdrop-filter: blur(3px);
+  transition: all 0.1s ease-in-out;
+}
+
+#initial-modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.initial-modal-heading {
+  font-size: 28px;
+  font-weight: 500;
+}
+
+.bg {
+  padding: 15px;
+  border-radius: 10px;
+  background-color: var(--base-color);
+  --base-color: #212121;
+  /*use your base color*/
+}
+
+.loader {
+  width: 60px;
+  height: 40px;
+  position: relative;
+  display: inline-block;
+  background-color: var(--base-color);
+}
+
+.loader::before {
+  content: "";
+  left: 0;
+  top: 0;
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #fff;
+  background-image: radial-gradient(
+      circle 8px at 18px 18px,
+      var(--base-color) 100%,
+      transparent 0
+    ),
+    radial-gradient(
+      circle 4px at 18px 0px,
+      var(--base-color) 100%,
+      transparent 0
+    ),
+    radial-gradient(
+      circle 4px at 0px 18px,
+      var(--base-color) 100%,
+      transparent 0
+    ),
+    radial-gradient(
+      circle 4px at 36px 18px,
+      var(--base-color) 100%,
+      transparent 0
+    ),
+    radial-gradient(
+      circle 4px at 18px 36px,
+      var(--base-color) 100%,
+      transparent 0
+    ),
+    radial-gradient(
+      circle 4px at 30px 5px,
+      var(--base-color) 100%,
+      transparent 0
+    ),
+    radial-gradient(
+      circle 4px at 30px 5px,
+      var(--base-color) 100%,
+      transparent 0
+    ),
+    radial-gradient(
+      circle 4px at 30px 30px,
+      var(--base-color) 100%,
+      transparent 0
+    ),
+    radial-gradient(
+      circle 4px at 5px 30px,
+      var(--base-color) 100%,
+      transparent 0
+    ),
+    radial-gradient(
+      circle 4px at 5px 5px,
+      var(--base-color) 100%,
+      transparent 0
+    );
+  background-repeat: no-repeat;
+  box-sizing: border-box;
+  animation: rotationBack 3s linear infinite;
+}
+
+.loader::after {
+  content: "";
+  left: 35px;
+  top: 15px;
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #fff;
+  background-image: radial-gradient(
+      circle 5px at 12px 12px,
+      var(--base-color) 100%,
+      transparent 0
+    ),
+    radial-gradient(
+      circle 2.5px at 12px 0px,
+      var(--base-color) 100%,
+      transparent 0
+    ),
+    radial-gradient(
+      circle 2.5px at 0px 12px,
+      var(--base-color) 100%,
+      transparent 0
+    ),
+    radial-gradient(
+      circle 2.5px at 24px 12px,
+      var(--base-color) 100%,
+      transparent 0
+    ),
+    radial-gradient(
+      circle 2.5px at 12px 24px,
+      var(--base-color) 100%,
+      transparent 0
+    ),
+    radial-gradient(
+      circle 2.5px at 20px 3px,
+      var(--base-color) 100%,
+      transparent 0
+    ),
+    radial-gradient(
+      circle 2.5px at 20px 3px,
+      var(--base-color) 100%,
+      transparent 0
+    ),
+    radial-gradient(
+      circle 2.5px at 20px 20px,
+      var(--base-color) 100%,
+      transparent 0
+    ),
+    radial-gradient(
+      circle 2.5px at 3px 20px,
+      var(--base-color) 100%,
+      transparent 0
+    ),
+    radial-gradient(
+      circle 2.5px at 3px 3px,
+      var(--base-color) 100%,
+      transparent 0
+    );
+  background-repeat: no-repeat;
+  box-sizing: border-box;
+  animation: rotationBack 4s linear infinite reverse;
+}
+
+@keyframes rotationBack {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+/*  */

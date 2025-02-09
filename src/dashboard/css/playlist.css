@@ -9,11 +9,11 @@
 }
 
 #playlist-selection-btn-group {
-  display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
   margin-top: 8px;
+  display: none;
 }
 
 .youtube-playlists-btn,

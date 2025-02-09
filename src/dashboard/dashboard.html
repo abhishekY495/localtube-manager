@@ -10,6 +10,14 @@
       <h1>Dashboard</h1>
       <button id="clear-all-btn">Clear All</button>
     </header>
+    <div id="initial-modal">
+      <div id="initial-modal-content">
+        <p class="initial-modal-heading">Initializing</p>
+        <div class="bg">
+          <div class="loader"></div>
+        </div>
+      </div>
+    </div>
     <div id="options-container">
       <div class="liked-videos-icon-count-container">
         <svg
@@ -107,6 +115,59 @@
       </div>
     </div>
     <!--  -->
+    <div id="license-key-container">
+      <div class="license-management-selection-group">
+        <a
+          href="https://localtubemanager.pages.dev/#pricing"
+          target="_blank"
+          class="buy-license-key"
+          >Buy License Key
+          <svg
+            id="arrow"
+            viewBox="0 0 32 32"
+            xmlns="http://www.w3.org/2000/svg"
+            height="25px"
+            width="25px"
+            class="icon"
+          >
+            <defs>
+              <linearGradient
+                y2="100%"
+                x2="100%"
+                y1="0%"
+                x1="0%"
+                id="iconGradient"
+              >
+                <stop
+                  style="stop-color: #ffffff; stop-opacity: 1"
+                  offset="0%"
+                ></stop>
+                <stop
+                  style="stop-color: #aaaaaa; stop-opacity: 1"
+                  offset="100%"
+                ></stop>
+              </linearGradient>
+            </defs>
+            <path
+              fill="url(#iconGradient)"
+              d="M4 15a1 1 0 0 0 1 1h19.586l-4.292 4.292a1 1 0 0 0 1.414 1.414l6-6a.99.99 0 0 0 .292-.702V15c0-.13-.026-.26-.078-.382a.99.99 0 0 0-.216-.324l-6-6a1 1 0 0 0-1.414 1.414L24.586 14H5a1 1 0 0 0-1 1z"
+            ></path>
+          </svg>
+        </a>
+        <button class="i-have-license-key-btn">I have a License Key</button>
+      </div>
+      <form class="license-key-form" style="display: none">
+        <input
+          type="text"
+          class="license-key-input"
+          placeholder="Enter license key"
+          required
+        />
+        <button type="submit" class="license-key-submit-btn" disabled>
+          Submit
+        </button>
+      </form>
+    </div>
     <div id="dashboard-container">
       <p>👆 Select an option from above 👆</p>
     </div>

@@ -5,6 +5,7 @@ import "./css/playlist.css";
 import "notyf/notyf.min.css";
 import numeral from "numeral";
 import {
+  LicenseKey,
   LocalPlaylist,
   Video,
   YoutubeChannel,
@@ -20,6 +21,9 @@ import { renderLikedVideos } from "./functions/renderLikedVideos";
 import { renderSubscribedChannels } from "./functions/renderSubscribedChannels";
 import { renderYoutubePlaylists } from "./functions/renderplaylists/renderYoutubePlaylists";
 import { renderLocalPlaylists } from "./functions/renderplaylists/renderLocalPlaylists";
+import { getLicenseKey } from "../indexedDB/licenseKey";
+import { renderLicenseKeyContainer } from "./functions/renderLicenseKeyContainer";
+import { validateLicenseKey } from "./functions/licenseKey/validateLicenseKey";
 
 let likedVideosArr: Video[] = [];
 let subscribedChannelsArr: YoutubeChannel[] = [];
@@ -27,7 +31,37 @@ let youtubePlaylistsArr: YoutubePlaylist[] = [];
 let localPlaylistsArr: LocalPlaylist[] = [];
 let selectedPlaylistType: "youtube" | "local" = "youtube";
 
-(async () => {
+const initialModal = document.querySelector(
+  "#initial-modal"
+) as HTMLButtonElement;
+const licenseKeyContainer = document.querySelector(
+  "#license-key-container"
+) as HTMLButtonElement;
+const licenseKeySubmitBtn = document.querySelector(
+  ".license-key-submit-btn"
+) as HTMLButtonElement;
+
+async function checkAndValidateLicenseKey() {
+  const licenseKey: LicenseKey[] = await getLicenseKey();
+
+  if (licenseKey.length === 0) {
+    console.log("License key does not exist");
+    initialModal.remove();
+    renderLicenseKeyContainer();
+    return;
+  }
+
+  const { key, isValid } = licenseKey[0];
+  const data = await validateLicenseKey(key, licenseKeySubmitBtn, isValid);
+  if (data.isLicenseKeyValid) {
+    console.log("License valid, lets go");
+    licenseKeyContainer.remove();
+    initialModal.remove();
+    main();
+  }
+}
+
+export async function main() {
   likedVideosArr = await getLikedVideos();
   subscribedChannelsArr = await getSubscribedChannels();
   youtubePlaylistsArr = await getYoutubePlaylists();
@@ -82,6 +116,9 @@ let selectedPlaylistType: "youtube" | "local" = "youtube";
   ) as HTMLButtonElement;
   const playlistsContainer = document.querySelector(
     "#playlists-container"
+  ) as HTMLElement;
+  const playlistsSelectionBtnGroup = document.querySelector(
+    "#playlist-selection-btn-group"
   ) as HTMLElement;
   const importExportContainer = document.querySelector(
     "#import-export-container"
@@ -163,6 +200,7 @@ let selectedPlaylistType: "youtube" | "local" = "youtube";
     subscribedChannelsContainer.style.display = "none";
     playlistsMainContainer.style.display = "flex";
     playlistsContainer.style.display = "grid";
+    playlistsSelectionBtnGroup.style.display = "flex";
     importExportContainer.style.display = "none";
   } else if (slug === "import-export") {
     importExportIconContainer?.classList.add(
@@ -258,6 +296,7 @@ let selectedPlaylistType: "youtube" | "local" = "youtube";
   });
 
   playlistsIconCountContainer?.addEventListener("click", async () => {
+    playlistsSelectionBtnGroup.style.display = "flex";
     playlistsContainer.style.display = "grid";
     playlistsIconCountContainer?.classList.add(
       "selected-playlists-icon-count-container"
@@ -350,4 +389,6 @@ let selectedPlaylistType: "youtube" | "local" = "youtube";
     playlistsContainer.style.display = "none";
     importExportContainer.style.display = "flex";
   });
-})();
+}
+
+checkAndValidateLicenseKey();
