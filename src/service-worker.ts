@@ -332,3 +332,7 @@ chrome.runtime.onMessage.addListener(
     }
   }
 );
+
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.tabs.create({ url: "src/welcome/welcome.html" });
+});

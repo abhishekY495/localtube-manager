@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to Your Chrome Extension</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        text-decoration: none;
+      }
+
+      body {
+        background-color: #0f0f0f;
+        color: white;
+        max-width: 1500px;
+        font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 600px;
+        padding: 10px 20px;
+        background-color: #2a2a2a;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      header {
+        font-size: 18px;
+        display: flex;
+        justify-items: center;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        border-bottom: 1px solid #3c3c3c;
+      }
+
+      header h1 {
+        margin-bottom: 5px;
+      }
+
+      header img {
+        width: 50px;
+        border-radius: 10px;
+      }
+
+      p {
+        font-size: 18px;
+        margin-block: 6px;
+        padding-inline: 6px;
+      }
+
+      .steps {
+        list-style-type: none;
+      }
+
+      .steps li {
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+      }
+
+      .step-number {
+        background-color: #414141;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        margin-right: 10px;
+      }
+
+      .highlight {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <img src="../assets/appIcon.jpg" alt="" />
+        <h1>LocalTube Manager</h1>
+      </header>
+
+      <p>
+        Thank you for installing LTM extension. Let's pin the extension and set
+        a shortcut for easy access.
+      </p>
+
+      <ol class="steps">
+        <li>
+          <span class="step-number">1</span>
+          Click the
+          <span class="highlight">&nbsp;puzzle piece icon&nbsp;</span> in the
+          top-right corner of your Chrome browser.
+        </li>
+        <li>
+          <span class="step-number">2</span>
+          Find <span class="highlight">&nbsp;LocalTube Manager&nbsp;</span> in
+          the dropdown list.
+        </li>
+        <li>
+          <span class="step-number">3</span>
+          Click the <span class="highlight">&nbsp;pin icon&nbsp;</span> next to
+          the extension name.
+        </li>
+      </ol>
+
+      <p>That's it! Your extension is now pinned and ready to use.</p>
+    </div>
+  </body>
+</html>
