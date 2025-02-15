@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Welcome to Your Chrome Extension</title>
+    <title>LocalTube Manager</title>
     <style>
       * {
         margin: 0;
@@ -14,17 +14,13 @@
       body {
         background-color: #0f0f0f;
         color: white;
-        max-width: 1500px;
         font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
       }
 
       .container {
-        max-width: 600px;
+        max-width: 650px;
         padding: 10px 20px;
+        margin: 50px auto;
         background-color: #2a2a2a;
         border-radius: 10px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -49,33 +45,46 @@
         border-radius: 10px;
       }
 
-      p {
-        font-size: 18px;
-        margin-block: 6px;
-        padding-inline: 6px;
-      }
-
-      .steps {
-        list-style-type: none;
-      }
-
-      .steps li {
-        margin-bottom: 1rem;
+      .main {
+        padding: 10px;
         display: flex;
-        align-items: center;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .pin-extension-steps,
+      .set-shortcut-steps {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .steps-header {
+        font-size: 22px;
+        font-weight: 500;
+        margin-bottom: 6px;
+      }
+
+      .step-container {
+        display: flex;
+        gap: 5px;
+        margin-bottom: 10px;
+      }
+
+      .step {
         font-size: 16px;
       }
 
       .step-number {
-        background-color: #414141;
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
+        background-color: #4d4d4d;
+        width: 21px;
+        height: 18px;
+        border-radius: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
+        font-size: 12px;
         font-weight: bold;
-        margin-right: 10px;
+        padding-bottom: 2px;
       }
 
       .highlight {
@@ -90,31 +99,80 @@
         <h1>LocalTube Manager</h1>
       </header>
 
-      <p>
-        Thank you for installing LTM extension. Let's pin the extension and set
-        a shortcut for easy access.
-      </p>
-
-      <ol class="steps">
-        <li>
-          <span class="step-number">1</span>
-          Click the
-          <span class="highlight">&nbsp;puzzle piece icon&nbsp;</span> in the
-          top-right corner of your Chrome browser.
-        </li>
-        <li>
-          <span class="step-number">2</span>
-          Find <span class="highlight">&nbsp;LocalTube Manager&nbsp;</span> in
-          the dropdown list.
-        </li>
-        <li>
-          <span class="step-number">3</span>
-          Click the <span class="highlight">&nbsp;pin icon&nbsp;</span> next to
-          the extension name.
-        </li>
-      </ol>
-
-      <p>That's it! Your extension is now pinned and ready to use.</p>
+      <div class="main">
+        <div class="pin-extension-steps">
+          <p class="steps-header">📌Pin the extension</p>
+          <div class="step-container">
+            <span class="step-number">1</span>
+            <p class="step">
+              Click the
+              <span class="highlight">puzzle piece icon</span> in the top-right
+              corner of your Chrome browser.
+            </p>
+          </div>
+          <div class="step-container">
+            <span class="step-number">2</span>
+            <p class="step">
+              Find
+              <span class="highlight">LocalTube Manager</span> in the dropdown
+              list.
+            </p>
+          </div>
+          <div class="step-container">
+            <span class="step-number">3</span>
+            <p class="step">
+              Click the
+              <span class="highlight">pin icon</span> next to the extension
+              name.
+            </p>
+          </div>
+        </div>
+        <!--  -->
+        <div class="set-shortcut-steps">
+          <p class="steps-header">#️⃣Set a keyboard shortcut</p>
+          <div class="step-container">
+            <span class="step-number">1</span>
+            <p class="step">
+              Type
+              <span class="highlight">chrome://extensions/shortcuts</span> in
+              your Chrome address bar and press Enter.
+            </p>
+          </div>
+          <div class="step-container">
+            <span class="step-number">2</span>
+            <p class="step">
+              Find
+              <span class="highlight">LocalTube Manager</span> in the list.
+            </p>
+          </div>
+          <div class="step-container">
+            <span class="step-number">3</span>
+            <p class="step">
+              Click the
+              <span class="highlight">pencil icon</span> next to "Activate the
+              extension"
+            </p>
+          </div>
+          <div class="step-container">
+            <span class="step-number">4</span>
+            <p class="step">
+              Press the desired key shortcut
+              <span class="highlight">(e.g, Ctrl+Shift+Y)</span>
+            </p>
+          </div>
+          <div class="step-container">
+            <span class="step-number">4</span>
+            <p class="step">
+              Click <span class="highlight">OK</span> to save the shortcut.
+            </p>
+          </div>
+        </div>
+        <!--  -->
+        <p>
+          Great! Your extension is now pinned and you can open it quickly with
+          your custom shortcut.
+        </p>
+      </div>
     </div>
   </body>
 </html>
