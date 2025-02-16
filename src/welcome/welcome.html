@@ -34,6 +34,7 @@
         justify-content: center;
         gap: 8px;
         border-bottom: 1px solid #3c3c3c;
+        padding-bottom: 10px;
       }
 
       header h1 {
@@ -46,10 +47,10 @@
       }
 
       .main {
-        padding: 10px;
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        gap: 20px;
+        padding: 18px 10px;
       }
 
       .pin-extension-steps,
@@ -72,6 +73,7 @@
 
       .step {
         font-size: 16px;
+        color: #c6c6c6;
       }
 
       .step-number {
@@ -89,6 +91,12 @@
 
       .highlight {
         font-weight: bold;
+        color: #d4d4d4;
+      }
+
+      .final-message {
+        font-size: 20px;
+        color: #c6c6c6;
       }
     </style>
   </head>
@@ -161,18 +169,20 @@
             </p>
           </div>
           <div class="step-container">
-            <span class="step-number">4</span>
+            <span class="step-number">5</span>
             <p class="step">
               Click <span class="highlight">OK</span> to save the shortcut.
             </p>
           </div>
         </div>
         <!--  -->
-        <p>
-          Great! Your extension is now pinned and you can open it quickly with
-          your custom shortcut.
+        <p class="final-message">
+          Your extension is now pinned and you can open it quickly with your
+          custom shortcut 🥳
         </p>
       </div>
     </div>
+    <!--  -->
+    <script type="module" src="./welcome.ts"></script>
   </body>
 </html>
