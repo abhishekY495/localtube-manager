@@ -20,6 +20,12 @@ header {
   align-items: center;
 }
 
+.app-logo {
+  width: 40px;
+  border-radius: 8px;
+  margin-right: 8px;
+}
+
 #clear-all-btn {
   background-color: red;
   color: #fff;

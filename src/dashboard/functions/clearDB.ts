@@ -20,7 +20,7 @@ function showModal() {
   modal.innerHTML = `
     <div class="modal">
       <p class="modal-heading">Are you sure?</p>
-      <p class="modal-message">This will permanently clear all your data in <span>Liked videos</span>, <span>Subscribed channels</span>, <span>Youtube playlists</span> and <span>Local playlists</span>. You won't be able to recover them.<br/>Proceed with caution.</p>
+      <p class="modal-message">This will permanently clear all your <span>Liked videos</span>, <span>Subscribed channels</span>, <span>Youtube playlists</span> and <span>Local playlists</span> data. You won't be able to recover them.<br/>Proceed with caution.</p>
       <div class="modal-buttons-container">
         <button class="modal-clear-all-btn">Clear All</button>
         <button class="modal-cancel-btn">Cancel</button>

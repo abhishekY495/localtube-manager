@@ -1,11 +1,9 @@
-import confetti from "canvas-confetti";
-
 var count = 200;
 var defaults = {
   origin: { y: 0.7 },
 };
 
-function fire(particleRatio: number, opts: confetti.Options | undefined) {
+function fire(particleRatio, opts) {
   confetti({
     ...defaults,
     ...opts,
