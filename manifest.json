@@ -27,9 +27,6 @@
       "matches": ["https://www.youtube.com/*"]
     }
   ],
-  "permissions": ["storage", "unlimitedStorage"],
-  "host_permissions": [
-    "https://live.dodopayments.com/*",
-    "https://test.dodopayments.com/*"
-  ]
+  "permissions": ["unlimitedStorage"],
+  "host_permissions": ["https://live.dodopayments.com/*"]
 }

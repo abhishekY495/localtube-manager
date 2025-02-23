@@ -18,7 +18,7 @@ export async function validateLicenseKey(
     if (key.length > 0) {
       const client = new DodoPayments({
         bearerToken: "DODO_PAYMENTS_API_KEY",
-        environment: "test_mode",
+        environment: "live_mode",
       });
       const response = await client.licenses.validate({
         license_key: key,
