@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="manifest.type" content="browser_action" />
+    <title>LocalTube Manager</title>
+  </head>
+  <body>
+    <button id="dashboard-btn">
+      Dashboard
+      <svg
+        id="arrow"
+        viewBox="0 0 32 32"
+        xmlns="http://www.w3.org/2000/svg"
+        height="25px"
+        width="25px"
+        class="icon"
+      >
+        <defs>
+          <linearGradient y2="100%" x2="100%" y1="0%" x1="0%" id="iconGradient">
+            <stop
+              style="stop-color: #ffffff; stop-opacity: 1"
+              offset="0%"
+            ></stop>
+            <stop
+              style="stop-color: #aaaaaa; stop-opacity: 1"
+              offset="100%"
+            ></stop>
+          </linearGradient>
+        </defs>
+        <path
+          fill="url(#iconGradient)"
+          d="M4 15a1 1 0 0 0 1 1h19.586l-4.292 4.292a1 1 0 0 0 1.414 1.414l6-6a.99.99 0 0 0 .292-.702V15c0-.13-.026-.26-.078-.382a.99.99 0 0 0-.216-.324l-6-6a1 1 0 0 0-1.414 1.414L24.586 14H5a1 1 0 0 0-1 1z"
+        ></path>
+      </svg>
+    </button>
+    <!--  -->
+    <div id="count-container">
+      <div id="liked-videos-count-container">
+        <svg
+          id="liked-videos-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="#fff"
+          height="28"
+          viewBox="0 0 28 28"
+          width="28"
+          aria-hidden="true"
+          style="
+            pointer-events: none;
+            display: inherit;
+            width: 100%;
+            height: 100%;
+          "
+        >
+          <path
+            clip-rule="evenodd"
+            d="M14.813 5.018 14.41 6.5 14 8h5.192a2.72 2.72 0 0 1 2.334 4.123L21 13l.165.413a4 4 0 0 1-.514 3.885l-.151.202v.5a3 3 0 0 1-3 3H5a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2v.282c0-.834.26-1.647.745-2.325L12 1l1.1.472a3 3 0 0 1 1.713 3.546M7 10.5H5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h2zm10.5 9h-9V9.282c0-.521.163-1.03.466-1.453l3.553-4.975a1.5 1.5 0 0 1 .847 1.77l-.813 2.981A1.5 1.5 0 0 0 14 9.5h5.192a1.224 1.224 0 0 1 1.048 1.852l-.526.876c-.241.402-.28.894-.107 1.33l.165.412a2.5 2.5 0 0 1-.32 2.428l-.152.202c-.195.26-.3.575-.3.9v.5a1.5 1.5 0 0 1-1.5 1.5"
+            fill-rule="evenodd"
+          />
+        </svg>
+        <p id="liked-videos-count">0</p>
+      </div>
+      <!--  -->
+      <div id="subscribed-channels-count-container">
+        <svg
+          id="subscribed-channels-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="#fff"
+          height="28"
+          viewBox="0 0 28 28"
+          width="28"
+          aria-hidden="true"
+          style="
+            pointer-events: none;
+            display: inherit;
+            width: 100%;
+            height: 100%;
+          "
+        >
+          <path
+            clip-rule="evenodd"
+            d="M4 4.5A1.5 1.5 0 0 1 5.5 3h13A1.5 1.5 0 0 1 20 4.5zm16.5 3h-17v11h17zM3.5 6A1.5 1.5 0 0 0 2 7.5v11A1.5 1.5 0 0 0 3.5 20h17a1.5 1.5 0 0 0 1.5-1.5v-11A1.5 1.5 0 0 0 20.5 6zm7.257 4.454a.5.5 0 0 0-.757.43v4.233a.5.5 0 0 0 .757.429L15 13z"
+            fill-rule="evenodd"
+          />
+        </svg>
+        <p id="subscribed-channels-count">0</p>
+      </div>
+      <!--  -->
+      <div id="playlists-count-container">
+        <svg
+          id="playlists-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="#fff"
+          height="28"
+          viewBox="0 0 28 28"
+          width="28"
+          aria-hidden="true"
+          style="
+            pointer-events: none;
+            display: inherit;
+            width: 100%;
+            height: 100%;
+          "
+        >
+          <path
+            clip-rule="evenodd"
+            d="M3.75 5a.75.75 0 0 0 0 1.5h16.5a.75.75 0 0 0 0-1.5zm0 4a.75.75 0 0 0 0 1.5h16.5a.75.75 0 0 0 0-1.5zm0 4a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5zm8.5 4a.75.75 0 0 1 0 1.5h-8.5a.75.75 0 0 1 0-1.5zm3.498-3.572a.5.5 0 0 0-.748.434v6.276a.5.5 0 0 0 .748.434L22 17z"
+            fill-rule="evenodd"
+          />
+        </svg>
+        <p id="playlists-count">0</p>
+      </div>
+    </div>
+    <!--  -->
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

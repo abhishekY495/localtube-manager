@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+  </head>
+  <body>
+    <header>
+      <h1><img src="./assets/app-logo.jpg" class="app-logo" />Dashboard</h1>
+      <button id="clear-all-btn">Clear All</button>
+    </header>
+    <div id="initial-modal">
+      <div id="initial-modal-content">
+        <p class="initial-modal-heading">Initializing</p>
+        <div class="bg">
+          <div class="loader"></div>
+        </div>
+      </div>
+    </div>
+    <div id="options-container">
+      <div class="liked-videos-icon-count-container">
+        <svg
+          id="liked-videos-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="#fff"
+          height="28"
+          viewBox="0 0 28 28"
+          width="28"
+          aria-hidden="true"
+          style="
+            pointer-events: none;
+            display: inherit;
+            width: 100%;
+            height: 100%;
+          "
+        >
+          <path
+            clip-rule="evenodd"
+            d="M14.813 5.018 14.41 6.5 14 8h5.192a2.72 2.72 0 0 1 2.334 4.123L21 13l.165.413a4 4 0 0 1-.514 3.885l-.151.202v.5a3 3 0 0 1-3 3H5a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2v.282c0-.834.26-1.647.745-2.325L12 1l1.1.472a3 3 0 0 1 1.713 3.546M7 10.5H5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h2zm10.5 9h-9V9.282c0-.521.163-1.03.466-1.453l3.553-4.975a1.5 1.5 0 0 1 .847 1.77l-.813 2.981A1.5 1.5 0 0 0 14 9.5h5.192a1.224 1.224 0 0 1 1.048 1.852l-.526.876c-.241.402-.28.894-.107 1.33l.165.412a2.5 2.5 0 0 1-.32 2.428l-.152.202c-.195.26-.3.575-.3.9v.5a1.5 1.5 0 0 1-1.5 1.5"
+            fill-rule="evenodd"
+          />
+        </svg>
+        <p><span id="liked-videos-count">0</span> Liked videos</p>
+      </div>
+      <!--  -->
+      <div class="subscribed-channels-icon-count-container">
+        <svg
+          id="subscribed-channels-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="#fff"
+          height="28"
+          viewBox="0 0 28 28"
+          width="28"
+          aria-hidden="true"
+          style="
+            pointer-events: none;
+            display: inherit;
+            width: 100%;
+            height: 100%;
+          "
+        >
+          <path
+            clip-rule="evenodd"
+            d="M4 4.5A1.5 1.5 0 0 1 5.5 3h13A1.5 1.5 0 0 1 20 4.5zm16.5 3h-17v11h17zM3.5 6A1.5 1.5 0 0 0 2 7.5v11A1.5 1.5 0 0 0 3.5 20h17a1.5 1.5 0 0 0 1.5-1.5v-11A1.5 1.5 0 0 0 20.5 6zm7.257 4.454a.5.5 0 0 0-.757.43v4.233a.5.5 0 0 0 .757.429L15 13z"
+            fill-rule="evenodd"
+          />
+        </svg>
+        <p><span id="subscribed-channels-count">0</span> Subscribed channels</p>
+      </div>
+      <!--  -->
+      <div class="playlists-icon-count-container">
+        <svg
+          id="playlists-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="#fff"
+          height="28"
+          viewBox="0 0 28 28"
+          width="28"
+          aria-hidden="true"
+          style="
+            pointer-events: none;
+            display: inherit;
+            width: 100%;
+            height: 100%;
+          "
+        >
+          <path
+            clip-rule="evenodd"
+            d="M3.75 5a.75.75 0 0 0 0 1.5h16.5a.75.75 0 0 0 0-1.5zm0 4a.75.75 0 0 0 0 1.5h16.5a.75.75 0 0 0 0-1.5zm0 4a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5zm8.5 4a.75.75 0 0 1 0 1.5h-8.5a.75.75 0 0 1 0-1.5zm3.498-3.572a.5.5 0 0 0-.748.434v6.276a.5.5 0 0 0 .748.434L22 17z"
+            fill-rule="evenodd"
+          />
+        </svg>
+        <p><span id="playlists-count">0</span> Playlists</p>
+      </div>
+      <!--  -->
+      <div class="import-export-icon-container">
+        <svg
+          id="import-export-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 22 22"
+          style="
+            pointer-events: none;
+            display: inherit;
+            width: 100%;
+            height: 100%;
+          "
+        >
+          <path
+            d="M2 4.501a2.5 2.5 0 0 1 2.5-2.5h9a2.5 2.5 0 0 1 2.5 2.5v2.211a3.8 3.8 0 0 0-1 .213V6H3v7.5A1.5 1.5 0 0 0 4.5 15h6.69l-.438.76a2 2 0 0 0-.12.24H4.5A2.5 2.5 0 0 1 2 13.5v-9zM4.499 3a1.5 1.5 0 0 0-1.5 1.5V5h12v-.5a1.5 1.5 0 0 0-1.5-1.5zm9.375 6.091a2.78 2.78 0 0 0 .147 3.009l-2.403 4.161a1.158 1.158 0 0 0 2.006 1.158l2.407-4.17a2.78 2.78 0 0 0 2.363-4.575l-1.31 2.27a.927.927 0 0 1-1.605-.926l1.31-2.27a2.78 2.78 0 0 0-2.915 1.343m-1.314 2.054a3.76 3.76 0 0 1 .215-2.076l-1.923-1.923a.5.5 0 1 0-.707.707L12.292 10l-2.147 2.146a.5.5 0 1 0 .707.707zM8.352 7.853a.5.5 0 0 0-.707-.707l-2.5 2.5a.5.5 0 0 0 0 .707l2.5 2.5a.5.5 0 0 0 .707-.707L6.206 10z"
+            fill="currentColor"
+          />
+        </svg>
+        <p>Import / Export</p>
+      </div>
+    </div>
+    <!--  -->
+    <div id="license-key-container">
+      <div class="license-management-selection-group">
+        <a
+          href="https://localtubemanager.pages.dev/#pricing"
+          target="_blank"
+          class="buy-license-key"
+          >Buy License Key
+          <svg
+            id="arrow"
+            viewBox="0 0 32 32"
+            xmlns="http://www.w3.org/2000/svg"
+            height="25px"
+            width="25px"
+            class="icon"
+          >
+            <defs>
+              <linearGradient
+                y2="100%"
+                x2="100%"
+                y1="0%"
+                x1="0%"
+                id="iconGradient"
+              >
+                <stop
+                  style="stop-color: #ffffff; stop-opacity: 1"
+                  offset="0%"
+                ></stop>
+                <stop
+                  style="stop-color: #aaaaaa; stop-opacity: 1"
+                  offset="100%"
+                ></stop>
+              </linearGradient>
+            </defs>
+            <path
+              fill="url(#iconGradient)"
+              d="M4 15a1 1 0 0 0 1 1h19.586l-4.292 4.292a1 1 0 0 0 1.414 1.414l6-6a.99.99 0 0 0 .292-.702V15c0-.13-.026-.26-.078-.382a.99.99 0 0 0-.216-.324l-6-6a1 1 0 0 0-1.414 1.414L24.586 14H5a1 1 0 0 0-1 1z"
+            ></path>
+          </svg>
+        </a>
+        <button class="i-have-license-key-btn">I have a License Key</button>
+      </div>
+      <form class="license-key-form" style="display: none">
+        <input
+          type="text"
+          class="license-key-input"
+          placeholder="Enter license key"
+          required
+        />
+        <button type="submit" class="license-key-submit-btn" disabled>
+          Submit
+        </button>
+      </form>
+    </div>
+    <div id="dashboard-container">
+      <p>👆 Select an option from above 👆</p>
+    </div>
+    <div id="liked-videos-container"></div>
+    <div id="subscribed-channels-container"></div>
+    <div id="playlists-main-container">
+      <div id="playlist-selection-btn-group">
+        <button class="youtube-playlists-btn playlist-type-selected">
+          Youtube (<span class="youtube-playlists-count">0</span>)
+        </button>
+        <button class="local-playlists-btn">
+          Local (<span class="local-playlists-count">0</span>)
+        </button>
+      </div>
+      <div id="playlists-container"></div>
+    </div>
+    <div id="import-export-container">
+      <form id="import-container">
+        <p id="import-msg">* Importing will remove existing data</p>
+        <label id="import-file-label">
+          <p id="import-file-label-text">Select a file</p>
+          <p id="import-file-name-display">No File Selected</p>
+          <input
+            id="import-file-input"
+            type="file"
+            accept=".json"
+            placeholder="No file chosen"
+            name="importFile"
+            required
+          />
+        </label>
+        <button id="import-btn" type="submit">Import</button>
+      </form>
+      <div id="export-container">
+        <p id="export-file-name">
+          LocalTubeDB.json - <span id="export-file-size"></span>
+        </p>
+        <button id="export-btn">Export</button>
+      </div>
+    </div>
+    <script type="module" src="./main.ts"></script>
+    <script type="module" src="./functions/importExport/import.ts"></script>
+    <script type="module" src="./functions/importExport/export.ts"></script>
+    <script type="module" src="./functions/clearDB.ts"></script>
+  </body>
+</html>

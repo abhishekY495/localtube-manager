@@ -1,26 +1,31 @@
 {
-  "name": "localtube-manager",
+  "name": "wxt-starter",
+  "description": "manifest.json description",
   "private": true,
-  "version": "1.0.0",
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "dev": "wxt",
+    "dev:firefox": "wxt -b firefox",
+    "build": "wxt build",
+    "build:firefox": "wxt build -b firefox",
+    "zip": "wxt zip",
+    "zip:firefox": "wxt zip -b firefox",
+    "compile": "tsc --noEmit",
+    "postinstall": "wxt prepare"
   },
   "devDependencies": {
-    "@crxjs/vite-plugin": "^2.0.0-beta.26",
     "@types/canvas-confetti": "^1.9.0",
+    "@types/chrome": "^0.0.280",
     "@types/numeral": "^2.0.5",
-    "chrome-types": "^0.1.312",
-    "typescript": "~5.6.2",
-    "vite": "^5.4.9"
+    "typescript": "^5.6.3",
+    "wxt": "^0.19.13"
   },
   "dependencies": {
-    "@lottiefiles/dotlottie-web": "^0.36.0",
+    "@lottiefiles/dotlottie-web": "^0.40.1",
     "canvas-confetti": "^1.9.3",
-    "dodopayments": "^0.20.1",
-    "idb": "^8.0.0",
+    "dodopayments": "^1.0.0",
+    "idb": "^8.0.2",
     "notyf": "^3.10.0",
     "numeral": "^2.0.6"
   }
