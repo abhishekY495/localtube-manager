@@ -1,8 +1,7 @@
 # LocalTube Manager
 
 A browser extension to use Youtube without a Google account. <br />
-With the help of LocalTube Manager, like videos, subscribe to channels, and create & manage playlists all without a Google account. <br />
-Your data stays private and is stored locally in your browser. <br />
+With the help of LocalTube Manager, like videos, subscribe to channels, and create & manage playlists all without a Google account. Your data stays private and is stored locally in your browser. <br />
 
 [**https://localtubemanager.pages.dev**](https://localtubemanager.pages.dev)
 
