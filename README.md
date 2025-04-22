@@ -6,7 +6,11 @@ Your data stays private and is stored locally in your browser. <br />
 
 [**https://localtubemanager.pages.dev**](https://localtubemanager.pages.dev)
 
-<br />
+### Install Now
+<a href="https://chromewebstore.google.com/detail/localtube-manager/ajhcoapnhehdmjcohkbaehfkobjhjhhj" target="_blank"><img src="https://localtubemanager.pages.dev/chromeIcon.svg" width="30"></a>&nbsp;
+<a href="https://chromewebstore.google.com/detail/localtube-manager/ajhcoapnhehdmjcohkbaehfkobjhjhhj" target="_blank"><img src="https://localtubemanager.pages.dev/edgeIcon.svg" width="30"></a>&nbsp;
+<a href="https://addons.mozilla.org/en-US/firefox/addon/localtube-manager" target="_blank"><img src="https://localtubemanager.pages.dev/firefoxIcon.svg" width="30"></a>&nbsp;
+<a href="https://chromewebstore.google.com/detail/localtube-manager/ajhcoapnhehdmjcohkbaehfkobjhjhhj" target="_blank"><img src="https://localtubemanager.pages.dev/braveIcon.svg" width="28"></a>
 
 https://github.com/user-attachments/assets/78bbe569-6354-4d29-9258-4068329cc319
 
