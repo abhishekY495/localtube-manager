@@ -47,7 +47,13 @@ export async function checkIfVideoLiked(urlSlug: string) {
     ) as HTMLElement;
     if (likeCountElement) {
       const ariaLabelValue = likeCountElement.getAttribute("aria-label");
-      likeCount = String(ariaLabelValue?.split(" ")[0]);
+      likeCount =
+        String(ariaLabelValue?.split(" ")[0]) +
+        String(
+          ariaLabelValue?.split(" ")[1] === "million"
+            ? "M"
+            : String(ariaLabelValue?.split(" ")[1] === "thousand" ? "K" : "")
+        );
     } else {
       likeCount = likeCountElementInYtdMenuRenderer?.innerText;
     }
