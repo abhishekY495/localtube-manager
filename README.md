@@ -1,12 +1,22 @@
 # LocalTube Manager
 
 A browser extension to use Youtube without a Google account. <br />
-With the help of LocalTube Manager, like videos, subscribe to channels, and create & manage playlists all without a Google account. Your data stays private and is stored locally in your browser.
+With the help of LocalTube Manager, like videos, subscribe to channels, and create & manage playlists all without a Google account. Your data stays private and is stored locally in your browser. <br />
+
+[**https://localtubemanager.pages.dev**](https://localtubemanager.pages.dev)
+
+### Install Now
+<a href="https://chromewebstore.google.com/detail/localtube-manager/ajhcoapnhehdmjcohkbaehfkobjhjhhj" target="_blank"><img src="https://localtubemanager.pages.dev/chromeIcon.svg" width="30"></a>&nbsp;
+<a href="https://chromewebstore.google.com/detail/localtube-manager/ajhcoapnhehdmjcohkbaehfkobjhjhhj" target="_blank"><img src="https://localtubemanager.pages.dev/edgeIcon.svg" width="30"></a>&nbsp;
+<a href="https://addons.mozilla.org/en-US/firefox/addon/localtube-manager" target="_blank"><img src="https://localtubemanager.pages.dev/firefoxIcon.svg" width="30"></a>&nbsp;
+<a href="https://chromewebstore.google.com/detail/localtube-manager/ajhcoapnhehdmjcohkbaehfkobjhjhhj" target="_blank"><img src="https://localtubemanager.pages.dev/braveIcon.svg" width="28"></a>
+
+https://github.com/user-attachments/assets/78bbe569-6354-4d29-9258-4068329cc319
 
 ## ✨ Features
 
 - **Like & Subscribe** - Like your favorite videos and Subscribe to a channel as usual.
-- **Youtube Playlists** - Save a Youtube playlist to watch later, no sign-in required.
+- **Youtube & Local Playlists** - Save a Youtube playlist to watch later, no sign-in required.
 - **Local Playlists** - Create your own Local Playlist and organize your favorite videos.
 - **Import / Export** - Export all your data and Import them to pick up where you left off.
 - **Seamless YouTube Experience** - Works directly on YouTube, just like native features.
@@ -21,11 +31,22 @@ Tired of Google tracking your every move? With LocalTube Manager take back contr
 
 ## 🧑‍💻 Tech
 
-Built using [WXT](https://wxt.dev/)
+Built using [WXT](https://wxt.dev/) Framework and HTML / CSS / Javascript
+
+- Install dependencies
+
+```
+npm i
+```
+
+- Command to run
+
+```
+npm run dev
+```
 
 - Command to build
 
 ```
-npm i
 npm run zip:firefox
 ```
