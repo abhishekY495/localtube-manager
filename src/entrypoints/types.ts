@@ -47,10 +47,7 @@ export type ResponseData = {
   error: { message: string; name: string };
 };
 
-export type LicenseKey = {
-  key: string;
-  isValid: boolean;
-};
+
 
 // ✅ Create an object that exports all types as the default export
 const types = {
@@ -61,7 +58,6 @@ const types = {
   LocalPlaylistNotDetailed: {} as LocalPlaylistNotDetailed,
   RequestData: {} as RequestData,
   ResponseData: {} as ResponseData,
-  LicenseKey: {} as LicenseKey,
 };
 
 export default types;

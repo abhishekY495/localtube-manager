@@ -5,21 +5,17 @@ import "./css/playlist.css";
 import "notyf/notyf.min.css";
 import numeral from "numeral";
 import { getSubscribedChannels } from "../indexedDB/channel";
-import { getLicenseKey } from "../indexedDB/licenseKey";
 import {
   getLocalPlaylistsDetailed,
   getYoutubePlaylists,
 } from "../indexedDB/playlist";
 import { getLikedVideos } from "../indexedDB/video";
 import {
-  LicenseKey,
   LocalPlaylist,
   Video,
   YoutubeChannel,
   YoutubePlaylist,
 } from "../types";
-import { validateLicenseKey } from "./functions/licenseKey/validateLicenseKey";
-import { renderLicenseKeyContainer } from "./functions/renderLicenseKeyContainer";
 import { renderLikedVideos } from "./functions/renderLikedVideos";
 import { renderSubscribedChannels } from "./functions/renderSubscribedChannels";
 import { renderYoutubePlaylists } from "./functions/renderplaylists/renderYoutubePlaylists";
@@ -34,15 +30,6 @@ let selectedPlaylistType: "youtube" | "local" = "youtube";
 const initialModal = document.querySelector(
   "#initial-modal"
 ) as HTMLButtonElement;
-const licenseKeyContainer = document.querySelector(
-  "#license-key-container"
-) as HTMLButtonElement;
-const licenseKeySubmitBtn = document.querySelector(
-  ".license-key-submit-btn"
-) as HTMLButtonElement;
-const licenseKeyForm = document.querySelector(
-  ".license-key-form"
-) as HTMLFormElement;
 
 // Import Export
 const importExportIconContainer = document.querySelector(
@@ -51,26 +38,6 @@ const importExportIconContainer = document.querySelector(
 const importExportContainer = document.querySelector(
   "#import-export-container"
 ) as HTMLElement;
-
-async function checkAndValidateLicenseKey() {
-  const licenseKey: LicenseKey[] = await getLicenseKey();
-
-  if (licenseKey.length === 0) {
-    console.log("License key does not exist");
-    initialModal.remove();
-    renderLicenseKeyContainer();
-    return;
-  }
-
-  const { key, isValid } = licenseKey[0];
-  const data = await validateLicenseKey(key, licenseKeySubmitBtn, isValid);
-  if (data.isLicenseKeyValid) {
-    console.log("License valid, lets go");
-    licenseKeyContainer.remove();
-    initialModal.remove();
-    main();
-  }
-}
 
 export async function main() {
   likedVideosArr = await getLikedVideos();
@@ -402,12 +369,13 @@ export async function main() {
   });
 }
 
-checkAndValidateLicenseKey();
+// Initialize the app directly without license validation
+initialModal.remove();
+main();
 
 importExportIconContainer?.addEventListener("click", () => {
   importExportIconContainer?.classList.add(
     "selected-import-export-icon-container"
   );
   importExportContainer.style.display = "flex";
-  licenseKeyForm.style.display = "none";
 });
