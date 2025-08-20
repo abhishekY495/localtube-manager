@@ -7,7 +7,7 @@ export default defineConfig({
   manifest: {
     name: "LocalTube-Manager",
     description: "A browser extension to use Youtube without a Google account",
-    version: "2.0.1",
+    version: "3.0.0",
     web_accessible_resources: [
       {
         matches: ["*://*.youtube.com/*"],
@@ -18,6 +18,5 @@ export default defineConfig({
       },
     ],
     permissions: ["unlimitedStorage"],
-    host_permissions: ["https://live.dodopayments.com/*"],
   },
 });
