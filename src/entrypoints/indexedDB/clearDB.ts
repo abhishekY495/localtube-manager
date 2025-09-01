@@ -2,7 +2,7 @@ import { openDB } from "idb";
 
 export const clearDB = async () => {
   try {
-    const db = await openDB("YouTubeDB", 1);
+    const db = await openDB("YouTubeDB");
     await db.clear("likedVideos");
     await db.clear("subscribedChannels");
     await db.clear("youtubePlaylists");
