@@ -10,6 +10,7 @@ import {
   getYoutubePlaylists,
 } from "../indexedDB/playlist";
 import { getLikedVideos } from "../indexedDB/video";
+import { getFreshVideosCount } from "../indexedDB/freshVideo";
 import {
   LocalPlaylist,
   Video,
@@ -17,6 +18,7 @@ import {
   YoutubePlaylist,
 } from "../types";
 import { renderLikedVideos } from "./functions/renderLikedVideos";
+import { renderFreshVideos } from "./functions/renderFreshVideos";
 import { renderSubscribedChannels } from "./functions/renderSubscribedChannels";
 import { renderYoutubePlaylists } from "./functions/renderplaylists/renderYoutubePlaylists";
 import { renderLocalPlaylists } from "./functions/renderplaylists/renderLocalPlaylists";
@@ -45,6 +47,9 @@ export async function main() {
   youtubePlaylistsArr = await getYoutubePlaylists();
   localPlaylistsArr = await getLocalPlaylistsDetailed();
 
+  const freshVideosIconCountContainer = document.querySelector(
+    ".fresh-videos-icon-count-container"
+  ) as HTMLElement;
   const likedVideosIconCountContainer = document.querySelector(
     ".liked-videos-icon-count-container"
   ) as HTMLElement;
@@ -58,6 +63,9 @@ export async function main() {
     ".import-export-icon-container"
   ) as HTMLElement;
   //
+  const freshVideosCount = document.querySelector(
+    "#fresh-videos-count"
+  ) as HTMLElement;
   const likedVideosCount = document.querySelector(
     "#liked-videos-count"
   ) as HTMLElement;
@@ -76,6 +84,9 @@ export async function main() {
   //
   const dashboardContainer = document.querySelector(
     "#dashboard-container"
+  ) as HTMLElement;
+  const freshVideosContainer = document.querySelector(
+    "#fresh-videos-container"
   ) as HTMLElement;
   const likedVideosContainer = document.querySelector(
     "#liked-videos-container"
@@ -109,6 +120,10 @@ export async function main() {
   //
 
   // Setting count
+  if (freshVideosCount) {
+    const freshCount = await getFreshVideosCount();
+    freshVideosCount.innerText = numeral(freshCount).format("0a");
+  }
   if (likedVideosCount) {
     likedVideosCount.innerText = numeral(likedVideosArr.length).format("0a");
   }
@@ -132,7 +147,24 @@ export async function main() {
   const location = window.location.href;
   const url = location.split("#")[0];
   const slug = location.split("#")[1];
-  if (slug === "liked-videos") {
+  if (slug === "fresh-videos") {
+    freshVideosIconCountContainer?.classList.add(
+      "selected-fresh-videos-icon-count-container"
+    );
+    await renderFreshVideos();
+    // Update count after rendering
+    const freshCount = await getFreshVideosCount();
+    if (freshVideosCount) {
+      freshVideosCount.innerText = numeral(freshCount).format("0a");
+    }
+    dashboardContainer.style.display = "none";
+    freshVideosContainer.style.display = "block";
+    likedVideosContainer.style.display = "none";
+    subscribedChannelsContainer.style.display = "none";
+    playlistsMainContainer.style.display = "none";
+    playlistsContainer.style.display = "none";
+    importExportContainer.style.display = "none";
+  } else if (slug === "liked-videos") {
     likedVideosIconCountContainer?.classList.add(
       "selected-liked-videos-icon-count-container"
     );
@@ -140,6 +172,7 @@ export async function main() {
       renderLikedVideos(likedVideosArr, likedVideosContainer, likedVideosCount);
     }
     dashboardContainer.style.display = "none";
+    freshVideosContainer.style.display = "none";
     likedVideosContainer.style.display = "flex";
     subscribedChannelsContainer.style.display = "none";
     playlistsMainContainer.style.display = "none";
@@ -157,6 +190,7 @@ export async function main() {
       );
     }
     dashboardContainer.style.display = "none";
+    freshVideosContainer.style.display = "none";
     likedVideosContainer.style.display = "none";
     subscribedChannelsContainer.style.display = "grid";
     playlistsMainContainer.style.display = "none";
@@ -174,6 +208,7 @@ export async function main() {
       );
     }
     dashboardContainer.style.display = "none";
+    freshVideosContainer.style.display = "none";
     likedVideosContainer.style.display = "none";
     subscribedChannelsContainer.style.display = "none";
     playlistsMainContainer.style.display = "flex";
@@ -194,6 +229,7 @@ export async function main() {
       "selected-playlists-icon-count-container"
     );
     dashboardContainer.style.display = "none";
+    freshVideosContainer.style.display = "none";
     likedVideosContainer.style.display = "none";
     subscribedChannelsContainer.style.display = "none";
     playlistsMainContainer.style.display = "none";
@@ -202,6 +238,7 @@ export async function main() {
   } else {
     if (dashboardContainer) {
       dashboardContainer.style.display = "block";
+      freshVideosContainer.style.display = "none";
       likedVideosContainer.style.display = "none";
       subscribedChannelsContainer.style.display = "none";
       playlistsMainContainer.style.display = "none";
@@ -217,9 +254,44 @@ export async function main() {
   //
 
   // Setting event listeners on options
+  freshVideosIconCountContainer?.addEventListener("click", async () => {
+    freshVideosIconCountContainer?.classList.add(
+      "selected-fresh-videos-icon-count-container"
+    );
+    likedVideosIconCountContainer?.classList.remove(
+      "selected-liked-videos-icon-count-container"
+    );
+    subscribedChannelsIconCountContainer?.classList.remove(
+      "selected-subscribed-channels-icon-count-container"
+    );
+    playlistsIconCountContainer?.classList.remove(
+      "selected-playlists-icon-count-container"
+    );
+    importExportIconContainer?.classList.remove(
+      "selected-import-export-icon-container"
+    );
+    window.location.href = `${url}#fresh-videos`;
+    await renderFreshVideos();
+    // Update count after rendering
+    const freshCount = await getFreshVideosCount();
+    if (freshVideosCount) {
+      freshVideosCount.innerText = numeral(freshCount).format("0a");
+    }
+    dashboardContainer.style.display = "none";
+    freshVideosContainer.style.display = "block";
+    likedVideosContainer.style.display = "none";
+    subscribedChannelsContainer.style.display = "none";
+    playlistsMainContainer.style.display = "none";
+    playlistsContainer.style.display = "none";
+    importExportContainer.style.display = "none";
+  });
+
   likedVideosIconCountContainer?.addEventListener("click", async () => {
     likedVideosIconCountContainer?.classList.add(
       "selected-liked-videos-icon-count-container"
+    );
+    freshVideosIconCountContainer?.classList.remove(
+      "selected-fresh-videos-icon-count-container"
     );
     subscribedChannelsIconCountContainer?.classList.remove(
       "selected-subscribed-channels-icon-count-container"
@@ -236,6 +308,7 @@ export async function main() {
       renderLikedVideos(likedVideosArr, likedVideosContainer, likedVideosCount);
     }
     dashboardContainer.style.display = "none";
+    freshVideosContainer.style.display = "none";
     likedVideosContainer.style.display = "flex";
     subscribedChannelsContainer.style.display = "none";
     playlistsMainContainer.style.display = "none";
@@ -246,6 +319,9 @@ export async function main() {
   subscribedChannelsIconCountContainer?.addEventListener("click", async () => {
     subscribedChannelsIconCountContainer?.classList.add(
       "selected-subscribed-channels-icon-count-container"
+    );
+    freshVideosIconCountContainer?.classList.remove(
+      "selected-fresh-videos-icon-count-container"
     );
     likedVideosIconCountContainer?.classList.remove(
       "selected-liked-videos-icon-count-container"
@@ -266,6 +342,7 @@ export async function main() {
       );
     }
     dashboardContainer.style.display = "none";
+    freshVideosContainer.style.display = "none";
     likedVideosContainer.style.display = "none";
     subscribedChannelsContainer.style.display = "grid";
     playlistsMainContainer.style.display = "none";
@@ -278,6 +355,9 @@ export async function main() {
     playlistsContainer.style.display = "grid";
     playlistsIconCountContainer?.classList.add(
       "selected-playlists-icon-count-container"
+    );
+    freshVideosIconCountContainer?.classList.remove(
+      "selected-fresh-videos-icon-count-container"
     );
     likedVideosIconCountContainer?.classList.remove(
       "selected-liked-videos-icon-count-container"
@@ -310,6 +390,7 @@ export async function main() {
       }
     }
     dashboardContainer.style.display = "none";
+    freshVideosContainer.style.display = "none";
     likedVideosContainer.style.display = "none";
     subscribedChannelsContainer.style.display = "none";
     playlistsMainContainer.style.display = "flex";
@@ -350,6 +431,9 @@ export async function main() {
     importExportIconContainer?.classList.add(
       "selected-import-export-icon-container"
     );
+    freshVideosIconCountContainer?.classList.remove(
+      "selected-fresh-videos-icon-count-container"
+    );
     likedVideosIconCountContainer?.classList.remove(
       "selected-liked-videos-icon-count-container"
     );
@@ -361,6 +445,7 @@ export async function main() {
     );
     window.location.href = `${url}#import-export`;
     dashboardContainer.style.display = "none";
+    freshVideosContainer.style.display = "none";
     likedVideosContainer.style.display = "none";
     subscribedChannelsContainer.style.display = "none";
     playlistsMainContainer.style.display = "none";
@@ -373,9 +458,4 @@ export async function main() {
 initialModal.remove();
 main();
 
-importExportIconContainer?.addEventListener("click", () => {
-  importExportIconContainer?.classList.add(
-    "selected-import-export-icon-container"
-  );
-  importExportContainer.style.display = "flex";
-});
+

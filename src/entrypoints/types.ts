@@ -7,6 +7,24 @@ export type Video = {
   addedAt: string;
 };
 
+export type FreshVideo = {
+  urlSlug: string;
+  title: string;
+  duration: string;
+  channelName: string;
+  channelHandle: string;
+  channelId: string;
+  thumbnail: string;
+  publishedAt: string;
+  addedAt: string;
+  isViewed: boolean;
+};
+
+export type Settings = {
+  freshVideosFetchInterval: number; // en minutes
+  lastFreshVideosFetch: string;
+};
+
 export type YoutubeChannel = {
   id: string | null;
   handle: string;
@@ -52,6 +70,8 @@ export type ResponseData = {
 // ✅ Create an object that exports all types as the default export
 const types = {
   Video: {} as Video,
+  FreshVideo: {} as FreshVideo,
+  Settings: {} as Settings,
   YoutubeChannel: {} as YoutubeChannel,
   YoutubePlaylist: {} as YoutubePlaylist,
   LocalPlaylist: {} as LocalPlaylist,

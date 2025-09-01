@@ -57,6 +57,7 @@ h1 {
   border-bottom: 1px solid #474747;
 }
 
+.fresh-videos-icon-count-container,
 .liked-videos-icon-count-container,
 .subscribed-channels-icon-count-container,
 .playlists-icon-count-container,
@@ -76,6 +77,11 @@ h1 {
   user-select: none;
 }
 
+.fresh-videos-icon-count-container:hover {
+  cursor: pointer;
+  background-color: #00ff0033;
+  transition: all 0.2s ease;
+}
 .liked-videos-icon-count-container:hover {
   cursor: pointer;
   background-color: #64aee933;
@@ -97,6 +103,7 @@ h1 {
   background-color: #80008069;
 }
 
+#fresh-videos-icon,
 #liked-videos-icon,
 #subscribed-channels-icon,
 #playlists-icon,
@@ -104,6 +111,10 @@ h1 {
   padding-left: 5px;
 }
 
+.selected-fresh-videos-icon-count-container {
+  border-color: #00ff00;
+  background-color: #00ff0033;
+}
 .selected-liked-videos-icon-count-container {
   border-color: #008cff;
   background-color: #64aee933;

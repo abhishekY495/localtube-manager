@@ -44,3 +44,16 @@ export const clearSubscribedChannels = async () => {
   const db = await initializeYoutubeDB();
   await db.clear("subscribedChannels");
 };
+
+export const updateChannelId = async (handle: string, channelId: string) => {
+  const db = await initializeYoutubeDB();
+  const tx = db.transaction("subscribedChannels", "readwrite");
+  const channelsStore = tx.objectStore("subscribedChannels");
+  
+  const channel = await channelsStore.get(handle);
+  if (channel) {
+    channel.id = channelId;
+    await channelsStore.put(channel);
+  }
+  await tx.done;
+};

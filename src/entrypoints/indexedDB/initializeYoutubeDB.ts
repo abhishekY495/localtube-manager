@@ -1,7 +1,7 @@
 import { openDB } from "idb";
 
 export async function initializeYoutubeDB() {
-  return await openDB("YouTubeDB", 2, {
+  return await openDB("YouTubeDB", 3, {
     upgrade(db) {
       // Create likedVideos store
       if (!db.objectStoreNames.contains("likedVideos")) {
@@ -21,6 +21,18 @@ export async function initializeYoutubeDB() {
       // Create localPlaylists store
       if (!db.objectStoreNames.contains("localPlaylists")) {
         db.createObjectStore("localPlaylists", { keyPath: "name" });
+      }
+
+      // Create freshVideos store
+      if (!db.objectStoreNames.contains("freshVideos")) {
+        const freshVideosStore = db.createObjectStore("freshVideos", { keyPath: "urlSlug" });
+        freshVideosStore.createIndex("publishedAt", "publishedAt", { unique: false });
+        freshVideosStore.createIndex("channelId", "channelId", { unique: false });
+      }
+
+      // Create settings store
+      if (!db.objectStoreNames.contains("settings")) {
+        db.createObjectStore("settings", { keyPath: "key" });
       }
     },
   });

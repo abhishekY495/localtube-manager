@@ -19,6 +19,12 @@ import {
   removeVideoFromLikedStore,
 } from "./indexedDB/video";
 import {
+  markFreshVideoAsViewed,
+  getUnviewedFreshVideosCount
+} from "./indexedDB/freshVideo";
+import { shouldFetchFreshVideos } from "./indexedDB/settings";
+import { FreshVideosService } from "./background/freshVideosService";
+import {
   LocalPlaylist,
   RequestData,
   Video,
@@ -27,7 +33,52 @@ import {
 } from "./types";
 
 export default defineBackground(() => {
-  console.log("Hello background!", { id: browser.runtime.id });
+
+  // Initialize fresh videos service
+  const freshVideosService = FreshVideosService.getInstance();
+
+  // Check for fresh videos based on user settings
+  const checkFreshVideos = async () => {
+    try {
+      const shouldFetch = await shouldFetchFreshVideos();
+      if (shouldFetch) {
+        await freshVideosService.fetchAllChannelsFreshVideos();
+      }
+    } catch (error) {
+      // Silent error handling
+    }
+  };
+
+  // Set up dynamic alarm based on user settings
+  const setupFreshVideosAlarm = async () => {
+    try {
+      const { getSettings } = await import("./indexedDB/settings");
+      const settings = await getSettings();
+      
+      // Clear existing alarm
+      await browser.alarms.clear("checkFreshVideos");
+      
+      // Create new alarm with user's interval (minimum 15 minutes for browser alarm API)
+      const intervalMinutes = Math.max(settings.freshVideosFetchInterval, 15);
+      browser.alarms.create("checkFreshVideos", { periodInMinutes: intervalMinutes });
+    } catch (error) {
+      // Fallback to 60 minutes if settings can't be loaded
+      browser.alarms.create("checkFreshVideos", { periodInMinutes: 60 });
+    }
+  };
+
+  // Initial setup
+  checkFreshVideos();
+  setupFreshVideosAlarm();
+
+  browser.alarms.onAlarm.addListener((alarm) => {
+    if (alarm.name === "checkFreshVideos") {
+      checkFreshVideos();
+    }
+  });
+
+  // Update badge on startup
+  freshVideosService.updateBadgeCount();
 
   browser.runtime.onMessage.addListener(
     (request: RequestData, _sender, sendResponse) => {
@@ -329,6 +380,81 @@ export default defineBackground(() => {
             sendResponse({
               success: true,
               data: { isVideoRemovedFromLocalPlaylist: true, updatedPlaylist },
+            });
+          } catch (error) {
+            // @ts-ignore
+            sendResponse({
+              success: false,
+              error: {
+                message:
+                  error instanceof Error ? error?.message : String(error),
+                name: error instanceof Error ? error?.name : "Unknown Error",
+              },
+            });
+          }
+        })();
+        return true;
+      }
+
+      // fresh videos
+      if (request.task === "markFreshVideoAsViewed") {
+        const urlSlug = request?.data?.urlSlug;
+        (async () => {
+          try {
+            await markFreshVideoAsViewed(urlSlug);
+            await freshVideosService.updateBadgeCount();
+            // @ts-ignore
+            sendResponse({
+              success: true,
+              data: { isVideoMarkedAsViewed: true },
+            });
+          } catch (error) {
+            // @ts-ignore
+            sendResponse({
+              success: false,
+              error: {
+                message:
+                  error instanceof Error ? error?.message : String(error),
+                name: error instanceof Error ? error?.name : "Unknown Error",
+              },
+            });
+          }
+        })();
+        return true;
+      }
+
+      if (request.task === "fetchFreshVideos") {
+        (async () => {
+          try {
+            await freshVideosService.fetchAllChannelsFreshVideos();
+            // @ts-ignore
+            sendResponse({
+              success: true,
+              data: { freshVideosFetched: true },
+            });
+          } catch (error) {
+            // @ts-ignore
+            sendResponse({
+              success: false,
+              error: {
+                message:
+                  error instanceof Error ? error?.message : String(error),
+                name: error instanceof Error ? error?.name : "Unknown Error",
+              },
+            });
+          }
+        })();
+        return true;
+      }
+
+      if (request.task === "updateFreshVideosAlarm") {
+        (async () => {
+          try {
+            await setupFreshVideosAlarm();
+            // @ts-ignore
+            sendResponse({
+              success: true,
+              data: { alarmUpdated: true },
             });
           } catch (error) {
             // @ts-ignore
