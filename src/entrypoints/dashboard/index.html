@@ -19,6 +19,31 @@
       </div>
     </div>
     <div id="options-container">
+      <div class="fresh-videos-icon-count-container">
+        <svg
+          id="fresh-videos-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="#fff"
+          height="28"
+          viewBox="0 0 28 28"
+          width="28"
+          aria-hidden="true"
+          style="
+            pointer-events: none;
+            display: inherit;
+            width: 100%;
+            height: 100%;
+          "
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M14 2C7.373 2 2 7.373 2 14s5.373 12 12 12 12-5.373 12-12S20.627 2 14 2zM14 24c-5.514 0-10-4.486-10-10S8.486 4 14 4s10 4.486 10 10-4.486 10-10 10zm-1-15v6l4.5 2.598 1-1.732L15 13.402V9h-2z"
+          />
+        </svg>
+        <p><span id="fresh-videos-count">0</span> Fresh videos</p>
+      </div>
+      <!--  -->
       <div class="liked-videos-icon-count-container">
         <svg
           id="liked-videos-icon"
@@ -118,6 +143,7 @@
     <div id="dashboard-container">
       <p>👆 Select an option from above 👆</p>
     </div>
+    <div id="fresh-videos-container"></div>
     <div id="liked-videos-container"></div>
     <div id="subscribed-channels-container"></div>
     <div id="playlists-main-container">

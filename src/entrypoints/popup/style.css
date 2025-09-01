@@ -9,6 +9,8 @@ body {
   padding: 20px;
   text-align: center;
   font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
+  width: 390px;
+  box-sizing: border-box;
 }
 
 #dashboard-btn {
@@ -68,6 +70,7 @@ body {
   height: 100%;
 }
 
+#fresh-videos-count-container,
 #liked-videos-count-container,
 #subscribed-channels-count-container,
 #playlists-count-container {
@@ -80,6 +83,12 @@ body {
   padding: 10px 5px 13px 5px;
 }
 
+#fresh-videos-count-container:hover {
+  cursor: pointer;
+  background-color: #00ff0033;
+  border-color: #00ff00;
+  transition: all 0.2s ease;
+}
 #liked-videos-count-container:hover {
   cursor: pointer;
   background-color: #64aee933;
@@ -99,8 +108,94 @@ body {
   transition: all 0.2s ease;
 }
 
+#fresh-videos-icon,
 #liked-videos-icon,
 #subscribed-channels-icon,
 #playlists-icon {
   padding-left: 3px;
+}
+
+/* Fresh Videos List Styles */
+#fresh-videos-list-container {
+  margin-top: 20px;
+  text-align: left;
+}
+
+
+
+#fresh-videos-list {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #cccccc3a;
+  border-radius: 5px;
+  background-color: #1a1a1a;
+}
+
+.fresh-video-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #333;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.fresh-video-item:hover {
+  background-color: #333;
+}
+
+.fresh-video-item:last-child {
+  border-bottom: none;
+}
+
+.video-thumbnail {
+  width: 60px;
+  height: 45px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.video-info {
+  flex: 1;
+  overflow: hidden;
+}
+
+.video-title {
+  font-size: 12px;
+  font-weight: 500;
+  margin: 0 0 4px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #fff;
+}
+
+.video-channel {
+  font-size: 10px;
+  color: #aaa;
+  margin: 0 0 2px 0;
+}
+
+.video-date {
+  font-size: 9px;
+  color: #888;
+  margin: 0;
+}
+
+.remove-video-btn {
+  background: #333;
+  color: white;
+  border: 1px solid #cccccc30;
+  border-radius: 3px;
+  padding: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remove-video-btn:hover {
+  background: #801a1a9e;
 }
