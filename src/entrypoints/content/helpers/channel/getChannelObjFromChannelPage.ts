@@ -1,12 +1,9 @@
 import { YoutubeChannel } from "@/entrypoints/types";
+import { getChannelDetailsFromChannelHandle } from "./getChannelDetailsFromChannelHandle";
 
-export function getChannelObjFromChannelPage(pageHeaderElement: HTMLElement) {
-  const dynamicTextViewModelEement = pageHeaderElement.querySelector(
-    "yt-dynamic-text-view-model"
-  ) as HTMLElement;
-  const decoratedAvatarViewModelEement = pageHeaderElement.querySelector(
-    "yt-decorated-avatar-view-model"
-  ) as HTMLElement;
+export async function getChannelObjFromChannelPage(
+  pageHeaderElement: HTMLElement
+) {
   const contentMetadataViewModel = pageHeaderElement.querySelector(
     "yt-content-metadata-view-model"
   ) as HTMLElement;
@@ -16,16 +13,15 @@ export function getChannelObjFromChannelPage(pageHeaderElement: HTMLElement) {
 
   const channelHandle = channelHandleElement.innerText;
 
-  const imageElement = decoratedAvatarViewModelEement.querySelector(
-    "img"
-  ) as HTMLElement;
-  const imageUrl = imageElement.getAttribute("src");
+  const backupChannelDetails = await getChannelDetailsFromChannelHandle(
+    channelHandle
+  );
 
   const channel: YoutubeChannel = {
-    name: dynamicTextViewModelEement?.innerText,
+    name: backupChannelDetails?.channelName || "",
     handle: `https://www.youtube.com/${channelHandle}`,
-    id: "",
-    imageUrl: imageUrl?.replace("=s160", "=s176") || "",
+    id: backupChannelDetails?.channelId || "",
+    imageUrl: backupChannelDetails?.channelImage || "",
     addedAt: new Date().toISOString(),
   };
 

@@ -37,6 +37,9 @@ export async function checkIfChannelSubscribedFromChannelPage(
     const channelHandle = channelHandleElement.innerText;
 
     // Get channel info and subscription status
+    const youtubeChannel = await getChannelObjFromChannelPage(
+      pageHeaderElement
+    );
     const responseData: ResponseData = await browser.runtime.sendMessage({
       task: "checkIfChannelSubscribed",
       data: { channelHandle: `https://www.youtube.com/${channelHandle}` },
@@ -88,7 +91,6 @@ export async function checkIfChannelSubscribedFromChannelPage(
     // Add click event listener
     customSubscribeButton.addEventListener("click", async () => {
       console.log("👆 Subscribe button clicked");
-      const youtubeChannel = getChannelObjFromChannelPage(pageHeaderElement);
       await toggleSubscribedChannel(youtubeChannel, customSubscribeButton);
     });
   } catch (error) {

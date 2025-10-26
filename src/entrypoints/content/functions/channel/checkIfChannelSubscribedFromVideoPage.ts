@@ -31,10 +31,7 @@ export async function checkIfChannelSubscribedFromVideoPage() {
     }
 
     // Get channel info and subscription status
-    const youtubeChannel = getChannelObjFromVideoPage(
-      aboveTheFoldElement,
-      ownerElement
-    );
+    const youtubeChannel = await getChannelObjFromVideoPage(ownerElement);
     const responseData: ResponseData = await browser.runtime.sendMessage({
       task: "checkIfChannelSubscribed",
       data: { channelHandle: youtubeChannel.handle },
