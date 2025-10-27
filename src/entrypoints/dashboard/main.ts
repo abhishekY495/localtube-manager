@@ -24,6 +24,7 @@ import { renderYoutubePlaylists } from "./functions/renderplaylists/renderYoutub
 import { renderLocalPlaylists } from "./functions/renderplaylists/renderLocalPlaylists";
 import { getSubscribedChannelVideos } from "../indexedDB/subscriptions";
 import { renderSubscriptions } from "./functions/subscriptions/renderSubscriptions";
+import { fetchSubscribedChannelLatestVideos } from "../helpers/subscribedChannelVideosHelper";
 
 let likedVideosArr: Video[] = [];
 let subscribedChannelVideosArr: SubscribedChannelVideo[] = [];
@@ -117,6 +118,9 @@ export async function main() {
   const subscriptionsHeadingContainer = document.querySelector(
     ".subscriptions-heading-container"
   ) as HTMLElement;
+  const subscriptionsHeadingIcon = document.querySelector(
+    ".subscriptions-heading-icon"
+  ) as SVGElement;
 
   //
   //
@@ -458,6 +462,20 @@ export async function main() {
     playlistsMainContainer.style.display = "none";
     playlistsContainer.style.display = "none";
     importExportContainer.style.display = "flex";
+  });
+
+  subscriptionsHeadingIcon?.addEventListener("click", async () => {
+    await fetchSubscribedChannelLatestVideos();
+    // Refresh the subscriptions view after sync
+    const updatedSubscribedChannelVideosArr =
+      await getSubscribedChannelVideos();
+    if (updatedSubscribedChannelVideosArr) {
+      renderSubscriptions(
+        updatedSubscribedChannelVideosArr,
+        subscriptionsContainer,
+        subscriptionsHeadingContainer
+      );
+    }
   });
 }
 
