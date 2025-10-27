@@ -48,6 +48,9 @@ export async function main() {
   const likedVideosIconCountContainer = document.querySelector(
     ".liked-videos-icon-count-container"
   ) as HTMLElement;
+  const subscriptionsIconCountContainer = document.querySelector(
+    ".subscriptions-icon-count-container"
+  ) as HTMLElement;
   const subscribedChannelsIconCountContainer = document.querySelector(
     ".subscribed-channels-icon-count-container"
   ) as HTMLElement;
@@ -76,6 +79,9 @@ export async function main() {
   //
   const dashboardContainer = document.querySelector(
     "#dashboard-container"
+  ) as HTMLElement;
+  const subscriptionsContainer = document.querySelector(
+    "#subscriptions-container"
   ) as HTMLElement;
   const likedVideosContainer = document.querySelector(
     "#liked-videos-container"
@@ -141,6 +147,16 @@ export async function main() {
     }
     dashboardContainer.style.display = "none";
     likedVideosContainer.style.display = "flex";
+    subscribedChannelsContainer.style.display = "none";
+    playlistsMainContainer.style.display = "none";
+    playlistsContainer.style.display = "none";
+    importExportContainer.style.display = "none";
+  } else if (slug === "subscriptions") {
+    subscriptionsIconCountContainer?.classList.add(
+      "selected-subscriptions-icon-count-container"
+    );
+    dashboardContainer.style.display = "none";
+    likedVideosContainer.style.display = "none";
     subscribedChannelsContainer.style.display = "none";
     playlistsMainContainer.style.display = "none";
     playlistsContainer.style.display = "none";
@@ -221,6 +237,9 @@ export async function main() {
     likedVideosIconCountContainer?.classList.add(
       "selected-liked-videos-icon-count-container"
     );
+    subscriptionsIconCountContainer?.classList.remove(
+      "selected-subscriptions-icon-count-container"
+    );
     subscribedChannelsIconCountContainer?.classList.remove(
       "selected-subscribed-channels-icon-count-container"
     );
@@ -243,9 +262,37 @@ export async function main() {
     importExportContainer.style.display = "none";
   });
 
+  subscriptionsIconCountContainer?.addEventListener("click", async () => {
+    subscriptionsIconCountContainer?.classList.add(
+      "selected-subscriptions-icon-count-container"
+    );
+    likedVideosIconCountContainer?.classList.remove(
+      "selected-liked-videos-icon-count-container"
+    );
+    subscribedChannelsIconCountContainer?.classList.remove(
+      "selected-subscribed-channels-icon-count-container"
+    );
+    playlistsIconCountContainer?.classList.remove(
+      "selected-playlists-icon-count-container"
+    );
+    importExportIconContainer?.classList.remove(
+      "selected-import-export-icon-container"
+    );
+    window.location.href = `${url}#subscriptions`;
+    dashboardContainer.style.display = "none";
+    likedVideosContainer.style.display = "none";
+    subscribedChannelsContainer.style.display = "none";
+    playlistsMainContainer.style.display = "none";
+    playlistsContainer.style.display = "none";
+    importExportContainer.style.display = "none";
+  });
+
   subscribedChannelsIconCountContainer?.addEventListener("click", async () => {
     subscribedChannelsIconCountContainer?.classList.add(
       "selected-subscribed-channels-icon-count-container"
+    );
+    subscriptionsIconCountContainer?.classList.remove(
+      "selected-subscriptions-icon-count-container"
     );
     likedVideosIconCountContainer?.classList.remove(
       "selected-liked-videos-icon-count-container"
@@ -281,6 +328,9 @@ export async function main() {
     );
     likedVideosIconCountContainer?.classList.remove(
       "selected-liked-videos-icon-count-container"
+    );
+    subscriptionsIconCountContainer?.classList.remove(
+      "selected-subscriptions-icon-count-container"
     );
     subscribedChannelsIconCountContainer?.classList.remove(
       "selected-subscribed-channels-icon-count-container"
@@ -352,6 +402,9 @@ export async function main() {
     );
     likedVideosIconCountContainer?.classList.remove(
       "selected-liked-videos-icon-count-container"
+    );
+    subscriptionsIconCountContainer?.classList.remove(
+      "selected-subscriptions-icon-count-container"
     );
     subscribedChannelsIconCountContainer?.classList.remove(
       "selected-subscribed-channels-icon-count-container"

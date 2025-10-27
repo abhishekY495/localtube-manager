@@ -26,6 +26,24 @@ header {
   margin-right: 8px;
 }
 
+.app-info {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  color: #888888;
+}
+.app-info a {
+  color: #888888;
+  text-decoration: none;
+}
+.app-info a:hover {
+  color: #e0e0e0;
+}
+
+.github-icon {
+  margin-bottom: -2px;
+}
+
 #clear-all-btn {
   background-color: red;
   color: #fff;
@@ -60,7 +78,8 @@ h1 {
 .liked-videos-icon-count-container,
 .subscribed-channels-icon-count-container,
 .playlists-icon-count-container,
-.import-export-icon-container {
+.import-export-icon-container,
+.subscriptions-icon-count-container {
   border: 2px solid #cccccc3a;
   border-radius: 5px;
   display: flex;
@@ -86,6 +105,11 @@ h1 {
   background-color: #ff000045;
   transition: all 0.2s ease;
 }
+.subscriptions-icon-count-container:hover {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: #00800969;
+}
 .playlists-icon-count-container:hover {
   cursor: pointer;
   transition: all 0.2s ease;
@@ -97,16 +121,13 @@ h1 {
   background-color: #80008069;
 }
 
-#liked-videos-icon,
-#subscribed-channels-icon,
-#playlists-icon,
-#import-export-icon {
-  padding-left: 5px;
-}
-
 .selected-liked-videos-icon-count-container {
   border-color: #008cff;
   background-color: #64aee933;
+}
+.selected-subscriptions-icon-count-container {
+  border-color: #008011;
+  background-color: #00800b69;
 }
 .selected-subscribed-channels-icon-count-container {
   border-color: #ff0000;
@@ -403,8 +424,6 @@ h1 {
   padding: 0 5px 8px 5px;
   border-bottom: 1px solid #515151;
 }
-
-
 
 /* Initial Modal */
 #initial-modal {
