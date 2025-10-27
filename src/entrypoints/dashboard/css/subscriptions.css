@@ -25,6 +25,10 @@
   background-color: #ffffff33;
 }
 
+.subscriptions-heading-icon.rotating {
+  animation: rotate 1s linear infinite;
+}
+
 .subscriptions-message {
   font-size: 14px;
   color: #aaaaaa;
@@ -85,4 +89,13 @@
   font-size: 12px;
   font-weight: 400;
   color: #aaaaaa;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

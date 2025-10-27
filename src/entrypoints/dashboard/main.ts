@@ -465,16 +465,20 @@ export async function main() {
   });
 
   subscriptionsHeadingIcon?.addEventListener("click", async () => {
-    await fetchSubscribedChannelLatestVideos();
-    // Refresh the subscriptions view after sync
-    const updatedSubscribedChannelVideosArr =
-      await getSubscribedChannelVideos();
-    if (updatedSubscribedChannelVideosArr) {
-      renderSubscriptions(
-        updatedSubscribedChannelVideosArr,
-        subscriptionsContainer,
-        subscriptionsHeadingContainer
-      );
+    subscriptionsHeadingIcon.classList.add("rotating");
+    try {
+      await fetchSubscribedChannelLatestVideos();
+      const updatedSubscribedChannelVideosArr =
+        await getSubscribedChannelVideos();
+      if (updatedSubscribedChannelVideosArr) {
+        renderSubscriptions(
+          updatedSubscribedChannelVideosArr,
+          subscriptionsContainer,
+          subscriptionsHeadingContainer
+        );
+      }
+    } finally {
+      subscriptionsHeadingIcon.classList.remove("rotating");
     }
   });
 }
