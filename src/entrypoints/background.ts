@@ -1,3 +1,4 @@
+import { fetchSubscribedChannelLatestVideos } from "./helpers/subscribedChannelVideosHelper";
 import {
   addChannelToSubscribedChannelStore,
   checkIfChannelSubscribed,
@@ -28,6 +29,8 @@ import {
 
 export default defineBackground(() => {
   console.log("Hello background!", { id: browser.runtime.id });
+
+  fetchSubscribedChannelLatestVideos();
 
   browser.runtime.onMessage.addListener(
     (request: RequestData, _sender, sendResponse) => {

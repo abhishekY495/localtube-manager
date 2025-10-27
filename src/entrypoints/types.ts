@@ -7,6 +7,14 @@ export type Video = {
   addedAt: string;
 };
 
+export type SubscribedChannelVideo = {
+  urlSlug: string;
+  title: string;
+  channelName: string;
+  channelHandle: string;
+  uploadedAt: string;
+};
+
 export type YoutubeChannel = {
   id: string | null;
   handle: string;
@@ -47,8 +55,6 @@ export type ResponseData = {
   error: { message: string; name: string };
 };
 
-
-
 // ✅ Create an object that exports all types as the default export
 const types = {
   Video: {} as Video,
@@ -58,6 +64,7 @@ const types = {
   LocalPlaylistNotDetailed: {} as LocalPlaylistNotDetailed,
   RequestData: {} as RequestData,
   ResponseData: {} as ResponseData,
+  SubscribedChannelVideo: {} as SubscribedChannelVideo,
 };
 
 export default types;

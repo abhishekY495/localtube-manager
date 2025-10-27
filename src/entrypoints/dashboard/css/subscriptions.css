@@ -1,0 +1,88 @@
+#subscriptions-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+}
+
+.subscriptions-heading-container {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 6px;
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.subscriptions-heading-icon {
+  padding: 5px;
+  background-color: #ffffff1a;
+  border-radius: 100%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.subscriptions-heading-icon:hover {
+  background-color: #ffffff33;
+}
+
+.subscriptions-message {
+  font-size: 14px;
+  color: #aaaaaa;
+  font-weight: 400;
+}
+
+.subscribed-channel-video {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+}
+.subscribed-channel-video:hover {
+  background-color: #ffffff1a;
+  cursor: pointer;
+}
+
+.subscribed-channel-video-thumbnail {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+.subscribed-channel-video-thumbnail:hover {
+  opacity: 0.8;
+  transition: all 0.2s ease;
+}
+
+.subscribed-channel-video-title {
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+  width: 300px;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.subscribed-channel-video-title-channel-name-uploaded-at-container {
+  background: #1c1c1c87;
+  padding: 5px 10px 10px 10px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.subscribed-channel-video-channel-name-uploaded-at-container {
+  font-size: 14px;
+  font-weight: 500;
+  color: #aaaaaa;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 5px;
+}
+
+.subscribed-channel-video-uploaded-at {
+  font-size: 12px;
+  font-weight: 400;
+  color: #aaaaaa;
+}

@@ -2,6 +2,7 @@ import "./css/dashboard.css";
 import "./css/likedVideos.css";
 import "./css/subscribedChannels.css";
 import "./css/playlist.css";
+import "./css/subscriptions.css";
 import "notyf/notyf.min.css";
 import numeral from "numeral";
 import { getSubscribedChannels } from "../indexedDB/channel";
@@ -12,6 +13,7 @@ import {
 import { getLikedVideos } from "../indexedDB/video";
 import {
   LocalPlaylist,
+  SubscribedChannelVideo,
   Video,
   YoutubeChannel,
   YoutubePlaylist,
@@ -20,8 +22,11 @@ import { renderLikedVideos } from "./functions/renderLikedVideos";
 import { renderSubscribedChannels } from "./functions/renderSubscribedChannels";
 import { renderYoutubePlaylists } from "./functions/renderplaylists/renderYoutubePlaylists";
 import { renderLocalPlaylists } from "./functions/renderplaylists/renderLocalPlaylists";
+import { getSubscribedChannelVideos } from "../indexedDB/subscriptions";
+import { renderSubscriptions } from "./functions/subscriptions/renderSubscriptions";
 
 let likedVideosArr: Video[] = [];
+let subscribedChannelVideosArr: SubscribedChannelVideo[] = [];
 let subscribedChannelsArr: YoutubeChannel[] = [];
 let youtubePlaylistsArr: YoutubePlaylist[] = [];
 let localPlaylistsArr: LocalPlaylist[] = [];
@@ -41,6 +46,7 @@ const importExportContainer = document.querySelector(
 
 export async function main() {
   likedVideosArr = await getLikedVideos();
+  subscribedChannelVideosArr = await getSubscribedChannelVideos();
   subscribedChannelsArr = await getSubscribedChannels();
   youtubePlaylistsArr = await getYoutubePlaylists();
   localPlaylistsArr = await getLocalPlaylistsDetailed();
@@ -107,6 +113,10 @@ export async function main() {
   const importExportContainer = document.querySelector(
     "#import-export-container"
   ) as HTMLElement;
+  //
+  const subscriptionsHeadingContainer = document.querySelector(
+    ".subscriptions-heading-container"
+  ) as HTMLElement;
 
   //
   //
@@ -151,13 +161,21 @@ export async function main() {
     playlistsMainContainer.style.display = "none";
     playlistsContainer.style.display = "none";
     importExportContainer.style.display = "none";
+    subscriptionsHeadingContainer.style.display = "none";
   } else if (slug === "subscriptions") {
     subscriptionsIconCountContainer?.classList.add(
       "selected-subscriptions-icon-count-container"
     );
+    if (subscribedChannelVideosArr) {
+      renderSubscriptions(
+        subscribedChannelVideosArr,
+        subscriptionsContainer,
+        subscriptionsHeadingContainer
+      );
+    }
     dashboardContainer.style.display = "none";
     likedVideosContainer.style.display = "none";
-    subscribedChannelsContainer.style.display = "none";
+    subscribedChannelsContainer.style.display = "flex";
     playlistsMainContainer.style.display = "none";
     playlistsContainer.style.display = "none";
     importExportContainer.style.display = "none";
@@ -178,6 +196,7 @@ export async function main() {
     playlistsMainContainer.style.display = "none";
     playlistsContainer.style.display = "none";
     importExportContainer.style.display = "none";
+    subscriptionsHeadingContainer.style.display = "none";
   } else if (slug === "playlists") {
     playlistsIconCountContainer?.classList.add(
       "selected-playlists-icon-count-container"
@@ -196,6 +215,7 @@ export async function main() {
     playlistsContainer.style.display = "grid";
     playlistsSelectionBtnGroup.style.display = "flex";
     importExportContainer.style.display = "none";
+    subscriptionsHeadingContainer.style.display = "none";
   } else if (slug === "import-export") {
     importExportIconContainer?.classList.add(
       "selected-import-export-icon-container"
@@ -215,6 +235,7 @@ export async function main() {
     playlistsMainContainer.style.display = "none";
     playlistsContainer.style.display = "none";
     importExportContainer.style.display = "flex";
+    subscriptionsHeadingContainer.style.display = "none";
   } else {
     if (dashboardContainer) {
       dashboardContainer.style.display = "block";
@@ -223,6 +244,7 @@ export async function main() {
       playlistsMainContainer.style.display = "none";
       playlistsContainer.style.display = "none";
       importExportContainer.style.display = "none";
+      subscriptionsHeadingContainer.style.display = "none";
     }
   }
 
@@ -255,6 +277,8 @@ export async function main() {
       renderLikedVideos(likedVideosArr, likedVideosContainer, likedVideosCount);
     }
     dashboardContainer.style.display = "none";
+    subscriptionsContainer.style.display = "none";
+    subscriptionsHeadingContainer.style.display = "none";
     likedVideosContainer.style.display = "flex";
     subscribedChannelsContainer.style.display = "none";
     playlistsMainContainer.style.display = "none";
@@ -279,9 +303,18 @@ export async function main() {
       "selected-import-export-icon-container"
     );
     window.location.href = `${url}#subscriptions`;
+    const subscribedChannelVideosArr = await getSubscribedChannelVideos();
+    if (subscribedChannelVideosArr) {
+      renderSubscriptions(
+        subscribedChannelVideosArr,
+        subscriptionsContainer,
+        subscriptionsHeadingContainer
+      );
+    }
     dashboardContainer.style.display = "none";
     likedVideosContainer.style.display = "none";
     subscribedChannelsContainer.style.display = "none";
+    subscriptionsContainer.style.display = "grid";
     playlistsMainContainer.style.display = "none";
     playlistsContainer.style.display = "none";
     importExportContainer.style.display = "none";
@@ -315,6 +348,8 @@ export async function main() {
     dashboardContainer.style.display = "none";
     likedVideosContainer.style.display = "none";
     subscribedChannelsContainer.style.display = "grid";
+    subscriptionsHeadingContainer.style.display = "none";
+    subscriptionsContainer.style.display = "none";
     playlistsMainContainer.style.display = "none";
     playlistsContainer.style.display = "none";
     importExportContainer.style.display = "none";
@@ -362,6 +397,8 @@ export async function main() {
     dashboardContainer.style.display = "none";
     likedVideosContainer.style.display = "none";
     subscribedChannelsContainer.style.display = "none";
+    subscriptionsContainer.style.display = "none";
+    subscriptionsHeadingContainer.style.display = "none";
     playlistsMainContainer.style.display = "flex";
     playlistsContainer.style.display = "grid";
     importExportContainer.style.display = "none";
@@ -416,6 +453,8 @@ export async function main() {
     dashboardContainer.style.display = "none";
     likedVideosContainer.style.display = "none";
     subscribedChannelsContainer.style.display = "none";
+    subscriptionsContainer.style.display = "none";
+    subscriptionsHeadingContainer.style.display = "none";
     playlistsMainContainer.style.display = "none";
     playlistsContainer.style.display = "none";
     importExportContainer.style.display = "flex";

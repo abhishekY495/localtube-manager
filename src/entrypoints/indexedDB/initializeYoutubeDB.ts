@@ -1,7 +1,7 @@
 import { openDB } from "idb";
 
 export async function initializeYoutubeDB() {
-  return await openDB("YouTubeDB", 2, {
+  return await openDB("YouTubeDB", 3, {
     upgrade(db) {
       // Create likedVideos store
       if (!db.objectStoreNames.contains("likedVideos")) {
@@ -21,6 +21,13 @@ export async function initializeYoutubeDB() {
       // Create localPlaylists store
       if (!db.objectStoreNames.contains("localPlaylists")) {
         db.createObjectStore("localPlaylists", { keyPath: "name" });
+      }
+
+      // Create subscribedChannelVideos store
+      if (!db.objectStoreNames.contains("subscribedChannelVideos")) {
+        db.createObjectStore("subscribedChannelVideos", {
+          keyPath: "urlSlug",
+        });
       }
     },
   });
