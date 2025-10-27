@@ -45,3 +45,24 @@ export const removeVideoFromSubscribedChannelVideosStore = async (
 
   await tx.done;
 };
+
+export const removeUnsubscribedChannelVideos = async (
+  subscribedHandles: string[]
+) => {
+  const db = await initializeYoutubeDB();
+  const tx = db.transaction("subscribedChannelVideos", "readwrite");
+  const store = tx.objectStore("subscribedChannelVideos");
+
+  const allVideos: SubscribedChannelVideo[] = await store.getAll();
+
+  // Find videos whose channelHandle is NOT in the subscribedHandles list
+  const videosToDelete = allVideos.filter(
+    (v) => !subscribedHandles.includes(v.channelHandle)
+  );
+
+  for (const video of videosToDelete) {
+    await store.delete(video.urlSlug);
+  }
+
+  await tx.done;
+};

@@ -1,6 +1,7 @@
 import { getSubscribedChannels } from "../indexedDB/channel";
 import {
   addVideoToSubscribedChannelVideosStore,
+  removeUnsubscribedChannelVideos,
   removeVideoFromSubscribedChannelVideosStore,
 } from "../indexedDB/subscriptions";
 import { YoutubeChannel } from "../types";
@@ -64,7 +65,7 @@ const fetchLatestVideosFromChannel = async (
       };
     });
 
-    return latestVideosDataArray.slice(0, 5);
+    return latestVideosDataArray.slice(0, 1);
   } catch (error) {
     console.error(
       `Error fetching latest videos from channel ${channelId}:`,
@@ -76,6 +77,7 @@ const fetchLatestVideosFromChannel = async (
 
 export const fetchSubscribedChannelLatestVideos = async () => {
   const subscribedChannels: YoutubeChannel[] = await getSubscribedChannels();
+  const subscribedHandles = subscribedChannels.map((channel) => channel.handle);
 
   for (const channel of subscribedChannels) {
     if (channel.id) {
@@ -98,4 +100,7 @@ export const fetchSubscribedChannelLatestVideos = async () => {
       );
     }
   }
+
+  // Cleanup videos for unsubscribed channels
+  await removeUnsubscribedChannelVideos(subscribedHandles);
 };
