@@ -1,5 +1,5 @@
 import { ResponseData, Video } from "@/entrypoints/types";
-import { DotLottieWorker } from "@lottiefiles/dotlottie-web";
+import { DotLottie } from "@lottiefiles/dotlottie-web";
 import { Notyf } from "notyf";
 import { notLikedIcon } from "../../helpers/video/likedUnlikedIcons";
 
@@ -28,7 +28,7 @@ export async function toggleLikedVideo(video: Video, likeBtn: Element) {
           const canvasElement = document.querySelector(
             "#custom-ltm-dotlottie-canvas"
           ) as HTMLCanvasElement;
-          new DotLottieWorker({
+          new DotLottie({
             autoplay: true,
             loop: false,
             canvas: canvasElement,

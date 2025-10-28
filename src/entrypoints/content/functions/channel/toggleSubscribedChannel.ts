@@ -1,5 +1,5 @@
 import { ResponseData, YoutubeChannel } from "@/entrypoints/types";
-import { DotLottieWorker } from "@lottiefiles/dotlottie-web";
+import { DotLottie } from "@lottiefiles/dotlottie-web";
 import { Notyf } from "notyf";
 
 const notyf = new Notyf();
@@ -29,7 +29,7 @@ export async function toggleSubscribedChannel(
         canvasElement.style.top = "-52px";
         canvasElement.style.left = "-17px";
         canvasElement.style.visibility = "visible";
-        new DotLottieWorker({
+        new DotLottie({
           autoplay: true,
           loop: false,
           canvas: canvasElement,
