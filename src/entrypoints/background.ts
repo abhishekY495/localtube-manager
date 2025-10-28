@@ -49,7 +49,7 @@ export default defineBackground(() => {
 
   // Create an alarm to fetch subscribed channel videos every 20 minute
   browser.alarms.create("fetchSubscribedChannelVideos", {
-    periodInMinutes: 1,
+    periodInMinutes: 20,
   });
 
   // Listen for alarm events

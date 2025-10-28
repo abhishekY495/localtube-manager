@@ -26,6 +26,8 @@ const parseXMLEntry = (entryText: string) => {
   return { title, urlSlug, channelName, uploadedAt };
 };
 
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 const fetchLatestVideosFromChannel = async (
   channelId: string,
   channelHandle: string
@@ -90,6 +92,10 @@ export const fetchSubscribedChannelLatestVideos = async () => {
         channel.id,
         channel.handle
       );
+
+      // Add 500ms delay to avoid rate limiting
+      await delay(200);
+
       for (const video of latestVideos) {
         const isNewVideo = await addVideoToSubscribedChannelVideosStore({
           urlSlug: video.urlSlug,
