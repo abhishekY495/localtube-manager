@@ -46,9 +46,6 @@ const importExportContainer = document.querySelector(
 ) as HTMLElement;
 
 export async function main() {
-  // Fetch latest videos from subscribed channels
-  await fetchSubscribedChannelLatestVideos();
-  
   likedVideosArr = await getLikedVideos();
   subscribedChannelVideosArr = await getSubscribedChannelVideos();
   subscribedChannelsArr = await getSubscribedChannels();
@@ -484,6 +481,9 @@ export async function main() {
       subscriptionsHeadingIcon.classList.remove("rotating");
     }
   });
+
+  // Fetch latest videos from subscribed channels
+  await fetchSubscribedChannelLatestVideos();
 }
 
 // Initialize the app directly without license validation
