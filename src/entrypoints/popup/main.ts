@@ -21,7 +21,7 @@ const playlistsCountContainer: HTMLElement | null = document.querySelector(
 if (dashboardBtn) {
   dashboardBtn.addEventListener("click", async () => {
     browser.tabs.create({
-      url: browser.runtime.getURL("/dashboard.html"),
+      url: browser.runtime.getURL("/dashboard.html#subscriptions"),
     });
   });
 }
