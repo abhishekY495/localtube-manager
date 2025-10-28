@@ -78,7 +78,11 @@ const fetchLatestVideosFromChannel = async (
 export const fetchSubscribedChannelLatestVideos = async () => {
   const subscribedChannels: YoutubeChannel[] = await getSubscribedChannels();
   const subscribedHandles = subscribedChannels.map((channel) => channel.handle);
-  const newVideos: { title: string; channelName: string }[] = [];
+  const newVideos: {
+    title: string;
+    channelName: string;
+    thumbnailUrl: string;
+  }[] = [];
 
   for (const channel of subscribedChannels) {
     if (channel.id) {
@@ -97,9 +101,18 @@ export const fetchSubscribedChannelLatestVideos = async () => {
 
         // Track new videos for notifications
         if (isNewVideo) {
+          const thumbnailUrl = video.urlSlug?.includes("shorts")
+            ? `https://i.ytimg.com/vi/${
+                video?.urlSlug?.split("/shorts/")[1]
+              }/oar2.jpg`
+            : `https://i.ytimg.com/vi/${
+                video?.urlSlug?.split("=")[1]
+              }/mqdefault.jpg`;
+
           newVideos.push({
             title: video.title,
             channelName: video.channelName,
+            thumbnailUrl,
           });
         }
       }

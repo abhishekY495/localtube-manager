@@ -64,9 +64,10 @@ export default defineBackground(() => {
         // If there's only one new video, show detailed notification
         if (newVideos.length === 1) {
           browser.notifications.create({
-            type: "basic",
+            type: "image",
             iconUrl: browser.runtime.getURL("/icon/128.png"),
-            title: "New Video from " + newVideos[0].channelName,
+            imageUrl: newVideos[0].thumbnailUrl,
+            title: newVideos[0].channelName,
             message: newVideos[0].title,
             priority: 2,
           });
