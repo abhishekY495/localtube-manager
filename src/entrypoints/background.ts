@@ -1,4 +1,4 @@
-import { fetchSubscribedChannelLatestVideos } from "./helpers/subscribedChannelVideosHelper";
+import { fetchSubscribedChannelLatestVideos } from "./dashboard/functions/subscriptions/subscribedChannelVideosHelper";
 import {
   addChannelToSubscribedChannelStore,
   checkIfChannelSubscribed,

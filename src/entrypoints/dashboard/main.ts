@@ -24,7 +24,7 @@ import { renderYoutubePlaylists } from "./functions/renderplaylists/renderYoutub
 import { renderLocalPlaylists } from "./functions/renderplaylists/renderLocalPlaylists";
 import { getSubscribedChannelVideos } from "../indexedDB/subscriptions";
 import { renderSubscriptions } from "./functions/subscriptions/renderSubscriptions";
-import { fetchSubscribedChannelLatestVideos } from "../helpers/subscribedChannelVideosHelper";
+import { fetchSubscribedChannelLatestVideos } from "./functions/subscriptions/subscribedChannelVideosHelper";
 
 let likedVideosArr: Video[] = [];
 let subscribedChannelVideosArr: SubscribedChannelVideo[] = [];

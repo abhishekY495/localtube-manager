@@ -1,10 +1,10 @@
-import { getSubscribedChannels, updateChannelId } from "../indexedDB/channel";
+import { getSubscribedChannels, updateChannelId } from "../../../indexedDB/channel";
 import {
   addVideoToSubscribedChannelVideosStore,
   removeUnsubscribedChannelVideos,
   removeVideoFromSubscribedChannelVideosStore,
-} from "../indexedDB/subscriptions";
-import { YoutubeChannel } from "../types";
+} from "../../../indexedDB/subscriptions";
+import { YoutubeChannel } from "../../../types";
 
 const parseXMLEntry = (entryText: string) => {
   // Extract title
