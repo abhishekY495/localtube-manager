@@ -30,19 +30,41 @@ import {
 export default defineBackground(() => {
   console.log("Hello background!", { id: browser.runtime.id });
 
-  // Initial fetch on startup
+  // Initial fetch on startup (without notifications to avoid spam on extension load)
   fetchSubscribedChannelLatestVideos();
 
-  // Create an alarm to fetch subscribed channel videos every 5 minutes
+  // Create an alarm to fetch subscribed channel videos every 20 minute
   browser.alarms.create("fetchSubscribedChannelVideos", {
     periodInMinutes: 20,
   });
 
   // Listen for alarm events
-  browser.alarms.onAlarm.addListener((alarm) => {
+  browser.alarms.onAlarm.addListener(async (alarm) => {
     if (alarm.name === "fetchSubscribedChannelVideos") {
-      console.log("Running scheduled fetch for subscribed channel videos");
-      fetchSubscribedChannelLatestVideos();
+      console.log("Running scheduled fetch for subscribed channel videos...");
+      const newVideos = await fetchSubscribedChannelLatestVideos();
+
+      // Send notifications for new videos
+      if (newVideos && newVideos.length > 0) {
+        // If there's only one new video, show detailed notification
+        if (newVideos.length === 1) {
+          browser.notifications.create({
+            type: "basic",
+            iconUrl: browser.runtime.getURL("/icon/128.png"),
+            title: "New Video from " + newVideos[0].channelName,
+            message: newVideos[0].title,
+            priority: 2,
+          });
+        } else {
+          browser.notifications.create({
+            type: "basic",
+            iconUrl: browser.runtime.getURL("/icon/128.png"),
+            title: `${newVideos.length} New Videos`,
+            message: "",
+            priority: 2,
+          });
+        }
+      }
     }
   });
 

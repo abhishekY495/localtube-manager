@@ -9,14 +9,21 @@ export const getSubscribedChannelVideos = async () => {
 
 export const addVideoToSubscribedChannelVideosStore = async (
   video: SubscribedChannelVideo
-) => {
+): Promise<boolean> => {
   const db = await initializeYoutubeDB();
   const tx = db.transaction("subscribedChannelVideos", "readwrite");
   const subscribedChannelVideosStore = tx.objectStore(
     "subscribedChannelVideos"
   );
+
+  // Check if video already exists
+  const existingVideo = await subscribedChannelVideosStore.get(video.urlSlug);
+  const isNewVideo = !existingVideo;
+
   await subscribedChannelVideosStore.put(video);
   await tx.done;
+
+  return isNewVideo;
 };
 
 export const removeVideoFromSubscribedChannelVideosStore = async (

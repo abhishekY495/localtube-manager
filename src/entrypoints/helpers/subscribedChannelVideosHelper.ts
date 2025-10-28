@@ -78,6 +78,7 @@ const fetchLatestVideosFromChannel = async (
 export const fetchSubscribedChannelLatestVideos = async () => {
   const subscribedChannels: YoutubeChannel[] = await getSubscribedChannels();
   const subscribedHandles = subscribedChannels.map((channel) => channel.handle);
+  const newVideos: { title: string; channelName: string }[] = [];
 
   for (const channel of subscribedChannels) {
     if (channel.id) {
@@ -86,13 +87,21 @@ export const fetchSubscribedChannelLatestVideos = async () => {
         channel.handle
       );
       for (const video of latestVideos) {
-        await addVideoToSubscribedChannelVideosStore({
+        const isNewVideo = await addVideoToSubscribedChannelVideosStore({
           urlSlug: video.urlSlug,
           title: video.title,
           channelName: video.channelName,
           channelHandle: channel.handle,
           uploadedAt: video.uploadedAt,
         });
+
+        // Track new videos for notifications
+        if (isNewVideo) {
+          newVideos.push({
+            title: video.title,
+            channelName: video.channelName,
+          });
+        }
       }
       await removeVideoFromSubscribedChannelVideosStore(
         channel.handle,
@@ -103,4 +112,6 @@ export const fetchSubscribedChannelLatestVideos = async () => {
 
   // Cleanup videos for unsubscribed channels
   await removeUnsubscribedChannelVideos(subscribedHandles);
+
+  return newVideos;
 };

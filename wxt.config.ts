@@ -17,6 +17,6 @@ export default defineConfig({
         ],
       },
     ],
-    permissions: ["unlimitedStorage", "alarms"],
+    permissions: ["unlimitedStorage", "alarms", "notifications"],
   },
 });
