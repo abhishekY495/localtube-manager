@@ -9,15 +9,15 @@ export async function getChannelObjFromVideoPage(ownerElement: HTMLElement) {
   const channelLinks = videoOwnerRendererElement.querySelectorAll("a");
   const channelHandle = channelLinks[0];
 
-  const backupChannelDetails = await getChannelDetailsFromChannelHandle(
+  const channelDetails = await getChannelDetailsFromChannelHandle(
     channelHandle.href
   );
 
   const channel: YoutubeChannel = {
-    name: backupChannelDetails?.channelName || "",
+    name: channelDetails?.channelName || "",
     handle: channelHandle?.href || "",
-    id: backupChannelDetails?.channelId || "",
-    imageUrl: backupChannelDetails?.channelImage || "",
+    id: channelDetails?.channelId || "",
+    imageUrl: channelDetails?.channelImage || "",
     addedAt: new Date().toISOString(),
   };
 

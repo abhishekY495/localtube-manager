@@ -13,15 +13,15 @@ export async function getChannelObjFromChannelPage(
 
   const channelHandle = channelHandleElement.innerText;
 
-  const backupChannelDetails = await getChannelDetailsFromChannelHandle(
+  const channelDetails = await getChannelDetailsFromChannelHandle(
     channelHandle
   );
 
   const channel: YoutubeChannel = {
-    name: backupChannelDetails?.channelName || "",
+    name: channelDetails?.channelName || "",
     handle: `https://www.youtube.com/${channelHandle}`,
-    id: backupChannelDetails?.channelId || "",
-    imageUrl: backupChannelDetails?.channelImage || "",
+    id: channelDetails?.channelId || "",
+    imageUrl: channelDetails?.channelImage || "",
     addedAt: new Date().toISOString(),
   };
 
