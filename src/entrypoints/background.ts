@@ -35,7 +35,15 @@ export default defineBackground(() => {
     if (newVideos && newVideos.length > 0) {
       // Set badge with the number of new videos
       browser.action.setBadgeText({ text: newVideos.length.toString() });
-      browser.action.setBadgeBackgroundColor({ color: "#FF0000" });
+      browser.action.setBadgeBackgroundColor({ color: "#ffffff" });
+
+      browser.notifications.create({
+        type: "basic",
+        iconUrl: browser.runtime.getURL("/icon/128.png"),
+        title: "LocalTube Manager",
+        message: `${newVideos.length} new videos`,
+        priority: 2,
+      });
     }
   });
 
@@ -59,7 +67,7 @@ export default defineBackground(() => {
 
         // Update badge with accumulated count
         browser.action.setBadgeText({ text: totalNewVideos.toString() });
-        browser.action.setBadgeBackgroundColor({ color: "#FF0000" });
+        browser.action.setBadgeBackgroundColor({ color: "#ffffff" });
 
         // If there's only one new video, show detailed notification
         if (newVideos.length === 1) {
@@ -76,7 +84,7 @@ export default defineBackground(() => {
             type: "basic",
             iconUrl: browser.runtime.getURL("/icon/128.png"),
             title: `${newVideos.length} New Videos`,
-            message: "",
+            message: newVideos.map((video) => video.title).join("\n"),
             priority: 2,
           });
         }
