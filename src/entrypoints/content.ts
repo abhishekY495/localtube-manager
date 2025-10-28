@@ -45,7 +45,7 @@ export default defineContentScript({
       const url = location.href;
       if (url !== lastUrl) {
         lastUrl = url;
-        setTimeout(() => processPage(getCurrentUrl()), 1000);
+        setTimeout(() => processPage(getCurrentUrl()), 1800);
       }
     }).observe(document, { subtree: true, childList: true });
   },
