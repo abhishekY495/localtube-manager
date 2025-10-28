@@ -30,7 +30,21 @@ import {
 export default defineBackground(() => {
   console.log("Hello background!", { id: browser.runtime.id });
 
+  // Initial fetch on startup
   fetchSubscribedChannelLatestVideos();
+
+  // Create an alarm to fetch subscribed channel videos every 5 minutes
+  browser.alarms.create("fetchSubscribedChannelVideos", {
+    periodInMinutes: 20,
+  });
+
+  // Listen for alarm events
+  browser.alarms.onAlarm.addListener((alarm) => {
+    if (alarm.name === "fetchSubscribedChannelVideos") {
+      console.log("Running scheduled fetch for subscribed channel videos");
+      fetchSubscribedChannelLatestVideos();
+    }
+  });
 
   browser.runtime.onMessage.addListener(
     (request: RequestData, _sender, sendResponse) => {

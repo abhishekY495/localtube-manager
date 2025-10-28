@@ -46,6 +46,9 @@ const importExportContainer = document.querySelector(
 ) as HTMLElement;
 
 export async function main() {
+  // Fetch latest videos from subscribed channels
+  await fetchSubscribedChannelLatestVideos();
+  
   likedVideosArr = await getLikedVideos();
   subscribedChannelVideosArr = await getSubscribedChannelVideos();
   subscribedChannelsArr = await getSubscribedChannels();
