@@ -31,11 +31,17 @@ export default defineBackground(() => {
   console.log("Hello background!", { id: browser.runtime.id });
 
   // Initial fetch on startup (without notifications to avoid spam on extension load)
-  fetchSubscribedChannelLatestVideos();
+  fetchSubscribedChannelLatestVideos().then((newVideos) => {
+    if (newVideos && newVideos.length > 0) {
+      // Set badge with the number of new videos
+      browser.action.setBadgeText({ text: newVideos.length.toString() });
+      browser.action.setBadgeBackgroundColor({ color: "#FF0000" });
+    }
+  });
 
   // Create an alarm to fetch subscribed channel videos every 20 minute
   browser.alarms.create("fetchSubscribedChannelVideos", {
-    periodInMinutes: 20,
+    periodInMinutes: 1,
   });
 
   // Listen for alarm events
@@ -46,6 +52,15 @@ export default defineBackground(() => {
 
       // Send notifications for new videos
       if (newVideos && newVideos.length > 0) {
+        // Get current badge text to accumulate count
+        const currentBadge = await browser.action.getBadgeText({});
+        const currentCount = currentBadge ? parseInt(currentBadge) || 0 : 0;
+        const totalNewVideos = currentCount + newVideos.length;
+
+        // Update badge with accumulated count
+        browser.action.setBadgeText({ text: totalNewVideos.toString() });
+        browser.action.setBadgeBackgroundColor({ color: "#FF0000" });
+
         // If there's only one new video, show detailed notification
         if (newVideos.length === 1) {
           browser.notifications.create({
@@ -71,6 +86,16 @@ export default defineBackground(() => {
   browser.runtime.onMessage.addListener(
     (request: RequestData, _sender, sendResponse) => {
       console.log(request);
+
+      if (request.task === "clearBadge") {
+        (async () => {
+          try {
+            await browser.action.setBadgeText({ text: "" });
+          } catch (error) {
+            console.error(error);
+          }
+        })();
+      }
 
       // video
       if (request?.task === "checkIfVideoLiked") {
