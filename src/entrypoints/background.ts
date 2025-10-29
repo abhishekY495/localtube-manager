@@ -36,8 +36,10 @@ export default defineBackground(() => {
       // Set badge with the number of new videos
 
       try {
+        // chrome
         browser.action.setBadgeText({ text: newVideos.length.toString() });
         browser.action.setBadgeBackgroundColor({ color: "#ffffff" });
+        // firefox
         browser.browserAction.setBadgeText({
           text: newVideos.length.toString(),
         });
@@ -83,7 +85,9 @@ export default defineBackground(() => {
         // Get current badge text to accumulate count
         let currentBadge = "";
         try {
+          // chrome
           currentBadge = await browser.action.getBadgeText({});
+          // firefox
           currentBadge = await browser.browserAction.getBadgeText({});
         } catch (error) {
           console.error(error);
@@ -93,8 +97,10 @@ export default defineBackground(() => {
 
         // Update badge with accumulated count
         try {
+          // chrome
           browser.action.setBadgeText({ text: totalNewVideos.toString() });
           browser.action.setBadgeBackgroundColor({ color: "#ffffff" });
+          // firefox
           browser.browserAction.setBadgeText({
             text: totalNewVideos.toString(),
           });
@@ -133,7 +139,9 @@ export default defineBackground(() => {
       if (request.task === "clearBadge") {
         (async () => {
           try {
+            // chrome
             await browser.action.setBadgeText({ text: "" });
+            // firefox
             await browser.browserAction.setBadgeText({ text: "" });
           } catch (error) {
             console.error(error);
