@@ -330,10 +330,9 @@ h1 {
 
 #import-msg {
   text-align: left;
-  margin-bottom: -8px;
   color: red;
   font-size: 16px;
-  width: 460px;
+  width: 465px;
   font-weight: 500;
 }
 
@@ -344,6 +343,11 @@ h1 {
   margin-top: -22px;
   text-underline-offset: 4px;
   text-decoration: 1px underline #777777;
+}
+
+.import-buttons-container {
+  display: flex;
+  gap: 12px;
 }
 
 #export-btn,
@@ -359,20 +363,42 @@ h1 {
   box-shadow: 0 4px #800080;
   transition: all 0.2s ease;
 }
-#import-btn {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
 
 #export-btn:hover,
-#import-btn:hover {
+#import-btn:hover,
+#google-takeout-btn:hover {
   cursor: pointer;
   background-color: #bb2ebb;
 }
 
 #export-btn:active,
-#import-btn:active {
+#import-btn:active,
+#google-takeout-btn:active {
+  box-shadow: none;
+  transform: translateY(3px);
+  transition: all 0.2s ease;
+}
+
+#google-takeout-btn {
+  color: white;
+  background-color: #323232;
+  padding: 8px 32px;
+  border: 2px solid #4a4a4a;
+  border-radius: 5px;
+  font-size: 25px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  box-shadow: 0 4px #4a4a4a;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+#google-takeout-btn:hover {
+  cursor: pointer;
+  background-color: #282828;
+}
+#google-takeout-btn:active {
   box-shadow: none;
   transform: translateY(3px);
   transition: all 0.2s ease;

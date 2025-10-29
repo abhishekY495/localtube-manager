@@ -12,6 +12,9 @@ let countdown: number = 9;
   const importButton = document.getElementById(
     "import-btn"
   )! as HTMLButtonElement;
+  const googleTakeoutBtnText = document.getElementById(
+    "google-takeout-btn-text"
+  )! as HTMLSpanElement;
   const importFileInput = document.getElementById(
     "import-file-input"
   )! as HTMLInputElement;
@@ -26,14 +29,14 @@ let countdown: number = 9;
       selectedFile = target?.files[0];
       const fileName = selectedFile?.name;
       const fileExtension = fileName.split(".")?.pop()?.toLowerCase();
-      if (fileExtension === "json") {
+      if (fileExtension === "json" || fileExtension === "csv") {
         fileNameDisplay.innerText = fileName;
       } else {
         selectedFile = null;
         target.value = "";
         notyf.open({
           type: "error",
-          message: "Invalid file type <br />Please select a .json file",
+          message: "Invalid file type <br />Please select a .json or .csv file",
           position: { x: "left", y: "bottom" },
           duration: 3000,
           dismissible: true,
@@ -51,11 +54,15 @@ let countdown: number = 9;
 
   importForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    importButton.innerHTML = `Importing ${loader}`;
+    if (selectedFile && selectedFile.type.includes("csv")) {
+      googleTakeoutBtnText.innerHTML = `Importing ${loader}`;
+    } else {
+      importButton.innerHTML = `Importing ${loader}`;
+    }
     if (selectedFile) {
       const content = await selectedFile.text();
       try {
-        const { success, error } = await importDB(content);
+        const { success, error } = await importDB(content, selectedFile.type);
         if (success) {
           notyf.open({
             type: "success",
@@ -67,6 +74,7 @@ let countdown: number = 9;
             icon: false,
           });
           importButton.innerHTML = "Import";
+          googleTakeoutBtnText.innerHTML = "Takeout";
           showModal(countdown);
           const counter = document.querySelector(
             ".counter"
@@ -92,6 +100,7 @@ let countdown: number = 9;
             icon: false,
           });
           importButton.innerHTML = "Import";
+          googleTakeoutBtnText.innerHTML = "Takeout";
         }
       } catch (error) {
         console.log("Error importing database:", error);
@@ -105,6 +114,7 @@ let countdown: number = 9;
           icon: false,
         });
         importButton.innerHTML = "Import";
+        googleTakeoutBtnText.innerHTML = "Takeout";
       }
     } else {
       console.log("file not selected");
@@ -118,6 +128,7 @@ let countdown: number = 9;
         icon: false,
       });
       importButton.innerHTML = "Import";
+      googleTakeoutBtnText.innerHTML = "Takeout";
     }
   });
 })();

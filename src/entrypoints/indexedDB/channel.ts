@@ -17,6 +17,18 @@ export const addChannelToSubscribedChannelStore = async (
   await tx.done;
 };
 
+export const addChannelsToSubscribedChannelStore = async (
+  channels: YoutubeChannel[]
+) => {
+  const db = await initializeYoutubeDB();
+  const tx = db.transaction("subscribedChannels", "readwrite");
+  const subscribedChannelsStore = tx.objectStore("subscribedChannels");
+  for (const channel of channels) {
+    await subscribedChannelsStore.put(channel);
+  }
+  await tx.done;
+};
+
 export const removeChannelFromSubscribedChannelStore = async (
   channelHandle: string
 ) => {
