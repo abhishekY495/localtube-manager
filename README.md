@@ -16,6 +16,7 @@ https://github.com/user-attachments/assets/78bbe569-6354-4d29-9258-4068329cc319
 ## ✨ Features
 
 - **Like & Subscribe** - Like your favorite videos and Subscribe to a channel as usual.
+- **Video Notifications** - Get notified when new videos are uploaded by your subscribed channels.
 - **Youtube & Local Playlists** - Save a Youtube playlist to watch later, no sign-in required.
 - **Local Playlists** - Create your own Local Playlist and organize your favorite videos.
 - **Import / Export** - Export all your data and Import them to pick up where you left off.
