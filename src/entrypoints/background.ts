@@ -30,9 +30,25 @@ import {
 export default defineBackground(() => {
   console.log("Hello background!", { id: browser.runtime.id });
 
+  const badgeApi = browser.action || browser.browserAction; // for chrome and firefox
+
   // Initial fetch on startup
   fetchSubscribedChannelLatestVideos().then((newVideos) => {
     if (newVideos && newVideos.length > 0) {
+      // Set badge with the number of new videos
+      try {
+        if (badgeApi) {
+          if (badgeApi.setBadgeText) {
+            badgeApi.setBadgeText({ text: newVideos.length.toString() });
+          }
+          if (badgeApi.setBadgeBackgroundColor) {
+            badgeApi.setBadgeBackgroundColor({ color: "#ffffff" });
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+
       if (newVideos.length === 1) {
         browser.notifications.create({
           type: "image",
@@ -70,15 +86,28 @@ export default defineBackground(() => {
         // Get current badge text to accumulate count
         let currentBadge = "";
         try {
-          // chrome
-          currentBadge = await browser.action.getBadgeText({});
-          // firefox
-          currentBadge = await browser.browserAction.getBadgeText({});
+          if (badgeApi && badgeApi.getBadgeText) {
+            currentBadge = await badgeApi.getBadgeText({});
+          }
         } catch (error) {
           console.error(error);
         }
         const currentCount = currentBadge ? parseInt(currentBadge) || 0 : 0;
         const totalNewVideos = currentCount + newVideos.length;
+
+        // Update badge with accumulated count
+        try {
+          if (badgeApi) {
+            if (badgeApi.setBadgeText) {
+              badgeApi.setBadgeText({ text: totalNewVideos.toString() });
+            }
+            if (badgeApi.setBadgeBackgroundColor) {
+              badgeApi.setBadgeBackgroundColor({ color: "#ffffff" });
+            }
+          }
+        } catch (error) {
+          console.log(error);
+        }
 
         // If there's only one new video, show detailed notification
         if (newVideos.length === 1) {
@@ -106,6 +135,18 @@ export default defineBackground(() => {
   browser.runtime.onMessage.addListener(
     (request: RequestData, _sender, sendResponse) => {
       console.log(request);
+
+      if (request.task === "clearBadge") {
+        (async () => {
+          try {
+            if (badgeApi && badgeApi.setBadgeText) {
+              await badgeApi.setBadgeText({ text: "" });
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        })();
+      }
 
       // video
       if (request?.task === "checkIfVideoLiked") {
