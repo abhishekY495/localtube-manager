@@ -15,7 +15,6 @@
     "postinstall": "wxt prepare"
   },
   "devDependencies": {
-    "@types/canvas-confetti": "^1.9.0",
     "@types/chrome": "^0.0.280",
     "@types/numeral": "^2.0.5",
     "typescript": "^5.6.3",
@@ -23,7 +22,6 @@
   },
   "dependencies": {
     "@lottiefiles/dotlottie-web": "^0.40.1",
-    "canvas-confetti": "^1.9.3",
     "idb": "^8.0.2",
     "notyf": "^3.10.0",
     "numeral": "^2.0.6"
