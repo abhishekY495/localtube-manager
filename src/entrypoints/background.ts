@@ -30,20 +30,40 @@ import {
 export default defineBackground(() => {
   console.log("Hello background!", { id: browser.runtime.id });
 
-  // Initial fetch on startup (without notifications to avoid spam on extension load)
+  // Initial fetch on startup
   fetchSubscribedChannelLatestVideos().then((newVideos) => {
     if (newVideos && newVideos.length > 0) {
       // Set badge with the number of new videos
-      browser.action.setBadgeText({ text: newVideos.length.toString() });
-      browser.action.setBadgeBackgroundColor({ color: "#ffffff" });
 
-      browser.notifications.create({
-        type: "basic",
-        iconUrl: browser.runtime.getURL("/icon/128.png"),
-        title: "LocalTube Manager",
-        message: `${newVideos.length} new videos`,
-        priority: 2,
-      });
+      try {
+        browser.action.setBadgeText({ text: newVideos.length.toString() });
+        browser.action.setBadgeBackgroundColor({ color: "#ffffff" });
+        browser.browserAction.setBadgeText({
+          text: newVideos.length.toString(),
+        });
+        browser.browserAction.setBadgeBackgroundColor({ color: "#ffffff" });
+      } catch (error) {
+        console.error(error);
+      }
+
+      if (newVideos.length === 1) {
+        browser.notifications.create({
+          type: "image",
+          iconUrl: browser.runtime.getURL("/icon/128.png"),
+          imageUrl: newVideos[0].thumbnailUrl,
+          title: newVideos[0].channelName,
+          message: newVideos[0].title,
+          priority: 2,
+        });
+      } else {
+        browser.notifications.create({
+          type: "basic",
+          iconUrl: browser.runtime.getURL("/icon/128.png"),
+          title: "LocalTube Manager",
+          message: `${newVideos.length} new videos`,
+          priority: 2,
+        });
+      }
     }
   });
 
@@ -61,13 +81,27 @@ export default defineBackground(() => {
       // Send notifications for new videos
       if (newVideos && newVideos.length > 0) {
         // Get current badge text to accumulate count
-        const currentBadge = await browser.action.getBadgeText({});
+        let currentBadge = "";
+        try {
+          currentBadge = await browser.action.getBadgeText({});
+          currentBadge = await browser.browserAction.getBadgeText({});
+        } catch (error) {
+          console.error(error);
+        }
         const currentCount = currentBadge ? parseInt(currentBadge) || 0 : 0;
         const totalNewVideos = currentCount + newVideos.length;
 
         // Update badge with accumulated count
-        browser.action.setBadgeText({ text: totalNewVideos.toString() });
-        browser.action.setBadgeBackgroundColor({ color: "#ffffff" });
+        try {
+          browser.action.setBadgeText({ text: totalNewVideos.toString() });
+          browser.action.setBadgeBackgroundColor({ color: "#ffffff" });
+          browser.browserAction.setBadgeText({
+            text: totalNewVideos.toString(),
+          });
+          browser.browserAction.setBadgeBackgroundColor({ color: "#ffffff" });
+        } catch (error) {
+          console.error(error);
+        }
 
         // If there's only one new video, show detailed notification
         if (newVideos.length === 1) {
@@ -100,6 +134,7 @@ export default defineBackground(() => {
         (async () => {
           try {
             await browser.action.setBadgeText({ text: "" });
+            await browser.browserAction.setBadgeText({ text: "" });
           } catch (error) {
             console.error(error);
           }
@@ -420,7 +455,7 @@ export default defineBackground(() => {
     }
   );
 
-  browser.runtime.onInstalled.addListener(() => {
-    browser.tabs.create({ url: "./welcome.html" });
-  });
+  // browser.runtime.onInstalled.addListener(() => {
+  //   browser.tabs.create({ url: "./welcome.html" });
+  // });
 });
