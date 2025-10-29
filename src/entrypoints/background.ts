@@ -33,21 +33,6 @@ export default defineBackground(() => {
   // Initial fetch on startup
   fetchSubscribedChannelLatestVideos().then((newVideos) => {
     if (newVideos && newVideos.length > 0) {
-      // Set badge with the number of new videos
-
-      try {
-        // chrome
-        browser.action.setBadgeText({ text: newVideos.length.toString() });
-        browser.action.setBadgeBackgroundColor({ color: "#ffffff" });
-        // firefox
-        browser.browserAction.setBadgeText({
-          text: newVideos.length.toString(),
-        });
-        browser.browserAction.setBadgeBackgroundColor({ color: "#ffffff" });
-      } catch (error) {
-        console.error(error);
-      }
-
       if (newVideos.length === 1) {
         browser.notifications.create({
           type: "image",
@@ -95,20 +80,6 @@ export default defineBackground(() => {
         const currentCount = currentBadge ? parseInt(currentBadge) || 0 : 0;
         const totalNewVideos = currentCount + newVideos.length;
 
-        // Update badge with accumulated count
-        try {
-          // chrome
-          browser.action.setBadgeText({ text: totalNewVideos.toString() });
-          browser.action.setBadgeBackgroundColor({ color: "#ffffff" });
-          // firefox
-          browser.browserAction.setBadgeText({
-            text: totalNewVideos.toString(),
-          });
-          browser.browserAction.setBadgeBackgroundColor({ color: "#ffffff" });
-        } catch (error) {
-          console.error(error);
-        }
-
         // If there's only one new video, show detailed notification
         if (newVideos.length === 1) {
           browser.notifications.create({
@@ -135,19 +106,6 @@ export default defineBackground(() => {
   browser.runtime.onMessage.addListener(
     (request: RequestData, _sender, sendResponse) => {
       console.log(request);
-
-      if (request.task === "clearBadge") {
-        (async () => {
-          try {
-            // chrome
-            await browser.action.setBadgeText({ text: "" });
-            // firefox
-            await browser.browserAction.setBadgeText({ text: "" });
-          } catch (error) {
-            console.error(error);
-          }
-        })();
-      }
 
       // video
       if (request?.task === "checkIfVideoLiked") {
@@ -463,7 +421,7 @@ export default defineBackground(() => {
     }
   );
 
-  // browser.runtime.onInstalled.addListener(() => {
-  //   browser.tabs.create({ url: "./welcome.html" });
-  // });
+  browser.runtime.onInstalled.addListener(() => {
+    browser.tabs.create({ url: "./welcome.html" });
+  });
 });
