@@ -112,7 +112,7 @@ const fetchLatestVideosFromChannel = async (
       };
     });
 
-    return latestVideosDataArray.slice(0, 1);
+    return latestVideosDataArray.slice(0, 5);
   } catch (error) {
     console.error(
       `Error fetching latest videos from channel ${channelId}:`,
