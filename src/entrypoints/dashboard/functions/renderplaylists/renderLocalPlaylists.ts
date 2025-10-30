@@ -11,7 +11,10 @@ let currentIndex = 0;
 let isLoading = false;
 let observer: IntersectionObserver | null = null;
 
-function createPlaylistElement(playlist: LocalPlaylist, index: number): HTMLElement {
+function createPlaylistElement(
+  playlist: LocalPlaylist,
+  index: number
+): HTMLElement {
   const playlistDiv = document.createElement("div");
   playlistDiv.className = "local-playlist";
   playlistDiv.setAttribute("data-index", String(index));
@@ -35,10 +38,14 @@ function createPlaylistElement(playlist: LocalPlaylist, index: number): HTMLElem
           `
       }
       <span class="local-playlist-videos-count">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" height="12" viewBox="0 0 12 12" width="12" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;"><path d="M1 3h10v1H1V3Zm0 2h6v1H1V5Zm0 2h6v1H1V7Zm7-2 4 2.5L8 10V5Z"></path></svg>${playlist?.videos?.length}</span>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" height="12" viewBox="0 0 12 12" width="12" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;"><path d="M1 3h10v1H1V3Zm0 2h6v1H1V5Zm0 2h6v1H1V7Zm7-2 4 2.5L8 10V5Z"></path></svg>${
+        playlist?.videos?.length
+      }</span>
     </div>
     <div class="local-playlist-container-2">
-      <p class="local-playlist-name" title="${playlist?.name}">${playlist?.name}</p>
+      <p class="local-playlist-name" title="${playlist?.name}">${
+    playlist?.name
+  }</p>
     </div>
     <button class="remove-local-playlist-btn">Remove</button>
   `;
@@ -51,75 +58,86 @@ function renderBatch(
   append: boolean = false
 ): void {
   if (isLoading) return;
-  
+
   isLoading = true;
-  const endIndex = Math.min(currentIndex + BATCH_SIZE, allSortedPlaylists.length);
+  const endIndex = Math.min(
+    currentIndex + BATCH_SIZE,
+    allSortedPlaylists.length
+  );
   const batch = allSortedPlaylists.slice(currentIndex, endIndex);
-  
+
   if (!append) {
     playlistsContainer.innerHTML = "";
   }
-  
+
   // Remove sentinel if it exists
-  const existingSentinel = playlistsContainer.querySelector(".local-playlists-sentinel");
+  const existingSentinel = playlistsContainer.querySelector(
+    ".local-playlists-sentinel"
+  );
   if (existingSentinel) {
     existingSentinel.remove();
   }
-  
+
   // Render batch
   batch.forEach((playlist, batchIndex) => {
-    const playlistElement = createPlaylistElement(playlist, currentIndex + batchIndex);
+    const actualIndex = currentIndex + batchIndex; // Capture the correct index before currentIndex changes
+    const playlistElement = createPlaylistElement(playlist, actualIndex);
     playlistsContainer.appendChild(playlistElement);
-    
+
     // Add event listener to remove button
-    const removeBtn = playlistElement.querySelector(".remove-local-playlist-btn");
+    const removeBtn = playlistElement.querySelector(
+      ".remove-local-playlist-btn"
+    );
     removeBtn?.addEventListener("click", (e) => {
       e.stopPropagation();
       showRemovePlaylistModal(
         allSortedPlaylists,
-        currentIndex + batchIndex,
+        actualIndex,
         playlistsContainer,
         playlistsCount
       );
     });
-    
+
     // Add click listener to playlist div
     playlistElement.addEventListener("click", (e) => {
       const target = e.target as HTMLElement;
       if (!target.closest(".remove-local-playlist-btn")) {
-        const selectedPlaylist = allSortedPlaylists[currentIndex + batchIndex];
+        const selectedPlaylist = allSortedPlaylists[actualIndex];
         showSelectedPlaylistVideos(playlistsContainer, selectedPlaylist);
       }
     });
   });
-  
+
   currentIndex = endIndex;
-  
+
   // Add sentinel element if there are more playlists
   if (currentIndex < allSortedPlaylists.length) {
     const sentinel = document.createElement("div");
     sentinel.className = "local-playlists-sentinel";
     sentinel.style.height = "1px";
     playlistsContainer.appendChild(sentinel);
-    
+
     // Observe the sentinel
     if (observer) {
       observer.disconnect();
     }
-    
+
     observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && currentIndex < allSortedPlaylists.length) {
+        if (
+          entries[0].isIntersecting &&
+          currentIndex < allSortedPlaylists.length
+        ) {
           isLoading = false;
           renderBatch(playlistsContainer, playlistsCount, true);
         }
       },
       { rootMargin: "200px" }
     );
-    
+
     observer.observe(sentinel);
   }
-  
+
   isLoading = false;
 }
 
@@ -135,9 +153,9 @@ export function renderLocalPlaylists(
     observer.disconnect();
     observer = null;
   }
-  
+
   playlistsContainer.innerHTML = "";
-  
+
   if (localPlaylistArr.length === 0) {
     playlistsContainer.innerHTML += `
         <p class="no-video-or-channel-message">
@@ -150,7 +168,7 @@ export function renderLocalPlaylists(
       (a, b) =>
         new Date(b?.addedAt)?.getTime() - new Date(a?.addedAt)?.getTime()
     );
-    
+
     // Render first batch
     renderBatch(playlistsContainer, playlistsCount, false);
   }

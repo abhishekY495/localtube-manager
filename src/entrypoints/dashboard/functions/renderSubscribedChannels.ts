@@ -54,65 +54,78 @@ function renderBatch(
   append: boolean = false
 ): void {
   if (isLoading) return;
-  
+
   isLoading = true;
-  const endIndex = Math.min(currentIndex + BATCH_SIZE, allSortedChannels.length);
+  const endIndex = Math.min(
+    currentIndex + BATCH_SIZE,
+    allSortedChannels.length
+  );
   const batch = allSortedChannels.slice(currentIndex, endIndex);
-  
+
   if (!append) {
     subscribedChannelsContainer.innerHTML = "";
   }
-  
+
   // Remove sentinel if it exists
-  const existingSentinel = subscribedChannelsContainer.querySelector(".subscribed-channels-sentinel");
+  const existingSentinel = subscribedChannelsContainer.querySelector(
+    ".subscribed-channels-sentinel"
+  );
   if (existingSentinel) {
     existingSentinel.remove();
   }
-  
+
   // Render batch
   batch.forEach((channel, batchIndex) => {
+    const actualIndex = currentIndex + batchIndex; // Capture the correct index before currentIndex changes
     const channelElement = createChannelElement(channel);
     subscribedChannelsContainer.appendChild(channelElement);
-    
+
     // Add event listener to unsubscribe button
     const unsubscribeBtn = channelElement.querySelector(".unsubscribe-btn");
     unsubscribeBtn?.addEventListener("click", () => {
       showModal(
         allSortedChannels,
-        currentIndex + batchIndex,
+        actualIndex,
         subscribedChannelsContainer,
         subscribedChannelsCount
       );
     });
   });
-  
+
   currentIndex = endIndex;
-  
+
   // Add sentinel element if there are more channels
   if (currentIndex < allSortedChannels.length) {
     const sentinel = document.createElement("div");
     sentinel.className = "subscribed-channels-sentinel";
     sentinel.style.height = "1px";
     subscribedChannelsContainer.appendChild(sentinel);
-    
+
     // Observe the sentinel
     if (observer) {
       observer.disconnect();
     }
-    
+
     observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && currentIndex < allSortedChannels.length) {
+        if (
+          entries[0].isIntersecting &&
+          currentIndex < allSortedChannels.length
+        ) {
           isLoading = false;
-          renderBatch(subscribedChannelsContainer, subscribedChannelsCount, true);
+          renderBatch(
+            subscribedChannelsContainer,
+            subscribedChannelsCount,
+            true
+          );
         }
       },
       { rootMargin: "200px" }
     );
-    
+
     observer.observe(sentinel);
   }
-  
+
   isLoading = false;
 }
 
@@ -128,9 +141,9 @@ export function renderSubscribedChannels(
     observer.disconnect();
     observer = null;
   }
-  
+
   subscribedChannelsContainer.innerHTML = "";
-  
+
   if (subscribedChannelsArr.length === 0) {
     subscribedChannelsContainer.innerHTML += `
         <p class="no-video-or-channel-message">
@@ -139,8 +152,10 @@ export function renderSubscribedChannels(
       `;
   } else {
     // Sort all channels once
-    allSortedChannels = subscribedChannelsArr.sort((a, b) => a.name.localeCompare(b.name));
-    
+    allSortedChannels = subscribedChannelsArr.sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
+
     // Render first batch
     renderBatch(subscribedChannelsContainer, subscribedChannelsCount, false);
   }

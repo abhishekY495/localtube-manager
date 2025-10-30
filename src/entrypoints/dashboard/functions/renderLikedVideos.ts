@@ -33,7 +33,9 @@ function createVideoElement(video: Video, index: number): HTMLElement {
         title="${video?.title}"
       >${video?.title}</a>
       <div>
-        <p class="liked-video-channel-name" title="${video?.channelName}">${video?.channelName}</p>
+        <p class="liked-video-channel-name" title="${video?.channelName}">${
+    video?.channelName
+  }</p>
         <p class="liked-video-channel-handle" title="${video?.channelHandle}">${
     video?.channelHandle?.includes("@")
       ? "@" + video?.channelHandle?.split("@")[1]
@@ -52,65 +54,71 @@ function renderBatch(
   append: boolean = false
 ): void {
   if (isLoading) return;
-  
+
   isLoading = true;
   const endIndex = Math.min(currentIndex + BATCH_SIZE, allSortedVideos.length);
   const batch = allSortedVideos.slice(currentIndex, endIndex);
-  
+
   if (!append) {
     likedVideosContainer.innerHTML = "";
   }
-  
+
   // Remove sentinel if it exists
-  const existingSentinel = likedVideosContainer.querySelector(".liked-videos-sentinel");
+  const existingSentinel = likedVideosContainer.querySelector(
+    ".liked-videos-sentinel"
+  );
   if (existingSentinel) {
     existingSentinel.remove();
   }
-  
+
   // Render batch
   batch.forEach((video, batchIndex) => {
-    const videoElement = createVideoElement(video, currentIndex + batchIndex);
+    const actualIndex = currentIndex + batchIndex; // Capture the correct index before currentIndex changes
+    const videoElement = createVideoElement(video, actualIndex);
     likedVideosContainer.appendChild(videoElement);
-    
+
     // Add event listener to remove button
     const removeBtn = videoElement.querySelector(".remove-btn");
     removeBtn?.addEventListener("click", () => {
       showModal(
         allSortedVideos,
-        currentIndex + batchIndex,
+        actualIndex,
         likedVideosContainer,
         likedVideosCount
       );
     });
   });
-  
+
   currentIndex = endIndex;
-  
+
   // Add sentinel element if there are more videos
   if (currentIndex < allSortedVideos.length) {
     const sentinel = document.createElement("div");
     sentinel.className = "liked-videos-sentinel";
     sentinel.style.height = "1px";
     likedVideosContainer.appendChild(sentinel);
-    
+
     // Observe the sentinel
     if (observer) {
       observer.disconnect();
     }
-    
+
     observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && currentIndex < allSortedVideos.length) {
+        if (
+          entries[0].isIntersecting &&
+          currentIndex < allSortedVideos.length
+        ) {
           isLoading = false;
           renderBatch(likedVideosContainer, likedVideosCount, true);
         }
       },
       { rootMargin: "200px" }
     );
-    
+
     observer.observe(sentinel);
   }
-  
+
   isLoading = false;
 }
 
@@ -126,9 +134,9 @@ export function renderLikedVideos(
     observer.disconnect();
     observer = null;
   }
-  
+
   likedVideosContainer.innerHTML = "";
-  
+
   if (likedVideosArr.length === 0) {
     likedVideosContainer.innerHTML += `
         <p class="no-video-or-channel-message">
@@ -141,7 +149,7 @@ export function renderLikedVideos(
       (a, b) =>
         new Date(b?.addedAt)?.getTime() - new Date(a?.addedAt)?.getTime()
     );
-    
+
     // Render first batch
     renderBatch(likedVideosContainer, likedVideosCount, false);
   }
