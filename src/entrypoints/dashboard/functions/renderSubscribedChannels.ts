@@ -4,13 +4,133 @@ import { ResponseData, YoutubeChannel } from "../../types";
 import defaultChannelImage from "../assets/default-channel-image.jpg";
 
 const notyf = new Notyf();
+const BATCH_SIZE = 20;
+let allSortedChannels: YoutubeChannel[] = [];
+let currentIndex = 0;
+let isLoading = false;
+let observer: IntersectionObserver | null = null;
+
+function createChannelElement(channel: YoutubeChannel): HTMLElement {
+  const channelDiv = document.createElement("div");
+  channelDiv.className = "subscribed-channel";
+  channelDiv.innerHTML = `
+    <a href=${channel?.handle}>
+        ${
+          channel?.imageUrl.length === 0
+            ? `
+          <img 
+              class="subscribed-channel-image"
+              src=${defaultChannelImage}
+              alt="${channel?.name}"
+          />
+          `
+            : `
+            <img 
+                class="subscribed-channel-image"
+                src=${channel?.imageUrl} 
+                alt="${channel?.name}"
+            />
+            `
+        }
+    </a>
+    <div class="subscribed-channel-name-handle-container">
+        <p 
+            class="subscribed-channel-name"
+            title="${channel?.name}">${channel?.name}</p>
+        <p class="subscribed-channel-handle">${
+          channel?.handle.includes("@")
+            ? "@" + channel?.handle.split("@")[1]
+            : channel?.handle.split("/")[4]
+        }</p>
+    </div>
+    <button class="unsubscribe-btn">Unsubscribe</button>
+  `;
+  return channelDiv;
+}
+
+function renderBatch(
+  subscribedChannelsContainer: HTMLElement,
+  subscribedChannelsCount: HTMLElement,
+  append: boolean = false
+): void {
+  if (isLoading) return;
+  
+  isLoading = true;
+  const endIndex = Math.min(currentIndex + BATCH_SIZE, allSortedChannels.length);
+  const batch = allSortedChannels.slice(currentIndex, endIndex);
+  
+  if (!append) {
+    subscribedChannelsContainer.innerHTML = "";
+  }
+  
+  // Remove sentinel if it exists
+  const existingSentinel = subscribedChannelsContainer.querySelector(".subscribed-channels-sentinel");
+  if (existingSentinel) {
+    existingSentinel.remove();
+  }
+  
+  // Render batch
+  batch.forEach((channel, batchIndex) => {
+    const channelElement = createChannelElement(channel);
+    subscribedChannelsContainer.appendChild(channelElement);
+    
+    // Add event listener to unsubscribe button
+    const unsubscribeBtn = channelElement.querySelector(".unsubscribe-btn");
+    unsubscribeBtn?.addEventListener("click", () => {
+      showModal(
+        allSortedChannels,
+        currentIndex + batchIndex,
+        subscribedChannelsContainer,
+        subscribedChannelsCount
+      );
+    });
+  });
+  
+  currentIndex = endIndex;
+  
+  // Add sentinel element if there are more channels
+  if (currentIndex < allSortedChannels.length) {
+    const sentinel = document.createElement("div");
+    sentinel.className = "subscribed-channels-sentinel";
+    sentinel.style.height = "1px";
+    subscribedChannelsContainer.appendChild(sentinel);
+    
+    // Observe the sentinel
+    if (observer) {
+      observer.disconnect();
+    }
+    
+    observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && currentIndex < allSortedChannels.length) {
+          isLoading = false;
+          renderBatch(subscribedChannelsContainer, subscribedChannelsCount, true);
+        }
+      },
+      { rootMargin: "200px" }
+    );
+    
+    observer.observe(sentinel);
+  }
+  
+  isLoading = false;
+}
 
 export function renderSubscribedChannels(
   subscribedChannelsArr: YoutubeChannel[],
   subscribedChannelsContainer: HTMLElement,
   subscribedChannelsCount: HTMLElement
 ) {
+  // Reset state
+  currentIndex = 0;
+  isLoading = false;
+  if (observer) {
+    observer.disconnect();
+    observer = null;
+  }
+  
   subscribedChannelsContainer.innerHTML = "";
+  
   if (subscribedChannelsArr.length === 0) {
     subscribedChannelsContainer.innerHTML += `
         <p class="no-video-or-channel-message">
@@ -18,58 +138,11 @@ export function renderSubscribedChannels(
         </p>
       `;
   } else {
-    subscribedChannelsArr
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .map((channel: YoutubeChannel) => {
-        subscribedChannelsContainer.innerHTML += `
-      <div class="subscribed-channel">
-        <a href=${channel?.handle}>
-            ${
-              channel?.imageUrl.length === 0
-                ? `
-              <img 
-                  class="subscribed-channel-image"
-                  src=${defaultChannelImage}
-                  alt="${channel?.name}"
-              />
-              `
-                : `
-                <img 
-                    class="subscribed-channel-image"
-                    src=${channel?.imageUrl} 
-                    alt="${channel?.name}"
-                />
-                `
-            }
-        </a>
-        <div class="subscribed-channel-name-handle-container">
-            <p 
-                class="subscribed-channel-name"
-                title="${channel?.name}">${channel?.name}</p>
-            <p class="subscribed-channel-handle">${
-              channel?.handle.includes("@")
-                ? "@" + channel?.handle.split("@")[1]
-                : channel?.handle.split("/")[4]
-            }</p>
-        </div>
-        <button class="unsubscribe-btn">Unsubscribe</button>
-      </div>
-    `;
-      });
-
-    // Add event listeners for unsubscribe buttons
-    const removeButtons =
-      subscribedChannelsContainer.querySelectorAll(".unsubscribe-btn");
-    removeButtons.forEach((btn, index) => {
-      btn.addEventListener("click", () => {
-        showModal(
-          subscribedChannelsArr,
-          index,
-          subscribedChannelsContainer,
-          subscribedChannelsCount
-        );
-      });
-    });
+    // Sort all channels once
+    allSortedChannels = subscribedChannelsArr.sort((a, b) => a.name.localeCompare(b.name));
+    
+    // Render first batch
+    renderBatch(subscribedChannelsContainer, subscribedChannelsCount, false);
   }
 }
 
