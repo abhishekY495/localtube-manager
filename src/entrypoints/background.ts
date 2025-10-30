@@ -465,4 +465,8 @@ export default defineBackground(() => {
   browser.runtime.onInstalled.addListener(() => {
     browser.tabs.create({ url: "./welcome.html" });
   });
+
+  const keepAlive = () => setInterval(browser.runtime.getPlatformInfo, 20e3);
+  browser.runtime.onStartup.addListener(keepAlive);
+  keepAlive();
 });
