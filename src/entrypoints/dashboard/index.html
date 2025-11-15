@@ -193,28 +193,40 @@
       <p>👆 Select an option from above 👆</p>
     </div>
     <div>
-      <div class="subscriptions-heading-container">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="subscriptions-heading-icon"
-        >
-          <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
-          <path d="M21 3v5h-5" />
-        </svg>
-        <p class="subscriptions-heading">
-          Sync Subscriptions
-          <span class="subscriptions-message"
-            >• Latest 3 videos from subscribed channels</span
+      <div id="subscriptions-heading-filter-container">
+        <div class="subscriptions-heading-container">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="subscriptions-heading-icon"
           >
-        </p>
+            <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
+            <path d="M21 3v5h-5" />
+          </svg>
+          <p class="subscriptions-heading">
+            Sync Subscriptions
+            <span class="subscriptions-message"
+              >• Latest 3 videos from subscribed channels</span
+            >
+          </p>
+        </div>
+        <div id="subscriptions-filter-tabs">
+          <button
+            class="subscriptions-filter-btn videos-filter-btn subscription-filter-selected"
+          >
+            Videos
+          </button>
+          <button class="subscriptions-filter-btn shorts-filter-btn">
+            Shorts
+          </button>
+        </div>
       </div>
       <div id="subscriptions-container"></div>
     </div>

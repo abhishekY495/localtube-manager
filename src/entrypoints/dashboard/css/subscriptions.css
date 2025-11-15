@@ -11,7 +11,46 @@
   gap: 6px;
   font-size: 22px;
   font-weight: 500;
-  margin-bottom: 12px;
+  margin-bottom: 15px;
+}
+
+#subscriptions-heading-filter-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#subscriptions-filter-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.subscriptions-filter-btn {
+  width: 100px;
+  padding-block: 6px;
+  background-color: #2a2a2a;
+  color: #aaaaaa;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.subscriptions-filter-btn:hover {
+  background-color: #3a3a3a;
+  color: #ffffff;
+}
+
+.subscription-filter-selected {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.subscription-filter-selected:hover {
+  background-color: #ffffff;
+  color: #000000;
 }
 
 .subscriptions-heading-icon {
@@ -57,6 +96,14 @@
   transition: all 0.2s ease;
 }
 
+.subscribed-channel-shorts-thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
 .subscribed-channel-video-title {
   color: white;
   font-size: 18px;
@@ -66,6 +113,11 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.subscribed-channel-shorts-title {
+  color: #d4d4d4;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .subscribed-channel-video-title-channel-name-uploaded-at-container {

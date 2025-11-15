@@ -32,6 +32,7 @@ let subscribedChannelsArr: YoutubeChannel[] = [];
 let youtubePlaylistsArr: YoutubePlaylist[] = [];
 let localPlaylistsArr: LocalPlaylist[] = [];
 let selectedPlaylistType: "youtube" | "local" = "youtube";
+let selectedSubscriptionFilter: "videos" | "shorts" = "videos";
 
 const initialModal = document.querySelector(
   "#initial-modal"
@@ -124,6 +125,15 @@ export async function main() {
   const subscriptionsHeadingIcon = document.querySelector(
     ".subscriptions-heading-icon"
   ) as SVGElement;
+  const subscriptionsFilterTabs = document.querySelector(
+    "#subscriptions-filter-tabs"
+  ) as HTMLElement;
+  const videosFilterBtn = document.querySelector(
+    ".videos-filter-btn"
+  ) as HTMLButtonElement;
+  const shortsFilterBtn = document.querySelector(
+    ".shorts-filter-btn"
+  ) as HTMLButtonElement;
 
   //
   //
@@ -169,6 +179,7 @@ export async function main() {
     playlistsContainer.style.display = "none";
     importExportContainer.style.display = "none";
     subscriptionsHeadingContainer.style.display = "none";
+    subscriptionsFilterTabs.style.display = "none";
   } else if (slug === "subscriptions") {
     subscriptionsIconCountContainer?.classList.add(
       "selected-subscriptions-icon-count-container"
@@ -177,15 +188,19 @@ export async function main() {
       renderSubscriptions(
         subscribedChannelVideosArr,
         subscriptionsContainer,
-        subscriptionsHeadingContainer
+        subscriptionsHeadingContainer,
+        selectedSubscriptionFilter
       );
     }
     dashboardContainer.style.display = "none";
     likedVideosContainer.style.display = "none";
     subscribedChannelsContainer.style.display = "flex";
+    subscriptionsContainer.style.display = "grid";
     playlistsMainContainer.style.display = "none";
     playlistsContainer.style.display = "none";
     importExportContainer.style.display = "none";
+    subscriptionsHeadingContainer.style.display = "flex";
+    subscriptionsFilterTabs.style.display = "flex";
   } else if (slug === "subscribed-channels") {
     subscribedChannelsIconCountContainer?.classList.add(
       "selected-subscribed-channels-icon-count-container"
@@ -204,6 +219,7 @@ export async function main() {
     playlistsContainer.style.display = "none";
     importExportContainer.style.display = "none";
     subscriptionsHeadingContainer.style.display = "none";
+    subscriptionsFilterTabs.style.display = "none";
   } else if (slug === "playlists") {
     playlistsIconCountContainer?.classList.add(
       "selected-playlists-icon-count-container"
@@ -223,6 +239,7 @@ export async function main() {
     playlistsSelectionBtnGroup.style.display = "flex";
     importExportContainer.style.display = "none";
     subscriptionsHeadingContainer.style.display = "none";
+    subscriptionsFilterTabs.style.display = "none";
   } else if (slug === "import-export") {
     importExportIconContainer?.classList.add(
       "selected-import-export-icon-container"
@@ -243,6 +260,7 @@ export async function main() {
     playlistsContainer.style.display = "none";
     importExportContainer.style.display = "flex";
     subscriptionsHeadingContainer.style.display = "none";
+    subscriptionsFilterTabs.style.display = "none";
   } else {
     if (dashboardContainer) {
       dashboardContainer.style.display = "block";
@@ -252,6 +270,7 @@ export async function main() {
       playlistsContainer.style.display = "none";
       importExportContainer.style.display = "none";
       subscriptionsHeadingContainer.style.display = "none";
+      subscriptionsFilterTabs.style.display = "none";
     }
   }
 
@@ -286,6 +305,7 @@ export async function main() {
     dashboardContainer.style.display = "none";
     subscriptionsContainer.style.display = "none";
     subscriptionsHeadingContainer.style.display = "none";
+    subscriptionsFilterTabs.style.display = "none";
     likedVideosContainer.style.display = "flex";
     subscribedChannelsContainer.style.display = "none";
     playlistsMainContainer.style.display = "none";
@@ -315,13 +335,16 @@ export async function main() {
       renderSubscriptions(
         subscribedChannelVideosArr,
         subscriptionsContainer,
-        subscriptionsHeadingContainer
+        subscriptionsHeadingContainer,
+        selectedSubscriptionFilter
       );
     }
     dashboardContainer.style.display = "none";
     likedVideosContainer.style.display = "none";
     subscribedChannelsContainer.style.display = "none";
     subscriptionsContainer.style.display = "grid";
+    subscriptionsHeadingContainer.style.display = "flex";
+    subscriptionsFilterTabs.style.display = "flex";
     playlistsMainContainer.style.display = "none";
     playlistsContainer.style.display = "none";
     importExportContainer.style.display = "none";
@@ -356,6 +379,7 @@ export async function main() {
     likedVideosContainer.style.display = "none";
     subscribedChannelsContainer.style.display = "grid";
     subscriptionsHeadingContainer.style.display = "none";
+    subscriptionsFilterTabs.style.display = "none";
     subscriptionsContainer.style.display = "none";
     playlistsMainContainer.style.display = "none";
     playlistsContainer.style.display = "none";
@@ -406,6 +430,7 @@ export async function main() {
     subscribedChannelsContainer.style.display = "none";
     subscriptionsContainer.style.display = "none";
     subscriptionsHeadingContainer.style.display = "none";
+    subscriptionsFilterTabs.style.display = "none";
     playlistsMainContainer.style.display = "flex";
     playlistsContainer.style.display = "grid";
     importExportContainer.style.display = "none";
@@ -462,6 +487,7 @@ export async function main() {
     subscribedChannelsContainer.style.display = "none";
     subscriptionsContainer.style.display = "none";
     subscriptionsHeadingContainer.style.display = "none";
+    subscriptionsFilterTabs.style.display = "none";
     playlistsMainContainer.style.display = "none";
     playlistsContainer.style.display = "none";
     importExportContainer.style.display = "flex";
@@ -477,11 +503,47 @@ export async function main() {
         renderSubscriptions(
           updatedSubscribedChannelVideosArr,
           subscriptionsContainer,
-          subscriptionsHeadingContainer
+          subscriptionsHeadingContainer,
+          selectedSubscriptionFilter
         );
       }
     } finally {
       subscriptionsHeadingIcon.classList.remove("rotating");
+    }
+  });
+
+  // Event listeners for subscription filter tabs
+  videosFilterBtn?.addEventListener("click", async () => {
+    subscriptionsContainer.style.gridTemplateColumns = "repeat(4, 1fr)";
+    subscriptionsContainer.style.gap = "40px";
+    videosFilterBtn.classList.add("subscription-filter-selected");
+    shortsFilterBtn.classList.remove("subscription-filter-selected");
+    selectedSubscriptionFilter = "videos";
+    const subscribedChannelVideosArr = await getSubscribedChannelVideos();
+    if (subscribedChannelVideosArr) {
+      renderSubscriptions(
+        subscribedChannelVideosArr,
+        subscriptionsContainer,
+        subscriptionsHeadingContainer,
+        "videos"
+      );
+    }
+  });
+
+  shortsFilterBtn?.addEventListener("click", async () => {
+    subscriptionsContainer.style.gridTemplateColumns = "repeat(6, 1fr)";
+    subscriptionsContainer.style.gap = "25px";
+    shortsFilterBtn.classList.add("subscription-filter-selected");
+    videosFilterBtn.classList.remove("subscription-filter-selected");
+    selectedSubscriptionFilter = "shorts";
+    const subscribedChannelVideosArr = await getSubscribedChannelVideos();
+    if (subscribedChannelVideosArr) {
+      renderSubscriptions(
+        subscribedChannelVideosArr,
+        subscriptionsContainer,
+        subscriptionsHeadingContainer,
+        "shorts"
+      );
     }
   });
 

@@ -7,6 +7,7 @@ let allSortedVideos: SubscribedChannelVideo[] = [];
 let currentIndex = 0;
 let isLoading = false;
 let observer: IntersectionObserver | null = null;
+let currentFilter: "videos" | "shorts" = "videos";
 
 function createVideoElement(video: SubscribedChannelVideo): string {
   const thumbnailUrl = video?.urlSlug?.includes("shorts")
@@ -36,6 +37,29 @@ function createVideoElement(video: SubscribedChannelVideo): string {
   `;
 }
 
+function createShortsElement(video: SubscribedChannelVideo): string {
+  const thumbnailUrl = video?.urlSlug?.includes("shorts")
+    ? `https://i.ytimg.com/vi/${video?.urlSlug?.split("/shorts/")[1]}/oar2.jpg`
+    : `https://i.ytimg.com/vi/${video?.urlSlug?.split("=")[1]}/mqdefault.jpg`;
+  const uploadedAt = formatTime(video?.uploadedAt);
+
+  return `
+    <div class="subscribed-channel-video">
+      <a href="${video?.urlSlug}">
+        <img 
+          class="subscribed-channel-shorts-thumbnail"
+          src="${thumbnailUrl}"
+          alt="${video?.title}"
+          onerror="this.onerror=null; this.src='${defaultVideoThumbnail}';"
+        />
+      </a>
+      <div class="subscribed-channel-video-title-channel-name-uploaded-at-container">
+        <p class="subscribed-channel-shorts-title" title="${video?.title}">${video?.title}</p>
+      </div>
+    </div>
+  `;
+}
+
 function renderBatch(
   subscribedChannelVideosContainer: HTMLElement,
   append: boolean = false
@@ -60,7 +84,11 @@ function renderBatch(
 
   // Render batch
   batch.forEach((video) => {
-    subscribedChannelVideosContainer.innerHTML += createVideoElement(video);
+    const element =
+      currentFilter === "shorts"
+        ? createShortsElement(video)
+        : createVideoElement(video);
+    subscribedChannelVideosContainer.innerHTML += element;
   });
 
   currentIndex = endIndex;
@@ -99,11 +127,13 @@ function renderBatch(
 export function renderSubscriptions(
   subscribedChannelVideos: SubscribedChannelVideo[],
   subscribedChannelVideosContainer: HTMLElement,
-  subscriptionsHeadingContainer: HTMLElement
+  subscriptionsHeadingContainer: HTMLElement,
+  filter: "videos" | "shorts" = "videos"
 ) {
   // Reset state
   currentIndex = 0;
   isLoading = false;
+  currentFilter = filter;
   if (observer) {
     observer.disconnect();
     observer = null;
@@ -121,8 +151,20 @@ export function renderSubscriptions(
   } else {
     subscriptionsHeadingContainer.style.display = "flex";
 
+    // Filter videos based on type
+    let filteredVideos: SubscribedChannelVideo[];
+    if (filter === "shorts") {
+      filteredVideos = subscribedChannelVideos.filter((video) =>
+        video?.urlSlug?.includes("www.youtube.com/shorts")
+      );
+    } else {
+      filteredVideos = subscribedChannelVideos.filter(
+        (video) => !video?.urlSlug?.includes("www.youtube.com/shorts")
+      );
+    }
+
     // Sort all videos once
-    allSortedVideos = subscribedChannelVideos.sort(
+    allSortedVideos = filteredVideos.sort(
       (a, b) =>
         new Date(b?.uploadedAt)?.getTime() - new Date(a?.uploadedAt)?.getTime()
     );
