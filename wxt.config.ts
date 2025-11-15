@@ -7,7 +7,7 @@ export default defineConfig({
   manifest: {
     name: "LocalTube-Manager",
     description: "A browser extension to use Youtube without a Google account",
-    version: "4.0.0",
+    version: "4.0.1",
     web_accessible_resources: [
       {
         matches: ["*://*.youtube.com/*"],
