@@ -65,7 +65,7 @@ div[data-custom-no-login-yt-btn-icon-liked="initial-not-liked"] {
 }
 
 div[data-custom-no-login-yt-btn-icon-liked="liked"] {
-  margin-right: 8px;
+  margin-right: -11px;
 }
 div[data-custom-no-login-yt-btn-icon-liked="not-liked"] {
   margin-right: 8px;

@@ -1,7 +1,6 @@
 import { ResponseData, Video } from "@/entrypoints/types";
-import { DotLottieWorker } from "@lottiefiles/dotlottie-web";
 import { Notyf } from "notyf";
-import { notLikedIcon } from "../../helpers/video/likedUnlikedIcons";
+import { likedIcon, notLikedIcon } from "../../helpers/video/likedUnlikedIcons";
 
 const notyf = new Notyf();
 
@@ -22,18 +21,9 @@ export async function toggleLikedVideo(video: Video, likeBtn: Element) {
           "data-custom-no-login-yt-btn-icon-liked",
           "liked"
         );
-        // like animation
+        // like icon
         if (iconElement) {
-          iconElement.innerHTML = `<canvas id="custom-ltm-dotlottie-canvas" style="width: 58px; height: 58px; margin-top:-18px; margin-left:-16px; margin-right:-18px;"></canvas>`;
-          const canvasElement = document.querySelector(
-            "#custom-ltm-dotlottie-canvas"
-          ) as HTMLCanvasElement;
-          new DotLottieWorker({
-            autoplay: true,
-            loop: false,
-            canvas: canvasElement,
-            src: browser.runtime.getURL("/animation/like-animation.json"),
-          });
+          iconElement.innerHTML = likedIcon;
         }
       } else {
         // unlike icon

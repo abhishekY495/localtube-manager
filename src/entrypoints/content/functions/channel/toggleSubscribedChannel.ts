@@ -1,5 +1,4 @@
 import { ResponseData, YoutubeChannel } from "@/entrypoints/types";
-import { DotLottieWorker } from "@lottiefiles/dotlottie-web";
 import { Notyf } from "notyf";
 
 const notyf = new Notyf();
@@ -20,21 +19,6 @@ export async function toggleSubscribedChannel(
       if (isChannelSubscribed) {
         customSubscribeButton.innerHTML = "";
 
-        // subscribe animation
-        const canvasElement = document.createElement("canvas");
-        customSubscribeButton.appendChild(canvasElement);
-        canvasElement.width = 140;
-        canvasElement.height = 140;
-        canvasElement.style.position = "absolute";
-        canvasElement.style.top = "-52px";
-        canvasElement.style.left = "-17px";
-        canvasElement.style.visibility = "visible";
-        new DotLottieWorker({
-          autoplay: true,
-          loop: false,
-          canvas: canvasElement,
-          src: browser.runtime.getURL("/animation/subscribe-animation.json"),
-        });
         customSubscribeButton.style.transition = "background-color 0.5s ease";
         customSubscribeButton.classList.add("custom-ltm-channel-subscribed");
         customSubscribeButton.classList.add(
@@ -46,10 +30,6 @@ export async function toggleSubscribedChannel(
             "custom-ltm-channel-subscribed-animate-bg"
           );
         }, 600);
-        setTimeout(() => {
-          customSubscribeButton.style.transition = "none";
-          canvasElement.remove();
-        }, 800);
 
         const subscribedText = document.createElement("p");
         subscribedText.style.visibility = "visible";

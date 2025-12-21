@@ -21,7 +21,6 @@
     "wxt": "^0.19.13"
   },
   "dependencies": {
-    "@lottiefiles/dotlottie-web": "^0.40.1",
     "idb": "^8.0.2",
     "notyf": "^3.10.0",
     "numeral": "^2.0.6"
