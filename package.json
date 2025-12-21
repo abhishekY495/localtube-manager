@@ -2,7 +2,7 @@
   "name": "wxt-starter",
   "description": "manifest.json description",
   "private": true,
-  "version": "4.0.1",
+  "version": "4.1.0",
   "type": "module",
   "scripts": {
     "dev": "wxt",
