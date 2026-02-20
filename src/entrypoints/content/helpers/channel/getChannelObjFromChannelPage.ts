@@ -2,20 +2,19 @@ import { YoutubeChannel } from "@/entrypoints/types";
 import { getChannelDetailsFromChannelHandle } from "./getChannelDetailsFromChannelHandle";
 
 export async function getChannelObjFromChannelPage(
-  pageHeaderElement: HTMLElement
+  pageHeaderElement: HTMLElement,
 ) {
   const contentMetadataViewModel = pageHeaderElement.querySelector(
-    "yt-content-metadata-view-model"
+    "yt-content-metadata-view-model",
   ) as HTMLElement;
   const channelHandleElement = contentMetadataViewModel.querySelector(
-    "span"
+    "span",
   ) as HTMLElement;
 
   const channelHandle = channelHandleElement.innerText;
 
-  const channelDetails = await getChannelDetailsFromChannelHandle(
-    channelHandle
-  );
+  const channelDetails =
+    await getChannelDetailsFromChannelHandle(channelHandle);
 
   const channel: YoutubeChannel = {
     name: channelDetails?.channelName || "",

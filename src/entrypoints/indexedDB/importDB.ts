@@ -34,7 +34,7 @@ export async function importDB(dbData: string, fileType: string) {
             await tx.done;
           } else {
             console.warn(
-              `Object store ${storeName} does not exist in the database.`
+              `Object store ${storeName} does not exist in the database.`,
             );
           }
         }

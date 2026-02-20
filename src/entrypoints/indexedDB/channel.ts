@@ -8,7 +8,7 @@ export const checkIfChannelSubscribed = async (channelHandle: string) => {
 };
 
 export const addChannelToSubscribedChannelStore = async (
-  channel: YoutubeChannel
+  channel: YoutubeChannel,
 ) => {
   const db = await initializeYoutubeDB();
   const tx = db.transaction("subscribedChannels", "readwrite");
@@ -18,7 +18,7 @@ export const addChannelToSubscribedChannelStore = async (
 };
 
 export const addChannelsToSubscribedChannelStore = async (
-  channels: YoutubeChannel[]
+  channels: YoutubeChannel[],
 ) => {
   const db = await initializeYoutubeDB();
   const tx = db.transaction("subscribedChannels", "readwrite");
@@ -30,7 +30,7 @@ export const addChannelsToSubscribedChannelStore = async (
 };
 
 export const removeChannelFromSubscribedChannelStore = async (
-  channelHandle: string
+  channelHandle: string,
 ) => {
   const db = await initializeYoutubeDB();
   const tx = db.transaction("subscribedChannels", "readwrite");

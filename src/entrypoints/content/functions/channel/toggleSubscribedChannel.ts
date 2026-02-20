@@ -5,7 +5,7 @@ const notyf = new Notyf();
 
 export async function toggleSubscribedChannel(
   channel: YoutubeChannel,
-  customSubscribeButton: HTMLElement
+  customSubscribeButton: HTMLElement,
 ) {
   try {
     const responseData: ResponseData = await browser.runtime.sendMessage({
@@ -22,12 +22,12 @@ export async function toggleSubscribedChannel(
         customSubscribeButton.style.transition = "background-color 0.5s ease";
         customSubscribeButton.classList.add("custom-ltm-channel-subscribed");
         customSubscribeButton.classList.add(
-          "custom-ltm-channel-subscribed-animate-bg"
+          "custom-ltm-channel-subscribed-animate-bg",
         );
 
         setTimeout(() => {
           customSubscribeButton.classList.remove(
-            "custom-ltm-channel-subscribed-animate-bg"
+            "custom-ltm-channel-subscribed-animate-bg",
           );
         }, 600);
 

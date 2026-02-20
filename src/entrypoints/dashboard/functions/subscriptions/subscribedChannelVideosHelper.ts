@@ -1,4 +1,7 @@
-import { getSubscribedChannels, updateChannelId } from "../../../indexedDB/channel";
+import {
+  getSubscribedChannels,
+  updateChannelId,
+} from "../../../indexedDB/channel";
 import {
   addVideoToSubscribedChannelVideosStore,
   removeUnsubscribedChannelVideos,
@@ -29,7 +32,7 @@ const parseXMLEntry = (entryText: string) => {
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const getChannelIdFromHandle = async (
-  handle: string
+  handle: string,
 ): Promise<string | null> => {
   try {
     // Clean the handle - remove @ and full YouTube URLs
@@ -75,13 +78,13 @@ const getChannelIdFromHandle = async (
 
 const fetchLatestVideosFromChannel = async (
   channelId: string,
-  channelHandle: string
+  channelHandle: string,
 ) => {
   try {
     const latestVideosResponse = await fetch(
       `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId
         .split("/")
-        .pop()}`
+        .pop()}`,
     );
 
     if (!latestVideosResponse.ok) {
@@ -117,7 +120,7 @@ const fetchLatestVideosFromChannel = async (
   } catch (error) {
     console.error(
       `Error fetching latest videos from channel ${channelId}:`,
-      error
+      error,
     );
     return [];
   }
@@ -125,7 +128,7 @@ const fetchLatestVideosFromChannel = async (
 
 const processChannelVideos = async (
   channelId: string,
-  channelHandle: string
+  channelHandle: string,
 ) => {
   const newVideos: {
     title: string;
@@ -135,11 +138,10 @@ const processChannelVideos = async (
 
   const latestVideos = await fetchLatestVideosFromChannel(
     channelId,
-    channelHandle
+    channelHandle,
   );
 
   // Add delay to avoid rate limiting
-  await delay(200);
 
   for (const video of latestVideos) {
     const isNewVideo = await addVideoToSubscribedChannelVideosStore({
@@ -170,7 +172,7 @@ const processChannelVideos = async (
 
   await removeVideoFromSubscribedChannelVideosStore(
     channelHandle,
-    latestVideos
+    latestVideos,
   );
 
   return newVideos;
@@ -192,7 +194,7 @@ export const fetchSubscribedChannelLatestVideos = async () => {
         await updateChannelId(channel.handle, channelId);
         const channelNewVideos = await processChannelVideos(
           channelId,
-          channel.handle
+          channel.handle,
         );
         newVideos.push(...channelNewVideos);
       }
@@ -200,7 +202,7 @@ export const fetchSubscribedChannelLatestVideos = async () => {
     if (channel.id) {
       const channelNewVideos = await processChannelVideos(
         channel.id,
-        channel.handle
+        channel.handle,
       );
       newVideos.push(...channelNewVideos);
     }

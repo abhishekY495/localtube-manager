@@ -13,7 +13,7 @@ let observer: IntersectionObserver | null = null;
 
 function createPlaylistElement(
   playlist: LocalPlaylist,
-  index: number
+  index: number,
 ): HTMLElement {
   const playlistDiv = document.createElement("div");
   playlistDiv.className = "local-playlist";
@@ -44,8 +44,8 @@ function createPlaylistElement(
     </div>
     <div class="local-playlist-container-2">
       <p class="local-playlist-name" title="${playlist?.name}">${
-    playlist?.name
-  }</p>
+        playlist?.name
+      }</p>
     </div>
     <button class="remove-local-playlist-btn">Remove</button>
   `;
@@ -55,14 +55,14 @@ function createPlaylistElement(
 function renderBatch(
   playlistsContainer: HTMLElement,
   playlistsCount: HTMLElement,
-  append: boolean = false
+  append: boolean = false,
 ): void {
   if (isLoading) return;
 
   isLoading = true;
   const endIndex = Math.min(
     currentIndex + BATCH_SIZE,
-    allSortedPlaylists.length
+    allSortedPlaylists.length,
   );
   const batch = allSortedPlaylists.slice(currentIndex, endIndex);
 
@@ -72,7 +72,7 @@ function renderBatch(
 
   // Remove sentinel if it exists
   const existingSentinel = playlistsContainer.querySelector(
-    ".local-playlists-sentinel"
+    ".local-playlists-sentinel",
   );
   if (existingSentinel) {
     existingSentinel.remove();
@@ -86,7 +86,7 @@ function renderBatch(
 
     // Add event listener to remove button
     const removeBtn = playlistElement.querySelector(
-      ".remove-local-playlist-btn"
+      ".remove-local-playlist-btn",
     );
     removeBtn?.addEventListener("click", (e) => {
       e.stopPropagation();
@@ -94,7 +94,7 @@ function renderBatch(
         allSortedPlaylists,
         actualIndex,
         playlistsContainer,
-        playlistsCount
+        playlistsCount,
       );
     });
 
@@ -132,7 +132,7 @@ function renderBatch(
           renderBatch(playlistsContainer, playlistsCount, true);
         }
       },
-      { rootMargin: "200px" }
+      { rootMargin: "200px" },
     );
 
     observer.observe(sentinel);
@@ -144,7 +144,7 @@ function renderBatch(
 export function renderLocalPlaylists(
   localPlaylistArr: LocalPlaylist[],
   playlistsContainer: HTMLElement,
-  playlistsCount: HTMLElement
+  playlistsCount: HTMLElement,
 ) {
   // Reset state
   currentIndex = 0;
@@ -166,7 +166,7 @@ export function renderLocalPlaylists(
     // Sort all playlists once
     allSortedPlaylists = localPlaylistArr.sort(
       (a, b) =>
-        new Date(b?.addedAt)?.getTime() - new Date(a?.addedAt)?.getTime()
+        new Date(b?.addedAt)?.getTime() - new Date(a?.addedAt)?.getTime(),
     );
 
     // Render first batch
@@ -178,7 +178,7 @@ function showRemovePlaylistModal(
   localPlaylistArr: LocalPlaylist[],
   index: number,
   playlistsContainer: HTMLElement,
-  playlistsCount: HTMLElement
+  playlistsCount: HTMLElement,
 ) {
   // Create modal HTML structure
   const modal = document.createElement("div");
@@ -206,15 +206,15 @@ function showRemovePlaylistModal(
 
     if (success) {
       const newLocalPlaylistArr = localPlaylistArr.filter(
-        (localPlaylist) => localPlaylist?.name !== playlist?.name
+        (localPlaylist) => localPlaylist?.name !== playlist?.name,
       );
       playlistsCount.innerText = numeral(newLocalPlaylistArr.length).format(
-        "0a"
+        "0a",
       );
       renderLocalPlaylists(
         newLocalPlaylistArr,
         playlistsContainer,
-        playlistsCount
+        playlistsCount,
       );
       closeModal(modal);
     } else {
@@ -245,7 +245,7 @@ function showRemovePlaylistModal(
 
 function showSelectedPlaylistVideos(
   playlistsContainer: HTMLElement,
-  selectedPlaylist: LocalPlaylist
+  selectedPlaylist: LocalPlaylist,
 ) {
   playlistsContainer.style.display = "block";
   playlistsContainer.innerHTML = "";
@@ -292,10 +292,10 @@ function showSelectedPlaylistVideos(
 
   // Add event listener to each video div
   const videoDivs = playlistsContainer.querySelectorAll(
-    ".selected-playlist-video"
+    ".selected-playlist-video",
   );
   const iframe = playlistsContainer.querySelector(
-    ".video-iframe"
+    ".video-iframe",
   )! as HTMLIFrameElement;
   videoDivs.forEach((videoDiv) => {
     videoDiv.addEventListener("click", () => {
@@ -312,7 +312,7 @@ function showSelectedPlaylistVideos(
 
   // Add event listener to remove btns
   const removeBtns = playlistsContainer.querySelectorAll(
-    ".remove-video-from-playlist-btn"
+    ".remove-video-from-playlist-btn",
   )! as NodeList;
   if (removeBtns.length !== 0) {
     removeBtns.forEach((removeBtn, index) => {
@@ -321,7 +321,7 @@ function showSelectedPlaylistVideos(
         showRemoveVideoFromPlaylistModal(
           selectedPlaylist,
           index,
-          playlistsContainer
+          playlistsContainer,
         );
       });
     });
@@ -331,7 +331,7 @@ function showSelectedPlaylistVideos(
 function showRemoveVideoFromPlaylistModal(
   selectedPlaylist: LocalPlaylist,
   index: number,
-  playlistsContainer: HTMLElement
+  playlistsContainer: HTMLElement,
 ) {
   // Create modal HTML structure
   const modal = document.createElement("div");
@@ -349,7 +349,7 @@ function showRemoveVideoFromPlaylistModal(
 
   // Add event listener to "Remove" button
   const removeBtn = modal.querySelector(
-    ".modal-remove-video-from-playlist-btn"
+    ".modal-remove-video-from-playlist-btn",
   )!;
   const video = selectedPlaylist.videos[index];
   removeBtn.addEventListener("click", async () => {

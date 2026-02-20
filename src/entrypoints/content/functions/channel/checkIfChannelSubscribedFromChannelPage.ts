@@ -7,7 +7,7 @@ const selectors1 = ["#page-header", "yt-flexible-actions-view-model"];
 const selectors2 = ["#page-header", "yt-content-metadata-view-model"];
 
 export async function checkIfChannelSubscribedFromChannelPage(
-  channelUrl: string
+  channelUrl: string,
 ) {
   console.log("🎬 Starting checkIfChannelSubscribedFromChannelPage");
   let isSubscribed: boolean = false;
@@ -22,24 +22,23 @@ export async function checkIfChannelSubscribedFromChannelPage(
 
     // Now we can safely get all elements
     const pageHeaderElement = document.querySelector(
-      selectors1[0]
+      selectors1[0],
     ) as HTMLElement;
     const channelActionsViewModal = pageHeaderElement.querySelector(
-      selectors1[1]
+      selectors1[1],
     ) as HTMLElement;
     const contentMetadataViewModel = pageHeaderElement.querySelector(
-      selectors2[1]
+      selectors2[1],
     ) as HTMLElement;
 
     const channelHandleElement = contentMetadataViewModel.querySelector(
-      "span"
+      "span",
     ) as HTMLElement;
     const channelHandle = channelHandleElement.innerText;
 
     // Get channel info and subscription status
-    const youtubeChannel = await getChannelObjFromChannelPage(
-      pageHeaderElement
-    );
+    const youtubeChannel =
+      await getChannelObjFromChannelPage(pageHeaderElement);
     const responseData: ResponseData = await browser.runtime.sendMessage({
       task: "checkIfChannelSubscribed",
       data: { channelHandle: `https://www.youtube.com/${channelHandle}` },
@@ -64,11 +63,11 @@ export async function checkIfChannelSubscribedFromChannelPage(
 
     // Remove any existing buttons
     const myCustomSubscribeButtons = document.querySelectorAll(
-      ".custom-ltm-subscribe-btn-channel-page"
+      ".custom-ltm-subscribe-btn-channel-page",
     );
     if (myCustomSubscribeButtons.length > 0) {
       console.log(
-        `🗑️ Removing ${myCustomSubscribeButtons.length} existing button(s)`
+        `🗑️ Removing ${myCustomSubscribeButtons.length} existing button(s)`,
       );
       myCustomSubscribeButtons.forEach((button) => button.remove());
     }
@@ -76,7 +75,7 @@ export async function checkIfChannelSubscribedFromChannelPage(
     // Create and append new button
     const customSubscribeButton = document.createElement("div");
     customSubscribeButton.classList.add(
-      "custom-ltm-subscribe-btn-channel-page"
+      "custom-ltm-subscribe-btn-channel-page",
     );
     if (isSubscribed) {
       customSubscribeButton.innerText = "Subscribed";

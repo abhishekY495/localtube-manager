@@ -10,12 +10,12 @@ import { getLikedVideosCount } from "../indexedDB/video";
 const dashboardBtn: HTMLElement | null =
   document.querySelector("#dashboard-btn");
 const likedVideosCountContainer: HTMLElement | null = document.querySelector(
-  "#liked-videos-count-container"
+  "#liked-videos-count-container",
 );
 const subscribedChannelsCountContainer: HTMLElement | null =
   document.querySelector("#subscribed-channels-count-container");
 const playlistsCountContainer: HTMLElement | null = document.querySelector(
-  "#playlists-count-container"
+  "#playlists-count-container",
 );
 
 if (dashboardBtn) {
@@ -49,7 +49,7 @@ if (playlistsCountContainer) {
 
 (async () => {
   const likedVideosCountElement: HTMLElement | null = document.querySelector(
-    "#liked-videos-count"
+    "#liked-videos-count",
   );
   const subscribedChannelsCountElement: HTMLElement | null =
     document.querySelector("#subscribed-channels-count");
@@ -71,7 +71,7 @@ if (playlistsCountContainer) {
   }
   if (playlistsCountElement) {
     const count = numeral(youtubePlaylistsCount + localPlaylistsCount).format(
-      "0a"
+      "0a",
     );
     playlistsCountElement.innerText = count;
   }

@@ -505,7 +505,8 @@ h1 {
   height: 36px;
   border-radius: 50%;
   background-color: #fff;
-  background-image: radial-gradient(
+  background-image:
+    radial-gradient(
       circle 8px at 18px 18px,
       var(--base-color) 100%,
       transparent 0
@@ -569,7 +570,8 @@ h1 {
   height: 24px;
   border-radius: 50%;
   background-color: #fff;
-  background-image: radial-gradient(
+  background-image:
+    radial-gradient(
       circle 5px at 12px 12px,
       var(--base-color) 100%,
       transparent 0

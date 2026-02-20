@@ -7,19 +7,19 @@ let countdown: number = 9;
 (async () => {
   const notyf = new Notyf();
   const importForm = document.getElementById(
-    "import-container"
+    "import-container",
   ) as HTMLFormElement;
   const importButton = document.getElementById(
-    "import-btn"
+    "import-btn",
   )! as HTMLButtonElement;
   const googleTakeoutBtnText = document.getElementById(
-    "google-takeout-btn-text"
+    "google-takeout-btn-text",
   )! as HTMLSpanElement;
   const importFileInput = document.getElementById(
-    "import-file-input"
+    "import-file-input",
   )! as HTMLInputElement;
   const fileNameDisplay = document.getElementById(
-    "import-file-name-display"
+    "import-file-name-display",
   )! as HTMLParagraphElement;
   let selectedFile: any = null;
 
@@ -77,7 +77,7 @@ let countdown: number = 9;
           googleTakeoutBtnText.innerHTML = "Takeout";
           showModal(countdown);
           const counter = document.querySelector(
-            ".counter"
+            ".counter",
           )! as HTMLSpanElement;
           const intervalId = setInterval(() => {
             counter.innerText = String(countdown);

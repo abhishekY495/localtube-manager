@@ -15,15 +15,15 @@ export async function checkIfChannelSubscribedFromVideoPage() {
 
     // Now we can safely get all elements
     const aboveTheFoldElement = document.querySelector(
-      selectors[0]
+      selectors[0],
     ) as HTMLElement;
     const ownerElement = aboveTheFoldElement.querySelector(
-      selectors[1]
+      selectors[1],
     ) as HTMLElement;
 
     // Remove any existing buttons
     const existingButtons = document.querySelectorAll(
-      ".custom-ltm-subscribe-btn-video-page"
+      ".custom-ltm-subscribe-btn-video-page",
     );
     if (existingButtons.length > 0) {
       console.log(`🗑️ Removing ${existingButtons.length} existing button(s)`);
@@ -40,7 +40,7 @@ export async function checkIfChannelSubscribedFromVideoPage() {
     console.log(
       `💾 Subscription status: ${
         isChannelSubscribed ? "Subscribed" : "Not subscribed"
-      }`
+      }`,
     );
 
     // Create and append new button

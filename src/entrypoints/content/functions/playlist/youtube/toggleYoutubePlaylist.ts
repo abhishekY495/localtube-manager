@@ -10,7 +10,7 @@ const notyf = new Notyf();
 export async function toggleYoutubePlaylist(
   playlist: YoutubePlaylist,
   customSavePlaylistButtonWrapper: Element,
-  playlistPage?: boolean
+  playlistPage?: boolean,
 ) {
   try {
     const responseData: ResponseData = await browser.runtime.sendMessage({

@@ -24,26 +24,26 @@ export async function toggleLocalPlaylist(videoUrlSlug: string) {
 
     // Now we can safely get all elements
     const aboveTheFoldElement = document.querySelector(
-      selectors[0]
+      selectors[0],
     ) as HTMLElement;
     const YtdMenuRenderer = aboveTheFoldElement.querySelector(
-      selectors[1]
+      selectors[1],
     ) as HTMLElement;
     const flexibleItemButtons = YtdMenuRenderer.querySelector(
-      selectors[2]
+      selectors[2],
     ) as HTMLElement;
 
     // Remove any existing buttons
     const prevCustomSaveVideoToLocalPlaylistButtonWrappers =
       document.querySelectorAll(
-        "#custom-ltm-save-video-to-local-playlist-btn-wrapper"
+        "#custom-ltm-save-video-to-local-playlist-btn-wrapper",
       );
     if (prevCustomSaveVideoToLocalPlaylistButtonWrappers.length > 0) {
       console.log(
-        `🗑️ Removing ${prevCustomSaveVideoToLocalPlaylistButtonWrappers.length} existing button(s)`
+        `🗑️ Removing ${prevCustomSaveVideoToLocalPlaylistButtonWrappers.length} existing button(s)`,
       );
       prevCustomSaveVideoToLocalPlaylistButtonWrappers.forEach((button) =>
-        button.remove()
+        button.remove(),
       );
     }
 
@@ -59,13 +59,13 @@ export async function toggleLocalPlaylist(videoUrlSlug: string) {
           <p>Add to</p>
         </div>`;
     flexibleItemButtons.appendChild(
-      customSaveVideoToLocalPlaylistButtonWrapper
+      customSaveVideoToLocalPlaylistButtonWrapper,
     );
     console.log("✅ Add to playlist button added to page");
 
     // Add click event listener
     customSaveVideoToLocalPlaylistButtonWrapper.addEventListener("click", () =>
-      addToLocalPlaylist(aboveTheFoldElement, videoUrlSlug)
+      addToLocalPlaylist(aboveTheFoldElement, videoUrlSlug),
     );
   } catch (error) {
     console.log(error);
@@ -74,7 +74,7 @@ export async function toggleLocalPlaylist(videoUrlSlug: string) {
 
 async function addToLocalPlaylist(
   aboveTheFoldElement: HTMLElement,
-  videoUrlSlug: string
+  videoUrlSlug: string,
 ) {
   const responseData: ResponseData = await browser.runtime.sendMessage({
     task: "getLocalPlaylists",

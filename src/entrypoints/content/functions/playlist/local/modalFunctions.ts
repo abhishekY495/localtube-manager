@@ -11,7 +11,7 @@ const notyf = new Notyf();
 
 export function showAddVideoToModal(
   localPlaylists: LocalPlaylistNotDetailed[],
-  video: Video
+  video: Video,
 ) {
   const modal = document.createElement("div");
   modal.className = "modal-overlay";
@@ -29,7 +29,7 @@ export function showAddVideoToModal(
               : localPlaylists
                   .map((playlist) => {
                     const isSlugInPlaylist = playlist.videos.includes(
-                      video.urlSlug
+                      video.urlSlug,
                     );
                     return `
                     <label class="playlist">
@@ -50,7 +50,7 @@ export function showAddVideoToModal(
 
   // Add event listener to checkboxes
   const checkboxes = modal.querySelectorAll(
-    ".playlists-container input[type='checkbox']"
+    ".playlists-container input[type='checkbox']",
   )!;
   checkboxes.forEach((checkbox) => {
     checkbox.addEventListener("change", async (e) => {
@@ -117,7 +117,7 @@ export function showAddVideoToModal(
 function showCreateLocalPlaylist(
   modal: HTMLElement,
   video: Video,
-  localPlaylists: LocalPlaylistNotDetailed[]
+  localPlaylists: LocalPlaylistNotDetailed[],
 ) {
   modal.innerHTML = "";
   modal.innerHTML = `
@@ -139,7 +139,7 @@ function showCreateLocalPlaylist(
   // form submission
   const form = modal.querySelector(".create-local-playlist-form")!;
   const playlistNameInput = modal.querySelector(
-    ".playlist-name-input"
+    ".playlist-name-input",
   )! as HTMLInputElement;
   //
   form.addEventListener("submit", async (e) => {
@@ -152,7 +152,8 @@ function showCreateLocalPlaylist(
         videos: [video],
       };
       const playListNameExists = localPlaylists.some(
-        (playlist) => playlist.name.toLowerCase() === playlistName.toLowerCase()
+        (playlist) =>
+          playlist.name.toLowerCase() === playlistName.toLowerCase(),
       );
 
       if (playListNameExists) {

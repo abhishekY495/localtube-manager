@@ -15,7 +15,7 @@ const selectors = [
 ];
 
 export async function checkIfYoutubePlaylistExistsFromVideoPage(
-  playlistUrlSlug: string
+  playlistUrlSlug: string,
 ) {
   console.log("🎬 Starting checkIfYoutubePlaylistExistsFromVideoPage");
   console.log(`🎵 Playlist ID: ${playlistUrlSlug}`);
@@ -30,7 +30,7 @@ export async function checkIfYoutubePlaylistExistsFromVideoPage(
   console.log(
     `💾 Playlist saved status: ${
       isYoutubePlaylistSaved ? "Saved" : "Not saved"
-    }`
+    }`,
   );
 
   // Wait for all elements to be loaded
@@ -39,23 +39,23 @@ export async function checkIfYoutubePlaylistExistsFromVideoPage(
 
   const columnsElement = document.querySelector(selectors[0]) as HTMLElement;
   const ytdPlaylistPanelRendererElement = columnsElement.querySelector(
-    selectors[1]
+    selectors[1],
   ) as HTMLElement;
   const containerElement = ytdPlaylistPanelRendererElement.querySelector(
-    selectors[2]
+    selectors[2],
   ) as HTMLElement;
   const playlistActionsElement = containerElement.querySelector(
-    selectors[3]
+    selectors[3],
   ) as HTMLElement;
 
   // Remove any existing buttons
   const mycustomSavePlaylistButtonWrapper = document.querySelectorAll(
-    "#custom-ltm-save-playlist-btn-wrapper"
+    "#custom-ltm-save-playlist-btn-wrapper",
   );
   if (mycustomSavePlaylistButtonWrapper.length > 0) {
     mycustomSavePlaylistButtonWrapper.forEach((button) => button.remove());
     console.log(
-      `🗑️ Removing ${mycustomSavePlaylistButtonWrapper.length} existing button(s)`
+      `🗑️ Removing ${mycustomSavePlaylistButtonWrapper.length} existing button(s)`,
     );
   }
 

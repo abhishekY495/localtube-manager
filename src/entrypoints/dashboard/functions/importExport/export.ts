@@ -6,7 +6,7 @@ import { formatFileSize } from "../../helpers/formatFileSize";
   const notyf = new Notyf();
   const exportBtn = document.getElementById("export-btn")! as HTMLButtonElement;
   const exportFileSize = document.getElementById(
-    "export-file-size"
+    "export-file-size",
   )! as HTMLSpanElement;
 
   try {

@@ -35,15 +35,15 @@ let selectedPlaylistType: "youtube" | "local" = "youtube";
 let selectedSubscriptionFilter: "videos" | "shorts" = "videos";
 
 const initialModal = document.querySelector(
-  "#initial-modal"
+  "#initial-modal",
 ) as HTMLButtonElement;
 
 // Import Export
 const importExportIconContainer = document.querySelector(
-  ".import-export-icon-container"
+  ".import-export-icon-container",
 ) as HTMLElement;
 const importExportContainer = document.querySelector(
-  "#import-export-container"
+  "#import-export-container",
 ) as HTMLElement;
 
 export async function main() {
@@ -57,82 +57,82 @@ export async function main() {
   localPlaylistsArr = await getLocalPlaylistsDetailed();
 
   const likedVideosIconCountContainer = document.querySelector(
-    ".liked-videos-icon-count-container"
+    ".liked-videos-icon-count-container",
   ) as HTMLElement;
   const subscriptionsIconCountContainer = document.querySelector(
-    ".subscriptions-icon-count-container"
+    ".subscriptions-icon-count-container",
   ) as HTMLElement;
   const subscribedChannelsIconCountContainer = document.querySelector(
-    ".subscribed-channels-icon-count-container"
+    ".subscribed-channels-icon-count-container",
   ) as HTMLElement;
   const playlistsIconCountContainer = document.querySelector(
-    ".playlists-icon-count-container"
+    ".playlists-icon-count-container",
   ) as HTMLElement;
   const importExportIconContainer = document.querySelector(
-    ".import-export-icon-container"
+    ".import-export-icon-container",
   ) as HTMLElement;
   //
   const likedVideosCount = document.querySelector(
-    "#liked-videos-count"
+    "#liked-videos-count",
   ) as HTMLElement;
   const subscribedChannelsCount = document.querySelector(
-    "#subscribed-channels-count"
+    "#subscribed-channels-count",
   ) as HTMLElement;
   const playlistsCount = document.querySelector(
-    "#playlists-count"
+    "#playlists-count",
   ) as HTMLElement;
   const youtubePlaylistsCount = document.querySelector(
-    ".youtube-playlists-count"
+    ".youtube-playlists-count",
   ) as HTMLElement;
   const localPlaylistsCount = document.querySelector(
-    ".local-playlists-count"
+    ".local-playlists-count",
   ) as HTMLElement;
   //
   const dashboardContainer = document.querySelector(
-    "#dashboard-container"
+    "#dashboard-container",
   ) as HTMLElement;
   const subscriptionsContainer = document.querySelector(
-    "#subscriptions-container"
+    "#subscriptions-container",
   ) as HTMLElement;
   const likedVideosContainer = document.querySelector(
-    "#liked-videos-container"
+    "#liked-videos-container",
   ) as HTMLElement;
   const subscribedChannelsContainer = document.querySelector(
-    "#subscribed-channels-container"
+    "#subscribed-channels-container",
   ) as HTMLElement;
   const playlistsMainContainer = document.querySelector(
-    "#playlists-main-container"
+    "#playlists-main-container",
   ) as HTMLElement;
   const youtubePlaylistsBtn = document.querySelector(
-    ".youtube-playlists-btn"
+    ".youtube-playlists-btn",
   ) as HTMLButtonElement;
   const localPlaylistsBtn = document.querySelector(
-    ".local-playlists-btn"
+    ".local-playlists-btn",
   ) as HTMLButtonElement;
   const playlistsContainer = document.querySelector(
-    "#playlists-container"
+    "#playlists-container",
   ) as HTMLElement;
   const playlistsSelectionBtnGroup = document.querySelector(
-    "#playlist-selection-btn-group"
+    "#playlist-selection-btn-group",
   ) as HTMLElement;
   const importExportContainer = document.querySelector(
-    "#import-export-container"
+    "#import-export-container",
   ) as HTMLElement;
   //
   const subscriptionsHeadingContainer = document.querySelector(
-    ".subscriptions-heading-container"
+    ".subscriptions-heading-container",
   ) as HTMLElement;
   const subscriptionsHeadingIcon = document.querySelector(
-    ".subscriptions-heading-icon"
+    ".subscriptions-heading-icon",
   ) as SVGElement;
   const subscriptionsFilterTabs = document.querySelector(
-    "#subscriptions-filter-tabs"
+    "#subscriptions-filter-tabs",
   ) as HTMLElement;
   const videosFilterBtn = document.querySelector(
-    ".videos-filter-btn"
+    ".videos-filter-btn",
   ) as HTMLButtonElement;
   const shortsFilterBtn = document.querySelector(
-    ".shorts-filter-btn"
+    ".shorts-filter-btn",
   ) as HTMLButtonElement;
 
   //
@@ -147,15 +147,15 @@ export async function main() {
   }
   if (subscribedChannelsCount) {
     subscribedChannelsCount.innerText = numeral(
-      subscribedChannelsArr.length
+      subscribedChannelsArr.length,
     ).format("0a");
   }
   if (playlistsCount) {
     youtubePlaylistsCount.innerText = numeral(
-      youtubePlaylistsArr.length
+      youtubePlaylistsArr.length,
     ).format("0a");
     localPlaylistsCount.innerText = numeral(localPlaylistsArr.length).format(
-      "0a"
+      "0a",
     );
     const totalPlaylistCount =
       youtubePlaylistsArr.length + localPlaylistsArr.length;
@@ -167,7 +167,7 @@ export async function main() {
   const slug = location.split("#")[1];
   if (slug === "liked-videos") {
     likedVideosIconCountContainer?.classList.add(
-      "selected-liked-videos-icon-count-container"
+      "selected-liked-videos-icon-count-container",
     );
     if (likedVideosArr) {
       renderLikedVideos(likedVideosArr, likedVideosContainer, likedVideosCount);
@@ -182,14 +182,14 @@ export async function main() {
     subscriptionsFilterTabs.style.display = "none";
   } else if (slug === "subscriptions") {
     subscriptionsIconCountContainer?.classList.add(
-      "selected-subscriptions-icon-count-container"
+      "selected-subscriptions-icon-count-container",
     );
     if (subscribedChannelVideosArr) {
       renderSubscriptions(
         subscribedChannelVideosArr,
         subscriptionsContainer,
         subscriptionsHeadingContainer,
-        selectedSubscriptionFilter
+        selectedSubscriptionFilter,
       );
     }
     dashboardContainer.style.display = "none";
@@ -203,13 +203,13 @@ export async function main() {
     subscriptionsFilterTabs.style.display = "flex";
   } else if (slug === "subscribed-channels") {
     subscribedChannelsIconCountContainer?.classList.add(
-      "selected-subscribed-channels-icon-count-container"
+      "selected-subscribed-channels-icon-count-container",
     );
     if (subscribedChannelsArr) {
       renderSubscribedChannels(
         subscribedChannelsArr,
         subscribedChannelsContainer,
-        subscribedChannelsCount
+        subscribedChannelsCount,
       );
     }
     dashboardContainer.style.display = "none";
@@ -222,13 +222,13 @@ export async function main() {
     subscriptionsFilterTabs.style.display = "none";
   } else if (slug === "playlists") {
     playlistsIconCountContainer?.classList.add(
-      "selected-playlists-icon-count-container"
+      "selected-playlists-icon-count-container",
     );
     if (youtubePlaylistsArr) {
       renderYoutubePlaylists(
         youtubePlaylistsArr,
         playlistsContainer,
-        playlistsCount
+        playlistsCount,
       );
     }
     dashboardContainer.style.display = "none";
@@ -242,16 +242,16 @@ export async function main() {
     subscriptionsFilterTabs.style.display = "none";
   } else if (slug === "import-export") {
     importExportIconContainer?.classList.add(
-      "selected-import-export-icon-container"
+      "selected-import-export-icon-container",
     );
     likedVideosIconCountContainer?.classList.remove(
-      "selected-liked-videos-icon-count-container"
+      "selected-liked-videos-icon-count-container",
     );
     subscribedChannelsIconCountContainer?.classList.remove(
-      "selected-subscribed-channels-icon-count-container"
+      "selected-subscribed-channels-icon-count-container",
     );
     playlistsIconCountContainer?.classList.remove(
-      "selected-playlists-icon-count-container"
+      "selected-playlists-icon-count-container",
     );
     dashboardContainer.style.display = "none";
     likedVideosContainer.style.display = "none";
@@ -283,19 +283,19 @@ export async function main() {
   // Setting event listeners on options
   likedVideosIconCountContainer?.addEventListener("click", async () => {
     likedVideosIconCountContainer?.classList.add(
-      "selected-liked-videos-icon-count-container"
+      "selected-liked-videos-icon-count-container",
     );
     subscriptionsIconCountContainer?.classList.remove(
-      "selected-subscriptions-icon-count-container"
+      "selected-subscriptions-icon-count-container",
     );
     subscribedChannelsIconCountContainer?.classList.remove(
-      "selected-subscribed-channels-icon-count-container"
+      "selected-subscribed-channels-icon-count-container",
     );
     playlistsIconCountContainer?.classList.remove(
-      "selected-playlists-icon-count-container"
+      "selected-playlists-icon-count-container",
     );
     importExportIconContainer?.classList.remove(
-      "selected-import-export-icon-container"
+      "selected-import-export-icon-container",
     );
     window.location.href = `${url}#liked-videos`;
     const likedVideosArr = await getLikedVideos();
@@ -315,19 +315,19 @@ export async function main() {
 
   subscriptionsIconCountContainer?.addEventListener("click", async () => {
     subscriptionsIconCountContainer?.classList.add(
-      "selected-subscriptions-icon-count-container"
+      "selected-subscriptions-icon-count-container",
     );
     likedVideosIconCountContainer?.classList.remove(
-      "selected-liked-videos-icon-count-container"
+      "selected-liked-videos-icon-count-container",
     );
     subscribedChannelsIconCountContainer?.classList.remove(
-      "selected-subscribed-channels-icon-count-container"
+      "selected-subscribed-channels-icon-count-container",
     );
     playlistsIconCountContainer?.classList.remove(
-      "selected-playlists-icon-count-container"
+      "selected-playlists-icon-count-container",
     );
     importExportIconContainer?.classList.remove(
-      "selected-import-export-icon-container"
+      "selected-import-export-icon-container",
     );
     window.location.href = `${url}#subscriptions`;
     const subscribedChannelVideosArr = await getSubscribedChannelVideos();
@@ -336,7 +336,7 @@ export async function main() {
         subscribedChannelVideosArr,
         subscriptionsContainer,
         subscriptionsHeadingContainer,
-        selectedSubscriptionFilter
+        selectedSubscriptionFilter,
       );
     }
     dashboardContainer.style.display = "none";
@@ -352,19 +352,19 @@ export async function main() {
 
   subscribedChannelsIconCountContainer?.addEventListener("click", async () => {
     subscribedChannelsIconCountContainer?.classList.add(
-      "selected-subscribed-channels-icon-count-container"
+      "selected-subscribed-channels-icon-count-container",
     );
     subscriptionsIconCountContainer?.classList.remove(
-      "selected-subscriptions-icon-count-container"
+      "selected-subscriptions-icon-count-container",
     );
     likedVideosIconCountContainer?.classList.remove(
-      "selected-liked-videos-icon-count-container"
+      "selected-liked-videos-icon-count-container",
     );
     playlistsIconCountContainer?.classList.remove(
-      "selected-playlists-icon-count-container"
+      "selected-playlists-icon-count-container",
     );
     importExportIconContainer?.classList.remove(
-      "selected-import-export-icon-container"
+      "selected-import-export-icon-container",
     );
     window.location.href = `${url}#subscribed-channels`;
     const subscribedChannelsArr = await getSubscribedChannels();
@@ -372,7 +372,7 @@ export async function main() {
       renderSubscribedChannels(
         subscribedChannelsArr,
         subscribedChannelsContainer,
-        subscribedChannelsCount
+        subscribedChannelsCount,
       );
     }
     dashboardContainer.style.display = "none";
@@ -390,19 +390,19 @@ export async function main() {
     playlistsSelectionBtnGroup.style.display = "flex";
     playlistsContainer.style.display = "grid";
     playlistsIconCountContainer?.classList.add(
-      "selected-playlists-icon-count-container"
+      "selected-playlists-icon-count-container",
     );
     likedVideosIconCountContainer?.classList.remove(
-      "selected-liked-videos-icon-count-container"
+      "selected-liked-videos-icon-count-container",
     );
     subscriptionsIconCountContainer?.classList.remove(
-      "selected-subscriptions-icon-count-container"
+      "selected-subscriptions-icon-count-container",
     );
     subscribedChannelsIconCountContainer?.classList.remove(
-      "selected-subscribed-channels-icon-count-container"
+      "selected-subscribed-channels-icon-count-container",
     );
     importExportIconContainer?.classList.remove(
-      "selected-import-export-icon-container"
+      "selected-import-export-icon-container",
     );
     window.location.href = `${url}#playlists`;
     if (selectedPlaylistType === "youtube") {
@@ -411,7 +411,7 @@ export async function main() {
         renderYoutubePlaylists(
           youtubePlaylistsArr,
           playlistsContainer,
-          playlistsCount
+          playlistsCount,
         );
       }
     }
@@ -421,7 +421,7 @@ export async function main() {
         renderLocalPlaylists(
           localPlaylistsArr,
           playlistsContainer,
-          playlistsCount
+          playlistsCount,
         );
       }
     }
@@ -446,7 +446,7 @@ export async function main() {
       renderYoutubePlaylists(
         youtubePlaylistsArr,
         playlistsContainer,
-        playlistsCount
+        playlistsCount,
       );
     }
   });
@@ -460,26 +460,26 @@ export async function main() {
       renderLocalPlaylists(
         localPlaylistsArr,
         playlistsContainer,
-        playlistsCount
+        playlistsCount,
       );
     }
   });
 
   importExportIconContainer?.addEventListener("click", () => {
     importExportIconContainer?.classList.add(
-      "selected-import-export-icon-container"
+      "selected-import-export-icon-container",
     );
     likedVideosIconCountContainer?.classList.remove(
-      "selected-liked-videos-icon-count-container"
+      "selected-liked-videos-icon-count-container",
     );
     subscriptionsIconCountContainer?.classList.remove(
-      "selected-subscriptions-icon-count-container"
+      "selected-subscriptions-icon-count-container",
     );
     subscribedChannelsIconCountContainer?.classList.remove(
-      "selected-subscribed-channels-icon-count-container"
+      "selected-subscribed-channels-icon-count-container",
     );
     playlistsIconCountContainer?.classList.remove(
-      "selected-playlists-icon-count-container"
+      "selected-playlists-icon-count-container",
     );
     window.location.href = `${url}#import-export`;
     dashboardContainer.style.display = "none";
@@ -504,7 +504,7 @@ export async function main() {
           updatedSubscribedChannelVideosArr,
           subscriptionsContainer,
           subscriptionsHeadingContainer,
-          selectedSubscriptionFilter
+          selectedSubscriptionFilter,
         );
       }
     } finally {
@@ -525,7 +525,7 @@ export async function main() {
         subscribedChannelVideosArr,
         subscriptionsContainer,
         subscriptionsHeadingContainer,
-        "videos"
+        "videos",
       );
     }
   });
@@ -542,7 +542,7 @@ export async function main() {
         subscribedChannelVideosArr,
         subscriptionsContainer,
         subscriptionsHeadingContainer,
-        "shorts"
+        "shorts",
       );
     }
   });
@@ -557,7 +557,7 @@ main();
 
 importExportIconContainer?.addEventListener("click", () => {
   importExportIconContainer?.classList.add(
-    "selected-import-export-icon-container"
+    "selected-import-export-icon-container",
   );
   importExportContainer.style.display = "flex";
 });

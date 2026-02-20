@@ -1,5 +1,5 @@
 export async function getChannelDetailsFromChannelHandle(
-  handle: string
+  handle: string,
 ): Promise<{
   channelId: string;
   channelImage: string;

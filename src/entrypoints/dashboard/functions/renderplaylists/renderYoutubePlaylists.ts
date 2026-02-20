@@ -43,8 +43,8 @@ function createPlaylistElement(playlist: YoutubePlaylist): HTMLElement {
       <a href="https://www.youtube.com/playlist?list=${
         playlist?.urlSlug
       }" class="youtube-playlist-name" title="${playlist?.name}">${
-    playlist?.name
-  }
+        playlist?.name
+      }
       </a>
       <p class="youtube-playlist-channelname" title="${
         playlist?.channelName
@@ -58,14 +58,14 @@ function createPlaylistElement(playlist: YoutubePlaylist): HTMLElement {
 function renderBatch(
   playlistsContainer: HTMLElement,
   playlistsCount: HTMLElement,
-  append: boolean = false
+  append: boolean = false,
 ): void {
   if (isLoading) return;
 
   isLoading = true;
   const endIndex = Math.min(
     currentIndex + BATCH_SIZE,
-    allSortedPlaylists.length
+    allSortedPlaylists.length,
   );
   const batch = allSortedPlaylists.slice(currentIndex, endIndex);
 
@@ -75,7 +75,7 @@ function renderBatch(
 
   // Remove sentinel if it exists
   const existingSentinel = playlistsContainer.querySelector(
-    ".youtube-playlists-sentinel"
+    ".youtube-playlists-sentinel",
   );
   if (existingSentinel) {
     existingSentinel.remove();
@@ -89,14 +89,14 @@ function renderBatch(
 
     // Add event listener to remove button
     const removeBtn = playlistElement.querySelector(
-      ".remove-youtube-playlist-btn"
+      ".remove-youtube-playlist-btn",
     );
     removeBtn?.addEventListener("click", () => {
       showModal(
         allSortedPlaylists,
         actualIndex,
         playlistsContainer,
-        playlistsCount
+        playlistsCount,
       );
     });
   });
@@ -125,7 +125,7 @@ function renderBatch(
           renderBatch(playlistsContainer, playlistsCount, true);
         }
       },
-      { rootMargin: "200px" }
+      { rootMargin: "200px" },
     );
 
     observer.observe(sentinel);
@@ -137,7 +137,7 @@ function renderBatch(
 export function renderYoutubePlaylists(
   youtubePlaylistsArr: YoutubePlaylist[],
   playlistsContainer: HTMLElement,
-  playlistsCount: HTMLElement
+  playlistsCount: HTMLElement,
 ) {
   // Reset state
   currentIndex = 0;
@@ -159,7 +159,7 @@ export function renderYoutubePlaylists(
     // Sort all playlists once
     allSortedPlaylists = youtubePlaylistsArr.sort(
       (a, b) =>
-        new Date(b?.addedAt)?.getTime() - new Date(a?.addedAt)?.getTime()
+        new Date(b?.addedAt)?.getTime() - new Date(a?.addedAt)?.getTime(),
     );
 
     // Render first batch
@@ -171,7 +171,7 @@ function showModal(
   youtubePlaylistsArr: YoutubePlaylist[],
   index: number,
   playlistsContainer: HTMLElement,
-  playlistsCount: HTMLElement
+  playlistsCount: HTMLElement,
 ) {
   // Create modal HTML structure
   const modal = document.createElement("div");
@@ -199,15 +199,15 @@ function showModal(
 
     if (success) {
       const newYoutubePlaylistsArr = youtubePlaylistsArr.filter(
-        (youtubePlaylist) => youtubePlaylist?.urlSlug !== playlist?.urlSlug
+        (youtubePlaylist) => youtubePlaylist?.urlSlug !== playlist?.urlSlug,
       );
       playlistsCount.innerText = numeral(newYoutubePlaylistsArr.length).format(
-        "0a"
+        "0a",
       );
       renderYoutubePlaylists(
         newYoutubePlaylistsArr,
         playlistsContainer,
-        playlistsCount
+        playlistsCount,
       );
       closeModal(modal);
     } else {

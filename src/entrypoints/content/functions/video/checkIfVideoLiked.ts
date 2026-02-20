@@ -28,22 +28,22 @@ export async function checkIfVideoLiked(urlSlug: string) {
   try {
     // Now we can safely get all elements
     const aboveTheFoldElement = document.querySelector(
-      selectors[0]
+      selectors[0],
     ) as HTMLElement;
     const YtdMenuRenderer = aboveTheFoldElement.querySelector(
-      selectors[1]
+      selectors[1],
     ) as HTMLElement;
     const topLevelButtonsComputedElement = YtdMenuRenderer.querySelector(
-      selectors[2]
+      selectors[2],
     ) as HTMLElement;
 
     // like count
     let likeCount: string = "1K";
     const likeCountElement = document.querySelector(
-      '[aria-label*="likes"]'
+      '[aria-label*="likes"]',
     ) as HTMLElement;
     const likeCountElementInYtdMenuRenderer = YtdMenuRenderer.querySelector(
-      ".yt-spec-button-shape-next__button-text-content"
+      ".yt-spec-button-shape-next__button-text-content",
     ) as HTMLElement;
     if (likeCountElement) {
       const ariaLabelValue = likeCountElement.getAttribute("aria-label");
@@ -52,7 +52,7 @@ export async function checkIfVideoLiked(urlSlug: string) {
         String(
           ariaLabelValue?.split(" ")[1] === "million"
             ? "M"
-            : String(ariaLabelValue?.split(" ")[1] === "thousand" ? "K" : "")
+            : String(ariaLabelValue?.split(" ")[1] === "thousand" ? "K" : ""),
         );
     } else {
       likeCount = likeCountElementInYtdMenuRenderer?.innerText;
@@ -60,11 +60,11 @@ export async function checkIfVideoLiked(urlSlug: string) {
 
     // Remove any existing buttons
     const myCustomLikeButtons = document.querySelectorAll(
-      "#custom-ltm-like-btn"
+      "#custom-ltm-like-btn",
     );
     if (myCustomLikeButtons.length > 0) {
       console.log(
-        `🗑️ Removing ${myCustomLikeButtons.length} existing button(s)`
+        `🗑️ Removing ${myCustomLikeButtons.length} existing button(s)`,
       );
       myCustomLikeButtons.forEach((button) => button.remove());
     }
@@ -82,7 +82,7 @@ export async function checkIfVideoLiked(urlSlug: string) {
       `;
     topLevelButtonsComputedElement.insertBefore(
       customLikeButtonWrapper,
-      topLevelButtonsComputedElement.firstChild
+      topLevelButtonsComputedElement.firstChild,
     );
     console.log("✅ Like button added to page");
 

@@ -3,18 +3,18 @@ import { Video } from "@/entrypoints/types";
 export function getVideoObj(
   document: Document,
   aboveTheFoldElement: HTMLElement,
-  videoUrlSlug: string
+  videoUrlSlug: string,
 ) {
   const videoTitle = document.title.replace(" - YouTube", "");
   const videoDurationElement = document.querySelector(
-    ".ytp-time-duration"
+    ".ytp-time-duration",
   ) as HTMLElement;
 
   const ownerElement = aboveTheFoldElement.querySelector(
-    "#owner"
+    "#owner",
   ) as HTMLElement;
   const videoOwnerRendererElement = ownerElement.querySelector(
-    "ytd-video-owner-renderer"
+    "ytd-video-owner-renderer",
   ) as HTMLElement;
   const channelLinks = videoOwnerRendererElement.querySelectorAll("a");
   const channelHandle = channelLinks[0];

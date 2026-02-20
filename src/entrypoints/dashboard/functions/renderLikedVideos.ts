@@ -34,13 +34,13 @@ function createVideoElement(video: Video, index: number): HTMLElement {
       >${video?.title}</a>
       <div>
         <p class="liked-video-channel-name" title="${video?.channelName}">${
-    video?.channelName
-  }</p>
+          video?.channelName
+        }</p>
         <p class="liked-video-channel-handle" title="${video?.channelHandle}">${
-    video?.channelHandle?.includes("@")
-      ? "@" + video?.channelHandle?.split("@")[1]
-      : video?.channelHandle?.split("/")[4]
-  }</p>
+          video?.channelHandle?.includes("@")
+            ? "@" + video?.channelHandle?.split("@")[1]
+            : video?.channelHandle?.split("/")[4]
+        }</p>
       </div>
       <button class="remove-btn">Remove</button>
     </div>
@@ -51,7 +51,7 @@ function createVideoElement(video: Video, index: number): HTMLElement {
 function renderBatch(
   likedVideosContainer: HTMLElement,
   likedVideosCount: HTMLElement,
-  append: boolean = false
+  append: boolean = false,
 ): void {
   if (isLoading) return;
 
@@ -65,7 +65,7 @@ function renderBatch(
 
   // Remove sentinel if it exists
   const existingSentinel = likedVideosContainer.querySelector(
-    ".liked-videos-sentinel"
+    ".liked-videos-sentinel",
   );
   if (existingSentinel) {
     existingSentinel.remove();
@@ -84,7 +84,7 @@ function renderBatch(
         allSortedVideos,
         actualIndex,
         likedVideosContainer,
-        likedVideosCount
+        likedVideosCount,
       );
     });
   });
@@ -113,7 +113,7 @@ function renderBatch(
           renderBatch(likedVideosContainer, likedVideosCount, true);
         }
       },
-      { rootMargin: "200px" }
+      { rootMargin: "200px" },
     );
 
     observer.observe(sentinel);
@@ -125,7 +125,7 @@ function renderBatch(
 export function renderLikedVideos(
   likedVideosArr: Video[],
   likedVideosContainer: HTMLElement,
-  likedVideosCount: HTMLElement
+  likedVideosCount: HTMLElement,
 ) {
   // Reset state
   currentIndex = 0;
@@ -147,7 +147,7 @@ export function renderLikedVideos(
     // Sort all videos once
     allSortedVideos = likedVideosArr.sort(
       (a, b) =>
-        new Date(b?.addedAt)?.getTime() - new Date(a?.addedAt)?.getTime()
+        new Date(b?.addedAt)?.getTime() - new Date(a?.addedAt)?.getTime(),
     );
 
     // Render first batch
@@ -159,7 +159,7 @@ function showModal(
   likedVideosArr: Video[],
   index: number,
   likedVideosContainer: HTMLElement,
-  likedVideosCount: HTMLElement
+  likedVideosCount: HTMLElement,
 ) {
   // Create modal HTML structure
   const modal = document.createElement("div");
@@ -187,15 +187,15 @@ function showModal(
 
     if (success) {
       const newLikedVideosArr = likedVideosArr.filter(
-        (likedVideo) => likedVideo?.urlSlug !== video?.urlSlug
+        (likedVideo) => likedVideo?.urlSlug !== video?.urlSlug,
       );
       likedVideosCount.innerText = numeral(newLikedVideosArr.length).format(
-        "0a"
+        "0a",
       );
       renderLikedVideos(
         newLikedVideosArr,
         likedVideosContainer,
-        likedVideosCount
+        likedVideosCount,
       );
       closeModal(modal);
     } else {

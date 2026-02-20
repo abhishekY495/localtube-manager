@@ -6,7 +6,7 @@ let countdown: number = 9;
 const notyf = new Notyf();
 
 const clearAllBtn = document.getElementById(
-  "clear-all-btn"
+  "clear-all-btn",
 )! as HTMLButtonElement;
 clearAllBtn.addEventListener("click", async () => {
   showModal();
@@ -30,10 +30,10 @@ function showModal() {
   document.body.appendChild(modal);
 
   const clearAllBtn = modal.querySelector(
-    ".modal-clear-all-btn"
+    ".modal-clear-all-btn",
   )! as HTMLButtonElement;
   const cancelBtn = modal.querySelector(
-    ".modal-cancel-btn"
+    ".modal-cancel-btn",
   )! as HTMLButtonElement;
 
   // Add event listener to "Clear All" button

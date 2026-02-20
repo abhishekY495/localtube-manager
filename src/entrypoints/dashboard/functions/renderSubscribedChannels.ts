@@ -51,14 +51,14 @@ function createChannelElement(channel: YoutubeChannel): HTMLElement {
 function renderBatch(
   subscribedChannelsContainer: HTMLElement,
   subscribedChannelsCount: HTMLElement,
-  append: boolean = false
+  append: boolean = false,
 ): void {
   if (isLoading) return;
 
   isLoading = true;
   const endIndex = Math.min(
     currentIndex + BATCH_SIZE,
-    allSortedChannels.length
+    allSortedChannels.length,
   );
   const batch = allSortedChannels.slice(currentIndex, endIndex);
 
@@ -68,7 +68,7 @@ function renderBatch(
 
   // Remove sentinel if it exists
   const existingSentinel = subscribedChannelsContainer.querySelector(
-    ".subscribed-channels-sentinel"
+    ".subscribed-channels-sentinel",
   );
   if (existingSentinel) {
     existingSentinel.remove();
@@ -87,7 +87,7 @@ function renderBatch(
         allSortedChannels,
         actualIndex,
         subscribedChannelsContainer,
-        subscribedChannelsCount
+        subscribedChannelsCount,
       );
     });
   });
@@ -116,11 +116,11 @@ function renderBatch(
           renderBatch(
             subscribedChannelsContainer,
             subscribedChannelsCount,
-            true
+            true,
           );
         }
       },
-      { rootMargin: "200px" }
+      { rootMargin: "200px" },
     );
 
     observer.observe(sentinel);
@@ -132,7 +132,7 @@ function renderBatch(
 export function renderSubscribedChannels(
   subscribedChannelsArr: YoutubeChannel[],
   subscribedChannelsContainer: HTMLElement,
-  subscribedChannelsCount: HTMLElement
+  subscribedChannelsCount: HTMLElement,
 ) {
   // Reset state
   currentIndex = 0;
@@ -153,7 +153,7 @@ export function renderSubscribedChannels(
   } else {
     // Sort all channels once
     allSortedChannels = subscribedChannelsArr.sort((a, b) =>
-      a.name.localeCompare(b.name)
+      a.name.localeCompare(b.name),
     );
 
     // Render first batch
@@ -165,7 +165,7 @@ function showModal(
   subscribedChannelsArr: YoutubeChannel[],
   index: number,
   subscribedChannelsContainer: HTMLElement,
-  subscribedChannelsCount: HTMLElement
+  subscribedChannelsCount: HTMLElement,
 ) {
   // Create modal HTML structure
   const modal = document.createElement("div");
@@ -193,15 +193,15 @@ function showModal(
 
     if (success) {
       const newsubscribedChannelsArr = subscribedChannelsArr.filter(
-        (subscribedChannel) => subscribedChannel?.handle !== channel?.handle
+        (subscribedChannel) => subscribedChannel?.handle !== channel?.handle,
       );
       subscribedChannelsCount.innerText = numeral(
-        newsubscribedChannelsArr.length
+        newsubscribedChannelsArr.length,
       ).format("0a");
       renderSubscribedChannels(
         newsubscribedChannelsArr,
         subscribedChannelsContainer,
-        subscribedChannelsCount
+        subscribedChannelsCount,
       );
       closeModal(modal);
     } else {

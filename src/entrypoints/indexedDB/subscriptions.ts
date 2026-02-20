@@ -8,12 +8,12 @@ export const getSubscribedChannelVideos = async () => {
 };
 
 export const addVideoToSubscribedChannelVideosStore = async (
-  video: SubscribedChannelVideo
+  video: SubscribedChannelVideo,
 ): Promise<boolean> => {
   const db = await initializeYoutubeDB();
   const tx = db.transaction("subscribedChannelVideos", "readwrite");
   const subscribedChannelVideosStore = tx.objectStore(
-    "subscribedChannelVideos"
+    "subscribedChannelVideos",
   );
 
   // Check if video already exists
@@ -28,7 +28,7 @@ export const addVideoToSubscribedChannelVideosStore = async (
 
 export const removeVideoFromSubscribedChannelVideosStore = async (
   channelHandle: string,
-  latestVideos: SubscribedChannelVideo[]
+  latestVideos: SubscribedChannelVideo[],
 ) => {
   const db = await initializeYoutubeDB();
   const tx = db.transaction("subscribedChannelVideos", "readwrite");
@@ -42,7 +42,7 @@ export const removeVideoFromSubscribedChannelVideosStore = async (
 
   // Find old videos for this channel
   const oldVideos = allVideos.filter(
-    (v) => v.channelHandle === channelHandle && !latestSlugs.has(v.urlSlug)
+    (v) => v.channelHandle === channelHandle && !latestSlugs.has(v.urlSlug),
   );
 
   // Delete old videos
@@ -54,7 +54,7 @@ export const removeVideoFromSubscribedChannelVideosStore = async (
 };
 
 export const removeUnsubscribedChannelVideos = async (
-  subscribedHandles: string[]
+  subscribedHandles: string[],
 ) => {
   const db = await initializeYoutubeDB();
   const tx = db.transaction("subscribedChannelVideos", "readwrite");
@@ -64,7 +64,7 @@ export const removeUnsubscribedChannelVideos = async (
 
   // Find videos whose channelHandle is NOT in the subscribedHandles list
   const videosToDelete = allVideos.filter(
-    (v) => !subscribedHandles.includes(v.channelHandle)
+    (v) => !subscribedHandles.includes(v.channelHandle),
   );
 
   for (const video of videosToDelete) {

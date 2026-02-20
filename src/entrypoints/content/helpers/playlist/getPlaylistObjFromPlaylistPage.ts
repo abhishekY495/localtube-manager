@@ -2,10 +2,10 @@ import { YoutubePlaylist } from "@/entrypoints/types";
 
 export function getPlaylistObjFromPlaylistPage(
   pageHeaderViewModel: HTMLElement,
-  playlistUrlSlug: string
+  playlistUrlSlug: string,
 ) {
   const headerInfoElement = pageHeaderViewModel.querySelector(
-    ".page-header-view-model-wiz__page-header-headline-info"
+    ".page-header-view-model-wiz__page-header-headline-info",
   ) as HTMLElement;
 
   // playlist name
@@ -13,20 +13,20 @@ export function getPlaylistObjFromPlaylistPage(
 
   // Cover image url slug
   const headerImageContainer = headerInfoElement.querySelector(
-    ".page-header-view-model-wiz__page-header-headline-image-hero-container"
+    ".page-header-view-model-wiz__page-header-headline-image-hero-container",
   ) as HTMLElement;
   const imageElements = headerImageContainer.querySelectorAll(
-    "img"
+    "img",
   ) as NodeList;
   const imageEle = imageElements[0] as HTMLImageElement;
   const parsedImageUrl = new URL(imageEle.src);
 
   // channel name and handle
   const ytContentMetaDataViewModel = headerInfoElement.querySelector(
-    "yt-content-metadata-view-model"
+    "yt-content-metadata-view-model",
   ) as HTMLElement;
   const linkElements = ytContentMetaDataViewModel.querySelectorAll(
-    "a"
+    "a",
   ) as NodeList;
   const linkEle = linkElements[0] as HTMLAnchorElement;
   const channelName = linkEle?.innerText?.includes("by")
@@ -35,7 +35,7 @@ export function getPlaylistObjFromPlaylistPage(
 
   // video count
   const spanElements = ytContentMetaDataViewModel.querySelectorAll(
-    "span"
+    "span",
   ) as NodeList;
   const videosCountElement =
     spanElements.length === 7

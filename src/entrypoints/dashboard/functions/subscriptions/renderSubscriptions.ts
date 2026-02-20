@@ -62,7 +62,7 @@ function createShortsElement(video: SubscribedChannelVideo): string {
 
 function renderBatch(
   subscribedChannelVideosContainer: HTMLElement,
-  append: boolean = false
+  append: boolean = false,
 ): void {
   if (isLoading) return;
 
@@ -76,7 +76,7 @@ function renderBatch(
 
   // Remove sentinel if it exists
   const existingSentinel = subscribedChannelVideosContainer.querySelector(
-    ".subscriptions-sentinel"
+    ".subscriptions-sentinel",
   );
   if (existingSentinel) {
     existingSentinel.remove();
@@ -115,7 +115,7 @@ function renderBatch(
           renderBatch(subscribedChannelVideosContainer, true);
         }
       },
-      { rootMargin: "200px" }
+      { rootMargin: "200px" },
     );
 
     observer.observe(sentinel);
@@ -128,7 +128,7 @@ export function renderSubscriptions(
   subscribedChannelVideos: SubscribedChannelVideo[],
   subscribedChannelVideosContainer: HTMLElement,
   subscriptionsHeadingContainer: HTMLElement,
-  filter: "videos" | "shorts" = "videos"
+  filter: "videos" | "shorts" = "videos",
 ) {
   // Reset state
   currentIndex = 0;
@@ -155,18 +155,18 @@ export function renderSubscriptions(
     let filteredVideos: SubscribedChannelVideo[];
     if (filter === "shorts") {
       filteredVideos = subscribedChannelVideos.filter((video) =>
-        video?.urlSlug?.includes("www.youtube.com/shorts")
+        video?.urlSlug?.includes("www.youtube.com/shorts"),
       );
     } else {
       filteredVideos = subscribedChannelVideos.filter(
-        (video) => !video?.urlSlug?.includes("www.youtube.com/shorts")
+        (video) => !video?.urlSlug?.includes("www.youtube.com/shorts"),
       );
     }
 
     // Sort all videos once
     allSortedVideos = filteredVideos.sort(
       (a, b) =>
-        new Date(b?.uploadedAt)?.getTime() - new Date(a?.uploadedAt)?.getTime()
+        new Date(b?.uploadedAt)?.getTime() - new Date(a?.uploadedAt)?.getTime(),
     );
 
     // Render first batch

@@ -19,7 +19,7 @@ export async function toggleLikedVideo(video: Video, likeBtn: Element) {
       if (isVideoLiked) {
         iconElement?.setAttribute(
           "data-custom-no-login-yt-btn-icon-liked",
-          "liked"
+          "liked",
         );
         // like icon
         if (iconElement) {
@@ -29,7 +29,7 @@ export async function toggleLikedVideo(video: Video, likeBtn: Element) {
         // unlike icon
         iconElement?.setAttribute(
           "data-custom-no-login-yt-btn-icon-liked",
-          "not-liked"
+          "not-liked",
         );
         if (iconElement) {
           iconElement.innerHTML = notLikedIcon;

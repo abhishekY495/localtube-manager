@@ -8,7 +8,7 @@ export const checkIfYoutubePlaylistSaved = async (urlSLug: string) => {
   return playlist;
 };
 export const addPlaylistToYoutubePlaylistStore = async (
-  playlist: YoutubePlaylist
+  playlist: YoutubePlaylist,
 ) => {
   const db = await initializeYoutubeDB();
   const tx = db.transaction("youtubePlaylists", "readwrite");
@@ -17,7 +17,7 @@ export const addPlaylistToYoutubePlaylistStore = async (
   await tx.done;
 };
 export const removePlaylistFromYoutubePlaylistStore = async (
-  urlSLug: string
+  urlSLug: string,
 ) => {
   const db = await initializeYoutubeDB();
   const tx = db.transaction("youtubePlaylists", "readwrite");
@@ -49,7 +49,7 @@ export const checkIfLocalPlaylistSaved = async (urlSLug: string) => {
   return playlist;
 };
 export const addPlaylistToLocalPlaylistStore = async (
-  playlist: LocalPlaylist
+  playlist: LocalPlaylist,
 ) => {
   const db = await initializeYoutubeDB();
   const tx = db.transaction("localPlaylists", "readwrite");
@@ -58,7 +58,7 @@ export const addPlaylistToLocalPlaylistStore = async (
   await tx.done;
 };
 export const removePlaylistFromLocalPlaylistStore = async (
-  playlistName: string
+  playlistName: string,
 ) => {
   const db = await initializeYoutubeDB();
   const tx = db.transaction("localPlaylists", "readwrite");
@@ -69,7 +69,7 @@ export const removePlaylistFromLocalPlaylistStore = async (
 
 export const addVideoToLocalPlaylist = async (
   playlistName: string,
-  video: Video
+  video: Video,
 ) => {
   const db = await initializeYoutubeDB();
   const playlist: LocalPlaylist = await db.get("localPlaylists", playlistName);
@@ -83,13 +83,13 @@ export const addVideoToLocalPlaylist = async (
 };
 export const removeVideoFromLocalPlaylist = async (
   playlistName: string,
-  video: Video
+  video: Video,
 ) => {
   const db = await initializeYoutubeDB();
   const playlist: LocalPlaylist = await db.get("localPlaylists", playlistName);
   if (playlist) {
     playlist.videos = playlist.videos.filter(
-      (existingVideo) => existingVideo.urlSlug !== video.urlSlug
+      (existingVideo) => existingVideo.urlSlug !== video.urlSlug,
     );
     await db.put("localPlaylists", playlist);
   } else {

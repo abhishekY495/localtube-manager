@@ -399,7 +399,7 @@ export default defineBackground(() => {
           try {
             const updatedPlaylist = await removeVideoFromLocalPlaylist(
               playlistName,
-              videoData
+              videoData,
             );
             // @ts-ignore
             sendResponse({
@@ -420,7 +420,7 @@ export default defineBackground(() => {
         })();
         return true;
       }
-    }
+    },
   );
 
   const keepAlive = () => setInterval(browser.runtime.getPlatformInfo, 20e3);

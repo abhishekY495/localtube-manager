@@ -3,7 +3,7 @@ import { areElementsLoaded } from "./areAllElementsLoaded";
 // Helper to wait for all elements
 export function waitForAllElements(
   selectors: string[],
-  timeout: number = 6000
+  timeout: number = 6000,
 ): Promise<boolean> {
   console.log("🔍 Waiting for all elements to load...");
 
@@ -20,7 +20,7 @@ export function waitForAllElements(
       if (observer) {
         console.log(
           `⚠️ Timeout after ${timeout}ms waiting for elements:`,
-          selectors
+          selectors,
         );
         observer.disconnect();
         resolve(false);
