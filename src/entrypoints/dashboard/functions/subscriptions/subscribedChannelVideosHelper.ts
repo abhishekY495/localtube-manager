@@ -115,8 +115,8 @@ const fetchLatestVideosFromChannel = async (
       };
     });
 
-    // Return only the latest 3 videos
-    return latestVideosDataArray.slice(0, 3);
+    // Return all videos
+    return latestVideosDataArray;
   } catch (error) {
     console.error(
       `Error fetching latest videos from channel ${channelId}:`,
