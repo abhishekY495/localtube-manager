@@ -47,9 +47,6 @@ const importExportContainer = document.querySelector(
 ) as HTMLElement;
 
 export async function main() {
-  // Clear the badge when dashboard is opened
-  browser.runtime.sendMessage({ task: "clearBadge", data: {} });
-
   likedVideosArr = await getLikedVideos();
   subscribedChannelVideosArr = await getSubscribedChannelVideos();
   subscribedChannelsArr = await getSubscribedChannels();
