@@ -12,6 +12,7 @@ export default defineConfig({
     name: "LocalTube-Manager",
     description: "A browser extension to use Youtube without a Google account",
     version: "5.0.0",
+    action: {},
     permissions: ["unlimitedStorage", "alarms", "notifications"],
     host_permissions: ["*://*.youtube.com/*"],
   },
