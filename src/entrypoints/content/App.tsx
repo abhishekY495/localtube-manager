@@ -23,7 +23,7 @@ export default function App() {
 
   return (
     <div
-      className={`fixed bg-neutral-900 shadow-2xl shadow-neutral-900 text-white border-l border-neutral-700 transition-transform duration-300 ease-in-out ${
+      className={`fixed bg-neutral-900 shadow-2xl shadow-neutral-900 text-white font-sans border-l border-neutral-700 transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : "translate-x-[110%]"
       }`}
       style={{
