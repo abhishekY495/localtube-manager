@@ -1,4 +1,4 @@
-import "@/assets/tailwind.css";
+import "~/assets/tailwind.css";
 import { createRoot } from "react-dom/client";
 import App from "./App";
 
@@ -11,7 +11,6 @@ export default defineContentScript({
       position: "inline",
       anchor: "body",
       append: "last",
-      inheritStyles: true,
       onMount: (container) => {
         const wrapper = document.createElement("section");
         container.append(wrapper);

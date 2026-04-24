@@ -1,7 +1,10 @@
 export const SidebarHeader = () => {
   return (
-    <header>
-      <h2 className="text-[24px] font-semibold text-white text-center">LTM</h2>
+    <header
+      className="border-b border-neutral-700 font-medium text-center"
+      style={{ paddingBlock: "3px", paddingBottom: "8px", fontSize: "18px" }}
+    >
+      LocalTube Manager
     </header>
   );
 };

@@ -1,4 +1,4 @@
-import { RotateCwIcon, XIcon } from "lucide-react";
+import { RotateCwIcon, SquareArrowOutUpRightIcon, XIcon } from "lucide-react";
 
 export const SidebarOptions = ({
   setIsOpen,
@@ -6,13 +6,27 @@ export const SidebarOptions = ({
   setIsOpen: (isOpen: boolean) => void;
 }) => {
   return (
-    <div className="absolute -left-8 top-2 bg-neutral-900 border border-neutral-700 flex flex-col gap-3 p-1.5 py-2.5 pl-2 pb-3 rounded-l-lg">
+    <div
+      className="absolute bg-neutral-900 text-white border border-neutral-700 flex flex-col"
+      style={{
+        left: "-32px",
+        top: "8px",
+        gap: "15px",
+        padding: "6px",
+        paddingBlock: "10px",
+        paddingLeft: "8px",
+        paddingBottom: "12px",
+        borderTopLeftRadius: "8px",
+        borderBottomLeftRadius: "8px",
+      }}
+    >
       <XIcon
         size={16}
-        className="text-white cursor-pointer"
+        className="cursor-pointer"
         onClick={() => setIsOpen(false)}
       />
-      <RotateCwIcon size={14} className="text-white cursor-pointer" />
+      <SquareArrowOutUpRightIcon size={14} className="cursor-pointer" />
+      <RotateCwIcon size={14} className="cursor-pointer" />
     </div>
   );
 };
