@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { ACTIONS, NAV_ITEMS } from "../utils/constants";
 import { SidebarHeader } from "../components/sidebar-header";
 import { SidebarOptions } from "../components/sidebar-options";
-import { Navbar } from "../components/navbar";
+import { NavbarTabs } from "../components/navbar-tabs";
 
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,7 +38,7 @@ export default function App() {
       <SidebarOptions setIsOpen={setIsOpen} />
       <div className="flex flex-col" style={{ gap: "6px" }}>
         <SidebarHeader />
-        <Navbar setActiveItem={setActiveItem} activeItem={activeItem} />
+        <NavbarTabs setActiveItem={setActiveItem} activeItem={activeItem} />
       </div>
     </div>
   );

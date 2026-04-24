@@ -1,6 +1,6 @@
 import { NAV_ITEMS } from "../utils/constants";
 
-export const Navbar = ({
+export const NavbarTabs = ({
   setActiveItem,
   activeItem,
 }: {
@@ -26,7 +26,7 @@ export const Navbar = ({
           onClick={() => setActiveItem(item.label)}
         >
           <item.icon size={14} />
-          <p className="font-medium" style={{ fontSize: "14px" }}>
+          <p className="font-medium" style={{ fontSize: "13px" }}>
             {item.label}
           </p>
         </div>
