@@ -8,6 +8,7 @@ import {
 
 export const ACTIONS = {
   TOGGLE_SIDEBAR: "toggle_sidebar",
+  OPEN_DASHBOARD: "open_dashboard",
 };
 
 export const NAV_ITEMS = [

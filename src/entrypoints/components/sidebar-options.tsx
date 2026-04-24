@@ -1,9 +1,5 @@
-import {
-  ExpandIcon,
-  RotateCwIcon,
-  SquareArrowOutUpRightIcon,
-  XIcon,
-} from "lucide-react";
+import { SquareArrowOutUpRightIcon, XIcon } from "lucide-react";
+import { ACTIONS } from "../utils/constants";
 
 export const SidebarOptions = ({
   setIsOpen,
@@ -63,7 +59,13 @@ export const SidebarOptions = ({
         >
           Open in new tab
         </span>
-        <SquareArrowOutUpRightIcon size={14} className="cursor-pointer" />
+        <SquareArrowOutUpRightIcon
+          size={14}
+          className="cursor-pointer"
+          onClick={() =>
+            browser.runtime.sendMessage({ action: ACTIONS.OPEN_DASHBOARD })
+          }
+        />
       </div>
     </div>
   );
