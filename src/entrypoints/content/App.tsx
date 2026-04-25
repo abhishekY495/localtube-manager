@@ -27,16 +27,15 @@ export default function App() {
         isOpen ? "translate-x-0" : "translate-x-[110%]"
       }`}
       style={{
-        width: "660px",
+        width: "630px",
         height: "100vh",
         zIndex: "2147483647",
-        padding: "6px",
         top: "0",
         right: "0",
       }}
     >
       <SidebarOptions setIsOpen={setIsOpen} />
-      <div className="flex flex-col" style={{ gap: "6px" }}>
+      <div className="flex flex-col">
         <SidebarHeader />
         <NavbarTabs setActiveItem={setActiveItem} activeItem={activeItem} />
       </div>

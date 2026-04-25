@@ -8,11 +8,14 @@ export const NavbarTabs = ({
   activeItem: string;
 }) => {
   return (
-    <nav className="flex items-center justify-around" style={{ gap: "8px" }}>
+    <nav
+      className="flex items-center justify-around border-b border-neutral-700"
+      style={{ gap: "8px", padding: "8px" }}
+    >
       {NAV_ITEMS.map((item) => (
         <div
           key={item.label}
-          className={`flex items-center justify-center w-full cursor-pointer border border-neutral-700 ${
+          className={`flex items-center justify-center cursor-pointer border border-neutral-700 w-full ${
             activeItem === item.label
               ? "bg-neutral-300 text-black"
               : "hover:bg-neutral-800"
@@ -21,6 +24,7 @@ export const NavbarTabs = ({
             gap: "6px",
             borderRadius: "4px",
             padding: "4px",
+            paddingInline: "10px",
             paddingBottom: "6px",
           }}
           onClick={() => setActiveItem(item.label)}
