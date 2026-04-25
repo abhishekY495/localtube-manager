@@ -1,3 +1,5 @@
+import { ACTIONS } from "./constants";
+
 export type Video = {
   title: string;
   urlSlug: string;
@@ -41,12 +43,39 @@ export type LocalPlaylist = {
   videos: Video[];
 };
 
-export type Message = {
-  action: string;
+type MessageWithoutData<TAction extends string> = {
+  action: TAction;
 };
 
-export type Response<T> = {
-  success: boolean;
-  data: T;
-  error?: string;
+type MessageWithData<TAction extends string, TData> = {
+  action: TAction;
+  data: TData;
+};
+
+export type Message =
+  | MessageWithoutData<typeof ACTIONS.TOGGLE_SIDEBAR>
+  | MessageWithoutData<typeof ACTIONS.OPEN_DASHBOARD>
+  | MessageWithoutData<typeof ACTIONS.GET_ALL_LIKED_VIDEOS>
+  | MessageWithData<
+      typeof ACTIONS.CHECK_IF_VIDEO_IS_LIKED,
+      CheckIfVideoIsLikedRequest
+    >;
+
+export type MessageAction = Message["action"];
+
+export type Response<T> =
+  | {
+      success: true;
+      data: T;
+    }
+  | {
+      success: false;
+      error: string;
+    };
+
+export type CheckIfVideoIsLikedRequest = {
+  videoId: string;
+};
+export type CheckIfVideoIsLikedResponse = {
+  isLiked: boolean;
 };
