@@ -1,7 +1,9 @@
 import { ACTIONS } from "./utils/constants";
 
 export default defineBackground(() => {
-  browser.action.onClicked.addListener((tab) => {
+  const action = browser.action || (browser as any).browserAction;
+
+  action.onClicked.addListener((tab: any) => {
     if (tab.id) {
       browser.tabs.sendMessage(tab.id, { action: ACTIONS.TOGGLE_SIDEBAR });
     }
