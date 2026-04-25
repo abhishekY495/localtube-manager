@@ -27,7 +27,7 @@ export default function App() {
         isOpen ? "translate-x-0" : "translate-x-[110%]"
       }`}
       style={{
-        width: "630px",
+        width: "700px",
         height: "100vh",
         zIndex: "2147483647",
         top: "0",
