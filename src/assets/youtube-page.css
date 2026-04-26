@@ -1,0 +1,24 @@
+segmented-like-dislike-button-view-model {
+  display: none !important;
+}
+
+#custom-ltm-like-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #ffffff1a;
+  height: 100%;
+  padding-inline: 14px;
+  border-radius: 20px;
+  border-right: 1px solid #535353;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Roboto', Arial, sans-serif;
+  margin-right: 10px;
+}
+
+
+#custom-ltm-like-btn:hover {
+  background: #434343;
+}

@@ -3,9 +3,9 @@ import { ACTIONS } from "./constants";
 export type Video = {
   title: string;
   urlSlug: string;
-  channelHandle: string;
-  channelName: string;
-  duration: string;
+  channelHandle: string | null;
+  channelName: string | null;
+  duration: string | null;
   addedAt: string;
   isShort: boolean;
 };

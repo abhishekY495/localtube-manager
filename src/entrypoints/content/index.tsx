@@ -1,7 +1,9 @@
 import "~/assets/tailwind.css";
+import youtubePageStyles from "~/assets/youtube-page.css?inline";
 import { createRoot } from "react-dom/client";
 import App from "./App";
-import { checkIfVideoIsLiked } from "../functions/checkIfVideoIsLiked";
+import { checkIfVideoIsLiked } from "./functions/video/check-if-video-is-liked";
+import { wait } from "../utils/wait";
 
 export default defineContentScript({
   matches: ["<all_urls>"],
@@ -27,7 +29,12 @@ export default defineContentScript({
     ui.mount();
 
     if (window.location.hostname.includes("youtube.com")) {
+      const style = document.createElement("style");
+      style.textContent = youtubePageStyles;
+      document.documentElement.append(style);
+
       window.addEventListener("yt-navigate-finish", async () => {
+        await wait(1500);
         const url = new URL(window.location.href);
 
         const params = new URLSearchParams(url.search);
