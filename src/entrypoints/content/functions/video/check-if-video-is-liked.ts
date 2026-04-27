@@ -11,8 +11,8 @@ import type {
 } from "@/entrypoints/utils/types";
 import {
   customLikeBtn,
-} from "../../helpers/video/custom-like-btn";
-import { customLikeBtnClickHandler } from "../../helpers/video/custom-like-btn-click-handler";
+} from "../../../utils/video/custom-like-btn";
+import { customLikeBtnClickHandler } from "../../../utils/video/custom-like-btn-click-handler";
 
 export const checkIfVideoIsLiked = async (videoId: string) => {
   const response: Response<CheckIfVideoIsLikedResponse> =
