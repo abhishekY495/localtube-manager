@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react";
-import { ACTIONS, NAV_ITEMS } from "../utils/constants";
+import {
+  ACTIONS,
+  NAV_ITEM_LABELS,
+  type NavItemLabel,
+} from "../utils/constants";
 import { SidebarHeader } from "../components/sidebar-header";
 import { SidebarOptions } from "../components/sidebar-options";
 import { NavbarTabs } from "../components/navbar-tabs";
@@ -7,7 +11,9 @@ import type { Message } from "../utils/types";
 
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeItem, setActiveItem] = useState<string>(NAV_ITEMS[0].label);
+  const [activeItem, setActiveItem] = useState<NavItemLabel>(
+    NAV_ITEM_LABELS.SUBSCRIPTIONS,
+  );
 
   useEffect(() => {
     const handleMessage = (message: Message) => {

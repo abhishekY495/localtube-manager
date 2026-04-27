@@ -15,28 +15,41 @@ export const ACTIONS = {
   DELETE_LIKED_VIDEO_BY_ID: "delete_liked_video_by_id",
 } as const;
 
+export const NAV_ITEM_LABELS = {
+  SUBSCRIPTIONS: "Subscriptions",
+  LIKED_VIDEOS: "Liked videos",
+  CHANNELS: "Channels",
+  PLAYLISTS: "Playlists",
+  SETTINGS: "Settings",
+} as const;
+
 export const NAV_ITEMS = [
   {
-    label: "Subscriptions",
+    label: NAV_ITEM_LABELS.SUBSCRIPTIONS,
     icon: MegaphoneIcon,
   },
   {
-    label: "Liked videos",
+    label: NAV_ITEM_LABELS.LIKED_VIDEOS,
     icon: ThumbsUpIcon,
   },
   {
-    label: "Channels",
+    label: NAV_ITEM_LABELS.CHANNELS,
     icon: TvMinimalPlayIcon,
   },
   {
-    label: "Playlists",
+    label: NAV_ITEM_LABELS.PLAYLISTS,
     icon: ListVideoIcon,
   },
   {
-    label: "Settings",
+    label: NAV_ITEM_LABELS.SETTINGS,
     icon: SettingsIcon,
   },
-];
+] as const;
+
+export type NavItemLabel =
+  (typeof NAV_ITEM_LABELS)[keyof typeof NAV_ITEM_LABELS];
+
+export type NavItem = (typeof NAV_ITEMS)[number];
 
 export const SELECTORS = {
   LIKE_BTN_ELEMENTS: [

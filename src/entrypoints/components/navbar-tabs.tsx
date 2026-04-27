@@ -1,11 +1,12 @@
 import { NAV_ITEMS } from "../utils/constants";
+import type { NavItemLabel } from "../utils/constants";
 
 export const NavbarTabs = ({
   setActiveItem,
   activeItem,
 }: {
-  setActiveItem: (item: string) => void;
-  activeItem: string;
+  setActiveItem: (item: NavItemLabel) => void;
+  activeItem: NavItemLabel;
 }) => {
   return (
     <nav
