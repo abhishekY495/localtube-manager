@@ -1,8 +1,15 @@
-import { getAllLikedVideos, getLikedVideoById } from "./indexedDb/video";
+import {
+  addLikedVideo,
+  deleteLikedVideoById,
+  getAllLikedVideos,
+  getLikedVideoById,
+} from "./indexedDb/video";
 import { ACTIONS } from "./utils/constants";
 import type {
+  AddLikedVideoResponse,
   CheckIfVideoIsLikedResponse,
   Message,
+  RemoveLikedVideoResponse,
   Response,
   Video,
 } from "./utils/types";
@@ -56,6 +63,44 @@ export default defineBackground(() => {
               success: false,
               error: "Failed to get liked video by id",
             } satisfies Response<CheckIfVideoIsLikedResponse>);
+          }
+        })();
+        return true;
+      }
+
+      if (message.action === ACTIONS.ADD_LIKED_VIDEO) {
+        const { video } = message.data;
+        (async () => {
+          try {
+            await addLikedVideo(video);
+            sendResponse({
+              success: true,
+              data: { success: true },
+            } satisfies Response<AddLikedVideoResponse>);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to add video to liked videos",
+            } satisfies Response<AddLikedVideoResponse>);
+          }
+        })();
+        return true;
+      }
+
+      if (message.action === ACTIONS.DELETE_LIKED_VIDEO_BY_ID) {
+        const { videoId } = message.data;
+        (async () => {
+          try {
+            await deleteLikedVideoById(videoId);
+            sendResponse({
+              success: true,
+              data: { success: true },
+            } satisfies Response<RemoveLikedVideoResponse>);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to remove video from liked videos",
+            } satisfies Response<RemoveLikedVideoResponse>);
           }
         })();
         return true;

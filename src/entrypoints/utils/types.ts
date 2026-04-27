@@ -59,6 +59,11 @@ export type Message =
   | MessageWithData<
       typeof ACTIONS.CHECK_IF_VIDEO_IS_LIKED,
       CheckIfVideoIsLikedRequest
+    >
+  | MessageWithData<typeof ACTIONS.ADD_LIKED_VIDEO, AddLikedVideoRequest>
+  | MessageWithData<
+      typeof ACTIONS.DELETE_LIKED_VIDEO_BY_ID,
+      RemoveLikedVideoRequest
     >;
 
 export type MessageAction = Message["action"];
@@ -78,4 +83,19 @@ export type CheckIfVideoIsLikedRequest = {
 };
 export type CheckIfVideoIsLikedResponse = {
   isLiked: boolean;
+};
+
+export type AddLikedVideoRequest = {
+  video: Video;
+};
+
+export type AddLikedVideoResponse = {
+  success: boolean;
+};
+
+export type RemoveLikedVideoRequest = {
+  videoId: string;
+};
+export type RemoveLikedVideoResponse = {
+  success: boolean;
 };

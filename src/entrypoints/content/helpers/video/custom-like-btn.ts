@@ -1,4 +1,5 @@
 import {
+  CUSTOM_LIKE_BUTTON_ICON_ID,
   CUSTOM_LIKE_BUTTON_ID,
   likeIcon,
   likeIconFilled,
@@ -14,7 +15,7 @@ export const customLikeBtn = ({
   const customLikeButton = document.createElement("div");
   customLikeButton.id = CUSTOM_LIKE_BUTTON_ID;
   customLikeButton.innerHTML = `
-    ${isLiked ? likeIconFilled : likeIcon}
+    <span id="${CUSTOM_LIKE_BUTTON_ICON_ID}">${isLiked ? likeIconFilled : likeIcon}</span>
     <p>${likeCount}</p>
   `;
 

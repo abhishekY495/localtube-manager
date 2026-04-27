@@ -15,6 +15,6 @@ export const addLikedVideo = async (video: Video) => {
   await db.likedVideos.add(video);
 };
 
-export const deleteLikedVideo = async (videoId: string) => {
+export const deleteLikedVideoById = async (videoId: string) => {
   await db.likedVideos.delete(videoId);
 };

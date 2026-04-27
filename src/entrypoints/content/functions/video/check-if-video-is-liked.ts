@@ -9,8 +9,10 @@ import type {
   Message,
   Response,
 } from "@/entrypoints/utils/types";
-import { customLikeBtn } from "../../helpers/video/custom-like-btn";
-import { getVideoDataObject } from "../../helpers/video/get-video-data-object";
+import {
+  customLikeBtn,
+} from "../../helpers/video/custom-like-btn";
+import { customLikeBtnClickHandler } from "../../helpers/video/custom-like-btn-click-handler";
 
 export const checkIfVideoIsLiked = async (videoId: string) => {
   const response: Response<CheckIfVideoIsLikedResponse> =
@@ -20,12 +22,13 @@ export const checkIfVideoIsLiked = async (videoId: string) => {
     } satisfies Message);
 
   if (response.success) {
+    let isLiked = response.data.isLiked;
     const likeButtonElement = await findElementBySelectors(
       SELECTORS.LIKE_BTN_ELEMENTS,
     );
-    const { isLiked } = response.data;
 
     if (likeButtonElement) {
+      // Remove existing custom like button
       document
         .querySelectorAll(`#${CUSTOM_LIKE_BUTTON_ID}`)
         .forEach((customLikeButton) => customLikeButton.remove());
@@ -42,8 +45,8 @@ export const checkIfVideoIsLiked = async (videoId: string) => {
       );
 
       customLikeButton.addEventListener("click", async () => {
-        const videoData = await getVideoDataObject(videoId, document);
-        console.log(videoData);
+        await customLikeBtnClickHandler({ videoId, isLiked });
+        isLiked = !isLiked;
       });
     }
   }
