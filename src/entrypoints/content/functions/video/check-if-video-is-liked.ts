@@ -3,15 +3,13 @@ import {
   CUSTOM_LIKE_BUTTON_ID,
   SELECTORS,
 } from "@/entrypoints/utils/constants";
-import { findElementBySelectors } from "@/entrypoints/utils/findElementBySelectors";
+import { findElementBySelectors } from "@/entrypoints/utils/find-element-by-selectors";
 import type {
   CheckIfVideoIsLikedResponse,
   Message,
   Response,
 } from "@/entrypoints/utils/types";
-import {
-  customLikeBtn,
-} from "../../../utils/video/custom-like-btn";
+import { customLikeBtn } from "../../../utils/video/custom-like-btn";
 import { customLikeBtnClickHandler } from "../../../utils/video/custom-like-btn-click-handler";
 
 export const checkIfVideoIsLiked = async (videoId: string) => {

@@ -1,5 +1,5 @@
 import { SELECTORS } from "@/entrypoints/utils/constants";
-import { findElementBySelectors } from "@/entrypoints/utils/findElementBySelectors";
+import { findElementBySelectors } from "@/entrypoints/utils/find-element-by-selectors";
 
 export const getChannelDataFromVideoPage = async (): Promise<{
   channelHandle: string | null;
