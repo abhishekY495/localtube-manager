@@ -26,7 +26,6 @@ export const customLikeBtnClickHandler = async ({
       action: ACTIONS.DELETE_LIKED_VIDEO_BY_ID,
       data: { videoId },
     } satisfies Message);
-
     if (response.success) {
       customLikeButtonIcon.innerHTML = likeIcon;
     } else {
@@ -37,7 +36,6 @@ export const customLikeBtnClickHandler = async ({
       action: ACTIONS.ADD_LIKED_VIDEO,
       data: { video: videoData },
     } satisfies Message);
-
     if (response.success) {
       customLikeButtonIcon.innerHTML = likeIconFilled;
     } else {
