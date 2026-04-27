@@ -64,6 +64,8 @@ export const SELECTORS = {
   VIDEO_DURATION_ELEMENTS: [".ytp-time-duration"],
 };
 
+export const LTM_TOAST_ROOT_ID = "ltm-toast-root";
+
 export const CUSTOM_LIKE_BUTTON_ID = "custom-ltm-like-btn";
 export const CUSTOM_LIKE_BUTTON_ICON_ID = "custom-ltm-like-btn-icon";
 

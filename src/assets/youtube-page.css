@@ -15,10 +15,21 @@ segmented-like-dislike-button-view-model {
   font-size: 14px;
   font-weight: 500;
   font-family: 'Roboto', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Roboto', Arial, sans-serif;
   margin-right: 10px;
 }
 
-
 #custom-ltm-like-btn:hover {
   background: #434343;
+}
+
+#ltm-toast-root {
+  background-color: inherit;
+  font-size: medium;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Roboto', Arial, sans-serif;
+  z-index: 2147483647;
 }

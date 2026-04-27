@@ -6,6 +6,7 @@ import {
 } from "@/entrypoints/utils/constants";
 import { getVideoDataObject } from "./get-video-data-object";
 import type { Message, Response } from "@/entrypoints/utils/types";
+import toast from "react-hot-toast";
 
 type CustomLikeBtnClickHandlerProps = {
   videoId: string;
@@ -29,7 +30,7 @@ export const customLikeBtnClickHandler = async ({
     if (response.success) {
       customLikeButtonIcon.innerHTML = likeIcon;
     } else {
-      throw new Error("Failed to delete liked video");
+      toast.error("Something went wrong,\n Refresh and try again");
     }
   } else {
     const response: Response = await browser.runtime.sendMessage({
@@ -39,7 +40,7 @@ export const customLikeBtnClickHandler = async ({
     if (response.success) {
       customLikeButtonIcon.innerHTML = likeIconFilled;
     } else {
-      throw new Error("Failed to add liked video");
+      toast.error("Something went wrong,\n Refresh and try again");
     }
   }
 };
