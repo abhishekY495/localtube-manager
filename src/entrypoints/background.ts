@@ -6,10 +6,8 @@ import {
 } from "./indexedDb/video";
 import { ACTIONS } from "./utils/constants";
 import type {
-  AddLikedVideoResponse,
   CheckIfVideoIsLikedResponse,
   Message,
-  RemoveLikedVideoResponse,
   Response,
   Video,
 } from "./utils/types";
@@ -75,13 +73,12 @@ export default defineBackground(() => {
             await addLikedVideo(video);
             sendResponse({
               success: true,
-              data: { success: true },
-            } satisfies Response<AddLikedVideoResponse>);
+            } satisfies Response);
           } catch (error) {
             sendResponse({
               success: false,
               error: "Failed to add video to liked videos",
-            } satisfies Response<AddLikedVideoResponse>);
+            } satisfies Response);
           }
         })();
         return true;
@@ -94,13 +91,12 @@ export default defineBackground(() => {
             await deleteLikedVideoById(videoId);
             sendResponse({
               success: true,
-              data: { success: true },
-            } satisfies Response<RemoveLikedVideoResponse>);
+            } satisfies Response);
           } catch (error) {
             sendResponse({
               success: false,
               error: "Failed to remove video from liked videos",
-            } satisfies Response<RemoveLikedVideoResponse>);
+            } satisfies Response);
           }
         })();
         return true;

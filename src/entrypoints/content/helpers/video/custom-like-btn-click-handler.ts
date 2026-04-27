@@ -5,7 +5,7 @@ import {
   likeIconFilled,
 } from "@/entrypoints/utils/constants";
 import { getVideoDataObject } from "./get-video-data-object";
-import type { Message } from "@/entrypoints/utils/types";
+import type { Message, Response } from "@/entrypoints/utils/types";
 
 type CustomLikeBtnClickHandlerProps = {
   videoId: string;
@@ -22,16 +22,26 @@ export const customLikeBtnClickHandler = async ({
   ) as HTMLSpanElement;
 
   if (isLiked) {
-    await browser.runtime.sendMessage({
+    const response: Response = await browser.runtime.sendMessage({
       action: ACTIONS.DELETE_LIKED_VIDEO_BY_ID,
       data: { videoId },
     } satisfies Message);
-    customLikeButtonIcon.innerHTML = likeIcon;
+
+    if (response.success) {
+      customLikeButtonIcon.innerHTML = likeIcon;
+    } else {
+      throw new Error("Failed to delete liked video");
+    }
   } else {
-    await browser.runtime.sendMessage({
+    const response: Response = await browser.runtime.sendMessage({
       action: ACTIONS.ADD_LIKED_VIDEO,
       data: { video: videoData },
     } satisfies Message);
-    customLikeButtonIcon.innerHTML = likeIconFilled;
+
+    if (response.success) {
+      customLikeButtonIcon.innerHTML = likeIconFilled;
+    } else {
+      throw new Error("Failed to add liked video");
+    }
   }
 };

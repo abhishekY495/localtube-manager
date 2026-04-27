@@ -68,11 +68,8 @@ export type Message =
 
 export type MessageAction = Message["action"];
 
-export type Response<T> =
-  | {
-      success: true;
-      data: T;
-    }
+export type Response<T = void> =
+  | ({ success: true } & ([T] extends [void] ? {} : { data: T }))
   | {
       success: false;
       error: string;
@@ -89,13 +86,6 @@ export type AddLikedVideoRequest = {
   video: Video;
 };
 
-export type AddLikedVideoResponse = {
-  success: boolean;
-};
-
 export type RemoveLikedVideoRequest = {
   videoId: string;
-};
-export type RemoveLikedVideoResponse = {
-  success: boolean;
 };
