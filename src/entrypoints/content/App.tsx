@@ -48,17 +48,15 @@ export default function App() {
         setIsOpen={setIsOpen}
         onRefresh={() => setRefreshKey((currentKey) => currentKey + 1)}
       />
-      <div className="flex flex-col">
+      <div className="flex h-full min-h-0 flex-col">
         <SidebarHeader />
         <NavbarTabs setActiveItem={setActiveItem} activeItem={activeItem} />
-        <div
-          style={{
-            padding: "8px",
-          }}
-        >
+        <div className="min-h-0 flex-1">
           <div
             className={
-              activeItem === NAV_ITEM_LABELS.LIKED_VIDEOS ? "block" : "hidden"
+              activeItem === NAV_ITEM_LABELS.LIKED_VIDEOS
+                ? "block h-full"
+                : "hidden"
             }
           >
             <LikedVideosContainer

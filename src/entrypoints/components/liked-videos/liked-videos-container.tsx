@@ -51,7 +51,7 @@ export const LikedVideosContainer = ({
   }
 
   return (
-    <div>
+    <div className="flex h-full min-h-0 flex-col">
       {likedVideos.length === 0 ? (
         <p
           className="text-center"
@@ -71,7 +71,7 @@ export const LikedVideosContainer = ({
           to like videos
         </p>
       ) : (
-        <div className="flex flex-col">
+        <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
           {likedVideos.map((video) => (
             <VideoCard
               key={video.urlSlug}

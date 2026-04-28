@@ -16,7 +16,7 @@ export const VideoCard = ({
       <div
         className="flex gap-4 border-b border-neutral-700 hover:bg-neutral-800"
         style={{
-          padding: "20px",
+          padding: "22px",
         }}
       >
         {/*  */}
