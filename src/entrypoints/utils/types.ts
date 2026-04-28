@@ -79,7 +79,7 @@ export type Response<T = void> =
 export type CheckIfVideoIsLikedRequest = {
   videoId: string;
 };
-export type CheckIfVideoIsLikedResponse = {
+export type CheckIfVideoLikedResponse = {
   isLiked: boolean;
 };
 

@@ -93,7 +93,7 @@ export const SELECTORS = {
     "#owner",
     "ytd-video-owner-renderer",
     "#upload-info",
-    "a"
+    "a",
   ],
   VIDEO_DURATION_ELEMENTS: [".ytp-time-duration"],
 };

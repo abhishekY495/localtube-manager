@@ -7,7 +7,7 @@ import {
 } from "./indexedDb/video";
 import { ACTIONS } from "./utils/constants";
 import type {
-  CheckIfVideoIsLikedResponse,
+  CheckIfVideoLikedResponse,
   CountResponse,
   Message,
   Response,
@@ -57,12 +57,12 @@ export default defineBackground(() => {
             sendResponse({
               success: true,
               data: { isLiked: !!video },
-            } satisfies Response<CheckIfVideoIsLikedResponse>);
+            } satisfies Response<CheckIfVideoLikedResponse>);
           } catch (error) {
             sendResponse({
               success: false,
               error: "Failed to get liked video by id",
-            } satisfies Response<CheckIfVideoIsLikedResponse>);
+            } satisfies Response<CheckIfVideoLikedResponse>);
           }
         })();
         return true;

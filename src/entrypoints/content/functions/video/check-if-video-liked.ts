@@ -1,12 +1,12 @@
 import { ACTIONS } from "@/entrypoints/utils/constants";
 import type {
-  CheckIfVideoIsLikedResponse,
+  CheckIfVideoLikedResponse,
   Message,
   Response,
 } from "@/entrypoints/utils/types";
 
 export const checkIfVideoIsLiked = async (videoId: string) => {
-  const response: Response<CheckIfVideoIsLikedResponse> =
+  const response: Response<CheckIfVideoLikedResponse> =
     await browser.runtime.sendMessage({
       action: ACTIONS.CHECK_IF_VIDEO_IS_LIKED,
       data: { videoId },
