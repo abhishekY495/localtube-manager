@@ -1,3 +1,4 @@
+import { getCount } from "./indexedDb/get-count";
 import {
   addLikedVideo,
   deleteLikedVideoById,
@@ -7,6 +8,7 @@ import {
 import { ACTIONS } from "./utils/constants";
 import type {
   CheckIfVideoIsLikedResponse,
+  CountResponse,
   Message,
   Response,
   Video,
@@ -97,6 +99,24 @@ export default defineBackground(() => {
               success: false,
               error: "Failed to remove video from liked videos",
             } satisfies Response);
+          }
+        })();
+        return true;
+      }
+
+      if (message.action === ACTIONS.GET_COUNT) {
+        (async () => {
+          try {
+            const count = await getCount();
+            sendResponse({
+              success: true,
+              data: count,
+            } satisfies Response<CountResponse>);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to get count",
+            } satisfies Response<CountResponse>);
           }
         })();
         return true;

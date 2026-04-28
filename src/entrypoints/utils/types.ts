@@ -56,6 +56,7 @@ export type Message =
   | MessageWithoutData<typeof ACTIONS.TOGGLE_SIDEBAR>
   | MessageWithoutData<typeof ACTIONS.OPEN_DASHBOARD>
   | MessageWithoutData<typeof ACTIONS.GET_ALL_LIKED_VIDEOS>
+  | MessageWithoutData<typeof ACTIONS.GET_COUNT>
   | MessageWithData<
       typeof ACTIONS.CHECK_IF_VIDEO_IS_LIKED,
       CheckIfVideoIsLikedRequest
@@ -88,4 +89,12 @@ export type AddLikedVideoRequest = {
 
 export type RemoveLikedVideoRequest = {
   videoId: string;
+};
+
+export type CountResponse = {
+  likedVideosCount: number;
+  subscribedChannelsCount: number;
+  youtubePlaylistsCount: number;
+  localPlaylistsCount: number;
+  subscriptionsCount: number;
 };

@@ -13,6 +13,7 @@ export const ACTIONS = {
   GET_ALL_LIKED_VIDEOS: "get_all_liked_videos",
   ADD_LIKED_VIDEO: "add_liked_video",
   DELETE_LIKED_VIDEO_BY_ID: "delete_liked_video_by_id",
+  GET_COUNT: "get_count",
 } as const;
 
 export const NAV_ITEM_LABELS = {
@@ -27,22 +28,27 @@ export const NAV_ITEMS = [
   {
     label: NAV_ITEM_LABELS.SUBSCRIPTIONS,
     icon: MegaphoneIcon,
+    showCount: true,
   },
   {
     label: NAV_ITEM_LABELS.LIKED_VIDEOS,
     icon: ThumbsUpIcon,
+    showCount: true,
   },
   {
     label: NAV_ITEM_LABELS.CHANNELS,
     icon: TvMinimalPlayIcon,
+    showCount: true,
   },
   {
     label: NAV_ITEM_LABELS.PLAYLISTS,
     icon: ListVideoIcon,
+    showCount: true,
   },
   {
     label: NAV_ITEM_LABELS.SETTINGS,
     icon: SettingsIcon,
+    showCount: false,
   },
 ] as const;
 
