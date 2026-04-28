@@ -8,7 +8,7 @@ import { SidebarHeader } from "../components/sidebar-header";
 import { SidebarOptions } from "../components/sidebar-options";
 import { NavbarTabs } from "../components/navbar-tabs";
 import type { Message } from "../utils/types";
-import { LikedVideosContainer } from "../components/liked-videos-container";
+import { LikedVideosContainer } from "../components/liked-videos/liked-videos-container";
 
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,8 +23,8 @@ export default function App() {
         setIsOpen((prev) => !prev);
       }
     };
-
     browser.runtime.onMessage.addListener(handleMessage);
+
     return () => {
       browser.runtime.onMessage.removeListener(handleMessage);
     };
@@ -36,7 +36,7 @@ export default function App() {
         isOpen ? "translate-x-0" : "translate-x-[110%]"
       }`}
       style={{
-        width: "750px",
+        width: "800px",
         height: "100vh",
         zIndex: "2147483647",
         fontFamily: "'Roboto', Arial, sans-serif",
@@ -64,6 +64,7 @@ export default function App() {
             <LikedVideosContainer
               isSidebarOpen={isOpen}
               refreshKey={refreshKey}
+              onRefresh={() => setRefreshKey((currentKey) => currentKey + 1)}
             />
           </div>
         </div>

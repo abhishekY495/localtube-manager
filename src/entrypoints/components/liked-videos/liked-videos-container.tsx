@@ -1,16 +1,18 @@
-import { ACTIONS } from "../utils/constants";
-import type { Message, Video } from "../utils/types";
+import { ACTIONS } from "../../utils/constants";
+import type { Message, Response, Video } from "../../utils/types";
 import { useState, useEffect } from "react";
-import { Loading } from "./loading";
-import { Error } from "./error";
+import { Loading } from "../loading";
+import { Error } from "../error";
 import { VideoCard } from "./video-card";
 
 export const LikedVideosContainer = ({
   isSidebarOpen,
   refreshKey,
+  onRefresh,
 }: {
   isSidebarOpen: boolean;
   refreshKey: number;
+  onRefresh: () => void;
 }) => {
   const [likedVideos, setLikedVideos] = useState<Video[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -24,7 +26,7 @@ export const LikedVideosContainer = ({
     const fetchLikedVideos = async () => {
       setIsLoading(true);
       setError(false);
-      const response = await browser.runtime.sendMessage({
+      const response: Response<Video[]> = await browser.runtime.sendMessage({
         action: ACTIONS.GET_ALL_LIKED_VIDEOS,
       } satisfies Message);
       if (!response.success) {
@@ -32,7 +34,10 @@ export const LikedVideosContainer = ({
         setIsLoading(false);
         return;
       }
-      setLikedVideos(response.data);
+      const sortedLikedVideos = response.data.sort((a, b) => {
+        return new Date(b.addedAt).getTime() - new Date(a.addedAt).getTime();
+      });
+      setLikedVideos(sortedLikedVideos);
       setIsLoading(false);
     };
     fetchLikedVideos();
@@ -46,14 +51,8 @@ export const LikedVideosContainer = ({
   }
 
   return (
-    <>
-      {likedVideos.length > 0 ? (
-        <div className="flex flex-col">
-          {likedVideos.map((video, index) => (
-            <VideoCard key={video.urlSlug} video={video} index={index} />
-          ))}
-        </div>
-      ) : (
+    <div>
+      {likedVideos.length === 0 ? (
         <p
           className="text-center"
           style={{
@@ -71,7 +70,17 @@ export const LikedVideosContainer = ({
           </a>{" "}
           to like videos
         </p>
+      ) : (
+        <div className="flex flex-col">
+          {likedVideos.map((video) => (
+            <VideoCard
+              key={video.urlSlug}
+              video={video}
+              onRefresh={onRefresh}
+            />
+          ))}
+        </div>
       )}
-    </>
+    </div>
   );
 };
