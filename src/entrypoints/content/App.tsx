@@ -50,7 +50,11 @@ export default function App() {
       />
       <div className="flex h-full min-h-0 flex-col">
         <SidebarHeader />
-        <NavbarTabs setActiveItem={setActiveItem} activeItem={activeItem} />
+        <NavbarTabs
+          setActiveItem={setActiveItem}
+          activeItem={activeItem}
+          onRefresh={() => setRefreshKey((currentKey) => currentKey + 1)}
+        />
         <div className="min-h-0 flex-1">
           <div
             className={

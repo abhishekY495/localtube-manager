@@ -27,9 +27,11 @@ const getNavItemCount = (
 export const NavbarTabs = ({
   setActiveItem,
   activeItem,
+  onRefresh,
 }: {
   setActiveItem: (item: NavItemLabel) => void;
   activeItem: NavItemLabel;
+  onRefresh: () => void;
 }) => {
   const [count, setCount] = useState<CountResponse | null>(null);
 
@@ -45,7 +47,7 @@ export const NavbarTabs = ({
       setCount(response.data);
     };
     fetchCount();
-  }, []);
+  }, [onRefresh]);
 
   return (
     <nav className="flex items-center justify-around border-b border-neutral-700">
