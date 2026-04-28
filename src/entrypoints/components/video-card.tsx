@@ -35,7 +35,7 @@ export const VideoCard = ({
           }}
         />
         <span
-          className="absolute bottom-0 right-0 bg-neutral-700/70"
+          className="absolute bottom-0 right-0 bg-black/60"
           style={{
             fontSize: "12px",
             fontWeight: 500,
