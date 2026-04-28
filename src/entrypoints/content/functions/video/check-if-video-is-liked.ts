@@ -21,22 +21,30 @@ export const checkIfVideoIsLiked = async (videoId: string) => {
 
   if (response.success) {
     let isLiked = response.data.isLiked;
+    let likeCount = "0";
     const likeButtonElement = await findElementBySelectors(
       SELECTORS.LIKE_BTN_ELEMENTS,
     );
 
     if (likeButtonElement) {
-      // Remove existing custom like button
+      const likeCountElement1 = await findElementBySelectors(
+        SELECTORS.LIKE_COUNT_ELEMENTS_1,
+      );
+      if (likeCountElement1) {
+        likeCount = likeCountElement1.textContent;
+      } else {
+        const likeCountElement2 = await findElementBySelectors(
+          SELECTORS.LIKE_COUNT_ELEMENTS_2,
+        );
+        likeCount = likeCountElement2?.textContent ?? "0";
+      }
+
+      const customLikeButton = customLikeBtn({ likeCount, isLiked });
+
+      // Remove existing custom like and then insert
       document
         .querySelectorAll(`#${CUSTOM_LIKE_BUTTON_ID}`)
         .forEach((customLikeButton) => customLikeButton.remove());
-
-      const likeCountElement = await findElementBySelectors(
-        SELECTORS.LIKE_COUNT_ELEMENTS,
-      );
-      const likeCount = likeCountElement?.textContent ?? "0";
-      const customLikeButton = customLikeBtn({ likeCount, isLiked });
-
       likeButtonElement.insertBefore(
         customLikeButton,
         likeButtonElement.children[1],

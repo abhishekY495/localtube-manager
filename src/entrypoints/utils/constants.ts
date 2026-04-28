@@ -59,7 +59,15 @@ export const SELECTORS = {
     "ytd-menu-renderer",
     "#top-level-buttons-computed",
   ],
-  LIKE_COUNT_ELEMENTS: [`[aria-label*="likes"]`, "span"],
+  LIKE_COUNT_ELEMENTS_1: [`[aria-label*="likes"]`, "span"],
+  LIKE_COUNT_ELEMENTS_2: [
+    "#above-the-fold",
+    "#top-row",
+    "#actions",
+    "ytd-menu-renderer",
+    "#top-level-buttons-computed",
+    "like-button-view-model",
+  ],
   CHANNEL_NAME_FROM_VIDEO_PAGE_ELEMENTS: [
     "#above-the-fold",
     "#owner",
