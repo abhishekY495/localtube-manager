@@ -11,6 +11,8 @@ export const VideoCard = ({
 }) => {
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
   const videoUrl = `https://www.youtube.com/watch?v=${video.urlSlug}`;
+  const videoThumbnail = `https://i.ytimg.com/vi/${video.urlSlug}/mqdefault.jpg`;
+
   return (
     <>
       <div
@@ -22,7 +24,7 @@ export const VideoCard = ({
         {/*  */}
         <a href={videoUrl} className="relative">
           <img
-            src={`https://i.ytimg.com/vi/${video.urlSlug}/mqdefault.jpg`}
+            src={videoThumbnail}
             alt={video.title}
             style={{
               width: "230px",
