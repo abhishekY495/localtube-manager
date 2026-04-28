@@ -11,7 +11,7 @@ import type { Message } from "../utils/types";
 import { LikedVideosContainer } from "../components/liked-videos/liked-videos-container";
 
 export default function App() {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
   const [activeItem, setActiveItem] = useState<NavItemLabel>(
     NAV_ITEM_LABELS.SUBSCRIPTIONS,
