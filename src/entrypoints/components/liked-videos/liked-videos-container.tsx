@@ -84,7 +84,10 @@ export const LikedVideosContainer = ({
           />
           <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
             {filteredLikedVideos.length === 0 ? (
-              <p className="mt-8 text-center text-neutral-400">
+              <p
+                className="mt-16 text-center text-neutral-400"
+                style={{ fontWeight: 500 }}
+              >
                 No liked videos found
               </p>
             ) : (
