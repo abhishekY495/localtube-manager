@@ -1,10 +1,12 @@
-import { SquareArrowOutUpRightIcon, XIcon } from "lucide-react";
+import { RefreshCcwIcon, SquareArrowOutUpRightIcon, XIcon } from "lucide-react";
 import { ACTIONS } from "../utils/constants";
 
 export const SidebarOptions = ({
   setIsOpen,
+  onRefresh,
 }: {
   setIsOpen: (isOpen: boolean) => void;
+  onRefresh: () => void;
 }) => {
   return (
     <div
@@ -42,6 +44,28 @@ export const SidebarOptions = ({
         >
           Close
         </span>
+      </div>
+      <div className="group relative inline-flex">
+        <span
+          className="pointer-events-none absolute z-50 whitespace-nowrap rounded border border-neutral-600 bg-neutral-800 opacity-0 shadow transition-opacity delay-0 duration-200 group-hover:opacity-100 group-hover:delay-500"
+          role="tooltip"
+          style={{
+            marginTop: "4px",
+            paddingInline: "8px",
+            paddingBlock: "4px",
+            fontSize: "12px",
+            top: "-245%",
+            left: "50%",
+            translate: "-50%",
+          }}
+        >
+          Refresh
+        </span>
+        <RefreshCcwIcon
+          size={15}
+          className="cursor-pointer"
+          onClick={onRefresh}
+        />
       </div>
       <div className="group relative inline-flex">
         <span

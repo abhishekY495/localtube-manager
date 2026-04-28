@@ -8,9 +8,11 @@ import { SidebarHeader } from "../components/sidebar-header";
 import { SidebarOptions } from "../components/sidebar-options";
 import { NavbarTabs } from "../components/navbar-tabs";
 import type { Message } from "../utils/types";
+import { LikedVideosContainer } from "../components/liked-videos-container";
 
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
   const [activeItem, setActiveItem] = useState<NavItemLabel>(
     NAV_ITEM_LABELS.SUBSCRIPTIONS,
   );
@@ -34,17 +36,37 @@ export default function App() {
         isOpen ? "translate-x-0" : "translate-x-[110%]"
       }`}
       style={{
-        width: "700px",
+        width: "750px",
         height: "100vh",
         zIndex: "2147483647",
+        fontFamily: "'Roboto', Arial, sans-serif",
         top: "0",
         right: "0",
       }}
     >
-      <SidebarOptions setIsOpen={setIsOpen} />
+      <SidebarOptions
+        setIsOpen={setIsOpen}
+        onRefresh={() => setRefreshKey((currentKey) => currentKey + 1)}
+      />
       <div className="flex flex-col">
         <SidebarHeader />
         <NavbarTabs setActiveItem={setActiveItem} activeItem={activeItem} />
+        <div
+          style={{
+            padding: "8px",
+          }}
+        >
+          <div
+            className={
+              activeItem === NAV_ITEM_LABELS.LIKED_VIDEOS ? "block" : "hidden"
+            }
+          >
+            <LikedVideosContainer
+              isSidebarOpen={isOpen}
+              refreshKey={refreshKey}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
