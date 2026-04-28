@@ -45,8 +45,15 @@ export const LikedVideosContainer = ({
     fetchLikedVideos();
   }, [isSidebarOpen, refreshKey]);
 
-  const filteredLikedVideos = likedVideos.filter((video) =>
-    video.title.toLowerCase().includes(searchQuery.trim().toLowerCase()),
+  const filteredLikedVideos = likedVideos.filter(
+    (video) =>
+      video.title.toLowerCase().includes(searchQuery.trim().toLowerCase()) ||
+      video.channelName
+        ?.toLowerCase()
+        .includes(searchQuery.trim().toLowerCase()) ||
+      video.channelHandle
+        ?.toLowerCase()
+        .includes(searchQuery.trim().toLowerCase()),
   );
 
   if (isLoading) {
