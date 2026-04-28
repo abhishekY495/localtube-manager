@@ -1,4 +1,4 @@
-import { RefreshCcwIcon, SquareArrowOutUpRightIcon, XIcon } from "lucide-react";
+import { RotateCwIcon, SquareArrowOutUpRightIcon, XIcon } from "lucide-react";
 import { ACTIONS } from "../utils/constants";
 
 export const SidebarOptions = ({
@@ -15,20 +15,12 @@ export const SidebarOptions = ({
         left: "-32px",
         top: "8px",
         gap: "12px",
-        padding: "6px",
-        paddingBlock: "10px",
-        paddingLeft: "8px",
-        paddingBottom: "12px",
-        borderTopLeftRadius: "8px",
-        borderBottomLeftRadius: "8px",
+        padding: "10px 6px 12px 8px",
+        borderTopLeftRadius: "10px",
+        borderBottomLeftRadius: "10px",
       }}
     >
       <div className="group relative inline-flex">
-        <XIcon
-          size={16}
-          className="cursor-pointer"
-          onClick={() => setIsOpen(false)}
-        />
         <span
           className="pointer-events-none absolute z-50 whitespace-nowrap rounded border border-neutral-600 bg-neutral-800 opacity-0 shadow transition-opacity delay-0 duration-200 group-hover:opacity-100 group-hover:delay-500"
           role="tooltip"
@@ -44,6 +36,11 @@ export const SidebarOptions = ({
         >
           Close
         </span>
+        <XIcon
+          size={16}
+          className="cursor-pointer"
+          onClick={() => setIsOpen(false)}
+        />
       </div>
       <div className="group relative inline-flex">
         <span
@@ -61,7 +58,7 @@ export const SidebarOptions = ({
         >
           Refresh
         </span>
-        <RefreshCcwIcon
+        <RotateCwIcon
           size={15}
           className="cursor-pointer"
           onClick={onRefresh}

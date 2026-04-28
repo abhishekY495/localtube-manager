@@ -48,10 +48,7 @@ export const NavbarTabs = ({
   }, []);
 
   return (
-    <nav
-      className="flex items-center justify-around border-b border-neutral-700"
-      style={{ gap: "8px", padding: "8px" }}
-    >
+    <nav className="flex items-center justify-around border-b border-neutral-700">
       {NAV_ITEMS.map((item) => (
         <div
           key={item.label}

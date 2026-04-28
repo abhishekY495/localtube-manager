@@ -11,7 +11,7 @@ import type { Message } from "../utils/types";
 import { LikedVideosContainer } from "../components/liked-videos/liked-videos-container";
 
 export default function App() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [refreshKey, setRefreshKey] = useState(0);
   const [activeItem, setActiveItem] = useState<NavItemLabel>(
     NAV_ITEM_LABELS.SUBSCRIPTIONS,
@@ -32,7 +32,7 @@ export default function App() {
 
   return (
     <div
-      className={`fixed bg-neutral-900 shadow-2xl shadow-neutral-900 text-white font-sans border-l border-neutral-700 transition-transform duration-300 ease-in-out ${
+      className={`fixed bg-neutral-900 shadow-2xl shadow-neutral-900 text-white font-sans border-x border-neutral-700 transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : "translate-x-[110%]"
       }`}
       style={{
