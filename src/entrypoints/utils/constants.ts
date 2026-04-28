@@ -88,6 +88,13 @@ export const SELECTORS = {
     "ytd-video-owner-renderer",
     "a",
   ],
+  CHANNEL_COLLABORATION_NAMES_FROM_VIDEO_PAGE_ELEMENTS: [
+    "#above-the-fold",
+    "#owner",
+    "ytd-video-owner-renderer",
+    "#upload-info",
+    "a"
+  ],
   VIDEO_DURATION_ELEMENTS: [".ytp-time-duration"],
 };
 

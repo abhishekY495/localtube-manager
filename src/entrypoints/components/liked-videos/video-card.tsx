@@ -57,16 +57,18 @@ export const VideoCard = ({
             >
               {video.title}
             </a>
-            {video.channelHandle && (
-              <div className="-space-y-1 mt-2">
+            <div className="-space-y-1 mt-2">
+              {video.channelName && (
                 <p className="text-neutral-400" style={{ fontSize: "13px" }}>
                   {video.channelName}
                 </p>
+              )}
+              {video.channelHandle && (
                 <p className="text-neutral-400" style={{ fontSize: "12px" }}>
                   @{video.channelHandle}
                 </p>
-              </div>
-            )}
+              )}
+            </div>
           </div>
           {/*  */}
           <button

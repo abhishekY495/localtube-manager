@@ -13,25 +13,22 @@ export const getChannelDataFromVideoPage = async (): Promise<{
   const channelHandleFromVideoPageElement = await findElementBySelectors(
     SELECTORS.CHANNEL_HANDLE_FROM_VIDEO_PAGE_ELEMENTS,
   );
+  //
+  const channelCollaborationNamesFromVideoPageElement =
+    await findElementBySelectors(
+      SELECTORS.CHANNEL_COLLABORATION_NAMES_FROM_VIDEO_PAGE_ELEMENTS,
+    );
 
-  if (channelNameFromVideoPageElement) {
-    channelName = channelNameFromVideoPageElement?.textContent?.trim();
-  }
-  if (channelHandleFromVideoPageElement) {
-    channelHandle = channelHandleFromVideoPageElement
-      ?.getAttribute("href")
-      ?.replace("/@", "");
-  }
+  channelName =
+    channelNameFromVideoPageElement?.textContent?.trim() ||
+    channelCollaborationNamesFromVideoPageElement?.textContent?.trim();
 
-  if (channelHandle && channelName) {
-    return {
-      channelHandle,
-      channelName,
-    };
-  }
+  channelHandle = channelHandleFromVideoPageElement
+    ?.getAttribute("href")
+    ?.replace("/@", "");
 
   return {
-    channelHandle: null,
-    channelName: null,
+    channelHandle: channelHandle ?? null,
+    channelName: channelName ?? null,
   };
 };
