@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Loading } from "../loading";
 import { Error } from "../error";
 import { VideoCard } from "./video-card";
+import { SearchBar } from "../search-bar";
 
 export const LikedVideosContainer = ({
   isSidebarOpen,
@@ -15,6 +16,7 @@ export const LikedVideosContainer = ({
   onRefresh: () => void;
 }) => {
   const [likedVideos, setLikedVideos] = useState<Video[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<boolean>(false);
 
@@ -42,6 +44,10 @@ export const LikedVideosContainer = ({
     };
     fetchLikedVideos();
   }, [isSidebarOpen, refreshKey]);
+
+  const filteredLikedVideos = likedVideos.filter((video) =>
+    video.title.toLowerCase().includes(searchQuery.trim().toLowerCase()),
+  );
 
   if (isLoading) {
     return <Loading />;
@@ -71,15 +77,27 @@ export const LikedVideosContainer = ({
           to like videos
         </p>
       ) : (
-        <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
-          {likedVideos.map((video) => (
-            <VideoCard
-              key={video.urlSlug}
-              video={video}
-              onRefresh={onRefresh}
-            />
-          ))}
-        </div>
+        <>
+          <SearchBar
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+          />
+          <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
+            {filteredLikedVideos.length === 0 ? (
+              <p className="mt-8 text-center text-neutral-400">
+                No liked videos found
+              </p>
+            ) : (
+              filteredLikedVideos.map((video) => (
+                <VideoCard
+                  key={video.urlSlug}
+                  video={video}
+                  onRefresh={onRefresh}
+                />
+              ))
+            )}
+          </div>
+        </>
       )}
     </div>
   );
