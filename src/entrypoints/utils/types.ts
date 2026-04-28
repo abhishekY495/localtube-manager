@@ -58,13 +58,21 @@ export type Message =
   | MessageWithoutData<typeof ACTIONS.GET_ALL_LIKED_VIDEOS>
   | MessageWithoutData<typeof ACTIONS.GET_COUNT>
   | MessageWithData<
-      typeof ACTIONS.CHECK_IF_VIDEO_IS_LIKED,
+      typeof ACTIONS.CHECK_IF_VIDEO_LIKED,
       CheckIfVideoIsLikedRequest
     >
   | MessageWithData<typeof ACTIONS.ADD_LIKED_VIDEO, AddLikedVideoRequest>
   | MessageWithData<
       typeof ACTIONS.DELETE_LIKED_VIDEO_BY_ID,
       RemoveLikedVideoRequest
+    >
+  | MessageWithData<
+      typeof ACTIONS.CHECK_IF_CHANNEL_SUBSCRIBED,
+      CheckIfChannelSubscribedRequest
+    >
+  | MessageWithData<
+      typeof ACTIONS.CHECK_IF_CHANNEL_SUBSCRIBED,
+      CheckIfChannelSubscribedRequest
     >;
 
 export type MessageAction = Message["action"];
@@ -86,9 +94,15 @@ export type CheckIfVideoLikedResponse = {
 export type AddLikedVideoRequest = {
   video: Video;
 };
-
 export type RemoveLikedVideoRequest = {
   videoId: string;
+};
+
+export type CheckIfChannelSubscribedRequest = {
+  channelHandle: string;
+};
+export type CheckIfChannelSubscribedResponse = {
+  isSubscribed: boolean;
 };
 
 export type CountResponse = {

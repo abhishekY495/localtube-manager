@@ -2,6 +2,10 @@ segmented-like-dislike-button-view-model {
   display: none !important;
 }
 
+#subscribe-button {
+  display: none !important;
+}
+
 #custom-ltm-like-btn {
   display: flex;
   align-items: center;

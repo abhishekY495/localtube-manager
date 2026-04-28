@@ -8,7 +8,7 @@ import type {
 export const checkIfVideoIsLiked = async (videoId: string) => {
   const response: Response<CheckIfVideoLikedResponse> =
     await browser.runtime.sendMessage({
-      action: ACTIONS.CHECK_IF_VIDEO_IS_LIKED,
+      action: ACTIONS.CHECK_IF_VIDEO_LIKED,
       data: { videoId },
     } satisfies Message);
 

@@ -1,12 +1,14 @@
 import { getCount } from "./indexedDb/get-count";
+import { getSubscribedChannelByHandle } from "./indexedDb/subscribed-channel";
 import {
   addLikedVideo,
   deleteLikedVideoById,
   getAllLikedVideos,
   getLikedVideoById,
-} from "./indexedDb/video";
+} from "./indexedDb/liked-video";
 import { ACTIONS } from "./utils/constants";
 import type {
+  CheckIfChannelSubscribedResponse,
   CheckIfVideoLikedResponse,
   CountResponse,
   Message,
@@ -49,7 +51,7 @@ export default defineBackground(() => {
         return true;
       }
 
-      if (message.action === ACTIONS.CHECK_IF_VIDEO_IS_LIKED) {
+      if (message.action === ACTIONS.CHECK_IF_VIDEO_LIKED) {
         const { videoId } = message.data;
         (async () => {
           try {
@@ -117,6 +119,26 @@ export default defineBackground(() => {
               success: false,
               error: "Failed to get count",
             } satisfies Response<CountResponse>);
+          }
+        })();
+        return true;
+      }
+
+      if (message.action === ACTIONS.CHECK_IF_CHANNEL_SUBSCRIBED) {
+        const { channelHandle } = message.data;
+        (async () => {
+          try {
+            const subscribedChannel =
+              await getSubscribedChannelByHandle(channelHandle);
+            sendResponse({
+              success: true,
+              data: { isSubscribed: !!subscribedChannel },
+            } satisfies Response<CheckIfChannelSubscribedResponse>);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to get subscribed channel by handle",
+            } satisfies Response<CheckIfChannelSubscribedResponse>);
           }
         })();
         return true;
