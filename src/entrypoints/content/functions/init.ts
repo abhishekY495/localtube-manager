@@ -1,3 +1,4 @@
+import { addCustomLikeButton } from "./video/add-custom-like-button";
 import { checkIfVideoIsLiked } from "./video/check-if-video-is-liked";
 
 export const Init = async () => {
@@ -7,6 +8,10 @@ export const Init = async () => {
   const videoId = params.get("v");
 
   if (videoId) {
-    checkIfVideoIsLiked(videoId);
+    const response = await checkIfVideoIsLiked(videoId);
+    if (response.success) {
+      const isLiked = response.data.isLiked;
+      await addCustomLikeButton({ videoId, isLiked });
+    }
   }
 };
