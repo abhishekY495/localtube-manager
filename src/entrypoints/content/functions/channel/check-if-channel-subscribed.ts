@@ -5,11 +5,11 @@ import type {
   Response,
 } from "@/entrypoints/utils/types";
 
-export const checkIfChannelSubscribed = async (channelHandle: string) => {
+export const checkIfChannelSubscribed = async (id: string) => {
   const response: Response<CheckIfChannelSubscribedResponse> =
     await browser.runtime.sendMessage({
       action: ACTIONS.CHECK_IF_CHANNEL_SUBSCRIBED,
-      data: { channelHandle },
+      data: { id },
     } satisfies Message);
   return response;
 };

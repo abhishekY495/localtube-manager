@@ -17,7 +17,7 @@ export const db = new Dexie("LocalTube-Manager-DB") as Dexie & {
 
 db.version(1).stores({
   likedVideos: "urlSlug",
-  subscribedChannels: "handle",
+  subscribedChannels: "id",
   youtubePlaylists: "urlSlug",
   localPlaylists: "name",
   subscriptions: "urlSlug",

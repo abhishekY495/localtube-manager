@@ -5,10 +5,10 @@ import { SELECTORS } from "@/entrypoints/utils/constants";
 import { findElementBySelectors } from "@/entrypoints/utils/find-element-by-selectors";
 
 export const addCustomSubscribeButtonVideoPage = async ({
-  channelHandle,
+  channelId,
   isSubscribed,
 }: {
-  channelHandle: string;
+  channelId: string;
   isSubscribed: boolean;
 }) => {
   const subscribeButtonElement = await findElementBySelectors(
@@ -22,7 +22,7 @@ export const addCustomSubscribeButtonVideoPage = async ({
     subscribeButtonElement.appendChild(customSubscribeButton);
 
     customSubscribeButton.addEventListener("click", async () => {
-      await customSubscribeButtonClickHandler({ channelHandle, isSubscribed });
+      await customSubscribeButtonClickHandler({ channelId, isSubscribed });
       isSubscribed = !isSubscribed;
     });
   }

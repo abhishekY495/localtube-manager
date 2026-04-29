@@ -17,7 +17,7 @@ export const ACTIONS = {
   CHECK_IF_CHANNEL_SUBSCRIBED: "check_if_channel_subscribed",
   GET_ALL_SUBSCRIBED_CHANNELS: "get_all_subscribed_channels",
   ADD_SUBSCRIBED_CHANNEL: "add_subscribed_channel",
-  DELETE_SUBSCRIBED_CHANNEL_BY_HANDLE: "delete_subscribed_channel_by_handle",
+  DELETE_SUBSCRIBED_CHANNEL_BY_ID: "delete_subscribed_channel_by_id",
 } as const;
 
 export const NAV_ITEM_LABELS = {
@@ -92,6 +92,13 @@ export const SELECTORS = {
     "#owner",
     "ytd-video-owner-renderer",
     "a",
+  ],
+  CHANNEL_ID_FROM_VIDEO_PAGE_ELEMENTS: [
+    "#above-the-fold",
+    "#bottom-row",
+    "#description-inner",
+    "#social-links",
+    `a[href*="/videos"]`
   ],
   CHANNEL_COLLABORATION_NAMES_FROM_VIDEO_PAGE_ELEMENTS: [
     "#above-the-fold",

@@ -11,6 +11,7 @@ export type Video = {
 };
 
 export type Channel = {
+  id: string | null;
   handle: string | null;
   name: string | null;
   image: string | null;
@@ -75,7 +76,7 @@ export type Message =
       AddSubscribedChannelRequest
     >
   | MessageWithData<
-      typeof ACTIONS.DELETE_SUBSCRIBED_CHANNEL_BY_HANDLE,
+      typeof ACTIONS.DELETE_SUBSCRIBED_CHANNEL_BY_ID,
       DeleteSubscribedChannelByHandleRequest
     >;
 
@@ -111,7 +112,7 @@ export type RemoveLikedVideoRequest = {
 };
 
 export type CheckIfChannelSubscribedRequest = {
-  channelHandle: string;
+  id: string;
 };
 export type CheckIfChannelSubscribedResponse = {
   isSubscribed: boolean;
@@ -121,5 +122,5 @@ export type AddSubscribedChannelRequest = {
   channel: Channel;
 };
 export type DeleteSubscribedChannelByHandleRequest = {
-  channelHandle: string;
+  id: string;
 };

@@ -8,12 +8,12 @@ import type { Message, Response } from "@/entrypoints/utils/types";
 import { getChannelDataFromVideoPage } from "../video/get-channel-data-from-video-page";
 
 type CustomSubscribeButtonClickHandlerProps = {
-  channelHandle: string;
+  channelId: string;
   isSubscribed: boolean;
 };
 
 export const customSubscribeButtonClickHandler = async ({
-  channelHandle,
+  channelId,
   isSubscribed,
 }: CustomSubscribeButtonClickHandlerProps) => {
   const chanelData = await getChannelDataFromVideoPage();
@@ -26,8 +26,8 @@ export const customSubscribeButtonClickHandler = async ({
 
   if (isSubscribed) {
     const response: Response = await browser.runtime.sendMessage({
-      action: ACTIONS.DELETE_SUBSCRIBED_CHANNEL_BY_HANDLE,
-      data: { channelHandle },
+      action: ACTIONS.DELETE_SUBSCRIBED_CHANNEL_BY_ID,
+      data: { id: channelId },
     } satisfies Message);
     if (response.success) {
       customSubscribeButton.textContent = "Subscribe";

@@ -1,9 +1,9 @@
 import { getCount } from "./indexedDb/get-count";
 import {
   addSubscribedChannel,
-  deleteSubscribedChannelByHandle,
+  deleteSubscribedChannelById,
   getAllSubscribedChannels,
-  getSubscribedChannelByHandle,
+  getSubscribedChannelById,
 } from "./indexedDb/subscribed-channel";
 import {
   addLikedVideo,
@@ -148,11 +148,10 @@ export default defineBackground(() => {
       }
 
       if (message.action === ACTIONS.CHECK_IF_CHANNEL_SUBSCRIBED) {
-        const { channelHandle } = message.data;
+        const { id } = message.data;
         (async () => {
           try {
-            const subscribedChannel =
-              await getSubscribedChannelByHandle(channelHandle);
+            const subscribedChannel = await getSubscribedChannelById(id);
             sendResponse({
               success: true,
               data: { isSubscribed: !!subscribedChannel },
@@ -185,11 +184,11 @@ export default defineBackground(() => {
         return true;
       }
 
-      if (message.action === ACTIONS.DELETE_SUBSCRIBED_CHANNEL_BY_HANDLE) {
-        const { channelHandle } = message.data;
+      if (message.action === ACTIONS.DELETE_SUBSCRIBED_CHANNEL_BY_ID) {
+        const { id } = message.data;
         (async () => {
           try {
-            await deleteSubscribedChannelByHandle(channelHandle);
+            await deleteSubscribedChannelById(id);
             sendResponse({
               success: true,
             } satisfies Response);

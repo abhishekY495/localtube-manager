@@ -6,8 +6,8 @@ export const getAllSubscribedChannels = async () => {
   return subscribedChannels;
 };
 
-export const getSubscribedChannelByHandle = async (channelHandle: string) => {
-  const subscribedChannel = await db.subscribedChannels.get(channelHandle);
+export const getSubscribedChannelById = async (id: string) => {
+  const subscribedChannel = await db.subscribedChannels.get(id);
   return subscribedChannel;
 };
 
@@ -15,8 +15,6 @@ export const addSubscribedChannel = async (channel: Channel) => {
   await db.subscribedChannels.add(channel);
 };
 
-export const deleteSubscribedChannelByHandle = async (
-  channelHandle: string,
-) => {
-  await db.subscribedChannels.delete(channelHandle);
+export const deleteSubscribedChannelById = async (id: string) => {
+  await db.subscribedChannels.delete(id);
 };
