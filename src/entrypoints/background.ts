@@ -185,10 +185,10 @@ export default defineBackground(() => {
       }
 
       if (message.action === ACTIONS.DELETE_SUBSCRIBED_CHANNEL_BY_ID) {
-        const { id } = message.data;
+        const { channelId } = message.data;
         (async () => {
           try {
-            await deleteSubscribedChannelById(id);
+            await deleteSubscribedChannelById(channelId);
             sendResponse({
               success: true,
             } satisfies Response);

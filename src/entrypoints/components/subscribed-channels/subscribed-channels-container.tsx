@@ -96,7 +96,11 @@ export const SubscribedChannelsContainer = ({
               </p>
             ) : (
               filteredSubscribedChannels.map((channel) => (
-                <ChannelCard key={channel.handle} channel={channel} />
+                <ChannelCard
+                  key={channel.handle}
+                  channel={channel}
+                  onRefresh={onRefresh}
+                />
               ))
             )}
           </div>

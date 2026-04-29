@@ -27,7 +27,7 @@ export const customSubscribeButtonClickHandler = async ({
   if (isSubscribed) {
     const response: Response = await browser.runtime.sendMessage({
       action: ACTIONS.DELETE_SUBSCRIBED_CHANNEL_BY_ID,
-      data: { id: channelId },
+      data: { channelId },
     } satisfies Message);
     if (response.success) {
       customSubscribeButton.textContent = "Subscribe";

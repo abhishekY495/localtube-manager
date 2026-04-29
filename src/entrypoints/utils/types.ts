@@ -122,5 +122,5 @@ export type AddSubscribedChannelRequest = {
   channel: Channel;
 };
 export type DeleteSubscribedChannelByHandleRequest = {
-  id: string;
+  channelId: string;
 };
