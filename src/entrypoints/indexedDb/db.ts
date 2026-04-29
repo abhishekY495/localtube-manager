@@ -1,5 +1,5 @@
 import Dexie, { type EntityTable } from "dexie";
-import {
+import type {
   Channel,
   LocalPlaylist,
   Subscriptions,

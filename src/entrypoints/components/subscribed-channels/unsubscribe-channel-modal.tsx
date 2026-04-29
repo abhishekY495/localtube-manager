@@ -1,5 +1,5 @@
 import { ACTIONS } from "@/entrypoints/utils/constants";
-import { Message } from "@/entrypoints/utils/types";
+import type { Message } from "@/entrypoints/utils/types";
 import toast from "react-hot-toast";
 
 export const UnsubscribeChannelModal = ({

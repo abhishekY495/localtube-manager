@@ -1,8 +1,8 @@
 import {
   ACTIONS,
   CUSTOM_LIKE_BUTTON_ICON_ID,
-  likeIcon,
-  likeIconFilled,
+  LIKE_ICON,
+  LIKE_ICON_FILLED,
 } from "@/entrypoints/utils/constants";
 import { getVideoDataObject } from "./get-video-data-object";
 import type { Message, Response } from "@/entrypoints/utils/types";
@@ -28,7 +28,7 @@ export const customLikeButtonClickHandler = async ({
       data: { videoId },
     } satisfies Message);
     if (response.success) {
-      customLikeButtonIcon.innerHTML = likeIcon;
+      customLikeButtonIcon.innerHTML = LIKE_ICON;
     } else {
       toast.error("Something went wrong,\n Refresh and try again");
     }
@@ -38,7 +38,7 @@ export const customLikeButtonClickHandler = async ({
       data: { video: videoData },
     } satisfies Message);
     if (response.success) {
-      customLikeButtonIcon.innerHTML = likeIconFilled;
+      customLikeButtonIcon.innerHTML = LIKE_ICON_FILLED;
     } else {
       toast.error("Something went wrong,\n Refresh and try again");
     }
