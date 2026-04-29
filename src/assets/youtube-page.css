@@ -1,3 +1,11 @@
+:root {
+  --font-family: Roboto, Arial, sans-serif;
+  --bg-primary: #ffffff1a;
+  --bg-primary-hover: #434343;
+  --bg-secondary: #ededed;
+  --bg-secondary-hover: #d5d5d5;
+}
+
 segmented-like-dislike-button-view-model {
   display: none !important;
 }
@@ -6,42 +14,42 @@ segmented-like-dislike-button-view-model {
   display: none !important;
 }
 
+#ltm-toast-root {
+  background-color: inherit;
+  font-size: medium;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--font-family);
+  z-index: 2147483647;
+}
+
 #custom-ltm-like-btn {
   display: flex;
   align-items: center;
   gap: 4px;
-  background: #ffffff1a;
+  background: var(--bg-primary);
   height: 100%;
   padding-inline: 14px;
   border-radius: 20px;
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
-  font-family: Roboto, Arial, sans-serif;
+  font-family: var(--font-family);
   font-size: 14px;
   font-weight: 500;
   margin-right: 10px;
 }
 
 #custom-ltm-like-btn:hover {
-  background: #434343;
-}
-
-#ltm-toast-root {
-  background-color: inherit;
-  font-size: medium;
-  font-size: 14px;
-  font-weight: 500;
-  font-family: Roboto, Arial, sans-serif;
-  z-index: 2147483647;
+  background: var(--bg-primary-hover);
 }
 
 #custom-ltm-subscribe-btn {
   display: flex;
   align-items: center;
-  background: #ededed;
+  background: var(--bg-secondary);
   color: black;
-  font-family: Roboto, Arial, sans-serif;
+  font-family: var(--font-family);
   font-size: 14px;
   font-weight: 500;
   padding: 10px 18px;
@@ -50,14 +58,14 @@ segmented-like-dislike-button-view-model {
 }
 
 #custom-ltm-subscribe-btn:hover {
-  background: #d5d5d5;
+  background: var(--bg-secondary-hover);
 }
 
 #custom-ltm-subscribed-btn {
   display: flex;
   align-items: center;
-  background: #ffffff1a;
-  font-family: Roboto, Arial, sans-serif;
+  background: var(--bg-primary);
+  font-family: var(--font-family);
   font-size: 14px;
   font-weight: 500;
   padding: 10px 18px;
@@ -66,5 +74,5 @@ segmented-like-dislike-button-view-model {
 }
 
 #custom-ltm-subscribed-btn:hover {
-  background: #434343;
+  background: var(--bg-primary-hover);
 }
