@@ -75,7 +75,7 @@ export const SubscribedChannelsContainer = ({
           >
             YouTube
           </a>{" "}
-          to subscribe to channels
+          to subscribe channels
         </p>
       ) : (
         <>
