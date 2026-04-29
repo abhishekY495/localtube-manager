@@ -89,7 +89,10 @@ export const LikedVideosContainer = ({
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
           />
-          <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
+          <div
+            className="min-h-0 flex flex-1 flex-col overflow-y-auto"
+            style={{ paddingBottom: "50px" }}
+          >
             {filteredLikedVideos.length === 0 ? (
               <p
                 className="mt-16 text-center text-neutral-400"

@@ -85,7 +85,7 @@ export const SubscribedChannelsContainer = ({
           />
           <div
             className="min-h-0 grid grid-cols-3 gap-8 overflow-y-auto"
-            style={{ padding: "18px 18px 50px 18px" }}
+            style={{ padding: "22px 22px 50px 22px" }}
           >
             {filteredSubscribedChannels.length === 0 ? (
               <p

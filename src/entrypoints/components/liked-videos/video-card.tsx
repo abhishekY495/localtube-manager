@@ -26,10 +26,10 @@ export const VideoCard = ({
           <img
             src={videoThumbnail}
             alt={video.title}
+            className="rounded-2xl"
             style={{
               width: "230px",
               height: "100%",
-              borderRadius: "4px",
             }}
           />
           <span
