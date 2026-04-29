@@ -7,14 +7,14 @@ export const getVideoDataObject = async (
   document: Document,
 ): Promise<Video> => {
   const videoTitle = document.title.replace(" - YouTube", "");
-  const { channelHandle, channelName } = await getChannelDataFromVideoPage();
+  const { handle, name } = await getChannelDataFromVideoPage();
   const duration = await getVideoDuration();
 
   return {
     title: videoTitle,
     urlSlug: videoId,
-    channelHandle,
-    channelName,
+    channelHandle: handle,
+    channelName: name,
     duration,
     addedAt: new Date().toISOString(),
     isShort: document.URL.includes("/shorts/"),
