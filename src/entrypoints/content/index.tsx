@@ -6,6 +6,10 @@ import { Toaster } from "react-hot-toast";
 import { LTM_TOAST_ROOT_ID } from "../utils/constants";
 import { Init } from "./functions/init";
 import { wait } from "../utils/wait";
+import {
+  clearExistingCustomLikedButton,
+  clearExistingCustomSubscribeButtons,
+} from "../utils/clear-existing-custom-buttons";
 
 export default defineContentScript({
   matches: ["<all_urls>"],
@@ -59,6 +63,8 @@ export default defineContentScript({
       await Init();
       window.addEventListener("yt-navigate-finish", async () => {
         await wait(1500);
+        clearExistingCustomLikedButton();
+        clearExistingCustomSubscribeButtons();
         await Init();
       });
     }

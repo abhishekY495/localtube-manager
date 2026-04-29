@@ -1,7 +1,5 @@
-import {
-  CUSTOM_LIKE_BUTTON_ID,
-  SELECTORS,
-} from "@/entrypoints/utils/constants";
+import { clearExistingCustomLikedButton } from "@/entrypoints/utils/clear-existing-custom-buttons";
+import { SELECTORS } from "@/entrypoints/utils/constants";
 import { findElementBySelectors } from "@/entrypoints/utils/find-element-by-selectors";
 import { createCustomLikeButton } from "@/entrypoints/utils/video/create-custom-like-button";
 import { customLikeButtonClickHandler } from "@/entrypoints/utils/video/custom-like-button-click-handler";
@@ -33,10 +31,7 @@ export const addCustomLikeButton = async ({
 
     const customLikeButton = createCustomLikeButton({ likeCount, isLiked });
 
-    // Remove existing custom like and then insert
-    document
-      .querySelectorAll(`#${CUSTOM_LIKE_BUTTON_ID}`)
-      .forEach((customLikeButton) => customLikeButton.remove());
+    clearExistingCustomLikedButton();
     likeButtonElement.insertBefore(
       customLikeButton,
       likeButtonElement.children[1],
