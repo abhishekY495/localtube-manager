@@ -4,13 +4,13 @@ import {
   deleteSubscribedChannelById,
   getAllSubscribedChannels,
   getSubscribedChannelById,
-} from "./indexedDb/subscribed-channel";
+} from "./indexedDb/subscribed-channels";
 import {
   addLikedVideo,
   deleteLikedVideoById,
   getAllLikedVideos,
   getLikedVideoById,
-} from "./indexedDb/liked-video";
+} from "./indexedDb/liked-videos";
 import { ACTIONS } from "./utils/constants";
 import type {
   Channel,
@@ -148,10 +148,10 @@ export default defineBackground(() => {
       }
 
       if (message.action === ACTIONS.CHECK_IF_CHANNEL_SUBSCRIBED) {
-        const { id } = message.data;
+        const { channelId } = message.data;
         (async () => {
           try {
-            const subscribedChannel = await getSubscribedChannelById(id);
+            const subscribedChannel = await getSubscribedChannelById(channelId);
             sendResponse({
               success: true,
               data: { isSubscribed: !!subscribedChannel },

@@ -112,7 +112,7 @@ export type RemoveLikedVideoRequest = {
 };
 
 export type CheckIfChannelSubscribedRequest = {
-  id: string;
+  channelId: string;
 };
 export type CheckIfChannelSubscribedResponse = {
   isSubscribed: boolean;
