@@ -60,6 +60,8 @@ export default defineContentScript({
       style.textContent = youtubePageStyles;
       document.documentElement.append(style);
 
+      clearExistingCustomLikedButton();
+      clearExistingCustomSubscribeButtonsFromVideoPage();
       await init();
       window.addEventListener("yt-navigate-finish", async () => {
         await wait(1500);

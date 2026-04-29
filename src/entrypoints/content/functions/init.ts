@@ -10,6 +10,7 @@ export const init = async () => {
   const params = new URLSearchParams(url.search);
   const videoId = params.get("v");
 
+  // videoId i.e we are on a video page
   if (videoId) {
     // check if video liked from video page
     const checkIfVideoLikedResponse = await checkIfVideoIsLiked(videoId);
@@ -18,9 +19,10 @@ export const init = async () => {
       await addCustomLikeButton({ videoId, isLiked });
     }
 
-    // check if channel subscribed from video page
+    // get channel data from video page
     const { id: channelId } = await getChannelDataFromVideoPage();
     if (channelId) {
+      // check if channel subscribed by id
       const checkIfChannelSubscribedResponse =
         await checkIfChannelSubscribed(channelId);
       if (checkIfChannelSubscribedResponse.success) {
