@@ -11,10 +11,9 @@ export type Video = {
 };
 
 export type Channel = {
-  handle: string;
-  id: string;
-  name: string;
-  image: string;
+  handle: string | null;
+  name: string | null;
+  image: string | null;
   addedAt: string;
 };
 
@@ -73,6 +72,14 @@ export type Message =
   | MessageWithData<
       typeof ACTIONS.CHECK_IF_CHANNEL_SUBSCRIBED,
       CheckIfChannelSubscribedRequest
+    >
+  | MessageWithData<
+      typeof ACTIONS.ADD_SUBSCRIBED_CHANNEL,
+      AddSubscribedChannelRequest
+    >
+  | MessageWithData<
+      typeof ACTIONS.DELETE_SUBSCRIBED_CHANNEL_BY_HANDLE,
+      DeleteSubscribedChannelByHandleRequest
     >;
 
 export type MessageAction = Message["action"];
@@ -83,6 +90,14 @@ export type Response<T = void> =
       success: false;
       error: string;
     };
+
+export type CountResponse = {
+  likedVideosCount: number;
+  subscribedChannelsCount: number;
+  youtubePlaylistsCount: number;
+  localPlaylistsCount: number;
+  subscriptionsCount: number;
+};
 
 export type CheckIfVideoIsLikedRequest = {
   videoId: string;
@@ -105,10 +120,9 @@ export type CheckIfChannelSubscribedResponse = {
   isSubscribed: boolean;
 };
 
-export type CountResponse = {
-  likedVideosCount: number;
-  subscribedChannelsCount: number;
-  youtubePlaylistsCount: number;
-  localPlaylistsCount: number;
-  subscriptionsCount: number;
+export type AddSubscribedChannelRequest = {
+  channel: Channel;
+};
+export type DeleteSubscribedChannelByHandleRequest = {
+  channelHandle: string;
 };

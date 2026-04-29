@@ -1,5 +1,9 @@
 import { getCount } from "./indexedDb/get-count";
-import { getSubscribedChannelByHandle } from "./indexedDb/subscribed-channel";
+import {
+  addSubscribedChannel,
+  deleteSubscribedChannelByHandle,
+  getSubscribedChannelByHandle,
+} from "./indexedDb/subscribed-channel";
 import {
   addLikedVideo,
   deleteLikedVideoById,
@@ -139,6 +143,42 @@ export default defineBackground(() => {
               success: false,
               error: "Failed to get subscribed channel by handle",
             } satisfies Response<CheckIfChannelSubscribedResponse>);
+          }
+        })();
+        return true;
+      }
+
+      if (message.action === ACTIONS.ADD_SUBSCRIBED_CHANNEL) {
+        const { channel } = message.data;
+        (async () => {
+          try {
+            await addSubscribedChannel(channel);
+            sendResponse({
+              success: true,
+            } satisfies Response);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to add subscribed channel",
+            } satisfies Response);
+          }
+        })();
+        return true;
+      }
+
+      if (message.action === ACTIONS.DELETE_SUBSCRIBED_CHANNEL_BY_HANDLE) {
+        const { channelHandle } = message.data;
+        (async () => {
+          try {
+            await deleteSubscribedChannelByHandle(channelHandle);
+            sendResponse({
+              success: true,
+            } satisfies Response);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to delete subscribed channel by handle",
+            } satisfies Response);
           }
         })();
         return true;

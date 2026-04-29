@@ -2,6 +2,7 @@ import { getChannelDataFromVideoPage } from "@/entrypoints/utils/video/get-chann
 import { checkIfChannelSubscribed } from "./channel/check-if-channel-subscribed";
 import { addCustomLikeButton } from "./video/add-custom-like-button";
 import { checkIfVideoIsLiked } from "./video/check-if-video-liked";
+import { addCustomSubscribeButtonVideoPage } from "./channel/add-custom-subscribe-button-video-page";
 
 export const Init = async () => {
   const url = new URL(window.location.href);
@@ -18,14 +19,17 @@ export const Init = async () => {
     }
 
     // check if channel subscribed from video page
-    const { channelHandle } = await getChannelDataFromVideoPage();
-    if (channelHandle) {
+    const { handle } = await getChannelDataFromVideoPage();
+    if (handle) {
       const checkIfChannelSubscribedResponse =
-        await checkIfChannelSubscribed(channelHandle);
+        await checkIfChannelSubscribed(handle);
+      if (checkIfChannelSubscribedResponse.success) {
+        const isSubscribed = checkIfChannelSubscribedResponse.data.isSubscribed;
+        await addCustomSubscribeButtonVideoPage({
+          channelHandle: handle,
+          isSubscribed,
+        });
+      }
     }
-    // if (checkIfChannelSubscribedResponse.success) {
-    //   const isSubscribed = checkIfChannelSubscribedResponse.data.isSubscribed;
-    //   await addCustomSubscribeButton({ isSubscribed });
-    // }
   }
 };

@@ -14,14 +14,12 @@ segmented-like-dislike-button-view-model {
   height: 100%;
   padding-inline: 14px;
   border-radius: 20px;
-  border-right: 1px solid #535353;
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
-  font-family: 'Roboto', Arial, sans-serif;
+  font-family: Roboto, Arial, sans-serif;
   font-size: 14px;
   font-weight: 500;
-  font-family: 'Roboto', Arial, sans-serif;
   margin-right: 10px;
 }
 
@@ -34,6 +32,39 @@ segmented-like-dislike-button-view-model {
   font-size: medium;
   font-size: 14px;
   font-weight: 500;
-  font-family: 'Roboto', Arial, sans-serif;
+  font-family: Roboto, Arial, sans-serif;
   z-index: 2147483647;
+}
+
+#custom-ltm-subscribe-btn {
+  display: flex;
+  align-items: center;
+  background: #ededed;
+  color: black;
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+#custom-ltm-subscribe-btn:hover {
+  background: #d5d5d5;
+}
+
+#custom-ltm-subscribed-btn {
+  display: flex;
+  align-items: center;
+  background: #ffffff1a;
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+#custom-ltm-subscribed-btn:hover {
+  background: #434343;
 }
