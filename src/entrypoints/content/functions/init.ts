@@ -19,14 +19,14 @@ export const init = async () => {
     }
 
     // check if channel subscribed from video page
-    const { id } = await getChannelDataFromVideoPage();
-    if (id) {
+    const { id: channelId } = await getChannelDataFromVideoPage();
+    if (channelId) {
       const checkIfChannelSubscribedResponse =
-        await checkIfChannelSubscribed(id);
+        await checkIfChannelSubscribed(channelId);
       if (checkIfChannelSubscribedResponse.success) {
         const isSubscribed = checkIfChannelSubscribedResponse.data.isSubscribed;
         await addCustomSubscribeButtonVideoPage({
-          channelId: id,
+          channelId,
           isSubscribed,
         });
       }
