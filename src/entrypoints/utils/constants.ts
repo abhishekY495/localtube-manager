@@ -93,12 +93,20 @@ export const SELECTORS = {
     "ytd-video-owner-renderer",
     "a",
   ],
-  CHANNEL_ID_FROM_VIDEO_PAGE_ELEMENTS: [
+  CHANNEL_ID_FROM_VIDEO_PAGE_ELEMENTS_1: [
+    "#above-the-fold",
+    "#owner",
+    "ytd-video-owner-renderer",
+    "#upload-info",
+    "#channel-name",
+    "a",
+  ],
+  CHANNEL_ID_FROM_VIDEO_PAGE_ELEMENTS_2: [
     "#above-the-fold",
     "#bottom-row",
     "#description-inner",
     "#social-links",
-    `a[href*="/videos"]`
+    `a[href*="/videos"]`,
   ],
   CHANNEL_COLLABORATION_NAMES_FROM_VIDEO_PAGE_ELEMENTS: [
     "#above-the-fold",
