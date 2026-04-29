@@ -38,7 +38,7 @@ export const ChannelCard = ({ channel }: { channel: Channel }) => {
         </p>
         <p
           title={channel.handle}
-          className="text-neutral-400 flex items-center gap-1"
+          className="text-neutral-400 flex items-center gap-0.5"
           style={{ fontSize: "12px", fontWeight: 500 }}
         >
           <p style={{ marginBottom: "1px" }}>@</p>
