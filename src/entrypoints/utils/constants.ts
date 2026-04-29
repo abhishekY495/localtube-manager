@@ -15,6 +15,7 @@ export const ACTIONS = {
   DELETE_LIKED_VIDEO_BY_ID: "delete_liked_video_by_id",
   GET_COUNT: "get_count",
   CHECK_IF_CHANNEL_SUBSCRIBED: "check_if_channel_subscribed",
+  GET_ALL_SUBSCRIBED_CHANNELS: "get_all_subscribed_channels",
   ADD_SUBSCRIBED_CHANNEL: "add_subscribed_channel",
   DELETE_SUBSCRIBED_CHANNEL_BY_HANDLE: "delete_subscribed_channel_by_handle",
 } as const;

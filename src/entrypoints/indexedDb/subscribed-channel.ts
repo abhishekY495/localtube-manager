@@ -1,4 +1,4 @@
-import { Channel } from "../utils/types";
+import type { Channel } from "../utils/types";
 import { db } from "./db";
 
 export const getAllSubscribedChannels = async () => {

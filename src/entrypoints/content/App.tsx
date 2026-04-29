@@ -9,6 +9,7 @@ import { SidebarOptions } from "../components/sidebar-options";
 import { NavbarTabs } from "../components/navbar-tabs";
 import type { Message } from "../utils/types";
 import { LikedVideosContainer } from "../components/liked-videos/liked-videos-container";
+import { SubscribedChannelsContainer } from "../components/subscribed-channels/subscribed-channels-container";
 
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -64,6 +65,19 @@ export default function App() {
             }
           >
             <LikedVideosContainer
+              isSidebarOpen={isOpen}
+              refreshKey={refreshKey}
+              onRefresh={() => setRefreshKey((currentKey) => currentKey + 1)}
+            />
+          </div>
+          <div
+            className={
+              activeItem === NAV_ITEM_LABELS.CHANNELS
+                ? "block h-full"
+                : "hidden"
+            }
+          >
+            <SubscribedChannelsContainer
               isSidebarOpen={isOpen}
               refreshKey={refreshKey}
               onRefresh={() => setRefreshKey((currentKey) => currentKey + 1)}

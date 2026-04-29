@@ -55,6 +55,7 @@ export type Message =
   | MessageWithoutData<typeof ACTIONS.TOGGLE_SIDEBAR>
   | MessageWithoutData<typeof ACTIONS.OPEN_DASHBOARD>
   | MessageWithoutData<typeof ACTIONS.GET_ALL_LIKED_VIDEOS>
+  | MessageWithoutData<typeof ACTIONS.GET_ALL_SUBSCRIBED_CHANNELS>
   | MessageWithoutData<typeof ACTIONS.GET_COUNT>
   | MessageWithData<
       typeof ACTIONS.CHECK_IF_VIDEO_LIKED,
@@ -64,10 +65,6 @@ export type Message =
   | MessageWithData<
       typeof ACTIONS.DELETE_LIKED_VIDEO_BY_ID,
       RemoveLikedVideoRequest
-    >
-  | MessageWithData<
-      typeof ACTIONS.CHECK_IF_CHANNEL_SUBSCRIBED,
-      CheckIfChannelSubscribedRequest
     >
   | MessageWithData<
       typeof ACTIONS.CHECK_IF_CHANNEL_SUBSCRIBED,

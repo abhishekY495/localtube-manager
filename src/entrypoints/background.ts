@@ -2,6 +2,7 @@ import { getCount } from "./indexedDb/get-count";
 import {
   addSubscribedChannel,
   deleteSubscribedChannelByHandle,
+  getAllSubscribedChannels,
   getSubscribedChannelByHandle,
 } from "./indexedDb/subscribed-channel";
 import {
@@ -12,6 +13,7 @@ import {
 } from "./indexedDb/liked-video";
 import { ACTIONS } from "./utils/constants";
 import type {
+  Channel,
   CheckIfChannelSubscribedResponse,
   CheckIfVideoLikedResponse,
   CountResponse,
@@ -50,6 +52,23 @@ export default defineBackground(() => {
               success: false,
               error: "Failed to get all liked videos",
             } satisfies Response<Video[]>);
+          }
+        })();
+        return true;
+      }
+      if (message.action === ACTIONS.GET_ALL_SUBSCRIBED_CHANNELS) {
+        (async () => {
+          try {
+            const subscribedChannels = await getAllSubscribedChannels();
+            sendResponse({
+              success: true,
+              data: subscribedChannels,
+            } satisfies Response<Channel[]>);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to get all subscribed channels",
+            } satisfies Response<Channel[]>);
           }
         })();
         return true;
