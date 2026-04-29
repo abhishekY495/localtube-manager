@@ -4,11 +4,11 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import { Toaster } from "react-hot-toast";
 import { LTM_TOAST_ROOT_ID } from "../utils/constants";
-import { Init } from "./functions/init";
+import { init } from "./functions/init";
 import { wait } from "../utils/wait";
 import {
   clearExistingCustomLikedButton,
-  clearExistingCustomSubscribeButtons,
+  clearExistingCustomSubscribeButtonsFromVideoPage,
 } from "../utils/clear-existing-custom-buttons";
 
 export default defineContentScript({
@@ -60,12 +60,12 @@ export default defineContentScript({
       style.textContent = youtubePageStyles;
       document.documentElement.append(style);
 
-      await Init();
+      await init();
       window.addEventListener("yt-navigate-finish", async () => {
         await wait(1500);
         clearExistingCustomLikedButton();
-        clearExistingCustomSubscribeButtons();
-        await Init();
+        clearExistingCustomSubscribeButtonsFromVideoPage();
+        await init();
       });
     }
   },

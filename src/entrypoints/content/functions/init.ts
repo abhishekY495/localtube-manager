@@ -4,7 +4,7 @@ import { addCustomLikeButton } from "./video/add-custom-like-button";
 import { checkIfVideoIsLiked } from "./video/check-if-video-liked";
 import { addCustomSubscribeButtonVideoPage } from "./channel/add-custom-subscribe-button-video-page";
 
-export const Init = async () => {
+export const init = async () => {
   const url = new URL(window.location.href);
 
   const params = new URLSearchParams(url.search);

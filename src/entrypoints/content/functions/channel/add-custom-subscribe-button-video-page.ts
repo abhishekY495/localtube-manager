@@ -1,6 +1,6 @@
 import { createCustomSubscribeButton } from "@/entrypoints/utils/channel/create-custom-subscribe-button";
 import { customSubscribeButtonClickHandler } from "@/entrypoints/utils/channel/custom-subscribe-button-click-handler";
-import { clearExistingCustomSubscribeButtons } from "@/entrypoints/utils/clear-existing-custom-buttons";
+import { clearExistingCustomSubscribeButtonsFromVideoPage } from "@/entrypoints/utils/clear-existing-custom-buttons";
 import { SELECTORS } from "@/entrypoints/utils/constants";
 import { findElementBySelectors } from "@/entrypoints/utils/find-element-by-selectors";
 
@@ -18,7 +18,7 @@ export const addCustomSubscribeButtonVideoPage = async ({
   if (subscribeButtonElement) {
     const customSubscribeButton = createCustomSubscribeButton({ isSubscribed });
 
-    clearExistingCustomSubscribeButtons();
+    clearExistingCustomSubscribeButtonsFromVideoPage();
     subscribeButtonElement.appendChild(customSubscribeButton);
 
     customSubscribeButton.addEventListener("click", async () => {
