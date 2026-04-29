@@ -3,7 +3,12 @@ import { findElementBySelectors } from "@/entrypoints/utils/find-element-by-sele
 import type { Channel } from "../types";
 
 export const getChannelDataFromVideoPage = async (): Promise<Channel> => {
-  let channelHandle, channelName, channelImage, channelId;
+  let channelHandle,
+    channelName,
+    channelImage,
+    channelId1,
+    channelId2,
+    finalChannelId;
 
   // name
   const channelNameFromVideoPageElement = await findElementBySelectors(
@@ -33,26 +38,31 @@ export const getChannelDataFromVideoPage = async (): Promise<Channel> => {
     (channelNameFromVideoPageElement?.textContent?.trim() ||
       channelCollaborationNamesFromVideoPageElement?.textContent?.trim()) ??
     null;
-  channelHandle =
-    channelHandleFromVideoPageElement
-      ?.getAttribute("href")
-      ?.replace("/@", "") ?? null;
-  channelId =
-    channelIdFromVideoPageElement1
-      ?.getAttribute("href")
-      ?.replace("/channel/", "") ||
-    channelIdFromVideoPageElement2
-      ?.getAttribute("href")
-      ?.replace("/channel/", "")
-      ?.replace("/videos", "") ||
-    null;
+  //
+  channelHandle = channelHandleFromVideoPageElement?.getAttribute("href");
+  if (channelHandle?.includes("@")) {
+    channelHandle = channelHandle?.replace("/@", "") ?? null;
+  } else {
+    channelHandle = channelHandle?.replace("/channel/", "") ?? null;
+  }
+  //
+  channelId1 = channelIdFromVideoPageElement1?.getAttribute("href");
+  channelId2 = channelIdFromVideoPageElement2?.getAttribute("href");
+  //
   channelImage =
     channelImageFromVideoPageElement
       ?.getAttribute("src")
       ?.replace("=s48", "=s175") ?? null;
 
+  if (channelId1?.includes("@")) {
+    finalChannelId =
+      channelId2?.replace("/channel/", "")?.replace("/videos", "") ?? null;
+  } else {
+    finalChannelId = channelId1?.replace("/channel/", "") ?? null;
+  }
+
   return {
-    id: channelId,
+    id: finalChannelId,
     handle: channelHandle,
     name: channelName,
     image: channelImage,

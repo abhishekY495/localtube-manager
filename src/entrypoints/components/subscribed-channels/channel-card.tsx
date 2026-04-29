@@ -1,11 +1,19 @@
 import type { Channel } from "@/entrypoints/utils/types";
 
 export const ChannelCard = ({ channel }: { channel: Channel }) => {
-  if (!channel.handle || !channel.image || !channel.name) {
+  if (!channel.id || !channel.handle || !channel.image || !channel.name) {
     return null;
   }
 
-  const channelUrl = `https://www.youtube.com/@${channel.handle}`;
+  let channelUrl, channelHandle;
+
+  if (channel.handle.includes("UC")) {
+    channelUrl = `https://www.youtube.com/channel/${channel.id}`;
+    channelHandle = channel.id;
+  } else {
+    channelUrl = `https://www.youtube.com/@${channel.handle}`;
+    channelHandle = `@${channel.handle}`;
+  }
 
   return (
     <a
@@ -37,12 +45,11 @@ export const ChannelCard = ({ channel }: { channel: Channel }) => {
           {channel.name}
         </p>
         <p
-          title={channel.handle}
-          className="text-neutral-400 flex items-center gap-0.5"
+          title={channelHandle}
+          className="text-neutral-400"
           style={{ fontSize: "12px", fontWeight: 500 }}
         >
-          <p style={{ marginBottom: "1px" }}>@</p>
-          {channel.handle}
+          {channelHandle}
         </p>
       </div>
       <button
