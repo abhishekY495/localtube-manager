@@ -23,7 +23,7 @@ segmented-like-dislike-button-view-model {
   z-index: 2147483647;
 }
 
-#custom-ltm-like-btn {
+#custom-ltm-like-button {
   display: flex;
   align-items: center;
   gap: 4px;
@@ -40,11 +40,11 @@ segmented-like-dislike-button-view-model {
   margin-right: 10px;
 }
 
-#custom-ltm-like-btn:hover {
+#custom-ltm-like-button:hover {
   background: var(--bg-primary-hover);
 }
 
-#custom-ltm-subscribe-btn {
+#custom-ltm-subscribe-button {
   display: flex;
   align-items: center;
   background: var(--bg-secondary);
@@ -57,11 +57,11 @@ segmented-like-dislike-button-view-model {
   cursor: pointer;
 }
 
-#custom-ltm-subscribe-btn:hover {
+#custom-ltm-subscribe-button:hover {
   background: var(--bg-secondary-hover);
 }
 
-#custom-ltm-subscribed-btn {
+#custom-ltm-subscribed-button {
   display: flex;
   align-items: center;
   background: var(--bg-primary);
@@ -73,6 +73,6 @@ segmented-like-dislike-button-view-model {
   cursor: pointer;
 }
 
-#custom-ltm-subscribed-btn:hover {
+#custom-ltm-subscribed-button:hover {
   background: var(--bg-primary-hover);
 }

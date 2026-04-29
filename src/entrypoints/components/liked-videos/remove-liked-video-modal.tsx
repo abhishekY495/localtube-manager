@@ -11,7 +11,7 @@ export const RemoveLikedVideoModal = ({
   videoId: string;
   onRefresh: () => void;
 }) => {
-  const removeBtnHandler = async () => {
+  const removeButtonHandler = async () => {
     const response = await browser.runtime.sendMessage({
       action: ACTIONS.DELETE_LIKED_VIDEO_BY_ID,
       data: { videoId },
@@ -80,7 +80,7 @@ export const RemoveLikedVideoModal = ({
               paddingInline: "14px",
               paddingBlock: "4px",
             }}
-            onClick={removeBtnHandler}
+            onClick={removeButtonHandler}
           >
             Remove
           </button>

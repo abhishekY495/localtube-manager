@@ -5,7 +5,7 @@ import {
   likeIconFilled,
 } from "@/entrypoints/utils/constants";
 
-export const customLikeBtn = ({
+export const createCustomLikeButton = ({
   likeCount,
   isLiked,
 }: {

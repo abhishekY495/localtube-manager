@@ -3,7 +3,7 @@ import {
   CUSTOM_SUBSCRIBED_BUTTON_ID,
 } from "../constants";
 
-export const customSubscribeBtn = ({
+export const createCustomSubscribeButton = ({
   isSubscribed,
 }: {
   isSubscribed: boolean;

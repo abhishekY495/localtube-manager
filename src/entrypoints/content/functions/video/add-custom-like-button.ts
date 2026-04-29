@@ -3,8 +3,8 @@ import {
   SELECTORS,
 } from "@/entrypoints/utils/constants";
 import { findElementBySelectors } from "@/entrypoints/utils/find-element-by-selectors";
-import { customLikeBtn } from "@/entrypoints/utils/video/custom-like-btn";
-import { customLikeBtnClickHandler } from "@/entrypoints/utils/video/custom-like-btn-click-handler";
+import { createCustomLikeButton } from "@/entrypoints/utils/video/create-custom-like-button";
+import { customLikeButtonClickHandler } from "@/entrypoints/utils/video/custom-like-button-click-handler";
 
 export const addCustomLikeButton = async ({
   videoId,
@@ -15,7 +15,7 @@ export const addCustomLikeButton = async ({
 }) => {
   let likeCount;
   const likeButtonElement = await findElementBySelectors(
-    SELECTORS.LIKE_BTN_ELEMENTS,
+    SELECTORS.LIKE_BUTTON_ELEMENTS,
   );
 
   if (likeButtonElement) {
@@ -31,7 +31,7 @@ export const addCustomLikeButton = async ({
       likeCount = likeCountElement2?.textContent ?? "0";
     }
 
-    const customLikeButton = customLikeBtn({ likeCount, isLiked });
+    const customLikeButton = createCustomLikeButton({ likeCount, isLiked });
 
     // Remove existing custom like and then insert
     document
@@ -43,7 +43,7 @@ export const addCustomLikeButton = async ({
     );
 
     customLikeButton.addEventListener("click", async () => {
-      await customLikeBtnClickHandler({ videoId, isLiked });
+      await customLikeButtonClickHandler({ videoId, isLiked });
       isLiked = !isLiked;
     });
   }

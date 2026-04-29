@@ -1,5 +1,5 @@
-import { customSubscribeBtn } from "@/entrypoints/utils/channel/custom-subscribe-btn";
-import { customSubscribeBtnClickHandler } from "@/entrypoints/utils/channel/custom-subscribe-btn-click-handler";
+import { createCustomSubscribeButton } from "@/entrypoints/utils/channel/create-custom-subscribe-button";
+import { customSubscribeButtonClickHandler } from "@/entrypoints/utils/channel/custom-subscribe-button-click-handler";
 import {
   CUSTOM_SUBSCRIBE_BUTTON_ID,
   CUSTOM_SUBSCRIBED_BUTTON_ID,
@@ -15,11 +15,11 @@ export const addCustomSubscribeButtonVideoPage = async ({
   isSubscribed: boolean;
 }) => {
   const subscribeButtonElement = await findElementBySelectors(
-    SELECTORS.SUBSCRIBE_BTN_FROM_VIDEO_PAGE_ELEMENTS,
+    SELECTORS.SUBSCRIBE_BUTTON_FROM_VIDEO_PAGE_ELEMENTS,
   );
 
   if (subscribeButtonElement) {
-    const customSubscribeButton = customSubscribeBtn({ isSubscribed });
+    const customSubscribeButton = createCustomSubscribeButton({ isSubscribed });
 
     // Remove existing custom subscribe and then insert
     document
@@ -31,7 +31,7 @@ export const addCustomSubscribeButtonVideoPage = async ({
     subscribeButtonElement.appendChild(customSubscribeButton);
 
     customSubscribeButton.addEventListener("click", async () => {
-      await customSubscribeBtnClickHandler({ channelHandle, isSubscribed });
+      await customSubscribeButtonClickHandler({ channelHandle, isSubscribed });
       isSubscribed = !isSubscribed;
     });
   }

@@ -7,15 +7,15 @@ import {
 import type { Message, Response } from "@/entrypoints/utils/types";
 import { getChannelDataFromVideoPage } from "../video/get-channel-data-from-video-page";
 
-type CustomSubscribeBtnClickHandlerProps = {
+type CustomSubscribeButtonClickHandlerProps = {
   channelHandle: string;
   isSubscribed: boolean;
 };
 
-export const customSubscribeBtnClickHandler = async ({
+export const customSubscribeButtonClickHandler = async ({
   channelHandle,
   isSubscribed,
-}: CustomSubscribeBtnClickHandlerProps) => {
+}: CustomSubscribeButtonClickHandlerProps) => {
   const chanelData = await getChannelDataFromVideoPage();
   const customSubscribeButton = document.getElementById(
     isSubscribed ? CUSTOM_SUBSCRIBED_BUTTON_ID : CUSTOM_SUBSCRIBE_BUTTON_ID,

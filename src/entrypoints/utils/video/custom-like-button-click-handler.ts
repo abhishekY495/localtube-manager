@@ -8,15 +8,15 @@ import { getVideoDataObject } from "./get-video-data-object";
 import type { Message, Response } from "@/entrypoints/utils/types";
 import toast from "react-hot-toast";
 
-type CustomLikeBtnClickHandlerProps = {
+type CustomLikeButtonClickHandlerProps = {
   videoId: string;
   isLiked: boolean;
 };
 
-export const customLikeBtnClickHandler = async ({
+export const customLikeButtonClickHandler = async ({
   videoId,
   isLiked,
-}: CustomLikeBtnClickHandlerProps) => {
+}: CustomLikeButtonClickHandlerProps) => {
   const videoData = await getVideoDataObject(videoId, document);
   const customLikeButtonIcon = document.getElementById(
     CUSTOM_LIKE_BUTTON_ICON_ID,
