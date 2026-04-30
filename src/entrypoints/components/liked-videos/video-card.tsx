@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Video } from "../../utils/types";
 import { RemoveLikedVideoModal } from "./remove-liked-video-modal";
+import { CHANNEL_ID_REGEX } from "@/entrypoints/utils/constants";
 
 export const VideoCard = ({
   video,
@@ -12,6 +13,9 @@ export const VideoCard = ({
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
   const videoUrl = `https://www.youtube.com/watch?v=${video.urlSlug}`;
   const videoThumbnail = `https://i.ytimg.com/vi/${video.urlSlug}/mqdefault.jpg`;
+  const videoChannelHandle = video?.channelHandle?.match(CHANNEL_ID_REGEX)?.[0]
+    ? ""
+    : `@${video.channelHandle}`;
 
   return (
     <>
@@ -65,11 +69,9 @@ export const VideoCard = ({
                   {video.channelName}
                 </p>
               )}
-              {video.channelHandle && (
-                <p className="text-neutral-400" style={{ fontSize: "12px" }}>
-                  @{video.channelHandle}
-                </p>
-              )}
+              <p className="text-neutral-400" style={{ fontSize: "12px" }}>
+                {videoChannelHandle}
+              </p>
             </div>
           </div>
           {/*  */}
