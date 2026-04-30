@@ -10,7 +10,7 @@ export const clearExistingCustomLikedButton = () => {
     .forEach((customLikeButton) => customLikeButton.remove());
 };
 
-export const clearExistingCustomSubscribeButtonsFromVideoPage = () => {
+export const clearExistingCustomSubscribeButtons = () => {
   document
     .querySelectorAll(`#${CUSTOM_SUBSCRIBE_BUTTON_ID}`)
     .forEach((customSubscribeButton) => customSubscribeButton.remove());

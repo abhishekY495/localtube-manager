@@ -8,7 +8,7 @@ import { init } from "./functions/init";
 import { wait } from "../utils/wait";
 import {
   clearExistingCustomLikedButton,
-  clearExistingCustomSubscribeButtonsFromVideoPage,
+  clearExistingCustomSubscribeButtons,
 } from "../utils/clear-existing-custom-buttons";
 
 export default defineContentScript({
@@ -61,12 +61,12 @@ export default defineContentScript({
       document.documentElement.append(style);
 
       clearExistingCustomLikedButton();
-      clearExistingCustomSubscribeButtonsFromVideoPage();
+      clearExistingCustomSubscribeButtons();
       await init();
       window.addEventListener("yt-navigate-finish", async () => {
         await wait(1500);
         clearExistingCustomLikedButton();
-        clearExistingCustomSubscribeButtonsFromVideoPage();
+        clearExistingCustomSubscribeButtons();
         await init();
       });
     }
