@@ -4,7 +4,7 @@ import {
   LIKE_ICON,
   LIKE_ICON_FILLED,
 } from "@/entrypoints/utils/constants";
-import { getVideoDataObject } from "./get-video-data-object";
+import { getVideoData } from "./get-video-data";
 import type { Message, Response } from "@/entrypoints/utils/types";
 import toast from "react-hot-toast";
 
@@ -17,7 +17,7 @@ export const customLikeButtonClickHandler = async ({
   videoId,
   isLiked,
 }: CustomLikeButtonClickHandlerProps) => {
-  const videoData = await getVideoDataObject(videoId, document);
+  const videoData = await getVideoData(videoId, document);
   const customLikeButtonIcon = document.getElementById(
     CUSTOM_LIKE_BUTTON_ICON_ID,
   ) as HTMLSpanElement;

@@ -2,7 +2,7 @@ import type { Video } from "@/entrypoints/utils/types";
 import { getChannelDataFromVideoPage } from "./get-channel-data-from-video-page";
 import { getVideoDuration } from "./get-video-duration";
 
-export const getVideoDataObject = async (
+export const getVideoData = async (
   videoId: string,
   document: Document,
 ): Promise<Video> => {
