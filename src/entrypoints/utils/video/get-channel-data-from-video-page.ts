@@ -52,7 +52,7 @@ export const getChannelDataFromVideoPage = async (): Promise<Channel> => {
   channelImage =
     channelImageFromVideoPageElement
       ?.getAttribute("src")
-      ?.replace("=s48", "=s175") ?? null;
+      ?.replace("=s48", "=s160") ?? null;
 
   if (channelId1?.includes("@")) {
     finalChannelId =
