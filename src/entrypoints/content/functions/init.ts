@@ -3,6 +3,9 @@ import { checkIfChannelSubscribed } from "./channel/check-if-channel-subscribed"
 import { addCustomLikeButton } from "./video/add-custom-like-button";
 import { checkIfVideoIsLiked } from "./video/check-if-video-liked";
 import { addCustomSubscribeButtonVideoPage } from "./channel/add-custom-subscribe-button-video-page";
+import { CHANNEL_URL_REGEX } from "@/entrypoints/utils/constants";
+import { fetchChannelIdFromUrl } from "@/entrypoints/utils/fetch-channel-id-from-url";
+import { addCustomSubscribeButtonChannelPage } from "./channel/add-custom-subscribe-button-channel-page";
 
 export const init = async () => {
   const url = new URL(window.location.href);
@@ -21,8 +24,9 @@ export const init = async () => {
 
     // get channel data from video page
     const { id: channelId } = await getChannelDataFromVideoPage();
+
+    // check if channel subscribed by id
     if (channelId) {
-      // check if channel subscribed by id
       const checkIfChannelSubscribedResponse =
         await checkIfChannelSubscribed(channelId);
       if (checkIfChannelSubscribedResponse.success) {
@@ -35,5 +39,21 @@ export const init = async () => {
     }
   }
 
-  
+  // check if url is a channel page using regex
+  const match = url.href.match(CHANNEL_URL_REGEX);
+  if (match) {
+    const channelId = await fetchChannelIdFromUrl(url.href);
+    // check if channel subscribed by id
+    if (channelId) {
+      const checkIfChannelSubscribedResponse =
+        await checkIfChannelSubscribed(channelId);
+      if (checkIfChannelSubscribedResponse.success) {
+        const isSubscribed = checkIfChannelSubscribedResponse.data.isSubscribed;
+        await addCustomSubscribeButtonChannelPage({
+          channelId,
+          isSubscribed,
+        });
+      }
+    }
+  }
 };

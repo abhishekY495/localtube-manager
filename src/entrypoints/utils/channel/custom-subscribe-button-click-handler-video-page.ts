@@ -7,22 +7,19 @@ import {
 import type { Message, Response } from "@/entrypoints/utils/types";
 import { getChannelDataFromVideoPage } from "../video/get-channel-data-from-video-page";
 
-type CustomSubscribeButtonClickHandlerProps = {
+type CustomSubscribeButtonClickHandlerVideoPageProps = {
   channelId: string;
   isSubscribed: boolean;
 };
 
-export const customSubscribeButtonClickHandler = async ({
+export const customSubscribeButtonClickHandlerVideoPage = async ({
   channelId,
   isSubscribed,
-}: CustomSubscribeButtonClickHandlerProps) => {
-  const chanelData = await getChannelDataFromVideoPage();
+}: CustomSubscribeButtonClickHandlerVideoPageProps) => {
+  const channelData = await getChannelDataFromVideoPage();
   const customSubscribeButton = document.getElementById(
     isSubscribed ? CUSTOM_SUBSCRIBED_BUTTON_ID : CUSTOM_SUBSCRIBE_BUTTON_ID,
   ) as HTMLDivElement;
-  customSubscribeButton.id = isSubscribed
-    ? CUSTOM_SUBSCRIBE_BUTTON_ID
-    : CUSTOM_SUBSCRIBED_BUTTON_ID;
 
   if (isSubscribed) {
     const response: Response = await browser.runtime.sendMessage({
@@ -31,16 +28,18 @@ export const customSubscribeButtonClickHandler = async ({
     } satisfies Message);
     if (response.success) {
       customSubscribeButton.textContent = "Subscribe";
+      customSubscribeButton.id = CUSTOM_SUBSCRIBE_BUTTON_ID;
     } else {
       toast.error("Something went wrong,\n Refresh and try again");
     }
   } else {
     const response: Response = await browser.runtime.sendMessage({
       action: ACTIONS.ADD_SUBSCRIBED_CHANNEL,
-      data: { channel: chanelData },
+      data: { channel: channelData },
     } satisfies Message);
     if (response.success) {
       customSubscribeButton.textContent = "Subscribed";
+      customSubscribeButton.id = CUSTOM_SUBSCRIBED_BUTTON_ID;
     } else {
       toast.error("Something went wrong,\n Refresh and try again");
     }

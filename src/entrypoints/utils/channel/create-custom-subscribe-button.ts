@@ -5,8 +5,10 @@ import {
 
 export const createCustomSubscribeButton = ({
   isSubscribed,
+  isChannelPage = false,
 }: {
   isSubscribed: boolean;
+  isChannelPage?: boolean;
 }) => {
   const customSubscribeButton = document.createElement("div");
   customSubscribeButton.id = isSubscribed
