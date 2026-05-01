@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { ACTIONS } from "@/entrypoints/utils/constants";
 import type {
-  LocalPlaylistWithCount,
+  LocalPlaylist,
   Message,
   Response,
 } from "@/entrypoints/utils/types";
@@ -15,13 +15,13 @@ export const AddToLocalPlaylistModal = ({
   onClose: () => void;
   setShowCreatePlaylistModal: (show: boolean) => void;
 }) => {
-  const [playlists, setPlaylists] = useState<LocalPlaylistWithCount[]>([]);
+  const [playlists, setPlaylists] = useState<LocalPlaylist[]>([]);
 
   useEffect(() => {
     const getLocalPlaylists = async () => {
-      const response: Response<LocalPlaylistWithCount[]> =
+      const response: Response<LocalPlaylist[]> =
         await browser.runtime.sendMessage({
-          action: ACTIONS.GET_ALL_LOCAL_PLAYLISTS_WITH_COUNT,
+          action: ACTIONS.GET_ALL_LOCAL_PLAYLISTS,
         } satisfies Message);
       if (!response.success) {
         toast.error("Something went wrong,\n Refresh and try again");
@@ -83,8 +83,8 @@ export const AddToLocalPlaylistModal = ({
                     {playlist.name}
                   </span>
                   <span className="text-[13px] text-zinc-400">
-                    {playlist.videoCount} video
-                    {playlist.videoCount === 1 ? "" : "s"}
+                    {playlist.videos.length} video
+                    {playlist.videos.length === 1 ? "" : "s"}
                   </span>
                 </button>
               ))}

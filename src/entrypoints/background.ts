@@ -19,7 +19,6 @@ import type {
   CheckIfYoutubePlaylistIsSavedResponse,
   CountResponse,
   LocalPlaylist,
-  LocalPlaylistWithCount,
   Message,
   Response,
   Video,
@@ -34,7 +33,6 @@ import {
 import {
   addLocalPlaylist,
   getAllLocalPlaylists,
-  getAllLocalPlaylistsWithCount,
 } from "./indexedDb/local-playlists";
 import Dexie from "dexie";
 
@@ -139,23 +137,6 @@ export default defineBackground(() => {
               success: false,
               error: "Failed to get all local playlists",
             } satisfies Response<LocalPlaylist[]>);
-          }
-        })();
-        return true;
-      }
-      if (message.action === ACTIONS.GET_ALL_LOCAL_PLAYLISTS_WITH_COUNT) {
-        (async () => {
-          try {
-            const localPlaylists = await getAllLocalPlaylistsWithCount();
-            sendResponse({
-              success: true,
-              data: localPlaylists,
-            } satisfies Response<LocalPlaylistWithCount[]>);
-          } catch (error) {
-            sendResponse({
-              success: false,
-              error: "Failed to get all local playlists with count",
-            } satisfies Response<LocalPlaylistWithCount[]>);
           }
         })();
         return true;

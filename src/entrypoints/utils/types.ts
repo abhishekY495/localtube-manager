@@ -59,7 +59,6 @@ export type Message =
   | MessageWithoutData<typeof ACTIONS.GET_ALL_SUBSCRIBED_CHANNELS>
   | MessageWithoutData<typeof ACTIONS.GET_ALL_YOUTUBE_PLAYLISTS>
   | MessageWithoutData<typeof ACTIONS.GET_ALL_LOCAL_PLAYLISTS>
-  | MessageWithoutData<typeof ACTIONS.GET_ALL_LOCAL_PLAYLISTS_WITH_COUNT>
   | MessageWithoutData<typeof ACTIONS.GET_COUNT>
   | MessageWithData<
       typeof ACTIONS.CHECK_IF_VIDEO_LIKED,
@@ -156,12 +155,6 @@ export type AddLocalPlaylistRequest = {
 };
 export type DeleteYoutubePlaylistByIdRequest = {
   playlistId: string;
-};
-
-export type LocalPlaylistWithCount = {
-  name: string;
-  addedAt: string;
-  videoCount: number;
 };
 
 export type ActiveTab = "youtube" | "local";

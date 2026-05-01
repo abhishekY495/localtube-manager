@@ -19,7 +19,6 @@ export const ACTIONS = {
   GET_ALL_SUBSCRIBED_CHANNELS: "get_all_subscribed_channels",
   GET_ALL_YOUTUBE_PLAYLISTS: "get_all_youtube_playlists",
   GET_ALL_LOCAL_PLAYLISTS: "get_all_local_playlists",
-  GET_ALL_LOCAL_PLAYLISTS_WITH_COUNT: "get_all_local_playlists_with_count",
   //
   ADD_LIKED_VIDEO: "add_liked_video",
   ADD_SUBSCRIBED_CHANNEL: "add_subscribed_channel",
