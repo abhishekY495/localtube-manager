@@ -6,12 +6,15 @@ import { addCustomSubscribeButtonVideoPage } from "./channel/add-custom-subscrib
 import { CHANNEL_URL_REGEX } from "@/entrypoints/utils/constants";
 import { fetchChannelIdFromUrl } from "@/entrypoints/utils/fetch-channel-id-from-url";
 import { addCustomSubscribeButtonChannelPage } from "./channel/add-custom-subscribe-button-channel-page";
+import { checkIfYoutubePlaylistIsSaved } from "./youtube-playlist/check-if-youtube-playlist-is-saved";
+import { addCustomSavePlaylistButton } from "./youtube-playlist/add-custom-save-playlist-button";
 
 export const init = async () => {
   const url = new URL(window.location.href);
 
   const params = new URLSearchParams(url.search);
   const videoId = params.get("v");
+  const listId = params.get("list");
 
   // videoId i.e we are on a video page
   if (videoId) {
@@ -54,6 +57,17 @@ export const init = async () => {
           isSubscribed,
         });
       }
+    }
+  }
+
+  // listId i.e we are on a playlist page
+  if (listId) {
+    // check if playlist saved by id
+    const checkIfPlaylistSavedResponse =
+      await checkIfYoutubePlaylistIsSaved(listId);
+    if (checkIfPlaylistSavedResponse.success) {
+      const isSaved = checkIfPlaylistSavedResponse.data.isSaved;
+      await addCustomSavePlaylistButton({ listId, isSaved });
     }
   }
 };

@@ -4,6 +4,9 @@
   --bg-primary-hover: #434343;
   --bg-secondary: #ededed;
   --bg-secondary-hover: #d5d5d5;
+  /*  */
+  --playlist-button-bg: #ffffff;
+  --playlist-button-bg-hover: #e6e6e6;
 }
 
 segmented-like-dislike-button-view-model {
@@ -15,6 +18,10 @@ segmented-like-dislike-button-view-model {
 }
 
 #wrapper #contentContainer #page-header button[aria-label="Subscribe"] {
+  display: none !important;
+}
+
+#page-manager ytd-browse[page-subtype='playlist'] yt-page-header-renderer.page-header-sidebar .ytPageHeaderViewModelContent yt-flexible-actions-view-model {
   display: none !important;
 }
 
@@ -84,4 +91,28 @@ segmented-like-dislike-button-view-model {
 
 #custom-ltm-subscribed-button:hover {
   background: var(--bg-primary-hover);
+}
+
+/*  */
+
+#custom-ltm-save-playlist-button {
+  display: flex;
+  gap: 3px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 12px;
+  background: var(--playlist-button-bg);
+  border-radius: 25px;
+  padding: 4px 5px 5px 5px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+#custom-ltm-save-playlist-button:hover {
+  background: var(--playlist-button-bg-hover);
+}
+
+#custom-ltm-save-playlist-button-icon {
+  margin-top: 4px;
 }

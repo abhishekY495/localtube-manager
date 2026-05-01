@@ -30,8 +30,8 @@ export type Subscriptions = {
 
 export type YoutubePlaylist = {
   name: string;
-  channelName: string;
-  coverImageUrlSlug: string;
+  channelName: string | null;
+  coverImageUrlSlug: string | null;
   urlSlug: string;
   videosCount: number;
   addedAt: string;
@@ -78,6 +78,18 @@ export type Message =
   | MessageWithData<
       typeof ACTIONS.DELETE_SUBSCRIBED_CHANNEL_BY_ID,
       DeleteSubscribedChannelByHandleRequest
+    >
+  | MessageWithData<
+      typeof ACTIONS.CHECK_IF_YOUTUBE_PLAYLIST_IS_SAVED,
+      CheckIfYoutubePlaylistIsSavedRequest
+    >
+  | MessageWithData<
+      typeof ACTIONS.ADD_YOUTUBE_PLAYLIST,
+      AddYoutubePlaylistRequest
+    >
+  | MessageWithData<
+      typeof ACTIONS.DELETE_YOUTUBE_PLAYLIST_BY_ID,
+      DeleteYoutubePlaylistByIdRequest
     >;
 
 export type MessageAction = Message["action"];
@@ -123,4 +135,18 @@ export type AddSubscribedChannelRequest = {
 };
 export type DeleteSubscribedChannelByHandleRequest = {
   channelId: string;
+};
+
+export type CheckIfYoutubePlaylistIsSavedRequest = {
+  listId: string;
+};
+export type CheckIfYoutubePlaylistIsSavedResponse = {
+  isSaved: boolean;
+};
+
+export type AddYoutubePlaylistRequest = {
+  playlist: YoutubePlaylist;
+};
+export type DeleteYoutubePlaylistByIdRequest = {
+  playlistId: string;
 };

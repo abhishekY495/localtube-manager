@@ -16,11 +16,17 @@ import type {
   Channel,
   CheckIfChannelSubscribedResponse,
   CheckIfVideoLikedResponse,
+  CheckIfYoutubePlaylistIsSavedResponse,
   CountResponse,
   Message,
   Response,
   Video,
 } from "./utils/types";
+import {
+  addYoutubePlaylist,
+  deleteYoutubePlaylistById,
+  getYoutubePlaylistById,
+} from "./indexedDb/youtube-playlist";
 
 export default defineBackground(() => {
   const action = browser.action || (browser as any).browserAction;
@@ -196,6 +202,61 @@ export default defineBackground(() => {
             sendResponse({
               success: false,
               error: "Failed to delete subscribed channel by handle",
+            } satisfies Response);
+          }
+        })();
+        return true;
+      }
+
+      if (message.action === ACTIONS.CHECK_IF_YOUTUBE_PLAYLIST_IS_SAVED) {
+        const { listId } = message.data;
+        (async () => {
+          try {
+            const playlist = await getYoutubePlaylistById(listId);
+            sendResponse({
+              success: true,
+              data: { isSaved: !!playlist },
+            } satisfies Response<CheckIfYoutubePlaylistIsSavedResponse>);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to get youtube playlist by id",
+            } satisfies Response<CheckIfYoutubePlaylistIsSavedResponse>);
+          }
+        })();
+        return true;
+      }
+
+      if (message.action === ACTIONS.ADD_YOUTUBE_PLAYLIST) {
+        const { playlist } = message.data;
+        (async () => {
+          try {
+            await addYoutubePlaylist(playlist);
+            sendResponse({
+              success: true,
+            } satisfies Response);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to add youtube playlist",
+            } satisfies Response);
+          }
+        })();
+        return true;
+      }
+
+      if (message.action === ACTIONS.DELETE_YOUTUBE_PLAYLIST_BY_ID) {
+        const { playlistId } = message.data;
+        (async () => {
+          try {
+            await deleteYoutubePlaylistById(playlistId);
+            sendResponse({
+              success: true,
+            } satisfies Response);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to delete youtube playlist by id",
             } satisfies Response);
           }
         })();
