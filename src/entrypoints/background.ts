@@ -45,6 +45,26 @@ export default defineBackground(() => {
         });
       }
 
+      // get count
+      if (message.action === ACTIONS.GET_COUNT) {
+        (async () => {
+          try {
+            const count = await getCount();
+            sendResponse({
+              success: true,
+              data: count,
+            } satisfies Response<CountResponse>);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to get count",
+            } satisfies Response<CountResponse>);
+          }
+        })();
+        return true;
+      }
+
+      // get all
       if (message.action === ACTIONS.GET_ALL_LIKED_VIDEOS) {
         (async () => {
           try {
@@ -80,6 +100,7 @@ export default defineBackground(() => {
         return true;
       }
 
+      // check if
       if (message.action === ACTIONS.CHECK_IF_VIDEO_LIKED) {
         const { videoId } = message.data;
         (async () => {
@@ -98,61 +119,6 @@ export default defineBackground(() => {
         })();
         return true;
       }
-
-      if (message.action === ACTIONS.ADD_LIKED_VIDEO) {
-        const { video } = message.data;
-        (async () => {
-          try {
-            await addLikedVideo(video);
-            sendResponse({
-              success: true,
-            } satisfies Response);
-          } catch (error) {
-            sendResponse({
-              success: false,
-              error: "Failed to add video to liked videos",
-            } satisfies Response);
-          }
-        })();
-        return true;
-      }
-
-      if (message.action === ACTIONS.DELETE_LIKED_VIDEO_BY_ID) {
-        const { videoId } = message.data;
-        (async () => {
-          try {
-            await deleteLikedVideoById(videoId);
-            sendResponse({
-              success: true,
-            } satisfies Response);
-          } catch (error) {
-            sendResponse({
-              success: false,
-              error: "Failed to remove video from liked videos",
-            } satisfies Response);
-          }
-        })();
-        return true;
-      }
-
-      if (message.action === ACTIONS.GET_COUNT) {
-        (async () => {
-          try {
-            const count = await getCount();
-            sendResponse({
-              success: true,
-              data: count,
-            } satisfies Response<CountResponse>);
-          } catch (error) {
-            sendResponse({
-              success: false,
-              error: "Failed to get count",
-            } satisfies Response<CountResponse>);
-          }
-        })();
-        return true;
-      }
-
       if (message.action === ACTIONS.CHECK_IF_CHANNEL_SUBSCRIBED) {
         const { channelId } = message.data;
         (async () => {
@@ -171,43 +137,6 @@ export default defineBackground(() => {
         })();
         return true;
       }
-
-      if (message.action === ACTIONS.ADD_SUBSCRIBED_CHANNEL) {
-        const { channel } = message.data;
-        (async () => {
-          try {
-            await addSubscribedChannel(channel);
-            sendResponse({
-              success: true,
-            } satisfies Response);
-          } catch (error) {
-            sendResponse({
-              success: false,
-              error: "Failed to add subscribed channel",
-            } satisfies Response);
-          }
-        })();
-        return true;
-      }
-
-      if (message.action === ACTIONS.DELETE_SUBSCRIBED_CHANNEL_BY_ID) {
-        const { channelId } = message.data;
-        (async () => {
-          try {
-            await deleteSubscribedChannelById(channelId);
-            sendResponse({
-              success: true,
-            } satisfies Response);
-          } catch (error) {
-            sendResponse({
-              success: false,
-              error: "Failed to delete subscribed channel by handle",
-            } satisfies Response);
-          }
-        })();
-        return true;
-      }
-
       if (message.action === ACTIONS.CHECK_IF_YOUTUBE_PLAYLIST_IS_SAVED) {
         const { listId } = message.data;
         (async () => {
@@ -227,6 +156,41 @@ export default defineBackground(() => {
         return true;
       }
 
+      // add
+      if (message.action === ACTIONS.ADD_LIKED_VIDEO) {
+        const { video } = message.data;
+        (async () => {
+          try {
+            await addLikedVideo(video);
+            sendResponse({
+              success: true,
+            } satisfies Response);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to add video to liked videos",
+            } satisfies Response);
+          }
+        })();
+        return true;
+      }
+      if (message.action === ACTIONS.ADD_SUBSCRIBED_CHANNEL) {
+        const { channel } = message.data;
+        (async () => {
+          try {
+            await addSubscribedChannel(channel);
+            sendResponse({
+              success: true,
+            } satisfies Response);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to add subscribed channel",
+            } satisfies Response);
+          }
+        })();
+        return true;
+      }
       if (message.action === ACTIONS.ADD_YOUTUBE_PLAYLIST) {
         const { playlist } = message.data;
         (async () => {
@@ -245,6 +209,41 @@ export default defineBackground(() => {
         return true;
       }
 
+      // delete
+      if (message.action === ACTIONS.DELETE_LIKED_VIDEO_BY_ID) {
+        const { videoId } = message.data;
+        (async () => {
+          try {
+            await deleteLikedVideoById(videoId);
+            sendResponse({
+              success: true,
+            } satisfies Response);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to remove video from liked videos",
+            } satisfies Response);
+          }
+        })();
+        return true;
+      }
+      if (message.action === ACTIONS.DELETE_SUBSCRIBED_CHANNEL_BY_ID) {
+        const { channelId } = message.data;
+        (async () => {
+          try {
+            await deleteSubscribedChannelById(channelId);
+            sendResponse({
+              success: true,
+            } satisfies Response);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to delete subscribed channel by handle",
+            } satisfies Response);
+          }
+        })();
+        return true;
+      }
       if (message.action === ACTIONS.DELETE_YOUTUBE_PLAYLIST_BY_ID) {
         const { playlistId } = message.data;
         (async () => {
