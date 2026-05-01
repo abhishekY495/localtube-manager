@@ -24,7 +24,7 @@ export const PlaylistTabs = ({
           setSearchQuery("");
         }}
       >
-        {youtubePlaylistCount} YouTube playlists
+        {youtubePlaylistCount} YouTube
       </div>
       <div
         className={`w-full text-center border border-b-2 border-t-0 border-neutral-700 cursor-pointer 
@@ -35,7 +35,7 @@ export const PlaylistTabs = ({
           setSearchQuery("");
         }}
       >
-        {localPlaylistCount} Local playlists
+        {localPlaylistCount} Local
       </div>
     </div>
   );

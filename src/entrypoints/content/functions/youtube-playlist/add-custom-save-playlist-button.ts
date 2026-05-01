@@ -1,4 +1,4 @@
-import { clearExistingCustomSavePlaylistButtons } from "@/entrypoints/utils/clear-existing-custom-buttons";
+import { clearExistingCustomSavePlaylistButton } from "@/entrypoints/utils/clear-existing-custom-buttons";
 import { SELECTORS } from "@/entrypoints/utils/constants";
 import { findElementBySelectors } from "@/entrypoints/utils/find-element-by-selectors";
 import { createCustomSavePlaylistButton } from "@/entrypoints/utils/youtube-playlist/create-custom-save-playlist-button";
@@ -20,7 +20,7 @@ export const addCustomSavePlaylistButton = async ({
       isSaved,
     });
 
-    clearExistingCustomSavePlaylistButtons();
+    clearExistingCustomSavePlaylistButton();
     savePlaylistElement.appendChild(customSavePlaylistButton);
 
     customSavePlaylistButton.addEventListener("click", async () => {

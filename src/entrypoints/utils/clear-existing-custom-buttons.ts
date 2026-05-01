@@ -20,7 +20,7 @@ export const clearExistingCustomSubscribeButtons = () => {
     .forEach((customSubscribeButton) => customSubscribeButton.remove());
 };
 
-export const clearExistingCustomSavePlaylistButtons = () => {
+export const clearExistingCustomSavePlaylistButton = () => {
   document
     .querySelectorAll(`#${CUSTOM_SAVE_PLAYLIST_BUTTON_ID}`)
     .forEach((customSavePlaylistButton) => customSavePlaylistButton.remove());

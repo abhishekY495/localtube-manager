@@ -8,7 +8,7 @@ import { init } from "./functions/init";
 import { wait } from "../utils/wait";
 import {
   clearExistingCustomLikedButton,
-  clearExistingCustomSavePlaylistButtons,
+  clearExistingCustomSavePlaylistButton,
   clearExistingCustomSubscribeButtons,
 } from "../utils/clear-existing-custom-buttons";
 
@@ -63,13 +63,13 @@ export default defineContentScript({
 
       clearExistingCustomLikedButton();
       clearExistingCustomSubscribeButtons();
-      clearExistingCustomSavePlaylistButtons();
+      clearExistingCustomSavePlaylistButton();
       await init();
       window.addEventListener("yt-navigate-finish", async () => {
         await wait(1500);
         clearExistingCustomLikedButton();
         clearExistingCustomSubscribeButtons();
-        clearExistingCustomSavePlaylistButtons();
+        clearExistingCustomSavePlaylistButton();
         await init();
       });
     }
