@@ -44,10 +44,11 @@ export const YoutubePlaylistCard = ({
             </span>
           </div>
         </div>
+        {/*  */}
         <div
           className="flex flex-col gap-3"
           style={{
-            padding: "0px 10px 10px 10px",
+            padding: "0px 12px 12px 12px",
           }}
         >
           <div

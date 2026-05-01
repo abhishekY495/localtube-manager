@@ -9,7 +9,7 @@ export const SearchBar = ({
     <div
       className="flex items-center justify-center gap-2 border-b border-neutral-700"
       style={{
-        padding: "8px 8px 12px 8px",
+        padding: "8px",
         fontSize: "14px",
       }}
     >
@@ -18,7 +18,7 @@ export const SearchBar = ({
         placeholder="Type to search"
         value={searchQuery}
         onChange={(event) => setSearchQuery(event.target.value)}
-        className="w-full rounded border-b border-neutral-700 bg-transparent outline-none ring-0 focus:border-neutral-700 focus:outline-none focus:ring-0 focus-visible:outline-none"
+        className="w-full rounded bg-transparent outline-none ring-0 focus:border-neutral-700 focus:outline-none focus:ring-0 focus-visible:outline-none"
         style={{
           width: "100%",
           padding: "5px",
