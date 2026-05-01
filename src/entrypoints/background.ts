@@ -19,6 +19,7 @@ import type {
   CheckIfYoutubePlaylistIsSavedResponse,
   CountResponse,
   LocalPlaylist,
+  LocalPlaylistsWithCount,
   Message,
   Response,
   Video,
@@ -30,7 +31,10 @@ import {
   getAllYoutubePlaylists,
   getYoutubePlaylistById,
 } from "./indexedDb/youtube-playlist";
-import { getAllLocalPlaylists } from "./indexedDb/local-playlists";
+import {
+  getAllLocalPlaylists,
+  getAllLocalPlaylistsWithCount,
+} from "./indexedDb/local-playlists";
 
 export default defineBackground(() => {
   const action = browser.action || (browser as any).browserAction;
@@ -133,6 +137,23 @@ export default defineBackground(() => {
               success: false,
               error: "Failed to get all local playlists",
             } satisfies Response<LocalPlaylist[]>);
+          }
+        })();
+        return true;
+      }
+      if (message.action === ACTIONS.GET_ALL_LOCAL_PLAYLISTS_WITH_COUNT) {
+        (async () => {
+          try {
+            const localPlaylists = await getAllLocalPlaylistsWithCount();
+            sendResponse({
+              success: true,
+              data: localPlaylists,
+            } satisfies Response<LocalPlaylistsWithCount[]>);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to get all local playlists with count",
+            } satisfies Response<LocalPlaylistsWithCount[]>);
           }
         })();
         return true;

@@ -1,5 +1,7 @@
 import {
+  ADD_TO_LOCAL_PLAYLIST_MODAL_UNMOUNT_EVENT,
   CUSTOM_ADD_TO_LOCAL_PLAYLIST_BUTTON_ID,
+  CUSTOM_ADD_TO_LOCAL_PLAYLIST_MODAL_ID,
   CUSTOM_LIKE_BUTTON_ID,
   CUSTOM_SAVE_PLAYLIST_BUTTON_ID,
   CUSTOM_SUBSCRIBE_BUTTON_ID,
@@ -33,4 +35,15 @@ export const clearExistingCustomAddToLocalPlaylistButton = () => {
     .forEach((customAddToLocalPlaylistButton) =>
       customAddToLocalPlaylistButton.remove(),
     );
+};
+
+export const clearExistingCustomAddToLocalPlaylistModal = () => {
+  document
+    .querySelectorAll(`#${CUSTOM_ADD_TO_LOCAL_PLAYLIST_MODAL_ID}`)
+    .forEach((customAddToLocalPlaylistModal) => {
+      customAddToLocalPlaylistModal.dispatchEvent(
+        new Event(ADD_TO_LOCAL_PLAYLIST_MODAL_UNMOUNT_EVENT),
+      );
+      customAddToLocalPlaylistModal.remove();
+    });
 };

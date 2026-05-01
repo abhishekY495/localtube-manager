@@ -18,3 +18,12 @@ export const addLocalPlaylist = async (playlist: LocalPlaylist) => {
 export const deleteLocalPlaylistByName = async (playlistName: string) => {
   await db.localPlaylists.delete(playlistName);
 };
+
+export const getAllLocalPlaylistsWithCount = async () => {
+  const localPlaylists = await db.localPlaylists.toArray();
+  return localPlaylists.map((playlist) => ({
+    name: playlist.name,
+    addedAt: playlist.addedAt,
+    videoCount: playlist.videos.length,
+  }));
+};
