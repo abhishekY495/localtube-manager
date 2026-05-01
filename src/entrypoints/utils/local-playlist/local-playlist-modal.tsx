@@ -43,6 +43,13 @@ export const localPlaylistModal = ({ videoId }: { videoId: string }) => {
   shadowRoot.append(style, rootElement);
 
   const root = createRoot(rootElement);
+  const stopKeyboardEventPropagation = (event: KeyboardEvent) => {
+    event.stopPropagation();
+  };
+
+  rootElement.addEventListener("keydown", stopKeyboardEventPropagation);
+  rootElement.addEventListener("keypress", stopKeyboardEventPropagation);
+  rootElement.addEventListener("keyup", stopKeyboardEventPropagation);
 
   const closeModal = () => {
     clearExistingCustomLocalPlaylistModal();
@@ -50,7 +57,12 @@ export const localPlaylistModal = ({ videoId }: { videoId: string }) => {
 
   modalHost.addEventListener(
     ADD_TO_LOCAL_PLAYLIST_MODAL_UNMOUNT_EVENT,
-    () => root.unmount(),
+    () => {
+      rootElement.removeEventListener("keydown", stopKeyboardEventPropagation);
+      rootElement.removeEventListener("keypress", stopKeyboardEventPropagation);
+      rootElement.removeEventListener("keyup", stopKeyboardEventPropagation);
+      root.unmount();
+    },
     { once: true },
   );
 
