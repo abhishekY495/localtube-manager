@@ -83,27 +83,27 @@ export const SubscribedChannelsContainer = ({
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
           />
-          <div
-            className="min-h-0 grid grid-cols-3 gap-8 overflow-y-auto"
-            style={{ padding: "22px 22px 50px 22px" }}
-          >
-            {filteredSubscribedChannels.length === 0 ? (
-              <p
-                className="mt-16 text-center text-neutral-400"
-                style={{ fontWeight: 500 }}
-              >
-                No subscribed channels found
-              </p>
-            ) : (
-              filteredSubscribedChannels.map((channel) => (
+          {filteredSubscribedChannels.length === 0 ? (
+            <p
+              className="mt-16 text-center text-neutral-400"
+              style={{ fontWeight: 500 }}
+            >
+              No subscribed channels found
+            </p>
+          ) : (
+            <div
+              className="min-h-0 grid grid-cols-3 gap-8 overflow-y-auto"
+              style={{ padding: "22px 22px 50px 22px" }}
+            >
+              {filteredSubscribedChannels.map((channel) => (
                 <ChannelCard
                   key={channel.handle}
                   channel={channel}
                   onRefresh={onRefresh}
                 />
-              ))
-            )}
-          </div>
+              ))}
+            </div>
+          )}
         </>
       )}
     </div>
