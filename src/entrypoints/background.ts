@@ -19,7 +19,7 @@ import type {
   CheckIfYoutubePlaylistIsSavedResponse,
   CountResponse,
   LocalPlaylist,
-  LocalPlaylistsWithCount,
+  LocalPlaylistWithCount,
   Message,
   Response,
   Video,
@@ -148,12 +148,12 @@ export default defineBackground(() => {
             sendResponse({
               success: true,
               data: localPlaylists,
-            } satisfies Response<LocalPlaylistsWithCount[]>);
+            } satisfies Response<LocalPlaylistWithCount[]>);
           } catch (error) {
             sendResponse({
               success: false,
               error: "Failed to get all local playlists with count",
-            } satisfies Response<LocalPlaylistsWithCount[]>);
+            } satisfies Response<LocalPlaylistWithCount[]>);
           }
         })();
         return true;

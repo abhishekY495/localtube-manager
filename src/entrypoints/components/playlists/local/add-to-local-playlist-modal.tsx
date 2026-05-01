@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { ACTIONS } from "@/entrypoints/utils/constants";
 import type {
-  LocalPlaylistsWithCount,
+  LocalPlaylistWithCount,
   Message,
   Response,
 } from "@/entrypoints/utils/types";
@@ -13,11 +13,11 @@ export const AddToLocalPlaylistModal = ({
 }: {
   onClose: () => void;
 }) => {
-  const [playlists, setPlaylists] = useState<LocalPlaylistsWithCount[]>([]);
+  const [playlists, setPlaylists] = useState<LocalPlaylistWithCount[]>([]);
 
   useEffect(() => {
     const getLocalPlaylists = async () => {
-      const response: Response<LocalPlaylistsWithCount[]> =
+      const response: Response<LocalPlaylistWithCount[]> =
         await browser.runtime.sendMessage({
           action: ACTIONS.GET_ALL_LOCAL_PLAYLISTS_WITH_COUNT,
         } satisfies Message);

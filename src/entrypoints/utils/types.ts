@@ -154,7 +154,7 @@ export type DeleteYoutubePlaylistByIdRequest = {
   playlistId: string;
 };
 
-export type LocalPlaylistsWithCount = {
+export type LocalPlaylistWithCount = {
   name: string;
   addedAt: string;
   videoCount: number;
