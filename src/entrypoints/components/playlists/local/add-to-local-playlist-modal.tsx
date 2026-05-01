@@ -7,13 +7,16 @@ import type {
 } from "@/entrypoints/utils/types";
 import toast from "react-hot-toast";
 import { PlusIcon, XIcon } from "lucide-react";
+import { PlaylistCheckboxContainer } from "./playlist-checkbox-container";
 
 export const AddToLocalPlaylistModal = ({
   onClose,
   setShowCreatePlaylistModal,
+  videoId,
 }: {
   onClose: () => void;
   setShowCreatePlaylistModal: (show: boolean) => void;
+  videoId: string;
 }) => {
   const [playlists, setPlaylists] = useState<LocalPlaylist[]>([]);
 
@@ -73,21 +76,10 @@ export const AddToLocalPlaylistModal = ({
             </p>
           ) : (
             <div className="flex flex-col gap-1">
-              {playlists.map((playlist) => (
-                <button
-                  key={playlist.name}
-                  type="button"
-                  className="flex w-full cursor-pointer items-center justify-between gap-4 rounded-lg border-0 bg-transparent p-3 text-left text-[#f1f1f1] hover:bg-zinc-800"
-                >
-                  <span className="min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-sm font-medium">
-                    {playlist.name}
-                  </span>
-                  <span className="text-[13px] text-zinc-400">
-                    {playlist.videos.length} video
-                    {playlist.videos.length === 1 ? "" : "s"}
-                  </span>
-                </button>
-              ))}
+              <PlaylistCheckboxContainer
+                playlists={playlists}
+                videoId={videoId}
+              />
             </div>
           )}
         </div>

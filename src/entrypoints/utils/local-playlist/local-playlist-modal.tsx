@@ -26,6 +26,7 @@ const LocalPlaylistModalRoot = ({
     <AddToLocalPlaylistModal
       onClose={onClose}
       setShowCreatePlaylistModal={setShowCreatePlaylistModal}
+      videoId={videoId}
     />
   );
 };
