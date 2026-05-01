@@ -17,6 +17,7 @@ export default function App() {
   const [activeItem, setActiveItem] = useState<NavItemLabel>(
     NAV_ITEM_LABELS.SUBSCRIPTIONS,
   );
+  const handleRefresh = () => setRefreshKey((currentKey) => currentKey + 1);
 
   useEffect(() => {
     const handleMessage = (message: Message) => {
@@ -45,16 +46,13 @@ export default function App() {
         right: "0",
       }}
     >
-      <SidebarOptions
-        setIsOpen={setIsOpen}
-        onRefresh={() => setRefreshKey((currentKey) => currentKey + 1)}
-      />
+      <SidebarOptions setIsOpen={setIsOpen} onRefresh={handleRefresh} />
       <div className="flex h-full min-h-0 flex-col">
         <SidebarHeader />
         <NavbarTabs
           setActiveItem={setActiveItem}
           activeItem={activeItem}
-          onRefresh={() => setRefreshKey((currentKey) => currentKey + 1)}
+          onRefresh={handleRefresh}
         />
         <div className="min-h-0 flex-1">
           <div
@@ -67,7 +65,7 @@ export default function App() {
             <LikedVideosContainer
               isSidebarOpen={isOpen}
               refreshKey={refreshKey}
-              onRefresh={() => setRefreshKey((currentKey) => currentKey + 1)}
+              onRefresh={handleRefresh}
             />
           </div>
           <div
@@ -80,7 +78,7 @@ export default function App() {
             <SubscribedChannelsContainer
               isSidebarOpen={isOpen}
               refreshKey={refreshKey}
-              onRefresh={() => setRefreshKey((currentKey) => currentKey + 1)}
+              onRefresh={handleRefresh}
             />
           </div>
         </div>
