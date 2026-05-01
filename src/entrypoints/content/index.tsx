@@ -8,8 +8,8 @@ import { init } from "./functions/init";
 import { wait } from "../utils/wait";
 import {
   clearExistingCustomAddToLocalPlaylistButton,
-  clearExistingCustomAddToLocalPlaylistModal,
   clearExistingCustomLikedButton,
+  clearExistingCustomLocalPlaylistModal,
   clearExistingCustomSavePlaylistButton,
   clearExistingCustomSubscribeButtons,
 } from "../utils/clear-existing-custom-buttons";
@@ -67,7 +67,7 @@ export default defineContentScript({
       clearExistingCustomSubscribeButtons();
       clearExistingCustomSavePlaylistButton();
       clearExistingCustomAddToLocalPlaylistButton();
-      clearExistingCustomAddToLocalPlaylistModal();
+      clearExistingCustomLocalPlaylistModal();
       await init();
       window.addEventListener("yt-navigate-finish", async () => {
         await wait(1500);
@@ -75,7 +75,7 @@ export default defineContentScript({
         clearExistingCustomSubscribeButtons();
         clearExistingCustomSavePlaylistButton();
         clearExistingCustomAddToLocalPlaylistButton();
-        clearExistingCustomAddToLocalPlaylistModal();
+        clearExistingCustomLocalPlaylistModal();
         await init();
       });
     }

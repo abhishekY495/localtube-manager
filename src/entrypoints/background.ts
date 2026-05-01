@@ -32,9 +32,11 @@ import {
   getYoutubePlaylistById,
 } from "./indexedDb/youtube-playlist";
 import {
+  addLocalPlaylist,
   getAllLocalPlaylists,
   getAllLocalPlaylistsWithCount,
 } from "./indexedDb/local-playlists";
+import Dexie from "dexie";
 
 export default defineBackground(() => {
   const action = browser.action || (browser as any).browserAction;
@@ -263,6 +265,33 @@ export default defineBackground(() => {
               success: false,
               error: "Failed to add youtube playlist",
             } satisfies Response);
+          }
+        })();
+        return true;
+      }
+      if (message.action === ACTIONS.ADD_LOCAL_PLAYLIST) {
+        const { playlist } = message.data;
+        (async () => {
+          try {
+            await addLocalPlaylist(playlist);
+            sendResponse({
+              success: true,
+            } satisfies Response);
+          } catch (error) {
+            if (
+              error instanceof Dexie.ConstraintError &&
+              error.name === "ConstraintError"
+            ) {
+              sendResponse({
+                success: false,
+                error: "Playlist name already exists",
+              } satisfies Response);
+            } else {
+              sendResponse({
+                success: false,
+                error: "Failed to add local playlist",
+              } satisfies Response);
+            }
           }
         })();
         return true;

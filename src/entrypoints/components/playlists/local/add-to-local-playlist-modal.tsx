@@ -6,12 +6,14 @@ import type {
   Response,
 } from "@/entrypoints/utils/types";
 import toast from "react-hot-toast";
-import { XIcon } from "lucide-react";
+import { PlusIcon, XIcon } from "lucide-react";
 
 export const AddToLocalPlaylistModal = ({
   onClose,
+  setShowCreatePlaylistModal,
 }: {
   onClose: () => void;
+  setShowCreatePlaylistModal: (show: boolean) => void;
 }) => {
   const [playlists, setPlaylists] = useState<LocalPlaylistWithCount[]>([]);
 
@@ -95,14 +97,15 @@ export const AddToLocalPlaylistModal = ({
           style={{ padding: "12px 10px" }}
         >
           <button
-            className="w-full text-neutral-300 bg-neutral-700 rounded-xl cursor-pointer border border-neutral-600 hover:bg-neutral-600"
+            className="w-full flex items-center justify-center gap-2 text-neutral-300 bg-neutral-700 rounded-xl cursor-pointer border border-neutral-600 hover:bg-neutral-600"
+            onClick={() => setShowCreatePlaylistModal(true)}
             style={{
               fontSize: "15px",
               fontWeight: 500,
               padding: "5px 0 8px 0",
             }}
           >
-            Create New Playlist
+            Create <PlusIcon size={16} />
           </button>
         </div>
       </div>

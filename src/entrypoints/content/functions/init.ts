@@ -43,7 +43,7 @@ export const init = async () => {
     }
 
     // add "Add to" button for local playlist
-    await addCustomAddToLocalPlaylistButton();
+    await addCustomAddToLocalPlaylistButton(videoId);
   }
 
   // check if url is a channel page using regex

@@ -37,7 +37,7 @@ export const clearExistingCustomAddToLocalPlaylistButton = () => {
     );
 };
 
-export const clearExistingCustomAddToLocalPlaylistModal = () => {
+export const clearExistingCustomLocalPlaylistModal = () => {
   document
     .querySelectorAll(`#${CUSTOM_ADD_TO_LOCAL_PLAYLIST_MODAL_ID}`)
     .forEach((customAddToLocalPlaylistModal) => {

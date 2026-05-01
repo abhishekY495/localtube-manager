@@ -1,13 +1,36 @@
 import tailwindStyles from "~/assets/tailwind.css?inline";
 import { createRoot } from "react-dom/client";
+import { useState } from "react";
 import {
   ADD_TO_LOCAL_PLAYLIST_MODAL_UNMOUNT_EVENT,
   CUSTOM_ADD_TO_LOCAL_PLAYLIST_MODAL_ID,
 } from "../constants";
-import { clearExistingCustomAddToLocalPlaylistModal } from "../clear-existing-custom-buttons";
+import { clearExistingCustomLocalPlaylistModal } from "../clear-existing-custom-buttons";
 import { AddToLocalPlaylistModal } from "@/entrypoints/components/playlists/local/add-to-local-playlist-modal";
+import { CreateNewLocalPlaylistModal } from "@/entrypoints/components/playlists/local/create-new-local-playlist-modal";
 
-export const createAddToLocalPlaylistModal = () => {
+const LocalPlaylistModalRoot = ({
+  onClose,
+  videoId,
+}: {
+  onClose: () => void;
+  videoId: string;
+}) => {
+  const [showCreatePlaylistModal, setShowCreatePlaylistModal] = useState(false);
+
+  if (showCreatePlaylistModal) {
+    return <CreateNewLocalPlaylistModal onClose={onClose} videoId={videoId} />;
+  }
+
+  return (
+    <AddToLocalPlaylistModal
+      onClose={onClose}
+      setShowCreatePlaylistModal={setShowCreatePlaylistModal}
+    />
+  );
+};
+
+export const localPlaylistModal = ({ videoId }: { videoId: string }) => {
   const modalHost = document.createElement("div");
   modalHost.id = CUSTOM_ADD_TO_LOCAL_PLAYLIST_MODAL_ID;
 
@@ -22,8 +45,7 @@ export const createAddToLocalPlaylistModal = () => {
   const root = createRoot(rootElement);
 
   const closeModal = () => {
-    root.unmount();
-    clearExistingCustomAddToLocalPlaylistModal();
+    clearExistingCustomLocalPlaylistModal();
   };
 
   modalHost.addEventListener(
@@ -33,7 +55,7 @@ export const createAddToLocalPlaylistModal = () => {
   );
 
   root.render(
-    <AddToLocalPlaylistModal onClose={closeModal} />,
+    <LocalPlaylistModalRoot onClose={closeModal} videoId={videoId} />,
   );
 
   return modalHost;

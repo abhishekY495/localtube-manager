@@ -90,6 +90,7 @@ export type Message =
       typeof ACTIONS.ADD_YOUTUBE_PLAYLIST,
       AddYoutubePlaylistRequest
     >
+  | MessageWithData<typeof ACTIONS.ADD_LOCAL_PLAYLIST, AddLocalPlaylistRequest>
   | MessageWithData<
       typeof ACTIONS.DELETE_YOUTUBE_PLAYLIST_BY_ID,
       DeleteYoutubePlaylistByIdRequest
@@ -149,6 +150,9 @@ export type CheckIfYoutubePlaylistIsSavedResponse = {
 
 export type AddYoutubePlaylistRequest = {
   playlist: YoutubePlaylist;
+};
+export type AddLocalPlaylistRequest = {
+  playlist: LocalPlaylist;
 };
 export type DeleteYoutubePlaylistByIdRequest = {
   playlistId: string;
