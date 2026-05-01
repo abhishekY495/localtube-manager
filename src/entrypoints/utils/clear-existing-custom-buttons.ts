@@ -1,4 +1,5 @@
 import {
+  CUSTOM_ADD_TO_LOCAL_PLAYLIST_BUTTON_ID,
   CUSTOM_LIKE_BUTTON_ID,
   CUSTOM_SAVE_PLAYLIST_BUTTON_ID,
   CUSTOM_SUBSCRIBE_BUTTON_ID,
@@ -24,4 +25,12 @@ export const clearExistingCustomSavePlaylistButton = () => {
   document
     .querySelectorAll(`#${CUSTOM_SAVE_PLAYLIST_BUTTON_ID}`)
     .forEach((customSavePlaylistButton) => customSavePlaylistButton.remove());
+};
+
+export const clearExistingCustomAddToLocalPlaylistButton = () => {
+  document
+    .querySelectorAll(`#${CUSTOM_ADD_TO_LOCAL_PLAYLIST_BUTTON_ID}`)
+    .forEach((customAddToLocalPlaylistButton) =>
+      customAddToLocalPlaylistButton.remove(),
+    );
 };

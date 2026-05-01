@@ -7,6 +7,7 @@ import { LTM_TOAST_ROOT_ID } from "../utils/constants";
 import { init } from "./functions/init";
 import { wait } from "../utils/wait";
 import {
+  clearExistingCustomAddToLocalPlaylistButton,
   clearExistingCustomLikedButton,
   clearExistingCustomSavePlaylistButton,
   clearExistingCustomSubscribeButtons,
@@ -64,12 +65,14 @@ export default defineContentScript({
       clearExistingCustomLikedButton();
       clearExistingCustomSubscribeButtons();
       clearExistingCustomSavePlaylistButton();
+      clearExistingCustomAddToLocalPlaylistButton();
       await init();
       window.addEventListener("yt-navigate-finish", async () => {
         await wait(1500);
         clearExistingCustomLikedButton();
         clearExistingCustomSubscribeButtons();
         clearExistingCustomSavePlaylistButton();
+        clearExistingCustomAddToLocalPlaylistButton();
         await init();
       });
     }

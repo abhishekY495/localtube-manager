@@ -8,6 +8,7 @@ import { fetchChannelIdFromUrl } from "@/entrypoints/utils/fetch-channel-id-from
 import { addCustomSubscribeButtonChannelPage } from "./channel/add-custom-subscribe-button-channel-page";
 import { checkIfYoutubePlaylistIsSaved } from "./youtube-playlist/check-if-youtube-playlist-is-saved";
 import { addCustomSavePlaylistButton } from "./youtube-playlist/add-custom-save-playlist-button";
+import { addCustomAddToLocalPlaylistButton } from "./local-playlist/add-custom-add-to-local-playlist-button";
 
 export const init = async () => {
   const url = new URL(window.location.href);
@@ -40,6 +41,9 @@ export const init = async () => {
         });
       }
     }
+
+    // add "Add to" button for local playlist
+    await addCustomAddToLocalPlaylistButton();
   }
 
   // check if url is a channel page using regex

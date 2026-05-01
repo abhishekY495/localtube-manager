@@ -25,6 +25,16 @@ segmented-like-dislike-button-view-model {
   display: none !important;
 }
 
+#above-the-fold #top-row #actions ytd-menu-renderer button[aria-label="More actions"] {
+  display: none !important;
+}
+
+#above-the-fold #top-row #actions ytd-menu-renderer #flexible-item-buttons button[aria-label="Save to playlist"] {
+  display: none !important;
+}
+
+/*  */
+
 #ltm-toast-root {
   background-color: inherit;
   font-size: medium;
@@ -33,6 +43,8 @@ segmented-like-dislike-button-view-model {
   font-family: var(--font-family);
   z-index: 2147483647;
 }
+
+/*  */
 
 #custom-ltm-like-button {
   display: flex;
@@ -54,6 +66,8 @@ segmented-like-dislike-button-view-model {
 #custom-ltm-like-button:hover {
   background: var(--bg-primary-hover);
 }
+
+/*  */
 
 #custom-ltm-subscribe-button {
   display: flex;
@@ -115,4 +129,28 @@ segmented-like-dislike-button-view-model {
 
 #custom-ltm-save-playlist-button-icon {
   margin-top: 4px;
+}
+
+/*  */
+
+#custom-ltm-add-to-local-playlist-button {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: var(--bg-primary);
+  height: 100%;
+  padding: 4px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--font-family);
+}
+
+#custom-ltm-add-to-local-playlist-button span {
+  margin-top: 2px;
+}
+
+#custom-ltm-add-to-local-playlist-button:hover {
+  background: var(--bg-primary-hover);
 }
