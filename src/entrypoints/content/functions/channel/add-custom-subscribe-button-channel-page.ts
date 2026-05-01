@@ -16,10 +16,7 @@ export const addCustomSubscribeButtonChannelPage = async ({
   );
 
   if (subscribeButtonElement) {
-    const customSubscribeButton = createCustomSubscribeButton({
-      isSubscribed,
-      isChannelPage: true,
-    });
+    const customSubscribeButton = createCustomSubscribeButton({ isSubscribed });
 
     clearExistingCustomSubscribeButtons();
     subscribeButtonElement.insertBefore(
