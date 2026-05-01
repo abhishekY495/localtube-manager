@@ -9,7 +9,7 @@ export const SearchBar = ({
     <div
       className="flex items-center justify-center gap-2 border-b border-neutral-700"
       style={{
-        padding: "8px",
+        padding: "6px 8px",
         fontSize: "14px",
       }}
     >
