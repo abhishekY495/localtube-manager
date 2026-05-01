@@ -18,15 +18,19 @@ import type {
   CheckIfVideoLikedResponse,
   CheckIfYoutubePlaylistIsSavedResponse,
   CountResponse,
+  LocalPlaylist,
   Message,
   Response,
   Video,
+  YoutubePlaylist,
 } from "./utils/types";
 import {
   addYoutubePlaylist,
   deleteYoutubePlaylistById,
+  getAllYoutubePlaylists,
   getYoutubePlaylistById,
 } from "./indexedDb/youtube-playlist";
+import { getAllLocalPlaylists } from "./indexedDb/local-playlists";
 
 export default defineBackground(() => {
   const action = browser.action || (browser as any).browserAction;
@@ -95,6 +99,40 @@ export default defineBackground(() => {
               success: false,
               error: "Failed to get all subscribed channels",
             } satisfies Response<Channel[]>);
+          }
+        })();
+        return true;
+      }
+      if (message.action === ACTIONS.GET_ALL_YOUTUBE_PLAYLISTS) {
+        (async () => {
+          try {
+            const youtubePlaylists = await getAllYoutubePlaylists();
+            sendResponse({
+              success: true,
+              data: youtubePlaylists,
+            } satisfies Response<YoutubePlaylist[]>);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to get all youtube playlists",
+            } satisfies Response<YoutubePlaylist[]>);
+          }
+        })();
+        return true;
+      }
+      if (message.action === ACTIONS.GET_ALL_LOCAL_PLAYLISTS) {
+        (async () => {
+          try {
+            const localPlaylists = await getAllLocalPlaylists();
+            sendResponse({
+              success: true,
+              data: localPlaylists,
+            } satisfies Response<LocalPlaylist[]>);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to get all local playlists",
+            } satisfies Response<LocalPlaylist[]>);
           }
         })();
         return true;

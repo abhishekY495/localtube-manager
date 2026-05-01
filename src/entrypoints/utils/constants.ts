@@ -18,6 +18,7 @@ export const ACTIONS = {
   GET_ALL_LIKED_VIDEOS: "get_all_liked_videos",
   GET_ALL_SUBSCRIBED_CHANNELS: "get_all_subscribed_channels",
   GET_ALL_YOUTUBE_PLAYLISTS: "get_all_youtube_playlists",
+  GET_ALL_LOCAL_PLAYLISTS: "get_all_local_playlists",
   //
   ADD_LIKED_VIDEO: "add_liked_video",
   ADD_SUBSCRIBED_CHANNEL: "add_subscribed_channel",
@@ -220,6 +221,7 @@ export const LIKE_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="26px" h
 export const LIKE_ICON_FILLED = `<svg xmlns="http://www.w3.org/2000/svg" width="26px" height="26px" viewBox="0 0 24 24"><title xmlns="">thumbs-up-fill</title><path fill="currentColor" d="M7.24 11v9H5.63c-.9 0-1.62-.72-1.62-1.61v-5.77c0-.89.73-1.62 1.62-1.62zM18.5 9.5h-4.78V6c0-1.1-.9-2-1.99-2h-.09c-.4 0-.76.24-.92.61L7.99 11v9h9.2c.73 0 1.35-.52 1.48-1.24l1.32-7.5c.16-.92-.54-1.76-1.48-1.76Z"/></svg>`;
 export const SAVE_PLAYLIST_ICON = `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240zm80-122 200-86 200 86v-518H280zm0-518h400z"/></svg>`;
 export const SAVE_PLAYLIST_ICON_FILLED = `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240z"/></svg>`;
+export const PLAYLIST_ICON = ListVideoIcon;
 
 export const CHANNEL_URL_REGEX =
   /^https?:\/\/(www\.)?youtube\.com\/(?:(@[\w.-]+)|(channel\/UC[A-Za-z0-9_-]{22})|(c\/[\w.-]+)|(user\/[\w.-]+)|([\w.-]+))(\/.*)?$/;

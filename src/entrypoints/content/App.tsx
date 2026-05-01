@@ -10,6 +10,7 @@ import { NavbarTabs } from "../components/navbar-tabs";
 import type { Message } from "../utils/types";
 import { LikedVideosContainer } from "../components/liked-videos/liked-videos-container";
 import { SubscribedChannelsContainer } from "../components/subscribed-channels/subscribed-channels-container";
+import { PlaylistsContainer } from "../components/playlists/playlists-container";
 
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -76,6 +77,19 @@ export default function App() {
             }
           >
             <SubscribedChannelsContainer
+              isSidebarOpen={isOpen}
+              refreshKey={refreshKey}
+              onRefresh={handleRefresh}
+            />
+          </div>
+          <div
+            className={
+              activeItem === NAV_ITEM_LABELS.PLAYLISTS
+                ? "block h-full"
+                : "hidden"
+            }
+          >
+            <PlaylistsContainer
               isSidebarOpen={isOpen}
               refreshKey={refreshKey}
               onRefresh={handleRefresh}
