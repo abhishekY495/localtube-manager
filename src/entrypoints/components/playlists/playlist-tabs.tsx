@@ -18,7 +18,7 @@ export const PlaylistTabs = ({
       <div
         className={`w-full text-center border border-b-2 border-t-0 border-neutral-700 cursor-pointer 
             ${activeTab === "youtube" ? "bg-neutral-800" : "bg-neutral-900"}`}
-        style={{ padding: "10px", fontSize: "14px", fontWeight: 500 }}
+        style={{ padding: "11px", fontSize: "14px", fontWeight: 500 }}
         onClick={() => {
           setActiveTab("youtube");
           setSearchQuery("");
@@ -29,7 +29,7 @@ export const PlaylistTabs = ({
       <div
         className={`w-full text-center border border-b-2 border-t-0 border-neutral-700 cursor-pointer 
             ${activeTab === "local" ? "bg-neutral-800" : "bg-neutral-900"}`}
-        style={{ padding: "10px", fontSize: "14px", fontWeight: 500 }}
+        style={{ padding: "11px", fontSize: "14px", fontWeight: 500 }}
         onClick={() => {
           setActiveTab("local");
           setSearchQuery("");

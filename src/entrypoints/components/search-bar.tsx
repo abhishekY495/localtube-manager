@@ -7,7 +7,7 @@ export const SearchBar = ({
 }) => {
   return (
     <div
-      className="flex items-center justify-center gap-2 border-b border-neutral-700"
+      className="flex items-center justify-center gap-2 border-b-2 border-neutral-700"
       style={{
         padding: "6px 8px",
         fontSize: "14px",
