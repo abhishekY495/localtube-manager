@@ -9,17 +9,22 @@ import {
 export const ACTIONS = {
   TOGGLE_SIDEBAR: "toggle_sidebar",
   OPEN_DASHBOARD: "open_dashboard",
-  CHECK_IF_VIDEO_LIKED: "check_if_video_liked",
-  GET_ALL_LIKED_VIDEOS: "get_all_liked_videos",
-  ADD_LIKED_VIDEO: "add_liked_video",
-  DELETE_LIKED_VIDEO_BY_ID: "delete_liked_video_by_id",
   GET_COUNT: "get_count",
+  //
+  CHECK_IF_VIDEO_LIKED: "check_if_video_liked",
   CHECK_IF_CHANNEL_SUBSCRIBED: "check_if_channel_subscribed",
-  GET_ALL_SUBSCRIBED_CHANNELS: "get_all_subscribed_channels",
-  ADD_SUBSCRIBED_CHANNEL: "add_subscribed_channel",
-  DELETE_SUBSCRIBED_CHANNEL_BY_ID: "delete_subscribed_channel_by_id",
   CHECK_IF_YOUTUBE_PLAYLIST_IS_SAVED: "check_if_youtube_playlist_is_saved",
+  //
+  GET_ALL_LIKED_VIDEOS: "get_all_liked_videos",
+  GET_ALL_SUBSCRIBED_CHANNELS: "get_all_subscribed_channels",
+  GET_ALL_YOUTUBE_PLAYLISTS: "get_all_youtube_playlists",
+  //
+  ADD_LIKED_VIDEO: "add_liked_video",
+  ADD_SUBSCRIBED_CHANNEL: "add_subscribed_channel",
   ADD_YOUTUBE_PLAYLIST: "add_youtube_playlist",
+  //
+  DELETE_LIKED_VIDEO_BY_ID: "delete_liked_video_by_id",
+  DELETE_SUBSCRIBED_CHANNEL_BY_ID: "delete_subscribed_channel_by_id",
   DELETE_YOUTUBE_PLAYLIST_BY_ID: "delete_youtube_playlist_by_id",
 } as const;
 
