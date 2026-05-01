@@ -20,7 +20,6 @@ export const SearchBar = ({
         onChange={(event) => setSearchQuery(event.target.value)}
         className="w-full rounded bg-transparent outline-none ring-0 focus:border-neutral-700 focus:outline-none focus:ring-0 focus-visible:outline-none"
         style={{
-          width: "100%",
           padding: "5px",
         }}
       />
