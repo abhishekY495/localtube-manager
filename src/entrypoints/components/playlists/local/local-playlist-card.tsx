@@ -29,6 +29,7 @@ export const LocalPlaylistCard = ({
             src={playlistThumbnail}
             alt={playlist.name}
             className="rounded-t-lg"
+            style={{ width: "100%" }}
           />
           <div
             className="absolute bottom-0 right-0 bg-black/60 flex items-center gap-1"
