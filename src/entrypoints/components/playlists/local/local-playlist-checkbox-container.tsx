@@ -7,10 +7,14 @@ import type {
 import toast from "react-hot-toast";
 import { Loading } from "../../loading";
 import { Error } from "../../error";
-import { Playlist } from "./playlist";
+import { LocalPlaylistCheckbox } from "./local-playlist-checkbox";
 import { SearchBar } from "../../search-bar";
 
-export const PlaylistCheckboxContainer = ({ videoId }: { videoId: string }) => {
+export const LocalPlaylistCheckboxContainer = ({
+  videoId,
+}: {
+  videoId: string;
+}) => {
   const [playlists, setPlaylists] = useState<LocalPlaylist[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -114,7 +118,7 @@ export const PlaylistCheckboxContainer = ({ videoId }: { videoId: string }) => {
           </p>
         ) : (
           filteredPlaylists.map((playlist) => (
-            <Playlist
+            <LocalPlaylistCheckbox
               key={playlist.name}
               playlist={playlist}
               videoId={videoId}

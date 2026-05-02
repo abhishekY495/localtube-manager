@@ -1,5 +1,5 @@
 import { PlusIcon, XIcon } from "lucide-react";
-import { PlaylistCheckboxContainer } from "./playlist-checkbox-container";
+import { LocalPlaylistCheckboxContainer } from "./local-playlist-checkbox-container";
 
 export const AddToLocalPlaylistModal = ({
   onClose,
@@ -37,7 +37,7 @@ export const AddToLocalPlaylistModal = ({
           <XIcon onClick={onClose} size={22} className="cursor-pointer" />
         </div>
         {/*  */}
-        <PlaylistCheckboxContainer videoId={videoId} />
+        <LocalPlaylistCheckboxContainer videoId={videoId} />
         {/*  */}
         <div
           className="flex justify-end gap-5 bg-neutral-800"

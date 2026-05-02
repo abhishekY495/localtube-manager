@@ -8,7 +8,7 @@ import { getVideoData } from "@/entrypoints/utils/video/get-video-data";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-export const Playlist = ({
+export const LocalPlaylistCheckbox = ({
   playlist,
   videoId,
 }: {
