@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { ACTIONS } from "@/entrypoints/utils/constants";
 import type {
   LocalPlaylist,
@@ -5,8 +6,10 @@ import type {
   Response,
 } from "@/entrypoints/utils/types";
 import { getVideoData } from "@/entrypoints/utils/video/get-video-data";
-import { useState } from "react";
+import checkIcon from "@/assets/check-icon.svg?raw";
 import toast from "react-hot-toast";
+
+const checkIconImage = `url("data:image/svg+xml,${encodeURIComponent(checkIcon)}")`;
 
 export const LocalPlaylistCheckbox = ({
   playlist,
@@ -69,9 +72,7 @@ export const LocalPlaylistCheckbox = ({
             appearance: "none",
             WebkitAppearance: "none",
             backgroundColor: isVideoInPlaylist ? "#ffffff" : "#404040",
-            backgroundImage: isVideoInPlaylist
-              ? `url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M3.5 8.5L6.5 11.5L12.5 4.5' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e")`
-              : "none",
+            backgroundImage: isVideoInPlaylist ? checkIconImage : "none",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
             backgroundSize: "12px 12px",
