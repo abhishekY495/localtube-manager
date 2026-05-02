@@ -61,6 +61,10 @@ export type Message =
   | MessageWithoutData<typeof ACTIONS.GET_ALL_LOCAL_PLAYLISTS>
   | MessageWithoutData<typeof ACTIONS.GET_COUNT>
   | MessageWithData<
+      typeof ACTIONS.OPEN_LOCAL_PLAYLIST,
+      OpenLocalPlaylistRequest
+    >
+  | MessageWithData<
       typeof ACTIONS.CHECK_IF_VIDEO_LIKED,
       CheckIfVideoIsLikedRequest
     >
@@ -122,6 +126,10 @@ export type CountResponse = {
   youtubePlaylistsCount: number;
   localPlaylistsCount: number;
   subscriptionsCount: number;
+};
+
+export type OpenLocalPlaylistRequest = {
+  playlistName: string;
 };
 
 export type CheckIfVideoIsLikedRequest = {

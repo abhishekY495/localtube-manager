@@ -1,5 +1,5 @@
-import { PLAYLIST_ICON } from "@/entrypoints/utils/constants";
-import type { LocalPlaylist } from "@/entrypoints/utils/types";
+import { ACTIONS, PLAYLIST_ICON } from "@/entrypoints/utils/constants";
+import type { LocalPlaylist, Message } from "@/entrypoints/utils/types";
 import defaultThumbnailUrl from "@/assets/default-thumbnail.jpg";
 import { RemoveLocalPlaylistModal } from "./remove-local-playlist-modal";
 
@@ -21,10 +21,17 @@ export const LocalPlaylistCard = ({
     playlistThumbnail = defaultThumbnailUrl;
   }
 
+  const openPlaylist = () => {
+    browser.runtime.sendMessage({
+      action: ACTIONS.OPEN_LOCAL_PLAYLIST,
+      data: { playlistName: playlist.name },
+    } satisfies Message);
+  };
+
   return (
     <>
       <div className="flex flex-col gap-3 bg-neutral-800 rounded-lg">
-        <div className="relative">
+        <div className="relative cursor-pointer" onClick={openPlaylist}>
           <img
             src={playlistThumbnail}
             alt={playlist.name}

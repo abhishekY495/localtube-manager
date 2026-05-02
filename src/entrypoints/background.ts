@@ -38,9 +38,14 @@ import {
   removeVideoFromLocalPlaylist,
 } from "./indexedDb/local-playlists";
 import Dexie from "dexie";
+import { setupYoutubeEmbedReferrer } from "./utils/youtube-embed/setup-youtube-embed-referrer";
 
 export default defineBackground(() => {
   const action = browser.action || (browser as any).browserAction;
+
+  setupYoutubeEmbedReferrer().catch(console.error);
+  browser.runtime.onInstalled.addListener(setupYoutubeEmbedReferrer);
+  browser.runtime.onStartup.addListener(setupYoutubeEmbedReferrer);
 
   action.onClicked.addListener((tab: any) => {
     if (tab.id) {
@@ -53,6 +58,13 @@ export default defineBackground(() => {
       if (message.action === ACTIONS.OPEN_DASHBOARD) {
         browser.tabs.create({
           url: browser.runtime.getURL("/dashboard.html"),
+        });
+      }
+
+      if (message.action === ACTIONS.OPEN_LOCAL_PLAYLIST) {
+        const { playlistName } = message.data;
+        browser.tabs.create({
+          url: `dashboard.html#local-playlists?name=${encodeURIComponent(playlistName)}`,
         });
       }
 
