@@ -29,6 +29,7 @@ export const ACTIONS = {
   DELETE_LIKED_VIDEO_BY_ID: "delete_liked_video_by_id",
   DELETE_SUBSCRIBED_CHANNEL_BY_ID: "delete_subscribed_channel_by_id",
   DELETE_YOUTUBE_PLAYLIST_BY_ID: "delete_youtube_playlist_by_id",
+  DELETE_LOCAL_PLAYLIST_BY_NAME: "delete_local_playlist_by_name",
   REMOVE_VIDEO_FROM_LOCAL_PLAYLIST: "remove_video_from_local_playlist",
 } as const;
 

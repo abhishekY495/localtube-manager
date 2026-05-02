@@ -39,10 +39,10 @@ export default function App() {
         isOpen ? "translate-x-0" : "translate-x-[110%]"
       }`}
       style={{
-        width: "800px",
+        width: "900px",
         height: "100vh",
         zIndex: "2147483647",
-        fontFamily: "'Roboto', Arial, sans-serif",
+        fontFamily: "Roboto, Arial, sans-serif",
         top: "0",
         right: "0",
       }}

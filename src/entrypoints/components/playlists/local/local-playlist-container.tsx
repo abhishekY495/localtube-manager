@@ -57,13 +57,18 @@ export const LocalPlaylistContainer = ({
                 No local playlists found
               </p>
             ) : (
-              filteredLocalPlaylist.map((playlist) => (
-                <LocalPlaylistCard
-                  key={playlist.name}
-                  playlist={playlist}
-                  onRefresh={onRefresh}
-                />
-              ))
+              <div
+                className="min-h-0 grid grid-cols-3 gap-10 overflow-y-auto"
+                style={{ padding: "22px 22px 50px 22px" }}
+              >
+                {filteredLocalPlaylist.map((playlist) => (
+                  <LocalPlaylistCard
+                    key={playlist.name}
+                    playlist={playlist}
+                    onRefresh={onRefresh}
+                  />
+                ))}
+              </div>
             )}
           </div>
         </>

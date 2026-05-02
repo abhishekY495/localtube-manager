@@ -99,6 +99,10 @@ export type Message =
       DeleteYoutubePlaylistByIdRequest
     >
   | MessageWithData<
+      typeof ACTIONS.DELETE_LOCAL_PLAYLIST_BY_NAME,
+      DeleteLocalPlaylistByNameRequest
+    >
+  | MessageWithData<
       typeof ACTIONS.REMOVE_VIDEO_FROM_LOCAL_PLAYLIST,
       RemoveVideoFromLocalPlaylistRequest
     >;
@@ -171,6 +175,9 @@ export type DeleteYoutubePlaylistByIdRequest = {
 export type RemoveVideoFromLocalPlaylistRequest = {
   playlistName: string;
   videoId: string;
+};
+export type DeleteLocalPlaylistByNameRequest = {
+  playlistName: string;
 };
 
 export type ActiveTab = "youtube" | "local";

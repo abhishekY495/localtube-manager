@@ -33,6 +33,7 @@ import {
 import {
   addLocalPlaylist,
   addVideoToLocalPlaylist,
+  deleteLocalPlaylistByName,
   getAllLocalPlaylists,
   removeVideoFromLocalPlaylist,
 } from "./indexedDb/local-playlists";
@@ -344,6 +345,23 @@ export default defineBackground(() => {
             sendResponse({
               success: false,
               error: "Failed to delete youtube playlist by id",
+            } satisfies Response);
+          }
+        })();
+        return true;
+      }
+      if (message.action === ACTIONS.DELETE_LOCAL_PLAYLIST_BY_NAME) {
+        const { playlistName } = message.data;
+        (async () => {
+          try {
+            await deleteLocalPlaylistByName(playlistName);
+            sendResponse({
+              success: true,
+            } satisfies Response);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to delete local playlist by name",
             } satisfies Response);
           }
         })();
