@@ -1,6 +1,6 @@
 import { CHANNEL_VIDEO_COUNT_REGEX, SELECTORS } from "../constants";
 import { findElementBySelectors } from "../find-element-by-selectors";
-import { YoutubePlaylist } from "../types";
+import type { YoutubePlaylist } from "../types";
 
 export const getPlaylistData = async (
   listId: string,

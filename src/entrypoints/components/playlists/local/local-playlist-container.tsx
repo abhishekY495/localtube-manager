@@ -1,4 +1,4 @@
-import { LocalPlaylist } from "@/entrypoints/utils/types";
+import type { LocalPlaylist } from "@/entrypoints/utils/types";
 import { SearchBar } from "../../search-bar";
 import { LocalPlaylistCard } from "./local-playlist-card";
 
