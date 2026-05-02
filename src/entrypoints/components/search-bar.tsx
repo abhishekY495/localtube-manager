@@ -1,13 +1,15 @@
 export const SearchBar = ({
   searchQuery,
   setSearchQuery,
+  className,
 }: {
   searchQuery: string;
   setSearchQuery: (value: string) => void;
+  className?: string;
 }) => {
   return (
     <div
-      className="flex items-center justify-center gap-2 border-b-2 border-neutral-700"
+      className={`flex items-center justify-center gap-2 border-b-2 border-neutral-700 ${className}`}
       style={{
         padding: "6px 8px",
         fontSize: "14px",

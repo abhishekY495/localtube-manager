@@ -82,7 +82,7 @@ export const CreateNewLocalPlaylistModal = ({
             className="rounded-lg border border-neutral-700 bg-neutral-800 text-white outline-none placeholder:text-neutral-500 focus:border-neutral-500"
             style={{
               fontSize: "14px",
-              padding: "4px 8px",
+              padding: "5px 8px 8px 8px",
             }}
             placeholder="Enter playlist name"
             value={playlistName}
