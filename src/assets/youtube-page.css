@@ -53,14 +53,12 @@ segmented-like-dislike-button-view-model {
   background: var(--bg-primary);
   height: 100%;
   padding-inline: 14px;
+  margin-right: 10px;
   border-radius: 20px;
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
   font-family: var(--font-family);
-  font-size: 14px;
-  font-weight: 500;
-  margin-right: 10px;
 }
 
 #custom-ltm-like-button:hover {
