@@ -1,4 +1,12 @@
-import type { LocalPlaylist } from "@/entrypoints/utils/types";
+import { ACTIONS } from "@/entrypoints/utils/constants";
+import type {
+  LocalPlaylist,
+  Message,
+  Response,
+} from "@/entrypoints/utils/types";
+import { getVideoData } from "@/entrypoints/utils/video/get-video-data";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 export const Playlist = ({
   playlist,
@@ -7,9 +15,42 @@ export const Playlist = ({
   playlist: LocalPlaylist;
   videoId: string;
 }) => {
-  const isVideoInPlaylist = playlist.videos.some(
-    (video) => video.urlSlug === videoId,
-  );
+  const [videos, setVideos] = useState(playlist.videos);
+  const isVideoInPlaylist = videos.some((video) => video.urlSlug === videoId);
+
+  const toggleVideoInPlaylist = async () => {
+    try {
+      if (isVideoInPlaylist) {
+        const response: Response = await browser.runtime.sendMessage({
+          action: ACTIONS.REMOVE_VIDEO_FROM_LOCAL_PLAYLIST,
+          data: { playlistName: playlist.name, videoId },
+        } satisfies Message);
+
+        if (response.success) {
+          setVideos((currentVideos) =>
+            currentVideos.filter((video) => video.urlSlug !== videoId),
+          );
+        } else {
+          toast.error("Something went wrong,\n Refresh and try again");
+        }
+        return;
+      } else {
+        const video = await getVideoData(videoId, document);
+        const response: Response = await browser.runtime.sendMessage({
+          action: ACTIONS.ADD_VIDEO_TO_LOCAL_PLAYLIST,
+          data: { playlistName: playlist.name, video },
+        } satisfies Message);
+
+        if (response.success) {
+          setVideos((currentVideos) => [...currentVideos, video]);
+        } else {
+          toast.error("Something went wrong,\n Refresh and try again");
+        }
+      }
+    } catch (error) {
+      toast.error("Something went wrong,\n Refresh and try again");
+    }
+  };
 
   return (
     <div
@@ -19,12 +60,11 @@ export const Playlist = ({
         padding: "7px 10px 8px 10px",
       }}
     >
-      <label className="flex items-center gap-3">
+      <label className="flex flex-1 items-center gap-3 cursor-pointer">
         <input
           type="checkbox"
           checked={isVideoInPlaylist}
-          readOnly
-          className="cursor-pointer"
+          onChange={toggleVideoInPlaylist}
           style={{
             appearance: "none",
             WebkitAppearance: "none",
@@ -59,8 +99,8 @@ export const Playlist = ({
           fontWeight: 500,
         }}
       >
-        {playlist.videos.length} video
-        {playlist.videos.length === 1 ? "" : "s"}
+        {videos.length} video
+        {videos.length === 1 ? "" : "s"}
       </span>
     </div>
   );

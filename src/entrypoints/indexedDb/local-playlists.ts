@@ -1,4 +1,4 @@
-import type { LocalPlaylist } from "../utils/types";
+import type { LocalPlaylist, Video } from "../utils/types";
 import { db } from "./db";
 
 export const getAllLocalPlaylists = async () => {
@@ -17,4 +17,43 @@ export const addLocalPlaylist = async (playlist: LocalPlaylist) => {
 
 export const deleteLocalPlaylistByName = async (playlistName: string) => {
   await db.localPlaylists.delete(playlistName);
+};
+
+export const updateLocalPlaylistName = async (
+  playlistName: string,
+  newName: string,
+) => {
+  const playlist = await db.localPlaylists.get(playlistName);
+  if (!playlist) {
+    return;
+  }
+  playlist.name = newName;
+  await db.localPlaylists.put(playlist);
+};
+
+export const addVideoToLocalPlaylist = async (
+  playlistName: string,
+  video: Video,
+) => {
+  const playlist = await db.localPlaylists.get(playlistName);
+  if (!playlist) {
+    throw new Error("Playlist not found");
+  }
+  if (playlist.videos.some((v) => v.urlSlug === video.urlSlug)) {
+    throw new Error("Video already in playlist");
+  }
+  playlist.videos.push(video);
+  await db.localPlaylists.put(playlist);
+};
+
+export const removeVideoFromLocalPlaylist = async (
+  playlistName: string,
+  videoUrlSlug: string,
+) => {
+  const playlist = await db.localPlaylists.get(playlistName);
+  if (!playlist) {
+    throw new Error("Playlist not found");
+  }
+  playlist.videos = playlist.videos.filter((v) => v.urlSlug !== videoUrlSlug);
+  await db.localPlaylists.put(playlist);
 };

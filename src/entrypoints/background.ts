@@ -32,7 +32,9 @@ import {
 } from "./indexedDb/youtube-playlist";
 import {
   addLocalPlaylist,
+  addVideoToLocalPlaylist,
   getAllLocalPlaylists,
+  removeVideoFromLocalPlaylist,
 } from "./indexedDb/local-playlists";
 import Dexie from "dexie";
 
@@ -277,6 +279,23 @@ export default defineBackground(() => {
         })();
         return true;
       }
+      if (message.action === ACTIONS.ADD_VIDEO_TO_LOCAL_PLAYLIST) {
+        const { playlistName, video } = message.data;
+        (async () => {
+          try {
+            await addVideoToLocalPlaylist(playlistName, video);
+            sendResponse({
+              success: true,
+            } satisfies Response);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to add video to local playlist",
+            } satisfies Response);
+          }
+        })();
+        return true;
+      }
 
       // delete
       if (message.action === ACTIONS.DELETE_LIKED_VIDEO_BY_ID) {
@@ -325,6 +344,23 @@ export default defineBackground(() => {
             sendResponse({
               success: false,
               error: "Failed to delete youtube playlist by id",
+            } satisfies Response);
+          }
+        })();
+        return true;
+      }
+      if (message.action === ACTIONS.REMOVE_VIDEO_FROM_LOCAL_PLAYLIST) {
+        const { playlistName, videoId } = message.data;
+        (async () => {
+          try {
+            await removeVideoFromLocalPlaylist(playlistName, videoId);
+            sendResponse({
+              success: true,
+            } satisfies Response);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to remove video from local playlist",
             } satisfies Response);
           }
         })();

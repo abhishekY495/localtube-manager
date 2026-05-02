@@ -24,10 +24,12 @@ export const ACTIONS = {
   ADD_SUBSCRIBED_CHANNEL: "add_subscribed_channel",
   ADD_YOUTUBE_PLAYLIST: "add_youtube_playlist",
   ADD_LOCAL_PLAYLIST: "add_local_playlist",
+  ADD_VIDEO_TO_LOCAL_PLAYLIST: "add_video_to_local_playlist",
   //
   DELETE_LIKED_VIDEO_BY_ID: "delete_liked_video_by_id",
   DELETE_SUBSCRIBED_CHANNEL_BY_ID: "delete_subscribed_channel_by_id",
   DELETE_YOUTUBE_PLAYLIST_BY_ID: "delete_youtube_playlist_by_id",
+  REMOVE_VIDEO_FROM_LOCAL_PLAYLIST: "remove_video_from_local_playlist",
 } as const;
 
 export const NAV_ITEM_LABELS = {

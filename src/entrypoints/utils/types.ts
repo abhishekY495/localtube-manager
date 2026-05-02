@@ -91,8 +91,16 @@ export type Message =
     >
   | MessageWithData<typeof ACTIONS.ADD_LOCAL_PLAYLIST, AddLocalPlaylistRequest>
   | MessageWithData<
+      typeof ACTIONS.ADD_VIDEO_TO_LOCAL_PLAYLIST,
+      AddVideoToLocalPlaylistRequest
+    >
+  | MessageWithData<
       typeof ACTIONS.DELETE_YOUTUBE_PLAYLIST_BY_ID,
       DeleteYoutubePlaylistByIdRequest
+    >
+  | MessageWithData<
+      typeof ACTIONS.REMOVE_VIDEO_FROM_LOCAL_PLAYLIST,
+      RemoveVideoFromLocalPlaylistRequest
     >;
 
 export type MessageAction = Message["action"];
@@ -153,8 +161,16 @@ export type AddYoutubePlaylistRequest = {
 export type AddLocalPlaylistRequest = {
   playlist: LocalPlaylist;
 };
+export type AddVideoToLocalPlaylistRequest = {
+  playlistName: string;
+  video: Video;
+};
 export type DeleteYoutubePlaylistByIdRequest = {
   playlistId: string;
+};
+export type RemoveVideoFromLocalPlaylistRequest = {
+  playlistName: string;
+  videoId: string;
 };
 
 export type ActiveTab = "youtube" | "local";
