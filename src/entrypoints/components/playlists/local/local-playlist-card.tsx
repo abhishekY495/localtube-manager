@@ -22,6 +22,12 @@ export const LocalPlaylistCard = ({
   }
 
   const openPlaylist = () => {
+    const dashboardUrl = browser.runtime.getURL("/dashboard.html");
+    if (window.location.href.startsWith(dashboardUrl)) {
+      window.location.href = `${dashboardUrl}#local-playlists?name=${encodeURIComponent(playlist.name)}`;
+      return;
+    }
+
     browser.runtime.sendMessage({
       action: ACTIONS.OPEN_LOCAL_PLAYLIST,
       data: { playlistName: playlist.name },
