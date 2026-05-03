@@ -251,6 +251,9 @@ export const YOUTUBE_EMBED_REFERRER_RULE_ID = 1;
 
 export const NEW_TAB_URLS = [
   "about:newtab",
+  "about:newtab/",
   "chrome://newtab",
+  "chrome://newtab/",
   "chrome://new-tab-page",
+  "chrome://new-tab-page/",
 ];
