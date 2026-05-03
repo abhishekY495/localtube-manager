@@ -51,7 +51,7 @@ export default defineBackground(() => {
   action.onClicked.addListener((tab: any) => {
     if (isNewTab(tab.url)) {
       browser.tabs.update({
-        url: browser.runtime.getURL("/dashboard.html"),
+        url: browser.runtime.getURL("/dashboard.html#/subscriptions"),
       });
       return;
     }
@@ -66,7 +66,7 @@ export default defineBackground(() => {
     (message: Message, _sender, sendResponse) => {
       if (message.action === ACTIONS.OPEN_DASHBOARD) {
         browser.tabs.create({
-          url: browser.runtime.getURL("/dashboard.html"),
+          url: browser.runtime.getURL("/dashboard.html#/subscriptions"),
         });
       }
 
