@@ -436,4 +436,9 @@ export default defineBackground(() => {
       }
     },
   );
+
+  // keep service worker active
+  const keepAlive = () => setInterval(browser.runtime.getPlatformInfo, 20e3);
+  browser.runtime.onStartup.addListener(keepAlive);
+  keepAlive();
 });
