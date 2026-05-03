@@ -39,7 +39,6 @@ import {
 } from "./indexedDb/local-playlists";
 import Dexie from "dexie";
 import { setupYoutubeEmbedReferrer } from "./utils/youtube-embed/setup-youtube-embed-referrer";
-import { isNewTab } from "./utils/is-new-tab";
 
 export default defineBackground(() => {
   const action = browser.action || (browser as any).browserAction;
@@ -49,16 +48,13 @@ export default defineBackground(() => {
   browser.runtime.onStartup.addListener(setupYoutubeEmbedReferrer);
 
   action.onClicked.addListener((tab: any) => {
-    if (isNewTab(tab.url)) {
-      browser.tabs.update({
-        url: browser.runtime.getURL("/dashboard.html#/subscriptions"),
-      });
+    if (tab.url?.startsWith(browser.runtime.getURL("/dashboard.html"))) {
+      browser.runtime.sendMessage({ action: ACTIONS.TOGGLE_SIDEBAR });
       return;
     }
 
     if (tab.id) {
       browser.tabs.sendMessage(tab.id, { action: ACTIONS.TOGGLE_SIDEBAR });
-      return;
     }
   });
 
@@ -66,7 +62,7 @@ export default defineBackground(() => {
     (message: Message, _sender, sendResponse) => {
       if (message.action === ACTIONS.OPEN_DASHBOARD) {
         browser.tabs.create({
-          url: browser.runtime.getURL("/dashboard.html#/subscriptions"),
+          url: browser.runtime.getURL("/dashboard.html"),
         });
       }
 

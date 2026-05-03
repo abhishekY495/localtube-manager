@@ -1,6 +1,7 @@
 import "~/assets/tailwind.css";
 import React from "react";
 import ReactDOM from "react-dom/client";
+import Sidebar from "../content/App";
 import App from "./app";
 
 const root = ReactDOM.createRoot(
@@ -16,6 +17,7 @@ root.render(
       }}
     >
       <App />
+      <Sidebar />
     </div>
   </React.StrictMode>,
 );
