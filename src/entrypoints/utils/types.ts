@@ -18,12 +18,10 @@ export type Channel = {
   addedAt: string;
 };
 
-export type Subscriptions = {
+export type Subscription = {
   title: string;
   urlSlug: string;
-  channelHandle: string;
   channelName: string;
-  duration: string;
   uploadedAt: string;
   isShort: boolean;
 };
@@ -43,6 +41,8 @@ export type LocalPlaylist = {
   videos: Video[];
 };
 
+export type SubscriptionsActiveTab = "videos" | "shorts";
+
 type MessageWithoutData<TAction extends string> = {
   action: TAction;
 };
@@ -59,6 +59,7 @@ export type Message =
   | MessageWithoutData<typeof ACTIONS.GET_ALL_SUBSCRIBED_CHANNELS>
   | MessageWithoutData<typeof ACTIONS.GET_ALL_YOUTUBE_PLAYLISTS>
   | MessageWithoutData<typeof ACTIONS.GET_ALL_LOCAL_PLAYLISTS>
+  | MessageWithoutData<typeof ACTIONS.GET_ALL_SUBSCRIPTIONS>
   | MessageWithoutData<typeof ACTIONS.GET_COUNT>
   | MessageWithData<
       typeof ACTIONS.OPEN_LOCAL_PLAYLIST,

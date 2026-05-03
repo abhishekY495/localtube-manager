@@ -11,6 +11,7 @@ import type { Message } from "../utils/types";
 import { LikedVideosContainer } from "../components/liked-videos/liked-videos-container";
 import { SubscribedChannelsContainer } from "../components/subscribed-channels/subscribed-channels-container";
 import { PlaylistsContainer } from "../components/playlists/playlists-container";
+import { SubscriptionsContainer } from "../components/subscriptions/subscriptions-container";
 
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -59,6 +60,19 @@ export default function App() {
           onRefresh={handleRefresh}
         />
         <div className="min-h-0 flex-1">
+          <div
+            className={
+              activeItem === NAV_ITEM_LABELS.SUBSCRIPTIONS
+                ? "block h-full"
+                : "hidden"
+            }
+          >
+            <SubscriptionsContainer
+              isSidebarOpen={isOpen}
+              refreshKey={refreshKey}
+              onRefresh={handleRefresh}
+            />
+          </div>
           <div
             className={
               activeItem === NAV_ITEM_LABELS.LIKED_VIDEOS

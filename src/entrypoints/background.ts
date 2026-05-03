@@ -21,6 +21,7 @@ import type {
   LocalPlaylist,
   Message,
   Response,
+  Subscription,
   Video,
   YoutubePlaylist,
 } from "./utils/types";
@@ -39,6 +40,8 @@ import {
 } from "./indexedDb/local-playlists";
 import Dexie from "dexie";
 import { setupYoutubeEmbedReferrer } from "./utils/youtube-embed/setup-youtube-embed-referrer";
+import { subscriptionsCronJob } from "./utils/subscriptions/subscriptions-cron-job";
+import { getAllSubscriptions } from "./indexedDb/subscriptions";
 
 export default defineBackground(() => {
   const action = browser.action || (browser as any).browserAction;
@@ -46,6 +49,19 @@ export default defineBackground(() => {
   setupYoutubeEmbedReferrer().catch(console.error);
   browser.runtime.onInstalled.addListener(setupYoutubeEmbedReferrer);
   browser.runtime.onStartup.addListener(setupYoutubeEmbedReferrer);
+
+  // run subscriptions cron job on startup
+  subscriptionsCronJob();
+
+  browser.alarms.create(ACTIONS.SUBSCRIPTIONS_CRON_JOB, {
+    periodInMinutes: 15,
+  });
+  browser.alarms.onAlarm.addListener((alarm) => {
+    if (alarm.name === ACTIONS.SUBSCRIPTIONS_CRON_JOB) {
+      console.log("Fetching subscribed channels latest videos");
+      subscriptionsCronJob();
+    }
+  });
 
   action.onClicked.addListener((tab: any) => {
     if (tab.url?.startsWith(browser.runtime.getURL("/dashboard.html"))) {
@@ -157,6 +173,23 @@ export default defineBackground(() => {
               success: false,
               error: "Failed to get all local playlists",
             } satisfies Response<LocalPlaylist[]>);
+          }
+        })();
+        return true;
+      }
+      if (message.action === ACTIONS.GET_ALL_SUBSCRIPTIONS) {
+        (async () => {
+          try {
+            const subscriptions = await getAllSubscriptions();
+            sendResponse({
+              success: true,
+              data: subscriptions,
+            } satisfies Response<Subscription[]>);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to get all subscriptions",
+            } satisfies Response<Subscription[]>);
           }
         })();
         return true;

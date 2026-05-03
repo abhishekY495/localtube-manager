@@ -20,6 +20,7 @@ export const ACTIONS = {
   GET_ALL_SUBSCRIBED_CHANNELS: "get_all_subscribed_channels",
   GET_ALL_YOUTUBE_PLAYLISTS: "get_all_youtube_playlists",
   GET_ALL_LOCAL_PLAYLISTS: "get_all_local_playlists",
+  GET_ALL_SUBSCRIPTIONS: "get_all_subscriptions",
   //
   ADD_LIKED_VIDEO: "add_liked_video",
   ADD_SUBSCRIBED_CHANNEL: "add_subscribed_channel",
@@ -32,6 +33,8 @@ export const ACTIONS = {
   DELETE_YOUTUBE_PLAYLIST_BY_ID: "delete_youtube_playlist_by_id",
   DELETE_LOCAL_PLAYLIST_BY_NAME: "delete_local_playlist_by_name",
   REMOVE_VIDEO_FROM_LOCAL_PLAYLIST: "remove_video_from_local_playlist",
+  //
+  SUBSCRIPTIONS_CRON_JOB: "subscriptions_cron_job",
 } as const;
 
 export const NAV_ITEM_LABELS = {
@@ -248,3 +251,6 @@ export const CHANNEL_HANDLE_REGEX = /@\w+/;
 export const CHANNEL_VIDEO_COUNT_REGEX = /^\d+ videos$/;
 
 export const YOUTUBE_EMBED_REFERRER_RULE_ID = 1;
+
+export const YOUTUBE_RSS_FEED_URL =
+  "https://www.youtube.com/feeds/videos.xml?channel_id=";
