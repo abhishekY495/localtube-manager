@@ -4,16 +4,34 @@ import { defineConfig } from "wxt";
 // See https://wxt.dev/api/config.html
 export default defineConfig({
   modules: ["@wxt-dev/module-react"],
+  webExt: {
+    chromiumArgs: ["https://youtube.com"],
+    firefoxArgs: ["-new-tab", "https://youtube.com"],
+  },
   srcDir: "src",
   vite: () => ({
     plugins: [tailwindcss()],
   }),
-  manifest: {
+  manifest: ({ browser }) => ({
     name: "LocalTube-Manager",
     description: "A browser extension to use Youtube without a Google account",
     version: "5.0.0",
     action: {},
-    permissions: ["unlimitedStorage", "alarms", "notifications"],
+    permissions:
+      browser === "firefox"
+        ? [
+            "unlimitedStorage",
+            "alarms",
+            "notifications",
+            "webRequest",
+            "webRequestBlocking",
+          ]
+        : [
+            "unlimitedStorage",
+            "alarms",
+            "notifications",
+            "declarativeNetRequestWithHostAccess",
+          ],
     host_permissions: ["*://*.youtube.com/*"],
-  },
+  }),
 });

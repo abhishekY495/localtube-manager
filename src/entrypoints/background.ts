@@ -39,6 +39,7 @@ import {
 } from "./indexedDb/local-playlists";
 import Dexie from "dexie";
 import { setupYoutubeEmbedReferrer } from "./utils/youtube-embed/setup-youtube-embed-referrer";
+import { isNewTab } from "./utils/is-new-tab";
 
 export default defineBackground(() => {
   const action = browser.action || (browser as any).browserAction;
@@ -49,6 +50,13 @@ export default defineBackground(() => {
 
   action.onClicked.addListener((tab: any) => {
     if (!tab.id) {
+      return;
+    }
+
+    if (isNewTab(tab.url)) {
+      browser.tabs.update(tab.id, {
+        url: browser.runtime.getURL("/dashboard.html"),
+      });
       return;
     }
 

@@ -248,3 +248,9 @@ export const CHANNEL_HANDLE_REGEX = /@\w+/;
 export const CHANNEL_VIDEO_COUNT_REGEX = /^\d+ videos$/;
 
 export const YOUTUBE_EMBED_REFERRER_RULE_ID = 1;
+
+export const NEW_TAB_URLS = [
+  "about:newtab",
+  "chrome://newtab",
+  "chrome://new-tab-page",
+];
