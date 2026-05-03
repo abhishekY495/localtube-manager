@@ -1,5 +1,4 @@
 import { Header } from "./components/header";
-import { LocalPlaylistsPage } from "./pages/local-playlists-page";
 import { PlaylistPage } from "./pages/playlist-page";
 
 export default function App() {
@@ -9,11 +8,11 @@ export default function App() {
 
   return (
     <div className="mx-auto flex h-full max-w-[95%] flex-col gap-8">
-      <Header />
-      {playlistName ? (
-        <PlaylistPage playlistName={playlistName} />
-      ) : (
-        <LocalPlaylistsPage />
+      {playlistName && (
+        <>
+          <Header />
+          <PlaylistPage playlistName={playlistName} />
+        </>
       )}
     </div>
   );

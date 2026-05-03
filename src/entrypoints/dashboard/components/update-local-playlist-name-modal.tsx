@@ -3,7 +3,7 @@ import { updateLocalPlaylistName } from "@/entrypoints/indexedDb/local-playlists
 import { XIcon } from "lucide-react";
 import toast from "react-hot-toast";
 
-export const UpdatePlaylistNameModal = ({
+export const UpdateLocalPlaylistNameModal = ({
   setIsUpdatePlaylistNameModalOpen,
   playlistName,
   onPlaylistRenamed,

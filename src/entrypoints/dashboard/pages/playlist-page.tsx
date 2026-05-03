@@ -4,7 +4,7 @@ import { getLocalPlaylistByName } from "@/entrypoints/indexedDb/local-playlists"
 import { VideoDetails } from "../components/video-details";
 import { PencilIcon } from "lucide-react";
 import { SearchBar } from "@/entrypoints/components/search-bar";
-import { UpdatePlaylistNameModal } from "../components/update-playlist-name-modal";
+import { UpdateLocalPlaylistNameModal } from "../components/update-local-playlist-name-modal";
 import { DeleteLocalPlaylistModal } from "../components/delete-local-playlist-modal";
 
 export const PlaylistPage = ({ playlistName }: { playlistName: string }) => {
@@ -154,7 +154,7 @@ export const PlaylistPage = ({ playlistName }: { playlistName: string }) => {
         )}
       </div>
       {isUpdatePlaylistNameModalOpen && (
-        <UpdatePlaylistNameModal
+        <UpdateLocalPlaylistNameModal
           setIsUpdatePlaylistNameModalOpen={setIsUpdatePlaylistNameModalOpen}
           playlistName={playlist.name}
           onPlaylistRenamed={handlePlaylistRenamed}
