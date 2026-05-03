@@ -2,7 +2,7 @@ import { Header } from "./components/header";
 import { LocalPlaylistsPage } from "./pages/local-playlists-page";
 import { PlaylistPage } from "./pages/playlist-page";
 
-export default function Dashboard() {
+export default function App() {
   const [_, search = ""] = window.location.hash.slice(1).split("?");
   const params = new URLSearchParams(search);
   const playlistName = params.get("name");

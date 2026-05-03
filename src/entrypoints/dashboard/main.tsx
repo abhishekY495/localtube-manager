@@ -1,8 +1,7 @@
 import "~/assets/tailwind.css";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import Sidebar from "../content/App";
-import Dashboard from "./dashboard";
+import App from "./app";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,
@@ -16,8 +15,7 @@ root.render(
         fontFamily: "Roboto, Arial, sans-serif",
       }}
     >
-      <Dashboard />
-      <Sidebar />
+      <App />
     </div>
   </React.StrictMode>,
 );
