@@ -5,9 +5,12 @@ import { VideoDetails } from "../components/video-details";
 import { PencilIcon } from "lucide-react";
 import { SearchBar } from "@/entrypoints/components/search-bar";
 import { UpdatePlaylistNameModal } from "../components/update-playlist-name-modal";
+import { DeleteLocalPlaylistModal } from "../components/delete-local-playlist-modal";
 
 export const PlaylistPage = ({ playlistName }: { playlistName: string }) => {
   const [isUpdatePlaylistNameModalOpen, setIsUpdatePlaylistNameModalOpen] =
+    useState(false);
+  const [isDeletePlaylistModalOpen, setIsDeletePlaylistModalOpen] =
     useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [playlist, setPlaylist] = useState<LocalPlaylist | null>(null);
@@ -64,6 +67,11 @@ export const PlaylistPage = ({ playlistName }: { playlistName: string }) => {
     );
   };
 
+  const handlePlaylistDeleted = () => {
+    window.history.replaceState(null, "", "#local-playlists");
+    window.location.reload();
+  };
+
   if (!playlist) {
     return (
       <div className="text-center text-lg font-medium text-neutral-300 mt-10">
@@ -98,7 +106,10 @@ export const PlaylistPage = ({ playlistName }: { playlistName: string }) => {
                 </p>
               </div>
             </div>
-            <button className="bg-red-500/20 border border-red-900 pt-0.5 pb-1.5 px-4 rounded cursor-pointer hover:bg-red-900">
+            <button
+              onClick={() => setIsDeletePlaylistModalOpen(true)}
+              className="bg-red-500/20 border border-red-900 pt-0.5 pb-1.5 px-4 rounded cursor-pointer hover:bg-red-900"
+            >
               Delete
             </button>
           </div>
@@ -147,6 +158,13 @@ export const PlaylistPage = ({ playlistName }: { playlistName: string }) => {
           setIsUpdatePlaylistNameModalOpen={setIsUpdatePlaylistNameModalOpen}
           playlistName={playlist.name}
           onPlaylistRenamed={handlePlaylistRenamed}
+        />
+      )}
+      {isDeletePlaylistModalOpen && (
+        <DeleteLocalPlaylistModal
+          setIsDeletePlaylistModalOpen={setIsDeletePlaylistModalOpen}
+          playlistName={playlist.name}
+          onPlaylistDeleted={handlePlaylistDeleted}
         />
       )}
     </>
