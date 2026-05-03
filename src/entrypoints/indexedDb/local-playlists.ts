@@ -23,12 +23,27 @@ export const updateLocalPlaylistName = async (
   playlistName: string,
   newName: string,
 ) => {
-  const playlist = await db.localPlaylists.get(playlistName);
-  if (!playlist) {
-    return;
-  }
-  playlist.name = newName;
-  await db.localPlaylists.put(playlist);
+  await db.transaction("rw", db.localPlaylists, async () => {
+    const playlist = await db.localPlaylists.get(playlistName);
+    if (!playlist) {
+      throw new Error("Playlist not found");
+    }
+
+    if (playlistName === newName) {
+      return;
+    }
+
+    const existingPlaylist = await db.localPlaylists.get(newName);
+    if (existingPlaylist) {
+      throw new Error("Playlist name already exists");
+    }
+
+    await db.localPlaylists.add({
+      ...playlist,
+      name: newName,
+    });
+    await db.localPlaylists.delete(playlistName);
+  });
 };
 
 export const addVideoToLocalPlaylist = async (
