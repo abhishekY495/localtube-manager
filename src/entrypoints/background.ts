@@ -48,9 +48,16 @@ export default defineBackground(() => {
   browser.runtime.onStartup.addListener(setupYoutubeEmbedReferrer);
 
   action.onClicked.addListener((tab: any) => {
-    if (tab.id) {
-      browser.tabs.sendMessage(tab.id, { action: ACTIONS.TOGGLE_SIDEBAR });
+    if (!tab.id) {
+      return;
     }
+
+    if (tab.url?.startsWith(browser.runtime.getURL("/dashboard.html"))) {
+      browser.runtime.sendMessage({ action: ACTIONS.TOGGLE_SIDEBAR });
+      return;
+    }
+
+    browser.tabs.sendMessage(tab.id, { action: ACTIONS.TOGGLE_SIDEBAR });
   });
 
   browser.runtime.onMessage.addListener(

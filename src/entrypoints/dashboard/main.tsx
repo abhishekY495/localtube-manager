@@ -1,6 +1,8 @@
 import "~/assets/tailwind.css";
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { Toaster } from "react-hot-toast";
+import Sidebar from "../content/App";
 import Dashboard from "./dashboard";
 
 const root = ReactDOM.createRoot(
@@ -16,6 +18,14 @@ root.render(
       }}
     >
       <Dashboard />
+      <Sidebar />
+      <Toaster
+        position="bottom-left"
+        reverseOrder={true}
+        containerStyle={{
+          zIndex: 2147483647,
+        }}
+      />
     </div>
   </React.StrictMode>,
 );

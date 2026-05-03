@@ -23,6 +23,9 @@ export default function App() {
   useEffect(() => {
     const handleMessage = (message: Message) => {
       if (message.action === ACTIONS.TOGGLE_SIDEBAR) {
+        if (document.visibilityState !== "visible") {
+          return;
+        }
         setIsOpen((prev) => !prev);
       }
     };
