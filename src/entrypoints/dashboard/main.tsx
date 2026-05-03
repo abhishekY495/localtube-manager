@@ -10,7 +10,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <div
-      className="h-screen bg-neutral-950 p-6 pb-20 text-white"
+      className="h-screen bg-neutral-950 p-6 pb-16 text-white"
       style={{
         fontFamily: "Roboto, Arial, sans-serif",
       }}

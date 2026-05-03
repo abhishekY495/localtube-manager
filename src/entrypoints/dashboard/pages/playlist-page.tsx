@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import type { LocalPlaylist, Video } from "@/entrypoints/utils/types";
 import { getLocalPlaylistByName } from "@/entrypoints/indexedDb/local-playlists";
-import { VideoDetails } from "../components/video";
+import { VideoDetails } from "../components/video-details";
+import { PencilIcon } from "lucide-react";
 
 export const PlaylistPage = ({ playlistName }: { playlistName: string }) => {
   const [playlist, setPlaylist] = useState<LocalPlaylist | null>(null);
@@ -26,11 +27,20 @@ export const PlaylistPage = ({ playlistName }: { playlistName: string }) => {
 
   return (
     <div className="flex flex-1 min-h-0 gap-0 rounded">
-      <div className="flex h-full w-[30%] flex-col border-8 border-neutral-900">
-        <p className="flex gap-2 p-3 pt-1 bg-neutral-900 text-xl">
-          <span className="text-neutral-500">•</span>
-          {playlist.name}
-        </p>
+      <div className="flex h-full w-[600px] flex-col border-8 border-neutral-900">
+        <div className="flex items-center justify-between gap-2 p-3 pt-1 bg-neutral-900">
+          <div className="flex items-center gap-2">
+            <PencilIcon
+              size={24}
+              className="bg-neutral-800 p-1 rounded border border-neutral-700 cursor-pointer"
+            />
+            <p className="text-xl">{playlist.name}</p>
+          </div>
+          <p className="text-neutral-400 text-sm">
+            {playlist.videos.length} videos
+          </p>
+        </div>
+        {/*  */}
         <div className="flex flex-col overflow-y-auto">
           {playlist.videos.map((video) => {
             return (
@@ -45,19 +55,17 @@ export const PlaylistPage = ({ playlistName }: { playlistName: string }) => {
         </div>
       </div>
       {/*  */}
-      <div className="h-full w-[70%]">
-        {currentVideo && (
-          <iframe
-            className="w-full h-full rounded"
-            width="100%"
-            height="100%"
-            title="YouTube video player"
-            src={`https://www.youtube.com/embed/${currentVideo.urlSlug}`}
-            allowFullScreen
-            referrerPolicy="strict-origin-when-cross-origin"
-          />
-        )}
-      </div>
+      {currentVideo && (
+        <iframe
+          className="w-full h-full rounded"
+          width="100%"
+          height="100%"
+          title="YouTube video player"
+          src={`https://www.youtube.com/embed/${currentVideo.urlSlug}`}
+          allowFullScreen
+          referrerPolicy="strict-origin-when-cross-origin"
+        />
+      )}
     </div>
   );
 };

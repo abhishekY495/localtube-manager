@@ -28,7 +28,10 @@ export const VideoDetails = ({
       {/*  */}
       <div className="flex flex-col justify-between">
         <div className="space-y-0.5">
-          <p className="truncate w-[280px] text-sm font-semibold text-neutral-200">
+          <p
+            className="truncate w-[280px] text-sm font-semibold text-neutral-200"
+            title={video.title}
+          >
             {video.title}
           </p>
           {video.channelName && (

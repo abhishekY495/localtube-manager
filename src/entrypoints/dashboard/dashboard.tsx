@@ -8,7 +8,7 @@ export default function Dashboard() {
   const playlistName = params.get("name");
 
   return (
-    <div className="mx-auto flex h-full max-w-[1500px] flex-col gap-5">
+    <div className="mx-auto flex h-full max-w-[95%] flex-col gap-8">
       <Header />
       {playlistName ? (
         <PlaylistPage playlistName={playlistName} />
