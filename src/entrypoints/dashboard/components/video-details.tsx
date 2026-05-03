@@ -35,7 +35,7 @@ export const VideoDetails = ({
             {video.title}
           </p>
           {video.channelName && (
-            <p className="text-neutral-400 text-xs font-medium">
+            <p className="truncate w-[280px] text-xs font-medium text-neutral-400 ">
               {video.channelName}
             </p>
           )}

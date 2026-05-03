@@ -3,9 +3,11 @@ import type { LocalPlaylist, Video } from "@/entrypoints/utils/types";
 import { getLocalPlaylistByName } from "@/entrypoints/indexedDb/local-playlists";
 import { VideoDetails } from "../components/video-details";
 import { PencilIcon } from "lucide-react";
+import { SearchBar } from "@/entrypoints/components/search-bar";
 
 export const PlaylistPage = ({ playlistName }: { playlistName: string }) => {
   const [playlist, setPlaylist] = useState<LocalPlaylist | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const [currentVideo, setCurrentVideo] = useState<Video | null>(
     playlist?.videos[0] ?? null,
   );
@@ -25,6 +27,10 @@ export const PlaylistPage = ({ playlistName }: { playlistName: string }) => {
     return <div>Playlist not found</div>;
   }
 
+  const filteredVideos = playlist.videos.filter((video) => {
+    return video.title.toLowerCase().includes(searchQuery.trim().toLowerCase());
+  });
+
   return (
     <div className="flex flex-1 min-h-0 gap-0 rounded">
       <div className="flex h-full w-[600px] flex-col border-8 border-neutral-900">
@@ -42,16 +48,27 @@ export const PlaylistPage = ({ playlistName }: { playlistName: string }) => {
         </div>
         {/*  */}
         <div className="flex flex-col overflow-y-auto">
-          {playlist.videos.map((video) => {
-            return (
-              <VideoDetails
-                key={video.urlSlug}
-                video={video}
-                isCurrentVideo={video.urlSlug === currentVideo?.urlSlug}
-                setCurrentVideo={setCurrentVideo}
-              />
-            );
-          })}
+          <SearchBar
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            className="border-neutral-800"
+          />
+          {filteredVideos.length === 0 ? (
+            <p className="mt-16 font-semibold text-base text-center text-neutral-400">
+              No videos found
+            </p>
+          ) : (
+            filteredVideos.map((video) => {
+              return (
+                <VideoDetails
+                  key={video.urlSlug}
+                  video={video}
+                  isCurrentVideo={video.urlSlug === currentVideo?.urlSlug}
+                  setCurrentVideo={setCurrentVideo}
+                />
+              );
+            })
+          )}
         </div>
       </div>
       {/*  */}
