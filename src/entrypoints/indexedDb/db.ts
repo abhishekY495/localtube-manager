@@ -2,7 +2,7 @@ import Dexie, { type EntityTable } from "dexie";
 import type {
   Channel,
   LocalPlaylist,
-  Subscriptions,
+  Subscription,
   Video,
   YoutubePlaylist,
 } from "@/entrypoints/utils/types";
@@ -12,7 +12,7 @@ export const db = new Dexie("LocalTube-Manager-DB") as Dexie & {
   subscribedChannels: EntityTable<Channel, "handle">;
   youtubePlaylists: EntityTable<YoutubePlaylist, "urlSlug">;
   localPlaylists: EntityTable<LocalPlaylist, "name">;
-  subscriptions: EntityTable<Subscriptions, "urlSlug">;
+  subscriptions: EntityTable<Subscription, "urlSlug">;
 };
 
 db.version(1).stores({
