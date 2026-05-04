@@ -21,6 +21,7 @@ import type {
   LocalPlaylist,
   Message,
   Response,
+  Setting,
   Subscription,
   Video,
   YoutubePlaylist,
@@ -43,13 +44,20 @@ import { setupYoutubeEmbedReferrer } from "./utils/youtube-embed/setup-youtube-e
 import { subscriptionsCronJob } from "./utils/subscriptions/subscriptions-cron-job";
 import { getAllSubscriptions } from "./indexed-db/subscriptions";
 import { getThumbnailUrl } from "./utils/get-thumbnail-url";
+import {
+  getAllSettings,
+  initSettings,
+  updateSetting,
+} from "./indexed-db/settings";
 
-export default defineBackground(() => {
+export default defineBackground(async () => {
   const action = browser.action || (browser as any).browserAction;
 
   setupYoutubeEmbedReferrer().catch(console.error);
   browser.runtime.onInstalled.addListener(setupYoutubeEmbedReferrer);
   browser.runtime.onStartup.addListener(setupYoutubeEmbedReferrer);
+
+  await initSettings();
 
   // run subscriptions cron job on startup
   subscriptionsCronJob();
@@ -216,6 +224,23 @@ export default defineBackground(() => {
               success: false,
               error: "Failed to get all subscriptions",
             } satisfies Response<Subscription[]>);
+          }
+        })();
+        return true;
+      }
+      if (message.action === ACTIONS.GET_ALL_SETTINGS) {
+        (async () => {
+          try {
+            const settings = await getAllSettings();
+            sendResponse({
+              success: true,
+              data: settings,
+            } satisfies Response<Setting[]>);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to get settings",
+            } satisfies Response<Setting[]>);
           }
         })();
         return true;
@@ -455,6 +480,25 @@ export default defineBackground(() => {
             sendResponse({
               success: false,
               error: "Failed to remove video from local playlist",
+            } satisfies Response);
+          }
+        })();
+        return true;
+      }
+
+      // update
+      if (message.action === ACTIONS.UPDATE_SETTING) {
+        const { key, value } = message.data;
+        (async () => {
+          try {
+            await updateSetting(key, value);
+            sendResponse({
+              success: true,
+            } satisfies Response);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to update setting",
             } satisfies Response);
           }
         })();

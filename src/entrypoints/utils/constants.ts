@@ -35,6 +35,9 @@ export const ACTIONS = {
   REMOVE_VIDEO_FROM_LOCAL_PLAYLIST: "remove_video_from_local_playlist",
   //
   SUBSCRIPTIONS_CRON_JOB: "subscriptions_cron_job",
+  //
+  GET_ALL_SETTINGS: "get_all_settings",
+  UPDATE_SETTING: "update_setting",
 } as const;
 
 export const NAV_ITEM_LABELS = {
@@ -255,7 +258,10 @@ export const YOUTUBE_EMBED_REFERRER_RULE_ID = 1;
 export const YOUTUBE_RSS_FEED_URL =
   "https://www.youtube.com/feeds/videos.xml?channel_id=";
 
-export const TIME_INTERVALS: { name: Intl.RelativeTimeFormatUnit; seconds: number }[] = [
+export const TIME_INTERVALS: {
+  name: Intl.RelativeTimeFormatUnit;
+  seconds: number;
+}[] = [
   { name: "year", seconds: 31536000 },
   { name: "month", seconds: 2592000 },
   { name: "week", seconds: 604800 },
@@ -264,3 +270,8 @@ export const TIME_INTERVALS: { name: Intl.RelativeTimeFormatUnit; seconds: numbe
   { name: "minute", seconds: 60 },
   { name: "second", seconds: 1 },
 ];
+
+export const DEFAULT_SETTINGS = {
+  Extension: true,
+  Notifications: false,
+};

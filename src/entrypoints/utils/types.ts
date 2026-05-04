@@ -1,4 +1,4 @@
-import { ACTIONS } from "./constants";
+import { ACTIONS, DEFAULT_SETTINGS } from "./constants";
 
 export type Video = {
   title: string;
@@ -41,6 +41,11 @@ export type LocalPlaylist = {
   videos: Video[];
 };
 
+export type Setting = {
+  key: keyof typeof DEFAULT_SETTINGS;
+  value: boolean;
+};
+
 export type SubscriptionsActiveTab = "videos" | "shorts";
 
 type MessageWithoutData<TAction extends string> = {
@@ -60,6 +65,7 @@ export type Message =
   | MessageWithoutData<typeof ACTIONS.GET_ALL_YOUTUBE_PLAYLISTS>
   | MessageWithoutData<typeof ACTIONS.GET_ALL_LOCAL_PLAYLISTS>
   | MessageWithoutData<typeof ACTIONS.GET_ALL_SUBSCRIPTIONS>
+  | MessageWithoutData<typeof ACTIONS.GET_ALL_SETTINGS>
   | MessageWithoutData<typeof ACTIONS.GET_COUNT>
   | MessageWithData<
       typeof ACTIONS.OPEN_LOCAL_PLAYLIST,
@@ -110,7 +116,8 @@ export type Message =
   | MessageWithData<
       typeof ACTIONS.REMOVE_VIDEO_FROM_LOCAL_PLAYLIST,
       RemoveVideoFromLocalPlaylistRequest
-    >;
+    >
+  | MessageWithData<typeof ACTIONS.UPDATE_SETTING, UpdateSettingRequest>;
 
 export type MessageAction = Message["action"];
 
@@ -187,6 +194,11 @@ export type RemoveVideoFromLocalPlaylistRequest = {
 };
 export type DeleteLocalPlaylistByNameRequest = {
   playlistName: string;
+};
+
+export type UpdateSettingRequest = {
+  key: keyof typeof DEFAULT_SETTINGS;
+  value: boolean;
 };
 
 export type ActiveTab = "youtube" | "local";

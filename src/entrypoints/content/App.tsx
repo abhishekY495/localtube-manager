@@ -12,6 +12,7 @@ import { LikedVideosContainer } from "../components/liked-videos/liked-videos-co
 import { SubscribedChannelsContainer } from "../components/subscribed-channels/subscribed-channels-container";
 import { PlaylistsContainer } from "../components/playlists/playlists-container";
 import { SubscriptionsContainer } from "../components/subscriptions/subscriptions-container";
+import { SettingsContainer } from "../components/settings/settings-container";
 
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -111,6 +112,15 @@ export default function App() {
               refreshKey={refreshKey}
               onRefresh={handleRefresh}
             />
+          </div>
+          <div
+            className={
+              activeItem === NAV_ITEM_LABELS.SETTINGS
+                ? "block h-full"
+                : "hidden"
+            }
+          >
+            <SettingsContainer isSidebarOpen={isOpen} refreshKey={refreshKey} />
           </div>
         </div>
       </div>
