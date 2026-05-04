@@ -7,10 +7,11 @@ import type {
   Video,
   YoutubePlaylist,
 } from "@/entrypoints/utils/types";
+import { DB_NAME } from "../utils/constants";
 
-export const db = new Dexie("LocalTube-Manager-DB") as Dexie & {
+export const db = new Dexie(DB_NAME) as Dexie & {
   likedVideos: EntityTable<Video, "urlSlug">;
-  subscribedChannels: EntityTable<Channel, "handle">;
+  subscribedChannels: EntityTable<Channel, "id">;
   youtubePlaylists: EntityTable<YoutubePlaylist, "urlSlug">;
   localPlaylists: EntityTable<LocalPlaylist, "name">;
   subscriptions: EntityTable<Subscription, "urlSlug">;

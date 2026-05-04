@@ -281,4 +281,5 @@ export const DEFAULT_SETTINGS = {
   Notifications: false,
 };
 
+export const DB_NAME = "ltm-database";
 export const EXPORT_FILE_NAME = "ltm-database.json";
