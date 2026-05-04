@@ -4,7 +4,8 @@ import { Loading } from "../loading";
 import type { Message, Response, Setting } from "@/entrypoints/utils/types";
 import { ACTIONS } from "@/entrypoints/utils/constants";
 import { SettingCard } from "./setting-card";
-import { ImportExportContainer } from "./import-export-container";
+import { Export } from "./import-export/export";
+import { Import } from "./import-export/import";
 
 export const SettingsContainer = ({
   isSidebarOpen,
@@ -53,7 +54,7 @@ export const SettingsContainer = ({
     >
       <div
         className="flex flex-col justify-center border-b border-neutral-700"
-        style={{ paddingBottom: "20px", marginBottom: "20px" }}
+        style={{ paddingBottom: "30px", marginBottom: "20px" }}
       >
         {settings.length > 0 && (
           <div className="flex flex-col gap-10">
@@ -78,7 +79,8 @@ export const SettingsContainer = ({
           </div>
         )}
       </div>
-      <ImportExportContainer />
+      <Import />
+      <Export />
     </div>
   );
 };
