@@ -69,8 +69,12 @@ export default defineBackground(async () => {
   });
   browser.alarms.onAlarm.addListener(async (alarm) => {
     if (alarm.name === ACTIONS.SUBSCRIPTIONS_CRON_JOB) {
-      console.log("Fetching subscribed channels latest videos");
       const newVideos = await subscriptionsCronJob();
+      const notificationsSetting = await getSetting("Notifications");
+
+      if (!notificationsSetting) {
+        return;
+      }
 
       if (newVideos.length === 0) {
         return;
