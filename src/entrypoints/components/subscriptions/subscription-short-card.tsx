@@ -1,3 +1,4 @@
+import { formatTime } from "@/entrypoints/utils/format-time";
 import type { Subscription } from "@/entrypoints/utils/types";
 
 export const SubscriptionShortCard = ({
@@ -7,6 +8,7 @@ export const SubscriptionShortCard = ({
 }) => {
   const shortUrl = `https://www.youtube.com/shorts/${subscription.urlSlug}`;
   const shortThumbnail = `https://i.ytimg.com/vi/${subscription.urlSlug}/oar2.jpg`;
+  const uploadedAt = formatTime(subscription.uploadedAt ?? "");
 
   return (
     <div
@@ -46,6 +48,9 @@ export const SubscriptionShortCard = ({
         </a>
         <p className="text-neutral-400" style={{ fontSize: "13px" }}>
           {subscription.channelName}
+        </p>
+        <p className="text-neutral-400" style={{ fontSize: "13px" }}>
+          {uploadedAt}
         </p>
       </div>
     </div>

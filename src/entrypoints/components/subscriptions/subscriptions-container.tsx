@@ -43,7 +43,12 @@ export const SubscriptionsContainer = ({
         setIsLoading(false);
         return;
       }
-      setSubscriptions(response.data);
+      const sortedSubscriptions = response.data.sort((a, b) => {
+        return (
+          new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime()
+        );
+      });
+      setSubscriptions(sortedSubscriptions);
       setIsLoading(false);
     };
     fetchSubscriptions();

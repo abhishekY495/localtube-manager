@@ -1,3 +1,4 @@
+import { formatTime } from "@/entrypoints/utils/format-time";
 import type { Subscription } from "@/entrypoints/utils/types";
 
 export const SubscriptionVideoCard = ({
@@ -7,6 +8,7 @@ export const SubscriptionVideoCard = ({
 }) => {
   const videoUrl = `https://www.youtube.com/watch?v=${subscription.urlSlug}`;
   const videoThumbnail = `https://i.ytimg.com/vi/${subscription.urlSlug}/mqdefault.jpg`;
+  const uploadedAt = formatTime(subscription.uploadedAt ?? "");
 
   return (
     <div className="flex flex-col ">
@@ -39,9 +41,14 @@ export const SubscriptionVideoCard = ({
         >
           {subscription.title}
         </a>
-        <p className="text-neutral-400" style={{ fontSize: "13px" }}>
-          {subscription.channelName}
-        </p>
+        <div
+          className="flex items-center gap-1.5 text-neutral-400"
+          style={{ fontSize: "12px", fontWeight: 500 }}
+        >
+          <p>{subscription.channelName}</p>
+          <span>•</span>
+          <p>{uploadedAt}</p>
+        </div>
       </div>
     </div>
   );

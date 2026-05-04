@@ -254,3 +254,13 @@ export const YOUTUBE_EMBED_REFERRER_RULE_ID = 1;
 
 export const YOUTUBE_RSS_FEED_URL =
   "https://www.youtube.com/feeds/videos.xml?channel_id=";
+
+export const TIME_INTERVALS: { name: Intl.RelativeTimeFormatUnit; seconds: number }[] = [
+  { name: "year", seconds: 31536000 },
+  { name: "month", seconds: 2592000 },
+  { name: "week", seconds: 604800 },
+  { name: "day", seconds: 86400 },
+  { name: "hour", seconds: 3600 },
+  { name: "minute", seconds: 60 },
+  { name: "second", seconds: 1 },
+];
