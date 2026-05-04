@@ -39,6 +39,8 @@ export const ACTIONS = {
   GET_ALL_SETTINGS: "get_all_settings",
   GET_SETTING: "get_setting",
   UPDATE_SETTING: "update_setting",
+  //
+  EXPORT_DATABASE_TO_JSON: "export_database_to_json",
 } as const;
 
 export const NAV_ITEM_LABELS = {
@@ -276,3 +278,5 @@ export const DEFAULT_SETTINGS = {
   Extension: true,
   Notifications: false,
 };
+
+export const EXPORT_FILE_NAME = "ltm-database.json";

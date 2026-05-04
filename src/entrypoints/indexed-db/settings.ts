@@ -36,3 +36,36 @@ export const updateSetting = async (
 ) => {
   await db.settings.put({ key, value });
 };
+
+export const exportDatabaseToJson = async () => {
+  const [
+    likedVideos,
+    subscribedChannels,
+    youtubePlaylists,
+    localPlaylists,
+    subscriptions,
+    settings,
+  ] = await Promise.all([
+    db.likedVideos.toArray(),
+    db.subscribedChannels.toArray(),
+    db.youtubePlaylists.toArray(),
+    db.localPlaylists.toArray(),
+    db.subscriptions.toArray(),
+    db.settings.toArray(),
+  ]);
+
+  const data = {
+    database: db.name,
+    exportedAt: new Date().toISOString(),
+    data: {
+      likedVideos,
+      subscribedChannels,
+      youtubePlaylists,
+      localPlaylists,
+      subscriptions,
+      settings,
+    },
+  };
+
+  return JSON.stringify(data, null, 2);
+};

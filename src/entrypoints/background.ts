@@ -18,6 +18,7 @@ import type {
   CheckIfVideoLikedResponse,
   CheckIfYoutubePlaylistIsSavedResponse,
   CountResponse,
+  ExportDatabaseToJsonResponse,
   GetSettingResponse,
   LocalPlaylist,
   Message,
@@ -46,6 +47,7 @@ import { subscriptionsCronJob } from "./utils/subscriptions/subscriptions-cron-j
 import { getAllSubscriptions } from "./indexed-db/subscriptions";
 import { getThumbnailUrl } from "./utils/get-thumbnail-url";
 import {
+  exportDatabaseToJson,
   getAllSettings,
   getSetting,
   initSettings,
@@ -526,6 +528,25 @@ export default defineBackground(async () => {
               success: false,
               error: "Failed to update setting",
             } satisfies Response);
+          }
+        })();
+        return true;
+      }
+
+      // export database to json
+      if (message.action === ACTIONS.EXPORT_DATABASE_TO_JSON) {
+        (async () => {
+          try {
+            const json = await exportDatabaseToJson();
+            sendResponse({
+              success: true,
+              data: { json },
+            } satisfies Response<ExportDatabaseToJsonResponse>);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to export database to json",
+            } satisfies Response<ExportDatabaseToJsonResponse>);
           }
         })();
         return true;

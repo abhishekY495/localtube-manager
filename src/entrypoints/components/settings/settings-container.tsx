@@ -4,6 +4,7 @@ import { Loading } from "../loading";
 import type { Message, Response, Setting } from "@/entrypoints/utils/types";
 import { ACTIONS } from "@/entrypoints/utils/constants";
 import { SettingCard } from "./setting-card";
+import { ImportExportContainer } from "./import-export-container";
 
 export const SettingsContainer = ({
   isSidebarOpen,
@@ -50,28 +51,34 @@ export const SettingsContainer = ({
       className="min-h-0 overflow-y-auto"
       style={{ padding: "32px 32px 50px 32px" }}
     >
-      {settings.length > 0 && (
-        <div className="flex flex-col gap-10 justify-center">
-          {settings.map((setting) => {
-            return (
-              <>
-                {setting.key == "Extension" && (
-                  <SettingCard
-                    message="Enable or disable extension"
-                    setting={setting}
-                  />
-                )}
-                {setting.key == "Notifications" && (
-                  <SettingCard
-                    message="Receive notifications when new videos are uploaded"
-                    setting={setting}
-                  />
-                )}
-              </>
-            );
-          })}
-        </div>
-      )}
+      <div
+        className="flex flex-col justify-center border-b border-neutral-700"
+        style={{ paddingBottom: "20px", marginBottom: "20px" }}
+      >
+        {settings.length > 0 && (
+          <div className="flex flex-col gap-10">
+            {settings.map((setting) => {
+              return (
+                <>
+                  {setting.key == "Extension" && (
+                    <SettingCard
+                      message="Enable or disable extension"
+                      setting={setting}
+                    />
+                  )}
+                  {setting.key == "Notifications" && (
+                    <SettingCard
+                      message="Receive notifications when new videos are uploaded"
+                      setting={setting}
+                    />
+                  )}
+                </>
+              );
+            })}
+          </div>
+        )}
+      </div>
+      <ImportExportContainer />
     </div>
   );
 };

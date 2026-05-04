@@ -67,6 +67,7 @@ export type Message =
   | MessageWithoutData<typeof ACTIONS.GET_ALL_SUBSCRIPTIONS>
   | MessageWithoutData<typeof ACTIONS.GET_ALL_SETTINGS>
   | MessageWithoutData<typeof ACTIONS.GET_COUNT>
+  | MessageWithoutData<typeof ACTIONS.EXPORT_DATABASE_TO_JSON>
   | MessageWithData<
       typeof ACTIONS.OPEN_LOCAL_PLAYLIST,
       OpenLocalPlaylistRequest
@@ -207,6 +208,10 @@ export type GetSettingRequest = {
 };
 export type GetSettingResponse = {
   value: boolean;
+};
+
+export type ExportDatabaseToJsonResponse = {
+  json: string;
 };
 
 export type ActiveTab = "youtube" | "local";
