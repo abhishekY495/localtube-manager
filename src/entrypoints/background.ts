@@ -42,6 +42,7 @@ import Dexie from "dexie";
 import { setupYoutubeEmbedReferrer } from "./utils/youtube-embed/setup-youtube-embed-referrer";
 import { subscriptionsCronJob } from "./utils/subscriptions/subscriptions-cron-job";
 import { getAllSubscriptions } from "./indexed-db/subscriptions";
+import { getThumbnailUrl } from "./utils/get-thumbnail-url";
 
 export default defineBackground(() => {
   const action = browser.action || (browser as any).browserAction;
@@ -66,9 +67,14 @@ export default defineBackground(() => {
       }
 
       if (newVideos.length === 1) {
+        const thumbnailUrl = getThumbnailUrl(
+          newVideos[0].urlSlug,
+          newVideos[0].isShort,
+        );
         browser.notifications.create({
-          type: "basic",
+          type: "image",
           iconUrl: browser.runtime.getURL("/icon/128.png"),
+          imageUrl: thumbnailUrl,
           title: newVideos[0].channelName,
           message: newVideos[0].title,
         });

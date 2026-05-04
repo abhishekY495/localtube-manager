@@ -1,4 +1,5 @@
 import { formatTime } from "@/entrypoints/utils/format-time";
+import { getThumbnailUrl } from "@/entrypoints/utils/get-thumbnail-url";
 import type { Subscription } from "@/entrypoints/utils/types";
 
 export const SubscriptionShortCard = ({
@@ -7,7 +8,7 @@ export const SubscriptionShortCard = ({
   subscription: Subscription;
 }) => {
   const shortUrl = `https://www.youtube.com/shorts/${subscription.urlSlug}`;
-  const shortThumbnail = `https://i.ytimg.com/vi/${subscription.urlSlug}/oar2.jpg`;
+  const shortThumbnail = getThumbnailUrl(subscription.urlSlug, true);
   const uploadedAt = formatTime(subscription.uploadedAt ?? "");
 
   return (

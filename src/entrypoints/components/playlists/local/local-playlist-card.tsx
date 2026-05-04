@@ -2,6 +2,7 @@ import { ACTIONS, PLAYLIST_ICON } from "@/entrypoints/utils/constants";
 import type { LocalPlaylist, Message } from "@/entrypoints/utils/types";
 import defaultThumbnailUrl from "@/assets/default-thumbnail.jpg";
 import { RemoveLocalPlaylistModal } from "./remove-local-playlist-modal";
+import { getThumbnailUrl } from "@/entrypoints/utils/get-thumbnail-url";
 
 export const LocalPlaylistCard = ({
   playlist,
@@ -16,7 +17,7 @@ export const LocalPlaylistCard = ({
 
   const firstVideo = playlist.videos[0];
   if (firstVideo) {
-    playlistThumbnail = `https://i.ytimg.com/vi/${firstVideo.urlSlug}/mqdefault.jpg`;
+    playlistThumbnail = getThumbnailUrl(firstVideo.urlSlug, firstVideo.isShort);
   } else {
     playlistThumbnail = defaultThumbnailUrl;
   }

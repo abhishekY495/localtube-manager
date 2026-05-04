@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Video } from "@/entrypoints/utils/types";
 import { RemoveLocalPlaylistVideoModal } from "./remove-local-playlist-video-modal";
+import { getThumbnailUrl } from "@/entrypoints/utils/get-thumbnail-url";
 
 export const VideoDetails = ({
   playlistName,
@@ -16,7 +17,7 @@ export const VideoDetails = ({
   onVideoRemoved: (videoId: string) => void;
 }) => {
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
-  const videoThumbnail = `https://i.ytimg.com/vi/${video.urlSlug}/mqdefault.jpg`;
+  const videoThumbnail = getThumbnailUrl(video.urlSlug, video.isShort);
 
   return (
     <>

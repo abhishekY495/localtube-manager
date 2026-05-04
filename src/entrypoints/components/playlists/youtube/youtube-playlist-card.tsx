@@ -2,6 +2,8 @@ import { PLAYLIST_ICON } from "@/entrypoints/utils/constants";
 import type { YoutubePlaylist } from "@/entrypoints/utils/types";
 import { RemoveYoutubePlaylistModal } from "./remove-youtube-playlist-modal";
 import { useState } from "react";
+import { getThumbnailUrl } from "@/entrypoints/utils/get-thumbnail-url";
+import defaultThumbnailUrl from "@/assets/default-thumbnail.jpg";
 
 export const YoutubePlaylistCard = ({
   playlist,
@@ -12,7 +14,9 @@ export const YoutubePlaylistCard = ({
 }) => {
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
   const playlistUrl = `https://www.youtube.com/playlist?list=${playlist.urlSlug}`;
-  const playlistThumbnail = `https://i.ytimg.com/vi/${playlist.coverImageUrlSlug}/mqdefault.jpg`;
+  const playlistThumbnail = playlist.coverImageUrlSlug
+    ? getThumbnailUrl(playlist.coverImageUrlSlug, false)
+    : defaultThumbnailUrl;
 
   return (
     <>
