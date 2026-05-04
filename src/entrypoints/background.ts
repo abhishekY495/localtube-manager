@@ -1,16 +1,16 @@
-import { getCount } from "./indexedDb/get-count";
+import { getCount } from "./indexed-db/get-count";
 import {
   addSubscribedChannel,
   deleteSubscribedChannelById,
   getAllSubscribedChannels,
   getSubscribedChannelById,
-} from "./indexedDb/subscribed-channels";
+} from "./indexed-db/subscribed-channels";
 import {
   addLikedVideo,
   deleteLikedVideoById,
   getAllLikedVideos,
   getLikedVideoById,
-} from "./indexedDb/liked-videos";
+} from "./indexed-db/liked-videos";
 import { ACTIONS } from "./utils/constants";
 import type {
   Channel,
@@ -30,18 +30,18 @@ import {
   deleteYoutubePlaylistById,
   getAllYoutubePlaylists,
   getYoutubePlaylistById,
-} from "./indexedDb/youtube-playlist";
+} from "./indexed-db/youtube-playlist";
 import {
   addLocalPlaylist,
   addVideoToLocalPlaylist,
   deleteLocalPlaylistByName,
   getAllLocalPlaylists,
   removeVideoFromLocalPlaylist,
-} from "./indexedDb/local-playlists";
+} from "./indexed-db/local-playlists";
 import Dexie from "dexie";
 import { setupYoutubeEmbedReferrer } from "./utils/youtube-embed/setup-youtube-embed-referrer";
 import { subscriptionsCronJob } from "./utils/subscriptions/subscriptions-cron-job";
-import { getAllSubscriptions } from "./indexedDb/subscriptions";
+import { getAllSubscriptions } from "./indexed-db/subscriptions";
 
 export default defineBackground(() => {
   const action = browser.action || (browser as any).browserAction;

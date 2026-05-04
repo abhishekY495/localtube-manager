@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { updateLocalPlaylistName } from "@/entrypoints/indexedDb/local-playlists";
+import { updateLocalPlaylistName } from "@/entrypoints/indexed-db/local-playlists";
 import { XIcon } from "lucide-react";
 import toast from "react-hot-toast";
 

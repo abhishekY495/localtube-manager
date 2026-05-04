@@ -1,4 +1,4 @@
-import { removeVideoFromLocalPlaylist } from "@/entrypoints/indexedDb/local-playlists";
+import { removeVideoFromLocalPlaylist } from "@/entrypoints/indexed-db/local-playlists";
 import toast from "react-hot-toast";
 
 export const RemoveLocalPlaylistVideoModal = ({

@@ -1,4 +1,4 @@
-import { deleteLocalPlaylistByName } from "@/entrypoints/indexedDb/local-playlists";
+import { deleteLocalPlaylistByName } from "@/entrypoints/indexed-db/local-playlists";
 import toast from "react-hot-toast";
 
 export const DeleteLocalPlaylistModal = ({

@@ -1,8 +1,8 @@
-import { getAllSubscribedChannels } from "@/entrypoints/indexedDb/subscribed-channels";
+import { getAllSubscribedChannels } from "@/entrypoints/indexed-db/subscribed-channels";
 import { wait } from "../wait";
 import { fetchLatestVideosUsingRssFeed } from "./fetch-latest-videos-using-rss-feed";
 import type { Subscription } from "../types";
-import { syncSubscriptionsWithLatestVideos } from "@/entrypoints/indexedDb/subscriptions";
+import { syncSubscriptionsWithLatestVideos } from "@/entrypoints/indexed-db/subscriptions";
 
 export const subscriptionsCronJob = async () => {
   const subscribedChannels = await getAllSubscribedChannels();

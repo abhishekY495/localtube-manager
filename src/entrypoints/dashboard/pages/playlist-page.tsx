@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import type { LocalPlaylist, Video } from "@/entrypoints/utils/types";
-import { getLocalPlaylistByName } from "@/entrypoints/indexedDb/local-playlists";
+import { getLocalPlaylistByName } from "@/entrypoints/indexed-db/local-playlists";
 import { VideoDetails } from "../components/video-details";
 import { PencilIcon } from "lucide-react";
 import { SearchBar } from "@/entrypoints/components/search-bar";
