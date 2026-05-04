@@ -93,6 +93,7 @@ export const SubscriptionsContainer = ({
           <SubscriptionsOptionsBar
             activeTab={activeTab}
             setActiveTab={setActiveTab}
+            onRefresh={onRefresh}
           />
           {activeTab === "videos" && (
             <div

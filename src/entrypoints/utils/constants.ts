@@ -35,6 +35,7 @@ export const ACTIONS = {
   REMOVE_VIDEO_FROM_LOCAL_PLAYLIST: "remove_video_from_local_playlist",
   //
   SUBSCRIPTIONS_CRON_JOB: "subscriptions_cron_job",
+  SYNC_SUBSCRIPTIONS: "sync_subscriptions",
   //
   GET_ALL_SETTINGS: "get_all_settings",
   GET_SETTING: "get_setting",

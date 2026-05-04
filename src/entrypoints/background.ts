@@ -570,6 +570,23 @@ export default defineBackground(async () => {
         })();
         return true;
       }
+      // sync subscriptions
+      if (message.action === ACTIONS.SYNC_SUBSCRIPTIONS) {
+        (async () => {
+          try {
+            await subscriptionsCronJob();
+            sendResponse({
+              success: true,
+            } satisfies Response);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to sync subscriptions",
+            } satisfies Response);
+          }
+        })();
+        return true;
+      }
     },
   );
 
