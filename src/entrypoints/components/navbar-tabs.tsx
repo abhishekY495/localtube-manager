@@ -54,7 +54,7 @@ export const NavbarTabs = ({
       {NAV_ITEMS.map((item) => (
         <div
           key={item.label}
-          className={`flex flex-col gap-2 items-center justify-center cursor-pointer rounded border border-neutral-700 w-full ${
+          className={`flex flex-col gap-2 items-center justify-center cursor-pointer border border-neutral-700 w-full ${
             activeItem === item.label
               ? "bg-neutral-300 text-black"
               : "hover:bg-neutral-800"
