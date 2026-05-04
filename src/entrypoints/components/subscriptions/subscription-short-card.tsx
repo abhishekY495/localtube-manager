@@ -6,7 +6,7 @@ export const SubscriptionShortCard = ({
   subscription: Subscription;
 }) => {
   const shortUrl = `https://www.youtube.com/shorts/${subscription.urlSlug}`;
-  const shortThumbnail = `https://i.ytimg.com/vi/${subscription.urlSlug}/oardefault.jpg`;
+  const shortThumbnail = `https://i.ytimg.com/vi/${subscription.urlSlug}/oar2.jpg`;
 
   return (
     <div
