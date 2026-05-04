@@ -2,13 +2,34 @@ import { UploadIcon } from "lucide-react";
 import { useState } from "react";
 import googleIcon from "@/assets/google-icon.svg";
 import toast from "react-hot-toast";
+import type { ImportType, Message, Response } from "@/entrypoints/utils/types";
+import { ACTIONS } from "@/entrypoints/utils/constants";
 
-export const ImportForm = () => {
+export const ImportForm = ({ onRefresh }: { onRefresh: () => void }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [importType, setImportType] = useState<ImportType>("local");
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    console.log(123);
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!selectedFile) {
+      toast.error("Please select a valid file");
+      return;
+    }
+
+    if (importType === "local") {
+      const json = await selectedFile.text();
+      const response: Response = await browser.runtime.sendMessage({
+        action: ACTIONS.IMPORT_DATABASE_FROM_JSON,
+        data: { json },
+      } satisfies Message);
+      if (!response.success) {
+        toast.error("Something went wrong,\n Refresh and try again");
+        return;
+      }
+      toast.success("Database imported successfully");
+      onRefresh();
+    }
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,6 +39,12 @@ export const ImportForm = () => {
       if (fileExtension !== "json" && fileExtension !== "csv") {
         toast.error("Please select a valid file");
         return;
+      }
+      if (fileExtension === "json") {
+        setImportType("local");
+      }
+      if (fileExtension === "csv") {
+        setImportType("google");
       }
       setSelectedFile(file);
     }
@@ -61,7 +88,8 @@ export const ImportForm = () => {
       <div className="flex items-center gap-6">
         <button
           type="submit"
-          className="bg-neutral-200 text-neutral-900 rounded cursor-pointer flex items-center gap-3 w-fit"
+          className="bg-neutral-200 text-neutral-900 rounded cursor-pointer flex items-center gap-3 w-fit disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={!selectedFile || importType === "google"}
           style={{
             padding: "5px 22px",
             fontSize: "16px",
@@ -73,7 +101,8 @@ export const ImportForm = () => {
         </button>
         <button
           type="submit"
-          className="bg-neutral-200 text-neutral-900 rounded cursor-pointer flex items-center gap-3 w-fit"
+          className="bg-neutral-200 text-neutral-900 rounded cursor-pointer flex items-center gap-3 w-fit disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={!selectedFile || importType === "local"}
           style={{
             padding: "5px 22px",
             fontSize: "16px",

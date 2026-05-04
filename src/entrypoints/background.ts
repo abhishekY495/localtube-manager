@@ -50,6 +50,7 @@ import {
   exportDatabaseToJson,
   getAllSettings,
   getSetting,
+  importDatabaseFromJson,
   initSettings,
   updateSetting,
 } from "./indexed-db/settings";
@@ -547,6 +548,24 @@ export default defineBackground(async () => {
               success: false,
               error: "Failed to export database to json",
             } satisfies Response<ExportDatabaseToJsonResponse>);
+          }
+        })();
+        return true;
+      }
+      // import database from json
+      if (message.action === ACTIONS.IMPORT_DATABASE_FROM_JSON) {
+        const { json } = message.data;
+        (async () => {
+          try {
+            await importDatabaseFromJson(json);
+            sendResponse({
+              success: true,
+            } satisfies Response);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to import database from json",
+            } satisfies Response);
           }
         })();
         return true;

@@ -119,7 +119,11 @@ export type Message =
       RemoveVideoFromLocalPlaylistRequest
     >
   | MessageWithData<typeof ACTIONS.UPDATE_SETTING, UpdateSettingRequest>
-  | MessageWithData<typeof ACTIONS.GET_SETTING, GetSettingRequest>;
+  | MessageWithData<typeof ACTIONS.GET_SETTING, GetSettingRequest>
+  | MessageWithData<
+      typeof ACTIONS.IMPORT_DATABASE_FROM_JSON,
+      ImportDatabaseFromJsonRequest
+    >;
 
 export type MessageAction = Message["action"];
 
@@ -214,4 +218,9 @@ export type ExportDatabaseToJsonResponse = {
   json: string;
 };
 
+export type ImportDatabaseFromJsonRequest = {
+  json: string;
+};
+
 export type ActiveTab = "youtube" | "local";
+export type ImportType = "local" | "google";

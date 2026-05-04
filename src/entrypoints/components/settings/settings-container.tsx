@@ -10,9 +10,11 @@ import { Import } from "./import-export/import";
 export const SettingsContainer = ({
   isSidebarOpen,
   refreshKey,
+  onRefresh,
 }: {
   isSidebarOpen: boolean;
   refreshKey: number;
+  onRefresh: () => void;
 }) => {
   const [settings, setSettings] = useState<Setting[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -79,7 +81,7 @@ export const SettingsContainer = ({
           </div>
         )}
       </div>
-      <Import />
+      <Import onRefresh={onRefresh} />
       <Export />
     </div>
   );

@@ -1,6 +1,6 @@
 import { ImportForm } from "./import-form";
 
-export const Import = () => {
+export const Import = ({ onRefresh }: { onRefresh: () => void }) => {
   return (
     <div
       className="flex flex-col gap-4 border-b border-b-neutral-700"
@@ -21,7 +21,7 @@ export const Import = () => {
             subscribed channels and will not remove any existing data.
           </p>
         </div>
-        <ImportForm />
+        <ImportForm onRefresh={onRefresh} />
       </div>
     </div>
   );

@@ -41,6 +41,7 @@ export const ACTIONS = {
   UPDATE_SETTING: "update_setting",
   //
   EXPORT_DATABASE_TO_JSON: "export_database_to_json",
+  IMPORT_DATABASE_FROM_JSON: "import_database_from_json",
 } as const;
 
 export const NAV_ITEM_LABELS = {

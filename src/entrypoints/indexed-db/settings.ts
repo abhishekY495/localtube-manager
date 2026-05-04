@@ -69,3 +69,35 @@ export const exportDatabaseToJson = async () => {
 
   return JSON.stringify(data, null, 2);
 };
+
+export const importDatabaseFromJson = async (json: string) => {
+  const data = JSON.parse(json);
+  const {
+    data: {
+      likedVideos,
+      subscribedChannels,
+      youtubePlaylists,
+      localPlaylists,
+      subscriptions,
+      settings,
+    },
+  } = data;
+
+  await Promise.all([
+    db.likedVideos.clear(),
+    db.subscribedChannels.clear(),
+    db.youtubePlaylists.clear(),
+    db.localPlaylists.clear(),
+    db.subscriptions.clear(),
+    db.settings.clear(),
+  ]);
+
+  await Promise.all([
+    db.likedVideos.bulkPut(likedVideos),
+    db.subscribedChannels.bulkPut(subscribedChannels),
+    db.youtubePlaylists.bulkPut(youtubePlaylists),
+    db.localPlaylists.bulkPut(localPlaylists),
+    db.subscriptions.bulkPut(subscriptions),
+    db.settings.bulkPut(settings),
+  ]);
+};

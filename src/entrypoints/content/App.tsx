@@ -120,7 +120,11 @@ export default function App() {
                 : "hidden"
             }
           >
-            <SettingsContainer isSidebarOpen={isOpen} refreshKey={refreshKey} />
+            <SettingsContainer
+              isSidebarOpen={isOpen}
+              refreshKey={refreshKey}
+              onRefresh={handleRefresh}
+            />
           </div>
         </div>
       </div>
