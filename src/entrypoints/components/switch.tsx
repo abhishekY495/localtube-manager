@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { ACTIONS, DEFAULT_SETTINGS } from "../utils/constants";
 import type { Message, Response } from "../utils/types";
 
@@ -18,6 +19,20 @@ export const Switch = ({
     } satisfies Message);
     if (!response.success) {
       console.error("Failed to update setting:", response.error);
+      return;
+    }
+    if (keyName === "Extension") {
+      toast.success(
+        `Extension ${!checked ? "enabled \n Reloading in 3 seconds..." : "disabled \n Reloading in 3 seconds..."}`,
+      );
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+      return;
+    }
+    if (keyName === "Notifications") {
+      toast.success(`Notifications ${!checked ? "enabled" : "disabled"}`);
+      return;
     }
   };
 

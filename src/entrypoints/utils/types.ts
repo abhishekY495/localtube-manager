@@ -117,7 +117,8 @@ export type Message =
       typeof ACTIONS.REMOVE_VIDEO_FROM_LOCAL_PLAYLIST,
       RemoveVideoFromLocalPlaylistRequest
     >
-  | MessageWithData<typeof ACTIONS.UPDATE_SETTING, UpdateSettingRequest>;
+  | MessageWithData<typeof ACTIONS.UPDATE_SETTING, UpdateSettingRequest>
+  | MessageWithData<typeof ACTIONS.GET_SETTING, GetSettingRequest>;
 
 export type MessageAction = Message["action"];
 
@@ -198,6 +199,13 @@ export type DeleteLocalPlaylistByNameRequest = {
 
 export type UpdateSettingRequest = {
   key: keyof typeof DEFAULT_SETTINGS;
+  value: boolean;
+};
+
+export type GetSettingRequest = {
+  key: keyof typeof DEFAULT_SETTINGS;
+};
+export type GetSettingResponse = {
   value: boolean;
 };
 

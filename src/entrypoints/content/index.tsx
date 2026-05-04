@@ -2,8 +2,8 @@ import "~/assets/tailwind.css";
 import youtubePageStyles from "~/assets/youtube-page.css?inline";
 import { createRoot } from "react-dom/client";
 import App from "./App";
-import { Toaster } from "react-hot-toast";
-import { LTM_TOAST_ROOT_ID } from "../utils/constants";
+import toast, { Toaster } from "react-hot-toast";
+import { ACTIONS, LTM_TOAST_ROOT_ID } from "../utils/constants";
 import { init } from "./functions/init";
 import { wait } from "../utils/wait";
 import {
@@ -13,6 +13,11 @@ import {
   clearExistingCustomSavePlaylistButton,
   clearExistingCustomSubscribeButtons,
 } from "../utils/clear-existing-custom-buttons";
+import type {
+  GetSettingResponse,
+  Message,
+  Response,
+} from "../utils/types";
 
 export default defineContentScript({
   matches: ["<all_urls>"],
@@ -57,6 +62,23 @@ export default defineContentScript({
       },
     });
     ui.mount();
+
+    const extensionSettingsResponse: Response<GetSettingResponse> =
+      await browser.runtime.sendMessage({
+        action: ACTIONS.GET_SETTING,
+        data: { key: "Extension" },
+      } satisfies Message);
+    if (!extensionSettingsResponse.success) {
+      toast.error("Something went wrong,\n Refresh and try again");
+      console.error("Failed to get settings:", extensionSettingsResponse.error);
+      return;
+    }
+
+    const isExtensionEnabled = extensionSettingsResponse.data.value;
+
+    if (!isExtensionEnabled) {
+      return;
+    }
 
     if (window.location.hostname.includes("youtube.com")) {
       const style = document.createElement("style");

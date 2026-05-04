@@ -37,6 +37,7 @@ export const ACTIONS = {
   SUBSCRIPTIONS_CRON_JOB: "subscriptions_cron_job",
   //
   GET_ALL_SETTINGS: "get_all_settings",
+  GET_SETTING: "get_setting",
   UPDATE_SETTING: "update_setting",
 } as const;
 

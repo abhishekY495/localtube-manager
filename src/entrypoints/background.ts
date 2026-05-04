@@ -18,6 +18,7 @@ import type {
   CheckIfVideoLikedResponse,
   CheckIfYoutubePlaylistIsSavedResponse,
   CountResponse,
+  GetSettingResponse,
   LocalPlaylist,
   Message,
   Response,
@@ -46,6 +47,7 @@ import { getAllSubscriptions } from "./indexed-db/subscriptions";
 import { getThumbnailUrl } from "./utils/get-thumbnail-url";
 import {
   getAllSettings,
+  getSetting,
   initSettings,
   updateSetting,
 } from "./indexed-db/settings";
@@ -241,6 +243,26 @@ export default defineBackground(async () => {
               success: false,
               error: "Failed to get settings",
             } satisfies Response<Setting[]>);
+          }
+        })();
+        return true;
+      }
+
+      // get setting
+      if (message.action === ACTIONS.GET_SETTING) {
+        const { key } = message.data;
+        (async () => {
+          try {
+            const setting = await getSetting(key);
+            sendResponse({
+              success: true,
+              data: { value: setting ?? false },
+            } satisfies Response<GetSettingResponse>);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to get setting",
+            } satisfies Response<GetSettingResponse>);
           }
         })();
         return true;
