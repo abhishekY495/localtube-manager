@@ -56,10 +56,30 @@ export default defineBackground(() => {
   browser.alarms.create(ACTIONS.SUBSCRIPTIONS_CRON_JOB, {
     periodInMinutes: 15,
   });
-  browser.alarms.onAlarm.addListener((alarm) => {
+  browser.alarms.onAlarm.addListener(async (alarm) => {
     if (alarm.name === ACTIONS.SUBSCRIPTIONS_CRON_JOB) {
       console.log("Fetching subscribed channels latest videos");
-      subscriptionsCronJob();
+      const newVideos = await subscriptionsCronJob();
+
+      if (newVideos.length === 0) {
+        return;
+      }
+
+      if (newVideos.length === 1) {
+        browser.notifications.create({
+          type: "basic",
+          iconUrl: browser.runtime.getURL("/icon/128.png"),
+          title: newVideos[0].channelName,
+          message: newVideos[0].title,
+        });
+      } else {
+        browser.notifications.create({
+          type: "basic",
+          iconUrl: browser.runtime.getURL("/icon/128.png"),
+          title: "LocalTube Manager",
+          message: `${newVideos.length} new videos`,
+        });
+      }
     }
   });
 
