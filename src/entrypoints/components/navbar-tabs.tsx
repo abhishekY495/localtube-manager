@@ -1,5 +1,6 @@
 import { ACTIONS, NAV_ITEMS, NAV_ITEM_LABELS } from "../utils/constants";
 import type { NavItemLabel } from "../utils/constants";
+import { formatNumber } from "../utils/format-number";
 import type { CountResponse, Message, Response } from "../utils/types";
 
 const getNavItemCount = (
@@ -67,7 +68,9 @@ export const NavbarTabs = ({
           <item.icon />
           <p className="font-medium" style={{ fontSize: "14px" }}>
             {item.showCount && (
-              <span>{getNavItemCount(item.label, count)}</span>
+              <span>
+                {formatNumber(Number(getNavItemCount(item.label, count)))}
+              </span>
             )}{" "}
             {item.label}
           </p>

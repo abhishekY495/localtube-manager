@@ -1,3 +1,4 @@
+import { formatNumber } from "@/entrypoints/utils/format-number";
 import type { ActiveTab } from "@/entrypoints/utils/types";
 
 export const PlaylistTabs = ({
@@ -24,7 +25,7 @@ export const PlaylistTabs = ({
           setSearchQuery("");
         }}
       >
-        {youtubePlaylistCount} YouTube
+        {formatNumber(youtubePlaylistCount)} YouTube
       </div>
       <div
         className={`w-full text-center border border-b-2 border-t-0 border-neutral-700 cursor-pointer 
@@ -35,7 +36,7 @@ export const PlaylistTabs = ({
           setSearchQuery("");
         }}
       >
-        {localPlaylistCount} Local
+        {formatNumber(localPlaylistCount)} Local
       </div>
     </div>
   );
