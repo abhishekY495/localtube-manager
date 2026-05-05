@@ -48,7 +48,12 @@ export const Export = () => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div
+      className="flex flex-col gap-4 border-b border-neutral-700"
+      style={{
+        padding: "20px 0 30px 0",
+      }}
+    >
       <p style={{ fontSize: "18px", fontWeight: "500" }}>Export</p>
       <div
         className="bg-neutral-800 flex flex-col gap-5 rounded"

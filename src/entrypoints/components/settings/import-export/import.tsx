@@ -4,7 +4,7 @@ export const Import = ({ onRefresh }: { onRefresh: () => void }) => {
   return (
     <div
       className="flex flex-col gap-4 border-b border-b-neutral-700"
-      style={{ paddingBottom: "30px", marginBottom: "20px" }}
+      style={{ padding: "20px 0 30px 0" }}
     >
       <p style={{ fontSize: "18px", fontWeight: "500" }}>Import</p>
       <div
