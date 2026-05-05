@@ -70,6 +70,11 @@ export const SubscriptionsContainer = ({
 
   return (
     <div className="flex h-full min-h-0 flex-col">
+      <SubscriptionsOptionsBar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        onRefresh={onRefresh}
+      />
       {subscriptions.length === 0 ? (
         <p
           className="text-center"
@@ -90,11 +95,6 @@ export const SubscriptionsContainer = ({
         </p>
       ) : (
         <>
-          <SubscriptionsOptionsBar
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-            onRefresh={onRefresh}
-          />
           {activeTab === "videos" && (
             <div
               className="min-h-0 grid grid-cols-3 gap-10 overflow-y-auto"
