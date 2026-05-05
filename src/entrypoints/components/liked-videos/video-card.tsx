@@ -1,7 +1,6 @@
 import { useState } from "react";
 import type { Video } from "../../utils/types";
 import { RemoveLikedVideoModal } from "./remove-liked-video-modal";
-import { CHANNEL_ID_REGEX } from "@/entrypoints/utils/constants";
 import { getThumbnailUrl } from "@/entrypoints/utils/get-thumbnail-url";
 
 export const VideoCard = ({
@@ -14,9 +13,6 @@ export const VideoCard = ({
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
   const videoUrl = `https://www.youtube.com/watch?v=${video.urlSlug}`;
   const videoThumbnail = getThumbnailUrl(video.urlSlug, video.isShort);
-  const videoChannelHandle = video?.channelHandle?.match(CHANNEL_ID_REGEX)?.[0]
-    ? ""
-    : `@${video.channelHandle}`;
 
   return (
     <>
@@ -52,7 +48,7 @@ export const VideoCard = ({
         </a>
         {/*  */}
         <div className="flex-1 flex flex-col justify-between">
-          <div>
+          <div className="flex flex-col gap-3">
             <a
               href={videoUrl}
               style={{
@@ -64,16 +60,11 @@ export const VideoCard = ({
             >
               {video.title}
             </a>
-            <div className="-space-y-1 mt-2">
-              {video.channelName && (
-                <p className="text-neutral-400" style={{ fontSize: "13px" }}>
-                  {video.channelName}
-                </p>
-              )}
-              <p className="text-neutral-400" style={{ fontSize: "12px" }}>
-                {videoChannelHandle}
+            {video.channelName && (
+              <p className="text-neutral-400" style={{ fontSize: "13px" }}>
+                {video.channelName}
               </p>
-            </div>
+            )}
           </div>
           {/*  */}
           <button

@@ -21,7 +21,7 @@ export const ChannelCard = ({
     channelHandle = channel.id;
   } else {
     channelUrl = `https://www.youtube.com/@${channel.handle}`;
-    channelHandle = `@${channel.handle}`;
+    channelHandle = channel.handle;
   }
 
   return (
@@ -58,13 +58,14 @@ export const ChannelCard = ({
           >
             {channel.name}
           </p>
-          <p
+          <div
             title={channelHandle}
-            className="text-neutral-400"
+            className="text-neutral-400 flex items-center"
             style={{ fontSize: "12px", fontWeight: 500 }}
           >
-            {channelHandle}
-          </p>
+            <p style={{ marginRight: "1px", marginBottom:"2px" }}>@</p>
+            <p>{channelHandle}</p>
+          </div>
         </a>
         <button
           className="bg-neutral-700 text-neutral-300 border rounded-full border-neutral-600 cursor-pointer hover:bg-neutral-600"
