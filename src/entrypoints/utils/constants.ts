@@ -289,3 +289,5 @@ export const RENDER_BATCH_SIZE = 15;
 export const DB_NAME = "ltm-database";
 export const OLD_DB_NAME = "YouTubeDB";
 export const EXPORT_FILE_NAME = "ltm-database.json";
+
+export const WEBSITE_URL = "https://localtubemanager.pages.dev";

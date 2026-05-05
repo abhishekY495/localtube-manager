@@ -11,7 +11,7 @@ import {
   getAllLikedVideos,
   getLikedVideoById,
 } from "./indexed-db/liked-videos";
-import { ACTIONS, CRON_JOB_INTERVAL } from "./utils/constants";
+import { ACTIONS, CRON_JOB_INTERVAL, WEBSITE_URL } from "./utils/constants";
 import type {
   Channel,
   CheckIfChannelSubscribedResponse,
@@ -56,7 +56,7 @@ import {
   updateSetting,
 } from "./indexed-db/settings";
 import { migrateDb } from "./indexed-db/migrate-db";
-import { oldDataInsertForTesting } from "../old-new-data-dump/old-data-insert-for-testing";
+// import { oldDataInsertForTesting } from "../old-new-data-dump/old-data-insert-for-testing";
 
 export default defineBackground(async () => {
   const action = browser.action || (browser as any).browserAction;
@@ -67,6 +67,15 @@ export default defineBackground(async () => {
   setupYoutubeEmbedReferrer().catch(console.error);
   browser.runtime.onInstalled.addListener(setupYoutubeEmbedReferrer);
   browser.runtime.onStartup.addListener(setupYoutubeEmbedReferrer);
+
+  // open change log on update
+  browser.runtime.onInstalled.addListener((details) => {
+    if (details.reason === "update") {
+      browser.tabs.create({
+        url: `${WEBSITE_URL}/change-log`,
+      });
+    }
+  });
 
   await initSettings();
 
