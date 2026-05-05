@@ -52,7 +52,7 @@ export const SettingsContainer = ({
 
   return (
     <div
-      className="min-h-0 overflow-y-auto"
+      className="h-full min-h-0 overflow-y-auto"
       style={{ padding: "32px 32px 50px 32px" }}
     >
       <div
@@ -84,7 +84,7 @@ export const SettingsContainer = ({
       </div>
       <Import onRefresh={onRefresh} />
       <Export />
-      <DeleteAll />
+      <DeleteAll onRefresh={onRefresh} />
     </div>
   );
 };

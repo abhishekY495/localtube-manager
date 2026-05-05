@@ -69,6 +69,7 @@ export type Message =
   | MessageWithoutData<typeof ACTIONS.GET_COUNT>
   | MessageWithoutData<typeof ACTIONS.EXPORT_DATABASE_TO_JSON>
   | MessageWithoutData<typeof ACTIONS.SYNC_SUBSCRIPTIONS>
+  | MessageWithoutData<typeof ACTIONS.DELETE_ALL>
   | MessageWithData<
       typeof ACTIONS.OPEN_LOCAL_PLAYLIST,
       OpenLocalPlaylistRequest

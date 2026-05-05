@@ -43,6 +43,7 @@ export const ACTIONS = {
   //
   EXPORT_DATABASE_TO_JSON: "export_database_to_json",
   IMPORT_DATABASE_FROM_JSON: "import_database_from_json",
+  DELETE_ALL: "delete_all",
 } as const;
 
 export const NAV_ITEM_LABELS = {

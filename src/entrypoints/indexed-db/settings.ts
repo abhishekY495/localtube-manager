@@ -101,3 +101,13 @@ export const importDatabaseFromJson = async (json: string) => {
     db.settings.bulkPut(settings),
   ]);
 };
+
+export const deleteAll = async () => {
+  await Promise.all([
+    db.likedVideos.clear(),
+    db.subscribedChannels.clear(),
+    db.youtubePlaylists.clear(),
+    db.localPlaylists.clear(),
+    db.subscriptions.clear(),
+  ]);
+};

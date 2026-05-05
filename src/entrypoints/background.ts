@@ -47,6 +47,7 @@ import { subscriptionsCronJob } from "./utils/subscriptions/subscriptions-cron-j
 import { getAllSubscriptions } from "./indexed-db/subscriptions";
 import { getThumbnailUrl } from "./utils/get-thumbnail-url";
 import {
+  deleteAll,
   exportDatabaseToJson,
   getAllSettings,
   getSetting,
@@ -587,6 +588,23 @@ export default defineBackground(async () => {
             sendResponse({
               success: false,
               error: "Failed to sync subscriptions",
+            } satisfies Response);
+          }
+        })();
+        return true;
+      }
+      // delete all
+      if (message.action === ACTIONS.DELETE_ALL) {
+        (async () => {
+          try {
+            await deleteAll();
+            sendResponse({
+              success: true,
+            } satisfies Response);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to delete all",
             } satisfies Response);
           }
         })();
