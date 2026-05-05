@@ -11,10 +11,18 @@ export const subscriptionsCronJob = async () => {
   for (const channel of subscribedChannels) {
     if (channel.id) {
       await wait(1000);
-      const channelLatestVideos = await fetchLatestVideosUsingRssFeed(
-        channel.id,
-      );
-      latestVideos.push(...channelLatestVideos);
+
+      try {
+        const channelLatestVideos = await fetchLatestVideosUsingRssFeed(
+          channel.id,
+        );
+        latestVideos.push(...channelLatestVideos);
+      } catch (error) {
+        console.warn(
+          `Failed to sync latest videos for channel ${channel.id}`,
+          error,
+        );
+      }
     }
   }
 
