@@ -11,7 +11,7 @@ import {
   getAllLikedVideos,
   getLikedVideoById,
 } from "./indexed-db/liked-videos";
-import { ACTIONS } from "./utils/constants";
+import { ACTIONS, CRON_JOB_INTERVAL } from "./utils/constants";
 import type {
   Channel,
   CheckIfChannelSubscribedResponse,
@@ -54,9 +54,14 @@ import {
   initSettings,
   updateSetting,
 } from "./indexed-db/settings";
+import { migrateDb } from "./indexed-db/migrate-db";
+import { oldDataInsertForTesting } from "../old-new-data-dump/old-data-insert-for-testing";
 
 export default defineBackground(async () => {
   const action = browser.action || (browser as any).browserAction;
+
+  // await oldDataInsertForTesting();
+  await migrateDb();
 
   setupYoutubeEmbedReferrer().catch(console.error);
   browser.runtime.onInstalled.addListener(setupYoutubeEmbedReferrer);
@@ -68,7 +73,7 @@ export default defineBackground(async () => {
   subscriptionsCronJob();
 
   browser.alarms.create(ACTIONS.SUBSCRIPTIONS_CRON_JOB, {
-    periodInMinutes: 15,
+    periodInMinutes: CRON_JOB_INTERVAL,
   });
   browser.alarms.onAlarm.addListener(async (alarm) => {
     if (alarm.name === ACTIONS.SUBSCRIPTIONS_CRON_JOB) {

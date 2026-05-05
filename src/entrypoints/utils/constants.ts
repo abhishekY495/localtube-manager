@@ -281,5 +281,8 @@ export const DEFAULT_SETTINGS = {
   Notifications: false,
 };
 
+export const CRON_JOB_INTERVAL = 15;
+
 export const DB_NAME = "ltm-database";
+export const OLD_DB_NAME = "YouTubeDB";
 export const EXPORT_FILE_NAME = "ltm-database.json";
