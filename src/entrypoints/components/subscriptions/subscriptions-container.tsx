@@ -1,16 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import type {
   Message,
   Response,
   Subscription,
   SubscriptionsActiveTab,
 } from "@/entrypoints/utils/types";
-import { ACTIONS } from "@/entrypoints/utils/constants";
+import { ACTIONS, RENDER_BATCH_SIZE } from "@/entrypoints/utils/constants";
 import { Loading } from "../loading";
 import { Error } from "../error";
 import { SubscriptionVideoCard } from "./subscription-video-card";
 import { SubscriptionsOptionsBar } from "./subscriptions-options-bar";
 import { SubscriptionShortCard } from "./subscription-short-card";
+import { useProgressiveList } from "@/entrypoints/hooks/use-progressive-list";
 
 export const SubscriptionsContainer = ({
   isSidebarOpen,
@@ -25,6 +26,25 @@ export const SubscriptionsContainer = ({
   const [activeTab, setActiveTab] = useState<SubscriptionsActiveTab>("videos");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<boolean>(false);
+
+  const subcriptionVideos = useMemo(
+    () => subscriptions.filter((subscription) => !subscription.isShort),
+    [subscriptions],
+  );
+  const subcriptionShorts = useMemo(
+    () => subscriptions.filter((subscription) => subscription.isShort),
+    [subscriptions],
+  );
+  const activeSubscriptions =
+    activeTab === "videos" ? subcriptionVideos : subcriptionShorts;
+  const {
+    visibleItems: visibleSubscriptions,
+    hasMoreItems: hasMoreSubscriptions,
+    hiddenItemsCount: hiddenSubscriptionsCount,
+    listContainerRef,
+    loadMoreTriggerRef,
+    resetVisibleItems,
+  } = useProgressiveList(activeSubscriptions);
 
   useEffect(() => {
     if (!isSidebarOpen) {
@@ -48,11 +68,17 @@ export const SubscriptionsContainer = ({
           new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime()
         );
       });
+      resetVisibleItems();
       setSubscriptions(sortedSubscriptions);
       setIsLoading(false);
     };
     fetchSubscriptions();
-  }, [isSidebarOpen, refreshKey]);
+  }, [isSidebarOpen, refreshKey, resetVisibleItems]);
+
+  const handleActiveTabChange = (tab: SubscriptionsActiveTab) => {
+    resetVisibleItems();
+    setActiveTab(tab);
+  };
 
   if (isLoading) {
     return <Loading />;
@@ -61,18 +87,11 @@ export const SubscriptionsContainer = ({
     return <Error />;
   }
 
-  const subcriptionVideos = subscriptions.filter(
-    (subscription) => !subscription.isShort,
-  );
-  const subcriptionShorts = subscriptions.filter(
-    (subscription) => subscription.isShort,
-  );
-
   return (
     <div className="flex h-full min-h-0 flex-col">
       <SubscriptionsOptionsBar
         activeTab={activeTab}
-        setActiveTab={setActiveTab}
+        setActiveTab={handleActiveTabChange}
         onRefresh={onRefresh}
       />
       {subscriptions.length === 0 ? (
@@ -97,10 +116,11 @@ export const SubscriptionsContainer = ({
         <>
           {activeTab === "videos" && (
             <div
+              ref={listContainerRef}
               className="min-h-0 grid grid-cols-3 gap-10 overflow-y-auto"
               style={{ padding: "22px 22px 50px 22px" }}
             >
-              {subcriptionVideos.map((subscription) => {
+              {visibleSubscriptions.map((subscription) => {
                 return (
                   <SubscriptionVideoCard
                     key={subscription.urlSlug}
@@ -108,14 +128,25 @@ export const SubscriptionsContainer = ({
                   />
                 );
               })}
+              {hasMoreSubscriptions && (
+                <div
+                  ref={loadMoreTriggerRef}
+                  className="col-span-full py-4 text-center text-sm text-neutral-400"
+                >
+                  Scroll to load{" "}
+                  {Math.min(RENDER_BATCH_SIZE, hiddenSubscriptionsCount)} more
+                  subscriptions
+                </div>
+              )}
             </div>
           )}
           {activeTab === "shorts" && (
             <div
+              ref={listContainerRef}
               className="min-h-0 grid grid-cols-4 gap-10 overflow-y-auto"
               style={{ padding: "22px 22px 50px 22px" }}
             >
-              {subcriptionShorts.map((subscription) => {
+              {visibleSubscriptions.map((subscription) => {
                 return (
                   <SubscriptionShortCard
                     key={subscription.urlSlug}
@@ -123,6 +154,16 @@ export const SubscriptionsContainer = ({
                   />
                 );
               })}
+              {hasMoreSubscriptions && (
+                <div
+                  ref={loadMoreTriggerRef}
+                  className="col-span-full py-4 text-center text-sm text-neutral-400"
+                >
+                  Scroll to load{" "}
+                  {Math.min(RENDER_BATCH_SIZE, hiddenSubscriptionsCount)} more
+                  subscriptions
+                </div>
+              )}
             </div>
           )}
         </>

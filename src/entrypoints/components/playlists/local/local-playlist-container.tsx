@@ -1,6 +1,9 @@
 import type { LocalPlaylist } from "@/entrypoints/utils/types";
+import { useEffect, useMemo } from "react";
 import { SearchBar } from "../../search-bar";
 import { LocalPlaylistCard } from "./local-playlist-card";
+import { RENDER_BATCH_SIZE } from "@/entrypoints/utils/constants";
+import { useProgressiveList } from "@/entrypoints/hooks/use-progressive-list";
 
 export const LocalPlaylistContainer = ({
   localPlaylist,
@@ -13,11 +16,35 @@ export const LocalPlaylistContainer = ({
   setSearchQuery: (query: string) => void;
   onRefresh: () => void;
 }) => {
-  const filteredLocalPlaylist = localPlaylist.filter((playlist) => {
-    return playlist.name
-      .toLowerCase()
-      .includes(searchQuery.trim().toLowerCase());
-  });
+  const filteredLocalPlaylist = useMemo(() => {
+    const normalizedSearchQuery = searchQuery.trim().toLowerCase();
+
+    if (!normalizedSearchQuery) {
+      return localPlaylist;
+    }
+
+    return localPlaylist.filter((playlist) => {
+      return playlist.name.toLowerCase().includes(normalizedSearchQuery);
+    });
+  }, [localPlaylist, searchQuery]);
+
+  const {
+    visibleItems: visibleLocalPlaylist,
+    hasMoreItems: hasMoreLocalPlaylist,
+    hiddenItemsCount: hiddenLocalPlaylistCount,
+    listContainerRef,
+    loadMoreTriggerRef,
+    resetVisibleItems,
+  } = useProgressiveList(filteredLocalPlaylist);
+
+  useEffect(() => {
+    resetVisibleItems();
+  }, [localPlaylist, resetVisibleItems]);
+
+  const handleSearchQueryChange = (value: string) => {
+    resetVisibleItems();
+    setSearchQuery(value);
+  };
 
   return (
     <>
@@ -43,9 +70,10 @@ export const LocalPlaylistContainer = ({
         <>
           <SearchBar
             searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
+            setSearchQuery={handleSearchQueryChange}
           />
           <div
+            ref={listContainerRef}
             className="min-h-0 flex flex-1 flex-col overflow-y-auto"
             style={{ paddingBottom: "50px" }}
           >
@@ -61,13 +89,23 @@ export const LocalPlaylistContainer = ({
                 className="min-h-0 grid grid-cols-3 gap-10 overflow-y-auto"
                 style={{ padding: "22px 22px 50px 22px" }}
               >
-                {filteredLocalPlaylist.map((playlist) => (
+                {visibleLocalPlaylist.map((playlist) => (
                   <LocalPlaylistCard
                     key={playlist.name}
                     playlist={playlist}
                     onRefresh={onRefresh}
                   />
                 ))}
+                {hasMoreLocalPlaylist && (
+                  <div
+                    ref={loadMoreTriggerRef}
+                    className="col-span-full py-4 text-center text-sm text-neutral-400"
+                  >
+                    Scroll to load{" "}
+                    {Math.min(RENDER_BATCH_SIZE, hiddenLocalPlaylistCount)} more
+                    playlists
+                  </div>
+                )}
               </div>
             )}
           </div>

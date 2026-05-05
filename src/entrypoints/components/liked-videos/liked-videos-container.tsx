@@ -1,10 +1,11 @@
-import { ACTIONS } from "../../utils/constants";
+import { ACTIONS, RENDER_BATCH_SIZE } from "../../utils/constants";
 import type { Message, Response, Video } from "../../utils/types";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Loading } from "../loading";
 import { Error } from "../error";
 import { VideoCard } from "./video-card";
 import { SearchBar } from "../search-bar";
+import { useProgressiveList } from "../../hooks/use-progressive-list";
 
 export const LikedVideosContainer = ({
   isSidebarOpen,
@@ -19,6 +20,30 @@ export const LikedVideosContainer = ({
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<boolean>(false);
+
+  const filteredLikedVideos = useMemo(() => {
+    const normalizedSearchQuery = searchQuery.trim().toLowerCase();
+
+    if (!normalizedSearchQuery) {
+      return likedVideos;
+    }
+
+    return likedVideos.filter(
+      (video) =>
+        video.title.toLowerCase().includes(normalizedSearchQuery) ||
+        video.channelName?.toLowerCase().includes(normalizedSearchQuery) ||
+        video.channelHandle?.toLowerCase().includes(normalizedSearchQuery),
+    );
+  }, [likedVideos, searchQuery]);
+
+  const {
+    visibleItems: visibleLikedVideos,
+    hasMoreItems: hasMoreLikedVideos,
+    hiddenItemsCount: totalHiddenLikedVideos,
+    listContainerRef,
+    loadMoreTriggerRef,
+    resetVisibleItems,
+  } = useProgressiveList(filteredLikedVideos);
 
   useEffect(() => {
     if (!isSidebarOpen) {
@@ -39,22 +64,17 @@ export const LikedVideosContainer = ({
       const sortedLikedVideos = response.data.sort((a, b) => {
         return new Date(b.addedAt).getTime() - new Date(a.addedAt).getTime();
       });
+      resetVisibleItems();
       setLikedVideos(sortedLikedVideos);
       setIsLoading(false);
     };
     fetchLikedVideos();
-  }, [isSidebarOpen, refreshKey]);
+  }, [isSidebarOpen, refreshKey, resetVisibleItems]);
 
-  const filteredLikedVideos = likedVideos.filter(
-    (video) =>
-      video.title.toLowerCase().includes(searchQuery.trim().toLowerCase()) ||
-      video.channelName
-        ?.toLowerCase()
-        .includes(searchQuery.trim().toLowerCase()) ||
-      video.channelHandle
-        ?.toLowerCase()
-        .includes(searchQuery.trim().toLowerCase()),
-  );
+  const handleSearchQueryChange = (value: string) => {
+    resetVisibleItems();
+    setSearchQuery(value);
+  };
 
   if (isLoading) {
     return <Loading />;
@@ -87,9 +107,10 @@ export const LikedVideosContainer = ({
         <>
           <SearchBar
             searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
+            setSearchQuery={handleSearchQueryChange}
           />
           <div
+            ref={listContainerRef}
             className="min-h-0 flex flex-1 flex-col overflow-y-auto"
             style={{ paddingBottom: "50px" }}
           >
@@ -101,13 +122,25 @@ export const LikedVideosContainer = ({
                 No liked videos found
               </p>
             ) : (
-              filteredLikedVideos.map((video) => (
-                <VideoCard
-                  key={video.urlSlug}
-                  video={video}
-                  onRefresh={onRefresh}
-                />
-              ))
+              <>
+                {visibleLikedVideos.map((video) => (
+                  <VideoCard
+                    key={video.urlSlug}
+                    video={video}
+                    onRefresh={onRefresh}
+                  />
+                ))}
+                {hasMoreLikedVideos && (
+                  <div
+                    ref={loadMoreTriggerRef}
+                    className="py-4 text-center text-sm text-neutral-400"
+                  >
+                    Scroll to load{" "}
+                    {Math.min(RENDER_BATCH_SIZE, totalHiddenLikedVideos)}{" "}
+                    more liked videos
+                  </div>
+                )}
+              </>
             )}
           </div>
         </>
