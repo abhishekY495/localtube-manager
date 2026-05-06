@@ -15,7 +15,7 @@ export const SubscriptionShortCard = ({
     <div
       className="flex flex-col"
       style={{
-        height: "420px",
+        height: "450px",
       }}
     >
       <a href={shortUrl}>
