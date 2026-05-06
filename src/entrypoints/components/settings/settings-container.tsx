@@ -3,7 +3,7 @@ import { Error } from "../error";
 import { Loading } from "../loading";
 import type { Message, Response, Setting } from "@/entrypoints/utils/types";
 import { ACTIONS } from "@/entrypoints/utils/constants";
-import { SettingCard } from "./setting-card";
+import { SwitchSettingCard } from "./switch-setting-card";
 import { Export } from "./import-export/export";
 import { Import } from "./import-export/import";
 import { DeleteAll } from "./delete-all/delete-all";
@@ -37,7 +37,13 @@ export const SettingsContainer = ({
         setIsLoading(false);
         return;
       }
-      setSettings(response.data);
+      const sortedSettings = response.data.sort((a, b) => {
+        return (
+          Number(typeof b.value === "boolean") -
+          Number(typeof a.value === "boolean")
+        );
+      });
+      setSettings(sortedSettings);
       setIsLoading(false);
     };
     fetchSettings();
@@ -65,14 +71,16 @@ export const SettingsContainer = ({
               return (
                 <>
                   {setting.key == "Extension" && (
-                    <SettingCard
-                      message="Enable or disable extension"
+                    <SwitchSettingCard
+                      heading="Extension"
+                      description="Enable or disable the extension"
                       setting={setting}
                     />
                   )}
                   {setting.key == "Notifications" && (
-                    <SettingCard
-                      message="Receive notifications when new videos are uploaded"
+                    <SwitchSettingCard
+                      heading="Notifications"
+                      description="Receive notifications when new videos are uploaded"
                       setting={setting}
                     />
                   )}

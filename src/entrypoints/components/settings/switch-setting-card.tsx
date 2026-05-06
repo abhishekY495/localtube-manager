@@ -2,14 +2,18 @@ import { useState } from "react";
 import type { Setting } from "@/entrypoints/utils/types";
 import { Switch } from "../switch";
 
-export const SettingCard = ({
-  message,
+export const SwitchSettingCard = ({
+  heading,
+  description,
   setting,
 }: {
-  message: string;
+  heading: string;
+  description: string;
   setting: Setting;
 }) => {
-  const [isChecked, setIsChecked] = useState(setting.value);
+  const [isChecked, setIsChecked] = useState(
+    typeof setting.value === "boolean" ? setting.value : false,
+  );
 
   return (
     <div
@@ -18,8 +22,8 @@ export const SettingCard = ({
     >
       <div className="flex items-center justify-between">
         <div>
-          <p style={{ fontWeight: 500, fontSize: "18px" }}>{setting.key}</p>
-          <p className="text-neutral-400">{message}</p>
+          <p style={{ fontWeight: 500, fontSize: "18px" }}>{heading}</p>
+          <p className="text-neutral-400">{description}</p>
         </div>
         <Switch
           keyName={setting.key}
