@@ -44,7 +44,7 @@ export default function App() {
         isOpen ? "translate-x-0" : "translate-x-[110%]"
       }`}
       style={{
-        width: "900px",
+        width: "50vw",
         height: "100vh",
         zIndex: "2147483647",
         fontFamily: "Roboto, Arial, sans-serif",

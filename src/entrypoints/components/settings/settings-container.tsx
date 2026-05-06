@@ -61,7 +61,10 @@ export const SettingsContainer = ({
       className="h-full min-h-0 overflow-y-auto"
       style={{ padding: "32px 32px 50px 32px" }}
     >
-      <div className="flex flex-col justify-center border-b border-neutral-700">
+      <div
+        className="flex flex-col justify-center border-b border-neutral-700"
+        style={{ paddingBottom: "30px" }}
+      >
         {settings.length > 0 && (
           <div className="flex flex-col gap-10">
             {settings.map((setting) => {
