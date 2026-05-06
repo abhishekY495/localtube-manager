@@ -125,6 +125,10 @@ export type Message =
   | MessageWithData<
       typeof ACTIONS.IMPORT_DATABASE_FROM_JSON,
       ImportDatabaseFromJsonRequest
+    >
+  | MessageWithData<
+      typeof ACTIONS.BULK_ADD_SUBSCRIBED_CHANNELS,
+      BulkAddSubscribedChannelsRequest
     >;
 
 export type MessageAction = Message["action"];
@@ -222,6 +226,10 @@ export type ExportDatabaseToJsonResponse = {
 
 export type ImportDatabaseFromJsonRequest = {
   json: string;
+};
+
+export type BulkAddSubscribedChannelsRequest = {
+  channels: Channel[];
 };
 
 export type ActiveTab = "youtube" | "local";

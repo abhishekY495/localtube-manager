@@ -1,6 +1,7 @@
 import { getCount } from "./indexed-db/get-count";
 import {
   addSubscribedChannel,
+  addSubscribedChannels,
   deleteSubscribedChannelById,
   getAllSubscribedChannels,
   getSubscribedChannelById,
@@ -580,6 +581,24 @@ export default defineBackground(async () => {
             sendResponse({
               success: false,
               error: "Failed to import database from json",
+            } satisfies Response);
+          }
+        })();
+        return true;
+      }
+      // import subscribed channels from takeout
+      if (message.action === ACTIONS.BULK_ADD_SUBSCRIBED_CHANNELS) {
+        const { channels } = message.data;
+        (async () => {
+          try {
+            await addSubscribedChannels(channels);
+            sendResponse({
+              success: true,
+            } satisfies Response);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to import subscribed channels from takeout",
             } satisfies Response);
           }
         })();

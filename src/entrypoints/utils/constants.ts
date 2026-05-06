@@ -27,6 +27,7 @@ export const ACTIONS = {
   ADD_YOUTUBE_PLAYLIST: "add_youtube_playlist",
   ADD_LOCAL_PLAYLIST: "add_local_playlist",
   ADD_VIDEO_TO_LOCAL_PLAYLIST: "add_video_to_local_playlist",
+  BULK_ADD_SUBSCRIBED_CHANNELS: "bulk_add_subscribed_channels",
   //
   DELETE_LIKED_VIDEO_BY_ID: "delete_liked_video_by_id",
   DELETE_SUBSCRIBED_CHANNEL_BY_ID: "delete_subscribed_channel_by_id",
@@ -226,6 +227,19 @@ export const CHANNEL_ID_ELEMENTS = [
     extractId: true,
   },
   { selector: 'link[itemprop="url"]', attribute: "href", extractId: true },
+];
+export const CHANNEL_HANDLE_ELEMENTS_REGEX = [
+  /"canonicalBaseUrl":"(\/@[^"]+)"/,
+  /"vanityChannelUrl":"https?:\/\/www\.youtube\.com(\/@[^"]+)"/,
+  /"ownerUrls":\["https?:\/\/www\.youtube\.com(\/@[^"]+)"/,
+  /"url":"(\/@[^"]+)","webPageType":"WEB_PAGE_TYPE_CHANNEL"/,
+  /"url":"(\/@[^"\/]+)\/featured"/,
+];
+export const CHANNEL_IMAGE_URL_ELEMENTS = [
+  { selector: 'link[rel="image_src"]', attribute: "href" },
+  { selector: 'meta[property="og:image"]', attribute: "content" },
+  { selector: 'meta[property="twitter:image"]', attribute: "content" },
+  { selector: 'link[itemprop="thumbnailUrl"]', attribute: "href" },
 ];
 
 export const LTM_TOAST_ROOT_ID = "ltm-toast-root";

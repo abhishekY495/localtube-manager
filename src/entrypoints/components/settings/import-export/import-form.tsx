@@ -4,6 +4,7 @@ import googleIcon from "@/assets/google-icon.svg";
 import toast from "react-hot-toast";
 import type { ImportType, Message, Response } from "@/entrypoints/utils/types";
 import { ACTIONS } from "@/entrypoints/utils/constants";
+import { importSubscribedChannelsFromTakeout } from "@/entrypoints/content/functions/import/import-subscribed-channels-from-takeout";
 
 export const ImportForm = ({ onRefresh }: { onRefresh: () => void }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -28,6 +29,16 @@ export const ImportForm = ({ onRefresh }: { onRefresh: () => void }) => {
         return;
       }
       toast.success("Database imported successfully");
+      onRefresh();
+    }
+
+    if (importType === "google") {
+      const csvContent = await selectedFile.text();
+      toast.promise(importSubscribedChannelsFromTakeout(csvContent), {
+        loading: "Adding channels",
+        success: "Channels added successfully",
+        error: "Something went wrong,\n Refresh and try again",
+      });
       onRefresh();
     }
   };

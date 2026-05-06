@@ -18,3 +18,7 @@ export const addSubscribedChannel = async (channel: Channel) => {
 export const deleteSubscribedChannelById = async (channelId: string) => {
   await db.subscribedChannels.delete(channelId);
 };
+
+export const addSubscribedChannels = async (channels: Channel[]) => {
+  await db.subscribedChannels.bulkAdd(channels);
+};
