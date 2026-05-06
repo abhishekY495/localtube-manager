@@ -43,14 +43,12 @@ export const exportDatabaseToJson = async () => {
     subscribedChannels,
     youtubePlaylists,
     localPlaylists,
-    subscriptions,
     settings,
   ] = await Promise.all([
     db.likedVideos.toArray(),
     db.subscribedChannels.toArray(),
     db.youtubePlaylists.toArray(),
     db.localPlaylists.toArray(),
-    db.subscriptions.toArray(),
     db.settings.toArray(),
   ]);
 
@@ -62,7 +60,6 @@ export const exportDatabaseToJson = async () => {
       subscribedChannels,
       youtubePlaylists,
       localPlaylists,
-      subscriptions,
       settings,
     },
   };
@@ -78,7 +75,6 @@ export const importDatabaseFromJson = async (json: string) => {
       subscribedChannels,
       youtubePlaylists,
       localPlaylists,
-      subscriptions,
       settings,
     },
   } = data;
@@ -97,7 +93,6 @@ export const importDatabaseFromJson = async (json: string) => {
     db.subscribedChannels.bulkPut(subscribedChannels),
     db.youtubePlaylists.bulkPut(youtubePlaylists),
     db.localPlaylists.bulkPut(localPlaylists),
-    db.subscriptions.bulkPut(subscriptions),
     db.settings.bulkPut(settings),
   ]);
 };
