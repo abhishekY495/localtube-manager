@@ -303,5 +303,11 @@ export const RENDER_BATCH_SIZE = 15;
 export const DB_NAME = "ltm-database";
 export const OLD_DB_NAME = "YouTubeDB";
 export const EXPORT_FILE_NAME = "ltm-database.json";
+export const EXTENSION_VERSION = browser.runtime.getManifest().version;
 
 export const WEBSITE_URL = "https://localtubemanager.pages.dev";
+export const CHROME_WEB_STORE_URL =
+  "https://chromewebstore.google.com/detail/localtube-manager/ajhcoapnhehdmjcohkbaehfkobjhjhhj";
+export const FIREFOX_ADDON_STORE_URL =
+  "https://addons.mozilla.org/en-US/firefox/addon/localtube-manager/";
+export const GITHUB_URL = "https://github.com/abhishekY495/localtube-manager";
