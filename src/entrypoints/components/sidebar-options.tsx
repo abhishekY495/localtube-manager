@@ -11,7 +11,7 @@ export const SidebarOptions = ({
     <div
       className="absolute bg-neutral-900 text-white border border-neutral-700 flex flex-col"
       style={{
-        left: "-32px",
+        left: "-33px",
         top: "8px",
         gap: "12px",
         padding: "10px 6px 12px 8px",
