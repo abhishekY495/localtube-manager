@@ -1,6 +1,6 @@
-import { fetchChannelDetailsFromChannelUrl } from "./fetch-channel-details-from-channel-url";
-import type { Channel } from "./types";
-import { wait } from "./wait";
+import { fetchChannelDetailsFromChannelUrl } from "../../../utils/fetch-channel-details-from-channel-url";
+import type { Channel } from "../../../utils/types";
+import { wait } from "../../../utils/wait";
 
 export const getChannelDetailsFromCSV = async (csvContent: string) => {
   const rows = csvContent.split("\n").slice(1);

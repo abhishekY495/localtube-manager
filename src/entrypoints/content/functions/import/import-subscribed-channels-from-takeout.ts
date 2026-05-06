@@ -1,5 +1,5 @@
 import { ACTIONS } from "@/entrypoints/utils/constants";
-import { getChannelDetailsFromCSV } from "@/entrypoints/utils/get-channel-details-from-csv";
+import { getChannelDetailsFromCSV } from "@/entrypoints/content/functions/import/get-channel-details-from-csv";
 import type { Message, Response } from "@/entrypoints/utils/types";
 
 export const importSubscribedChannelsFromTakeout = async (
