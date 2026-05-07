@@ -73,7 +73,7 @@ export default defineBackground(async () => {
   browser.runtime.onInstalled.addListener((details) => {
     if (details.reason === "update") {
       browser.tabs.create({
-        url: `${WEBSITE_URL}/change-log`,
+        url: `${WEBSITE_URL}/whats-new/`,
       });
     }
   });
