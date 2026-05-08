@@ -1,14 +1,37 @@
+import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "wxt";
 
 // See https://wxt.dev/api/config.html
 export default defineConfig({
-  extensionApi: "chrome",
-  srcDir: "src",
-  manifest: {
-    name: "LocalTube-Manager",
-    description: "A browser extension to use Youtube without a Google account",
-    version: "4.1.1",
-    permissions: ["unlimitedStorage", "alarms"],
-    host_permissions: ["*://*.youtube.com/*"],
+  modules: ["@wxt-dev/module-react"],
+  webExt: {
+    chromiumArgs: ["https://youtube.com"],
+    firefoxArgs: ["-new-tab", "https://youtube.com"],
   },
+  srcDir: "src",
+  vite: () => ({
+    plugins: [tailwindcss()],
+  }),
+  manifest: ({ browser }) => ({
+    name: "LocalTube Manager",
+    description: "A browser extension to use Youtube without a Google account",
+    version: "5.0.0",
+    action: {},
+    permissions:
+      browser === "firefox"
+        ? [
+            "unlimitedStorage",
+            "alarms",
+            "notifications",
+            "webRequest",
+            "webRequestBlocking",
+          ]
+        : [
+            "unlimitedStorage",
+            "alarms",
+            "notifications",
+            "declarativeNetRequestWithHostAccess",
+          ],
+    host_permissions: ["*://*.youtube.com/*"],
+  }),
 });

@@ -1,8 +1,8 @@
 {
-  "name": "wxt-starter",
+  "name": "wxt-react-starter",
   "description": "manifest.json description",
   "private": true,
-  "version": "4.1.1",
+  "version": "5.0.0",
   "type": "module",
   "scripts": {
     "dev": "wxt",
@@ -14,15 +14,22 @@
     "compile": "tsc --noEmit",
     "postinstall": "wxt prepare"
   },
-  "devDependencies": {
-    "@types/chrome": "^0.0.280",
-    "@types/numeral": "^2.0.5",
-    "typescript": "^5.6.3",
-    "wxt": "^0.19.13"
-  },
   "dependencies": {
-    "idb": "^8.0.2",
-    "notyf": "^3.10.0",
-    "numeral": "^2.0.6"
+    "@tailwindcss/vite": "^4.2.4",
+    "dexie": "^4.4.2",
+    "dexie-react-hooks": "^4.4.0",
+    "fast-xml-parser": "^5.7.2",
+    "lucide-react": "^1.9.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-hot-toast": "^2.6.0",
+    "tailwindcss": "^4.2.4"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@wxt-dev/module-react": "^1.1.5",
+    "typescript": "^5.9.3",
+    "wxt": "^0.20.25"
   }
 }

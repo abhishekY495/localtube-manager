@@ -1,362 +1,631 @@
-import { fetchSubscribedChannelLatestVideos } from "./dashboard/functions/subscriptions/subscribedChannelVideosHelper";
+import { getCount } from "./indexed-db/get-count";
 import {
-  addChannelToSubscribedChannelStore,
-  checkIfChannelSubscribed,
-  removeChannelFromSubscribedChannelStore,
-} from "./indexedDB/channel";
+  addSubscribedChannel,
+  addSubscribedChannels,
+  deleteSubscribedChannelById,
+  getAllSubscribedChannels,
+  getSubscribedChannelById,
+} from "./indexed-db/subscribed-channels";
 import {
-  addPlaylistToLocalPlaylistStore,
-  addPlaylistToYoutubePlaylistStore,
-  addVideoToLocalPlaylist,
-  checkIfYoutubePlaylistSaved,
-  getLocalPlaylistsNotDetailed,
-  removePlaylistFromLocalPlaylistStore,
-  removePlaylistFromYoutubePlaylistStore,
-  removeVideoFromLocalPlaylist,
-} from "./indexedDB/playlist";
-import {
-  addVideoToLikedStore,
-  checkIfVideoLiked,
-  removeVideoFromLikedStore,
-} from "./indexedDB/video";
-import {
+  addLikedVideo,
+  deleteLikedVideoById,
+  getAllLikedVideos,
+  getLikedVideoById,
+} from "./indexed-db/liked-videos";
+import { ACTIONS, CRON_JOB_INTERVAL, WEBSITE_URL } from "./utils/constants";
+import type {
+  Channel,
+  CheckIfChannelSubscribedResponse,
+  CheckIfVideoLikedResponse,
+  CheckIfYoutubePlaylistIsSavedResponse,
+  CountResponse,
+  ExportDatabaseToJsonResponse,
+  GetSettingResponse,
   LocalPlaylist,
-  RequestData,
+  Message,
+  Response,
+  Setting,
+  Subscription,
   Video,
-  YoutubeChannel,
   YoutubePlaylist,
-} from "./types";
+} from "./utils/types";
+import {
+  addYoutubePlaylist,
+  deleteYoutubePlaylistById,
+  getAllYoutubePlaylists,
+  getYoutubePlaylistById,
+} from "./indexed-db/youtube-playlist";
+import {
+  addLocalPlaylist,
+  addVideoToLocalPlaylist,
+  deleteLocalPlaylistByName,
+  getAllLocalPlaylists,
+  removeVideoFromLocalPlaylist,
+} from "./indexed-db/local-playlists";
+import Dexie from "dexie";
+import { setupYoutubeEmbedReferrer } from "./utils/youtube-embed/setup-youtube-embed-referrer";
+import { subscriptionsCronJob } from "./utils/subscriptions/subscriptions-cron-job";
+import { getAllSubscriptions } from "./indexed-db/subscriptions";
+import { getThumbnailUrl } from "./utils/get-thumbnail-url";
+import {
+  deleteAll,
+  exportDatabaseToJson,
+  getAllSettings,
+  getSetting,
+  importDatabaseFromJson,
+  initSettings,
+  updateSetting,
+} from "./indexed-db/settings";
+import { migrateDb } from "./indexed-db/migrate-db";
+// import { oldDataInsertForTesting } from "../old-new-data-dump/old-data-insert-for-testing";
 
-export default defineBackground(() => {
-  console.log("Hello background!", { id: browser.runtime.id });
+export default defineBackground(async () => {
+  const action = browser.action || (browser as any).browserAction;
 
-  // Initial fetch on startup
-  fetchSubscribedChannelLatestVideos();
+  browser.runtime.onInstalled.addListener(setupYoutubeEmbedReferrer);
+  browser.runtime.onStartup.addListener(setupYoutubeEmbedReferrer);
 
-  // Create an alarm to fetch subscribed channel videos every 20 minute
-  browser.alarms.create("fetchSubscribedChannelVideos", {
-    periodInMinutes: 20,
+  browser.alarms.create(ACTIONS.SUBSCRIPTIONS_CRON_JOB, {
+    periodInMinutes: CRON_JOB_INTERVAL,
+  });
+  browser.alarms.onAlarm.addListener(async (alarm) => {
+    if (alarm.name === ACTIONS.SUBSCRIPTIONS_CRON_JOB) {
+      let newVideos: Subscription[];
+      try {
+        newVideos = await subscriptionsCronJob();
+      } catch (error) {
+        console.warn("Failed to sync subscriptions", error);
+        return;
+      }
+
+      const notificationsSetting = await getSetting("Notifications");
+
+      if (!notificationsSetting) {
+        return;
+      }
+
+      if (newVideos.length === 0) {
+        return;
+      }
+
+      if (newVideos.length === 1) {
+        const thumbnailUrl = getThumbnailUrl(
+          newVideos[0].urlSlug,
+          newVideos[0].isShort,
+        );
+        browser.notifications.create({
+          type: "image",
+          iconUrl: browser.runtime.getURL("/icon/128.png"),
+          imageUrl: thumbnailUrl,
+          title: newVideos[0].channelName,
+          message: newVideos[0].title,
+        });
+      } else {
+        browser.notifications.create({
+          type: "basic",
+          iconUrl: browser.runtime.getURL("/icon/128.png"),
+          title: "LocalTube Manager",
+          message: `${newVideos.length} new videos`,
+        });
+      }
+    }
   });
 
-  // Listen for alarm events
-  browser.alarms.onAlarm.addListener(async (alarm) => {
-    if (alarm.name === "fetchSubscribedChannelVideos") {
-      console.log("Running scheduled fetch for subscribed channel videos...");
-      await fetchSubscribedChannelLatestVideos();
+  action.onClicked.addListener((tab: any) => {
+    if (tab.url?.startsWith(browser.runtime.getURL("/dashboard.html"))) {
+      browser.runtime.sendMessage({ action: ACTIONS.TOGGLE_SIDEBAR });
+      return;
+    }
+
+    if (tab.id) {
+      browser.tabs.sendMessage(tab.id, { action: ACTIONS.TOGGLE_SIDEBAR });
     }
   });
 
   browser.runtime.onMessage.addListener(
-    (request: RequestData, _sender, sendResponse) => {
-      console.log(request);
+    (message: Message, _sender, sendResponse) => {
+      if (message.action === ACTIONS.OPEN_DASHBOARD) {
+        browser.tabs.create({
+          url: browser.runtime.getURL("/dashboard.html"),
+        });
+      }
 
-      // video
-      if (request?.task === "checkIfVideoLiked") {
-        const urlSlug = request?.data?.urlSlug;
+      if (message.action === ACTIONS.OPEN_LOCAL_PLAYLIST) {
+        const { playlistName } = message.data;
+        browser.tabs.create({
+          url: `dashboard.html#local-playlists?name=${encodeURIComponent(playlistName)}`,
+        });
+      }
+
+      // get count
+      if (message.action === ACTIONS.GET_COUNT) {
         (async () => {
           try {
-            const video = await checkIfVideoLiked(urlSlug);
-            // @ts-ignore
+            const count = await getCount();
             sendResponse({
               success: true,
-              data: { isVideoLiked: video ? true : false },
-            });
+              data: count,
+            } satisfies Response<CountResponse>);
           } catch (error) {
-            // @ts-ignore
             sendResponse({
               success: false,
-              error: {
-                message:
-                  error instanceof Error ? error?.message : String(error),
-                name: error instanceof Error ? error?.name : "Unknown Error",
-              },
-            });
+              error: "Failed to get count",
+            } satisfies Response<CountResponse>);
           }
         })();
         return true;
       }
-      if (request.task === "toggleLikedVideo") {
-        const videoData: Video = request?.data?.video;
+
+      // get all
+      if (message.action === ACTIONS.GET_ALL_LIKED_VIDEOS) {
         (async () => {
           try {
-            // check if video exists
-            const urlSlug = videoData?.urlSlug;
-            const video = await checkIfVideoLiked(urlSlug);
-            if (video) {
-              await removeVideoFromLikedStore(urlSlug);
-              // @ts-ignore
+            const likedVideos = await getAllLikedVideos();
+            sendResponse({
+              success: true,
+              data: likedVideos,
+            } satisfies Response<Video[]>);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to get all liked videos",
+            } satisfies Response<Video[]>);
+          }
+        })();
+        return true;
+      }
+      if (message.action === ACTIONS.GET_ALL_SUBSCRIBED_CHANNELS) {
+        (async () => {
+          try {
+            const subscribedChannels = await getAllSubscribedChannels();
+            sendResponse({
+              success: true,
+              data: subscribedChannels,
+            } satisfies Response<Channel[]>);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to get all subscribed channels",
+            } satisfies Response<Channel[]>);
+          }
+        })();
+        return true;
+      }
+      if (message.action === ACTIONS.GET_ALL_YOUTUBE_PLAYLISTS) {
+        (async () => {
+          try {
+            const youtubePlaylists = await getAllYoutubePlaylists();
+            sendResponse({
+              success: true,
+              data: youtubePlaylists,
+            } satisfies Response<YoutubePlaylist[]>);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to get all youtube playlists",
+            } satisfies Response<YoutubePlaylist[]>);
+          }
+        })();
+        return true;
+      }
+      if (message.action === ACTIONS.GET_ALL_LOCAL_PLAYLISTS) {
+        (async () => {
+          try {
+            const localPlaylists = await getAllLocalPlaylists();
+            sendResponse({
+              success: true,
+              data: localPlaylists,
+            } satisfies Response<LocalPlaylist[]>);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to get all local playlists",
+            } satisfies Response<LocalPlaylist[]>);
+          }
+        })();
+        return true;
+      }
+      if (message.action === ACTIONS.GET_ALL_SUBSCRIPTIONS) {
+        (async () => {
+          try {
+            const subscriptions = await getAllSubscriptions();
+            sendResponse({
+              success: true,
+              data: subscriptions,
+            } satisfies Response<Subscription[]>);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to get all subscriptions",
+            } satisfies Response<Subscription[]>);
+          }
+        })();
+        return true;
+      }
+      if (message.action === ACTIONS.GET_ALL_SETTINGS) {
+        (async () => {
+          try {
+            const settings = await getAllSettings();
+            sendResponse({
+              success: true,
+              data: settings,
+            } satisfies Response<Setting[]>);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to get settings",
+            } satisfies Response<Setting[]>);
+          }
+        })();
+        return true;
+      }
+
+      // get setting
+      if (message.action === ACTIONS.GET_SETTING) {
+        const { key } = message.data;
+        (async () => {
+          try {
+            const setting = await getSetting(key);
+            sendResponse({
+              success: true,
+              data: { value: setting ?? false },
+            } satisfies Response<GetSettingResponse>);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to get setting",
+            } satisfies Response<GetSettingResponse>);
+          }
+        })();
+        return true;
+      }
+
+      // check if
+      if (message.action === ACTIONS.CHECK_IF_VIDEO_LIKED) {
+        const { videoId } = message.data;
+        (async () => {
+          try {
+            const video = await getLikedVideoById(videoId);
+            sendResponse({
+              success: true,
+              data: { isLiked: !!video },
+            } satisfies Response<CheckIfVideoLikedResponse>);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to get liked video by id",
+            } satisfies Response<CheckIfVideoLikedResponse>);
+          }
+        })();
+        return true;
+      }
+      if (message.action === ACTIONS.CHECK_IF_CHANNEL_SUBSCRIBED) {
+        const { channelId } = message.data;
+        (async () => {
+          try {
+            const subscribedChannel = await getSubscribedChannelById(channelId);
+            sendResponse({
+              success: true,
+              data: { isSubscribed: !!subscribedChannel },
+            } satisfies Response<CheckIfChannelSubscribedResponse>);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to get subscribed channel by handle",
+            } satisfies Response<CheckIfChannelSubscribedResponse>);
+          }
+        })();
+        return true;
+      }
+      if (message.action === ACTIONS.CHECK_IF_YOUTUBE_PLAYLIST_IS_SAVED) {
+        const { listId } = message.data;
+        (async () => {
+          try {
+            const playlist = await getYoutubePlaylistById(listId);
+            sendResponse({
+              success: true,
+              data: { isSaved: !!playlist },
+            } satisfies Response<CheckIfYoutubePlaylistIsSavedResponse>);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to get youtube playlist by id",
+            } satisfies Response<CheckIfYoutubePlaylistIsSavedResponse>);
+          }
+        })();
+        return true;
+      }
+
+      // add
+      if (message.action === ACTIONS.ADD_LIKED_VIDEO) {
+        const { video } = message.data;
+        (async () => {
+          try {
+            await addLikedVideo(video);
+            sendResponse({
+              success: true,
+            } satisfies Response);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to add video to liked videos",
+            } satisfies Response);
+          }
+        })();
+        return true;
+      }
+      if (message.action === ACTIONS.ADD_SUBSCRIBED_CHANNEL) {
+        const { channel } = message.data;
+        (async () => {
+          try {
+            await addSubscribedChannel(channel);
+            sendResponse({
+              success: true,
+            } satisfies Response);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to add subscribed channel",
+            } satisfies Response);
+          }
+        })();
+        return true;
+      }
+      if (message.action === ACTIONS.ADD_YOUTUBE_PLAYLIST) {
+        const { playlist } = message.data;
+        (async () => {
+          try {
+            await addYoutubePlaylist(playlist);
+            sendResponse({
+              success: true,
+            } satisfies Response);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to add youtube playlist",
+            } satisfies Response);
+          }
+        })();
+        return true;
+      }
+      if (message.action === ACTIONS.ADD_LOCAL_PLAYLIST) {
+        const { playlist } = message.data;
+        (async () => {
+          try {
+            await addLocalPlaylist(playlist);
+            sendResponse({
+              success: true,
+            } satisfies Response);
+          } catch (error) {
+            if (
+              error instanceof Dexie.ConstraintError &&
+              error.name === "ConstraintError"
+            ) {
               sendResponse({
-                success: true,
-                data: { isVideoLiked: false },
-              });
+                success: false,
+                error: "Playlist name already exists",
+              } satisfies Response);
             } else {
-              await addVideoToLikedStore(videoData);
-              // @ts-ignore
               sendResponse({
-                success: true,
-                data: { isVideoLiked: true },
-              });
+                success: false,
+                error: "Failed to add local playlist",
+              } satisfies Response);
             }
+          }
+        })();
+        return true;
+      }
+      if (message.action === ACTIONS.ADD_VIDEO_TO_LOCAL_PLAYLIST) {
+        const { playlistName, video } = message.data;
+        (async () => {
+          try {
+            await addVideoToLocalPlaylist(playlistName, video);
+            sendResponse({
+              success: true,
+            } satisfies Response);
           } catch (error) {
-            // @ts-ignore
             sendResponse({
               success: false,
-              error: {
-                message:
-                  error instanceof Error ? error?.message : String(error),
-                name: error instanceof Error ? error?.name : "Unknown Error",
-              },
-            });
+              error: "Failed to add video to local playlist",
+            } satisfies Response);
           }
         })();
         return true;
       }
 
-      // channel
-      if (request.task === "checkIfChannelSubscribed") {
-        const channelHandle = request?.data?.channelHandle;
+      // delete
+      if (message.action === ACTIONS.DELETE_LIKED_VIDEO_BY_ID) {
+        const { videoId } = message.data;
         (async () => {
           try {
-            const channel = await checkIfChannelSubscribed(channelHandle);
-            // @ts-ignore
+            await deleteLikedVideoById(videoId);
             sendResponse({
               success: true,
-              data: { isChannelSubscribed: channel ? true : false, channel },
-            });
+            } satisfies Response);
           } catch (error) {
-            // @ts-ignore
             sendResponse({
               success: false,
-              error: {
-                message:
-                  error instanceof Error ? error?.message : String(error),
-                name: error instanceof Error ? error?.name : "Unknown Error",
-              },
-            });
+              error: "Failed to remove video from liked videos",
+            } satisfies Response);
           }
         })();
         return true;
       }
-      if (request.task === "toggleSubscribedChannel") {
-        const youtubeChannelData: YoutubeChannel = request?.data?.channel;
+      if (message.action === ACTIONS.DELETE_SUBSCRIBED_CHANNEL_BY_ID) {
+        const { channelId } = message.data;
         (async () => {
           try {
-            // check if channel exists
-            const handle = youtubeChannelData?.handle;
-            const channel = await checkIfChannelSubscribed(handle);
-            if (channel) {
-              await removeChannelFromSubscribedChannelStore(handle);
-              // @ts-ignore
-              sendResponse({
-                success: true,
-                data: { isChannelSubscribed: false },
-              });
-            } else {
-              await addChannelToSubscribedChannelStore(youtubeChannelData);
-              // @ts-ignore
-              sendResponse({
-                success: true,
-                data: { isChannelSubscribed: true },
-              });
-            }
+            await deleteSubscribedChannelById(channelId);
+            sendResponse({
+              success: true,
+            } satisfies Response);
           } catch (error) {
-            // @ts-ignore
             sendResponse({
               success: false,
-              error: {
-                message:
-                  error instanceof Error ? error?.message : String(error),
-                name: error instanceof Error ? error?.name : "Unknown Error",
-              },
-            });
+              error: "Failed to delete subscribed channel by handle",
+            } satisfies Response);
+          }
+        })();
+        return true;
+      }
+      if (message.action === ACTIONS.DELETE_YOUTUBE_PLAYLIST_BY_ID) {
+        const { playlistId } = message.data;
+        (async () => {
+          try {
+            await deleteYoutubePlaylistById(playlistId);
+            sendResponse({
+              success: true,
+            } satisfies Response);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to delete youtube playlist by id",
+            } satisfies Response);
+          }
+        })();
+        return true;
+      }
+      if (message.action === ACTIONS.DELETE_LOCAL_PLAYLIST_BY_NAME) {
+        const { playlistName } = message.data;
+        (async () => {
+          try {
+            await deleteLocalPlaylistByName(playlistName);
+            sendResponse({
+              success: true,
+            } satisfies Response);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to delete local playlist by name",
+            } satisfies Response);
+          }
+        })();
+        return true;
+      }
+      if (message.action === ACTIONS.REMOVE_VIDEO_FROM_LOCAL_PLAYLIST) {
+        const { playlistName, videoId } = message.data;
+        (async () => {
+          try {
+            await removeVideoFromLocalPlaylist(playlistName, videoId);
+            sendResponse({
+              success: true,
+            } satisfies Response);
+          } catch (error) {
+            sendResponse({
+              success: false,
+              error: "Failed to remove video from local playlist",
+            } satisfies Response);
           }
         })();
         return true;
       }
 
-      // youtube playlist
-      if (request.task === "checkIfYoutubePlaylistSaved") {
-        const urlSlug = request?.data?.playlistUrlSlug;
+      // update
+      if (message.action === ACTIONS.UPDATE_SETTING) {
+        const { key, value } = message.data;
         (async () => {
           try {
-            const playlist = await checkIfYoutubePlaylistSaved(urlSlug);
-            // @ts-ignore
+            await updateSetting(key, value);
             sendResponse({
               success: true,
-              data: { isYoutubePlaylistSaved: playlist ? true : false },
-            });
+            } satisfies Response);
           } catch (error) {
-            // @ts-ignore
             sendResponse({
               success: false,
-              error: {
-                message:
-                  error instanceof Error ? error?.message : String(error),
-                name: error instanceof Error ? error?.name : "Unknown Error",
-              },
-            });
-          }
-        })();
-        return true;
-      }
-      if (request.task === "toggleYoutubePlaylist") {
-        const playlistData: YoutubePlaylist = request?.data?.playlist;
-        (async () => {
-          try {
-            // check if youtube playlist exists
-            const urlSlug = playlistData.urlSlug;
-            const playlist = await checkIfYoutubePlaylistSaved(urlSlug);
-            if (playlist) {
-              await removePlaylistFromYoutubePlaylistStore(urlSlug);
-              // @ts-ignore
-              sendResponse({
-                success: true,
-                data: { isYoutubePlaylistSaved: false },
-              });
-            } else {
-              await addPlaylistToYoutubePlaylistStore(playlistData);
-              // @ts-ignore
-              sendResponse({
-                success: true,
-                data: { isYoutubePlaylistSaved: true },
-              });
-            }
-          } catch (error) {
-            // @ts-ignore
-            sendResponse({
-              success: false,
-              error: {
-                message:
-                  error instanceof Error ? error?.message : String(error),
-                name: error instanceof Error ? error?.name : "Unknown Error",
-              },
-            });
+              error: "Failed to update setting",
+            } satisfies Response);
           }
         })();
         return true;
       }
 
-      // local playlist
-      if (request.task === "getLocalPlaylists") {
+      // export database to json
+      if (message.action === ACTIONS.EXPORT_DATABASE_TO_JSON) {
         (async () => {
           try {
-            const playlists = await getLocalPlaylistsNotDetailed();
-            // @ts-ignore
+            const json = await exportDatabaseToJson();
             sendResponse({
               success: true,
-              data: { playlists },
-            });
+              data: { json },
+            } satisfies Response<ExportDatabaseToJsonResponse>);
           } catch (error) {
-            // @ts-ignore
             sendResponse({
               success: false,
-              error: {
-                message:
-                  error instanceof Error ? error?.message : String(error),
-                name: error instanceof Error ? error?.name : "Unknown Error",
-              },
-            });
+              error: "Failed to export database to json",
+            } satisfies Response<ExportDatabaseToJsonResponse>);
           }
         })();
         return true;
       }
-      if (request.task === "createLocalPlaylist") {
-        const localPlaylist: LocalPlaylist = request?.data?.playlist;
+      // import database from json
+      if (message.action === ACTIONS.IMPORT_DATABASE_FROM_JSON) {
+        const { json } = message.data;
         (async () => {
           try {
-            await addPlaylistToLocalPlaylistStore(localPlaylist);
-            // @ts-ignore
+            await importDatabaseFromJson(json);
             sendResponse({
               success: true,
-              data: { isLocalPlaylistCreated: true },
-            });
+            } satisfies Response);
           } catch (error) {
-            // @ts-ignore
             sendResponse({
               success: false,
-              error: {
-                message:
-                  error instanceof Error ? error?.message : String(error),
-                name: error instanceof Error ? error?.name : "Unknown Error",
-              },
-            });
+              error: "Failed to import database from json",
+            } satisfies Response);
           }
         })();
         return true;
       }
-      if (request.task === "removeLocalPlaylist") {
-        const localPlaylist: LocalPlaylist = request?.data?.playlist;
+      // import subscribed channels from takeout
+      if (message.action === ACTIONS.BULK_ADD_SUBSCRIBED_CHANNELS) {
+        const { channels } = message.data;
         (async () => {
           try {
-            await removePlaylistFromLocalPlaylistStore(localPlaylist.name);
-            // @ts-ignore
+            await addSubscribedChannels(channels);
             sendResponse({
               success: true,
-              data: { isLocalPlaylistRemoved: true },
-            });
+            } satisfies Response);
           } catch (error) {
-            // @ts-ignore
             sendResponse({
               success: false,
-              error: {
-                message:
-                  error instanceof Error ? error?.message : String(error),
-                name: error instanceof Error ? error?.name : "Unknown Error",
-              },
-            });
+              error: "Failed to import subscribed channels from takeout",
+            } satisfies Response);
           }
         })();
         return true;
       }
-      if (request.task === "addVideoToLocalPlaylist") {
-        const playlistName: string = request?.data?.playlistName;
-        const videoData: Video = request?.data?.videoData;
+      // sync subscriptions
+      if (message.action === ACTIONS.SYNC_SUBSCRIPTIONS) {
         (async () => {
           try {
-            await addVideoToLocalPlaylist(playlistName, videoData);
-            // @ts-ignore
+            await subscriptionsCronJob();
             sendResponse({
               success: true,
-              data: { isVideoAddedToLocalPlaylist: true },
-            });
+            } satisfies Response);
           } catch (error) {
-            // @ts-ignore
             sendResponse({
               success: false,
-              error: {
-                message:
-                  error instanceof Error ? error?.message : String(error),
-                name: error instanceof Error ? error?.name : "Unknown Error",
-              },
-            });
+              error:
+                error instanceof Error
+                  ? error.message
+                  : "Failed to sync subscriptions",
+            } satisfies Response);
           }
         })();
         return true;
       }
-      if (request.task === "removeVideoFromLocalPlaylist") {
-        const playlistName: string = request?.data?.playlistName;
-        const videoData: Video = request?.data?.videoData;
+      // delete all
+      if (message.action === ACTIONS.DELETE_ALL) {
         (async () => {
           try {
-            const updatedPlaylist = await removeVideoFromLocalPlaylist(
-              playlistName,
-              videoData,
-            );
-            // @ts-ignore
+            await deleteAll();
             sendResponse({
               success: true,
-              data: { isVideoRemovedFromLocalPlaylist: true, updatedPlaylist },
-            });
+            } satisfies Response);
           } catch (error) {
-            // @ts-ignore
             sendResponse({
               success: false,
-              error: {
-                message:
-                  error instanceof Error ? error?.message : String(error),
-                name: error instanceof Error ? error?.name : "Unknown Error",
-              },
-            });
+              error: "Failed to delete all",
+            } satisfies Response);
           }
         })();
         return true;
@@ -364,6 +633,19 @@ export default defineBackground(() => {
     },
   );
 
+  // await oldDataInsertForTesting();
+  // migrate database
+  await migrateDb();
+
+  // initialize settings
+  await initSettings();
+
+  // run subscriptions cron job on startup
+  void subscriptionsCronJob().catch((error) => {
+    console.warn("Failed to sync subscriptions on startup", error);
+  });
+
+  // keep service worker active
   const keepAlive = () => setInterval(browser.runtime.getPlatformInfo, 20e3);
   browser.runtime.onStartup.addListener(keepAlive);
   keepAlive();
