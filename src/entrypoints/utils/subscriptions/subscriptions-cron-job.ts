@@ -10,7 +10,7 @@ export const subscriptionsCronJob = async () => {
 
   for (const channel of subscribedChannels) {
     if (channel.id) {
-      await wait(1000);
+      await wait(500);
 
       try {
         const channelLatestVideos = await fetchLatestVideosUsingRssFeed(
@@ -22,6 +22,7 @@ export const subscriptionsCronJob = async () => {
           `Failed to sync latest videos for channel ${channel.id}`,
           error,
         );
+        throw new Error("YouTube RSS feed is down or unavailable.");
       }
     }
   }

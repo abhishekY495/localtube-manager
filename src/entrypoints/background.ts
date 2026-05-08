@@ -70,7 +70,14 @@ export default defineBackground(async () => {
   });
   browser.alarms.onAlarm.addListener(async (alarm) => {
     if (alarm.name === ACTIONS.SUBSCRIPTIONS_CRON_JOB) {
-      const newVideos = await subscriptionsCronJob();
+      let newVideos: Subscription[];
+      try {
+        newVideos = await subscriptionsCronJob();
+      } catch (error) {
+        console.warn("Failed to sync subscriptions", error);
+        return;
+      }
+
       const notificationsSetting = await getSetting("Notifications");
 
       if (!notificationsSetting) {
@@ -597,7 +604,10 @@ export default defineBackground(async () => {
           } catch (error) {
             sendResponse({
               success: false,
-              error: "Failed to sync subscriptions",
+              error:
+                error instanceof Error
+                  ? error.message
+                  : "Failed to sync subscriptions",
             } satisfies Response);
           }
         })();
@@ -631,7 +641,9 @@ export default defineBackground(async () => {
   await initSettings();
 
   // run subscriptions cron job on startup
-  subscriptionsCronJob();
+  void subscriptionsCronJob().catch((error) => {
+    console.warn("Failed to sync subscriptions on startup", error);
+  });
 
   // keep service worker active
   const keepAlive = () => setInterval(browser.runtime.getPlatformInfo, 20e3);

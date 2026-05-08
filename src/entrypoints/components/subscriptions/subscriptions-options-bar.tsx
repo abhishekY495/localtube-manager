@@ -25,7 +25,7 @@ export const SubscriptionsOptionsBar = ({
       action: ACTIONS.SYNC_SUBSCRIPTIONS,
     } satisfies Message);
     if (!response.success) {
-      toast.error("Something went wrong,\n Refresh and try again");
+      toast.error(response.error);
       setIsSyncing(false);
       return;
     }
