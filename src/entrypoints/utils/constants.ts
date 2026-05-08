@@ -293,7 +293,7 @@ export const TIME_INTERVALS: {
 
 export const DEFAULT_SETTINGS = {
   Extension: true,
-  Notifications: false,
+  Notifications: true,
 };
 
 export const CRON_JOB_INTERVAL = 15;

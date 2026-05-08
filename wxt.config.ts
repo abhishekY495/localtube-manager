@@ -13,7 +13,7 @@ export default defineConfig({
     plugins: [tailwindcss()],
   }),
   manifest: ({ browser }) => ({
-    name: "LocalTube-Manager",
+    name: "LocalTube Manager",
     description: "A browser extension to use Youtube without a Google account",
     version: "5.0.0",
     action: {},

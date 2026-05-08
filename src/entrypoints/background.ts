@@ -62,26 +62,8 @@ import { migrateDb } from "./indexed-db/migrate-db";
 export default defineBackground(async () => {
   const action = browser.action || (browser as any).browserAction;
 
-  // await oldDataInsertForTesting();
-  await migrateDb();
-
-  setupYoutubeEmbedReferrer().catch(console.error);
   browser.runtime.onInstalled.addListener(setupYoutubeEmbedReferrer);
   browser.runtime.onStartup.addListener(setupYoutubeEmbedReferrer);
-
-  // open change log on update
-  browser.runtime.onInstalled.addListener((details) => {
-    if (details.reason === "update") {
-      browser.tabs.create({
-        url: `${WEBSITE_URL}/whats-new/`,
-      });
-    }
-  });
-
-  await initSettings();
-
-  // run subscriptions cron job on startup
-  subscriptionsCronJob();
 
   browser.alarms.create(ACTIONS.SUBSCRIPTIONS_CRON_JOB, {
     periodInMinutes: CRON_JOB_INTERVAL,
@@ -640,6 +622,16 @@ export default defineBackground(async () => {
       }
     },
   );
+
+  // await oldDataInsertForTesting();
+  // migrate database
+  await migrateDb();
+
+  // initialize settings
+  await initSettings();
+
+  // run subscriptions cron job on startup
+  subscriptionsCronJob();
 
   // keep service worker active
   const keepAlive = () => setInterval(browser.runtime.getPlatformInfo, 20e3);
