@@ -294,6 +294,7 @@ export const TIME_INTERVALS: {
 export const DEFAULT_SETTINGS = {
   Extension: true,
   Notifications: true,
+  showUpdateMessage: true,
 };
 
 export const CRON_JOB_INTERVAL = 15;

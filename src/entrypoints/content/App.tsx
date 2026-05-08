@@ -7,15 +7,17 @@ import {
 import { SidebarHeader } from "../components/sidebar-header";
 import { SidebarOptions } from "../components/sidebar-options";
 import { NavbarTabs } from "../components/navbar-tabs";
-import type { Message } from "../utils/types";
+import type { GetSettingResponse, Message, Response } from "../utils/types";
 import { LikedVideosContainer } from "../components/liked-videos/liked-videos-container";
 import { SubscribedChannelsContainer } from "../components/subscribed-channels/subscribed-channels-container";
 import { PlaylistsContainer } from "../components/playlists/playlists-container";
 import { SubscriptionsContainer } from "../components/subscriptions/subscriptions-container";
 import { SettingsContainer } from "../components/settings/settings-container";
+import { UpdateMessageModal } from "../components/update-message-modal";
 
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
+  const [showUpdateMessage, setShowUpdateMessage] = useState<boolean>(false);
   const [refreshKey, setRefreshKey] = useState(0);
   const [activeItem, setActiveItem] = useState<NavItemLabel>(
     NAV_ITEM_LABELS.SUBSCRIPTIONS,
@@ -37,6 +39,20 @@ export default function App() {
       browser.runtime.onMessage.removeListener(handleMessage);
     };
   }, []);
+  useEffect(() => {
+    const fetchShowUpdateMessage = async () => {
+      const response: Response<GetSettingResponse> =
+        await browser.runtime.sendMessage({
+          action: ACTIONS.GET_SETTING,
+          data: { key: "showUpdateMessage" },
+        } satisfies Message);
+      if (!response.success) {
+        return;
+      }
+      setShowUpdateMessage(response.data.value);
+    };
+    fetchShowUpdateMessage();
+  }, []);
 
   return (
     <div
@@ -52,6 +68,9 @@ export default function App() {
         right: "0",
       }}
     >
+      {showUpdateMessage && (
+        <UpdateMessageModal setShowUpdateMessage={setShowUpdateMessage} />
+      )}
       <SidebarOptions setIsOpen={setIsOpen} onRefresh={handleRefresh} />
       <div className="flex h-full min-h-0 flex-col">
         <SidebarHeader />
