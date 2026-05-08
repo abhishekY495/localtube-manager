@@ -21,7 +21,7 @@ With the help of LocalTube Manager, like videos, subscribe to channels, and crea
 <a href="https://addons.mozilla.org/en-US/firefox/addon/localtube-manager" target="_blank"><img src="https://localtubemanager.pages.dev/firefoxIcon.svg" width="30"></a>&nbsp;
 <a href="https://chromewebstore.google.com/detail/localtube-manager/ajhcoapnhehdmjcohkbaehfkobjhjhhj" target="_blank"><img src="https://localtubemanager.pages.dev/braveIcon.svg" width="28"></a>
 
-https://github.com/user-attachments/assets/78bbe569-6354-4d29-9258-4068329cc319
+https://github.com/user-attachments/assets/92f8f3bb-8acf-4c9d-84a0-3832b77d4ae0
 
 ## ✨ Features
 
