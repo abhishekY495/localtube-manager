@@ -63,10 +63,9 @@ export const SettingsContainer = ({
     >
       <div
         className="flex flex-col justify-center border-b border-neutral-700"
-        style={{ paddingBottom: "30px" }}
       >
         {settings.length > 0 && (
-          <div className="flex flex-col gap-10">
+          <div className="flex flex-col">
             {settings.map((setting) => {
               return (
                 <div key={setting.key}>

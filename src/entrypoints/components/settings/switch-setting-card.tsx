@@ -18,7 +18,7 @@ export const SwitchSettingCard = ({
   return (
     <div
       className="flex flex-col bg-neutral-800 rounded"
-      style={{ padding: "15px 24px" }}
+      style={{ padding: "15px 24px", marginBottom: "30px" }}
     >
       <div className="flex items-center justify-between">
         <div>
