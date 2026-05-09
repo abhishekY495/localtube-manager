@@ -9,7 +9,7 @@
   --playlist-button-bg-hover: #e6e6e6;
 }
 
-segmented-like-dislike-button-view-model {
+like-button-view-model {
   display: none !important;
 }
 
@@ -53,8 +53,9 @@ segmented-like-dislike-button-view-model {
   background: var(--bg-primary);
   height: 100%;
   padding-inline: 14px;
-  margin-right: 10px;
-  border-radius: 20px;
+  border-right: 1px solid var(--bg-primary-hover);
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;

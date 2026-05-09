@@ -34,7 +34,7 @@ export const addCustomLikeButton = async ({
     clearExistingCustomLikedButton();
     likeButtonElement.insertBefore(
       customLikeButton,
-      likeButtonElement.children[1],
+      likeButtonElement.children[0],
     );
 
     customLikeButton.addEventListener("click", async () => {
