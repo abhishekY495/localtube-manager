@@ -57,7 +57,6 @@ import {
   updateSetting,
 } from "./indexed-db/settings";
 import { migrateDb } from "./indexed-db/migrate-db";
-// import { oldDataInsertForTesting } from "../old-new-data-dump/old-data-insert-for-testing";
 
 export default defineBackground(async () => {
   const action = browser.action || (browser as any).browserAction;
@@ -633,7 +632,6 @@ export default defineBackground(async () => {
     },
   );
 
-  // await oldDataInsertForTesting();
   // migrate database
   await migrateDb();
 
