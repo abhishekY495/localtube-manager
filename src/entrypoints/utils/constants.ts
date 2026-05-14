@@ -5,6 +5,7 @@ import {
   ThumbsUpIcon,
   TvMinimalPlayIcon,
 } from "lucide-react";
+import { OpenAs } from "./types";
 
 export const ACTIONS = {
   TOGGLE_SIDEBAR: "toggle_sidebar",
@@ -295,6 +296,7 @@ export const DEFAULT_SETTINGS = {
   Extension: true,
   Notifications: true,
   showUpdateMessage: true,
+  openAs: "sidebar" as OpenAs,
 };
 
 export const CRON_JOB_INTERVAL = 15;

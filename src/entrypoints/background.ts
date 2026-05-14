@@ -12,7 +12,7 @@ import {
   getAllLikedVideos,
   getLikedVideoById,
 } from "./indexed-db/liked-videos";
-import { ACTIONS, CRON_JOB_INTERVAL, WEBSITE_URL } from "./utils/constants";
+import { ACTIONS, CRON_JOB_INTERVAL } from "./utils/constants";
 import type {
   Channel,
   CheckIfChannelSubscribedResponse,
@@ -60,6 +60,27 @@ import { migrateDb } from "./indexed-db/migrate-db";
 
 export default defineBackground(async () => {
   const action = browser.action || (browser as any).browserAction;
+
+  const openDashboard = () => {
+    browser.tabs.create({
+      url: browser.runtime.getURL("/dashboard.html"),
+    });
+  };
+
+  const toggleSidebar = async (tab: any) => {
+    if (!tab.id) {
+      openDashboard();
+      return;
+    }
+
+    try {
+      await browser.tabs.sendMessage(tab.id, {
+        action: ACTIONS.TOGGLE_SIDEBAR,
+      } satisfies Message);
+    } catch {
+      openDashboard();
+    }
+  };
 
   browser.runtime.onInstalled.addListener(setupYoutubeEmbedReferrer);
   browser.runtime.onStartup.addListener(setupYoutubeEmbedReferrer);
@@ -110,23 +131,21 @@ export default defineBackground(async () => {
     }
   });
 
-  action.onClicked.addListener((tab: any) => {
-    if (tab.url?.startsWith(browser.runtime.getURL("/dashboard.html"))) {
-      browser.runtime.sendMessage({ action: ACTIONS.TOGGLE_SIDEBAR });
+  action.onClicked.addListener(async (tab: any) => {
+    const openAs = await getSetting("openAs");
+
+    if (openAs === "sidebar") {
+      await toggleSidebar(tab);
       return;
     }
 
-    if (tab.id) {
-      browser.tabs.sendMessage(tab.id, { action: ACTIONS.TOGGLE_SIDEBAR });
-    }
+    openDashboard();
   });
 
   browser.runtime.onMessage.addListener(
     (message: Message, _sender, sendResponse) => {
       if (message.action === ACTIONS.OPEN_DASHBOARD) {
-        browser.tabs.create({
-          url: browser.runtime.getURL("/dashboard.html"),
-        });
+        openDashboard();
       }
 
       if (message.action === ACTIONS.OPEN_LOCAL_PLAYLIST) {

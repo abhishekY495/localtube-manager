@@ -1,4 +1,5 @@
 import { DEFAULT_SETTINGS } from "../utils/constants";
+import { OpenAs } from "../utils/types";
 import { db } from "./db";
 
 export const initSettings = async () => {
@@ -32,7 +33,7 @@ export const getSetting = async (key: keyof typeof DEFAULT_SETTINGS) => {
 
 export const updateSetting = async (
   key: keyof typeof DEFAULT_SETTINGS,
-  value: boolean,
+  value: boolean | OpenAs,
 ) => {
   await db.settings.put({ key, value });
 };
