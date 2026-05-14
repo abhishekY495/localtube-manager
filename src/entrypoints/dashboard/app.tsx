@@ -1,36 +1,16 @@
-import { useEffect, useState } from "react";
+import { NAV_ITEM_LABELS, type NavItemLabel } from "../utils/constants";
 import { Header } from "./components/header";
-import { PlaylistPage } from "./pages/playlist-page";
-
-const getPlaylistNameFromHash = () => {
-  const [, search = ""] = window.location.hash.slice(1).split("?");
-  const params = new URLSearchParams(search);
-  return params.get("name");
-};
+import { NavbarTabs } from "./components/navbar-tabs";
 
 export default function App() {
-  const [playlistName, setPlaylistName] = useState(getPlaylistNameFromHash);
-
-  useEffect(() => {
-    const handleHashChange = () => {
-      setPlaylistName(getPlaylistNameFromHash());
-    };
-
-    window.addEventListener("hashchange", handleHashChange);
-
-    return () => {
-      window.removeEventListener("hashchange", handleHashChange);
-    };
-  }, []);
+  const [activeItem, setActiveItem] = useState<NavItemLabel>(
+    NAV_ITEM_LABELS.SUBSCRIPTIONS,
+  );
 
   return (
-    <div className="mx-auto flex h-full max-w-[95%] flex-col gap-8">
-      {playlistName && (
-        <>
-          <Header />
-          <PlaylistPage playlistName={playlistName} />
-        </>
-      )}
+    <div className="mx-auto flex h-full max-w-[85%] flex-col">
+      <Header />
+      <NavbarTabs setActiveItem={setActiveItem} activeItem={activeItem} />
     </div>
   );
 }
