@@ -1,6 +1,5 @@
-import { XIcon } from "lucide-react";
 import starIcon from "@/assets/star-icon.svg";
-import githubIcon from "@/assets/github-icon.svg";
+import githubIcon from "@/assets/github-dark-icon.svg";
 import {
   CHROME_WEB_STORE_URL,
   EXTENSION_VERSION,
