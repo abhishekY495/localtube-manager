@@ -1,24 +1,24 @@
 import { deleteLocalPlaylistByName } from "@/entrypoints/indexed-db/local-playlists";
 import toast from "react-hot-toast";
 
-export const DeleteLocalPlaylistModal = ({
-  setIsDeletePlaylistModalOpen,
+export const RemoveLocalPlaylistModal = ({
+  setIsRemoveModalOpen,
   playlistName,
-  onPlaylistDeleted,
+  onRefresh,
 }: {
-  setIsDeletePlaylistModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsRemoveModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   playlistName: string;
-  onPlaylistDeleted: () => void;
+  onRefresh: () => void;
 }) => {
   const closeModal = () => {
-    setIsDeletePlaylistModalOpen(false);
+    setIsRemoveModalOpen(false);
   };
 
-  const deleteButtonHandler = async () => {
+  const removeButtonHandler = async () => {
     try {
       await deleteLocalPlaylistByName(playlistName);
-      onPlaylistDeleted();
-      setIsDeletePlaylistModalOpen(false);
+      onRefresh();
+      setIsRemoveModalOpen(false);
     } catch (error) {
       toast.error("Something went wrong,\n Refresh and try again");
     }
@@ -44,9 +44,9 @@ export const DeleteLocalPlaylistModal = ({
           </button>
           <button
             className="bg-neutral-200 text-black rounded cursor-pointer text-sm font-semibold p-1 px-3"
-            onClick={deleteButtonHandler}
+            onClick={removeButtonHandler}
           >
-            Delete
+            Remove
           </button>
         </div>
       </div>
