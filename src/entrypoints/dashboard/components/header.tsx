@@ -4,7 +4,7 @@ import { EXTENSION_VERSION, WEBSITE_URL } from "@/entrypoints/utils/constants";
 
 export const Header = () => {
   return (
-    <header className="flex items-center justify-between border-b border-neutral-700 pb-1">
+    <header className="flex items-center justify-between py-1 pt-1.5 sticky top-0 bg-neutral-950 z-10">
       <a
         href={WEBSITE_URL}
         target="_blank"

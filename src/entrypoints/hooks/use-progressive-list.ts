@@ -36,6 +36,9 @@ export const useProgressiveList = <T>(
       return;
     }
 
+    const isListContainerScrollable =
+      listContainer.scrollHeight > listContainer.clientHeight;
+
     const observer = new IntersectionObserver(
       (entries) => {
         if (!entries[0]?.isIntersecting) {
@@ -47,7 +50,7 @@ export const useProgressiveList = <T>(
         );
       },
       {
-        root: listContainer,
+        root: isListContainerScrollable ? listContainer : null,
         rootMargin,
       },
     );
@@ -55,7 +58,7 @@ export const useProgressiveList = <T>(
     observer.observe(loadMoreTrigger);
 
     return () => observer.disconnect();
-  }, [batchSize, hasMoreItems, items.length, rootMargin]);
+  }, [batchSize, hasMoreItems, items.length, rootMargin, visibleItemCount]);
 
   return {
     visibleItems,

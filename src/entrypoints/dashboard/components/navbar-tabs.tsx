@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NAV_ITEMS, type NavItemLabel } from "@/entrypoints/utils/constants";
 import { formatNumber } from "@/entrypoints/utils/format-number";
 import { getNavItemCount } from "@/entrypoints/utils/get-nav-item-count";
@@ -14,6 +14,13 @@ export const NavbarTabs = ({
 }) => {
   const [count, setCount] = useState<CountResponse | null>(null);
 
+  const buttonClickHandler = (item: NavItemLabel) => {
+    setActiveItem(item);
+    const location = window.location.href;
+    const url = location.split("#")[0];
+    window.location.href = `${url}#${item.replace(" ", "-").toLowerCase()}`;
+  };
+
   useEffect(() => {
     const fetchCount = async () => {
       try {
@@ -27,16 +34,16 @@ export const NavbarTabs = ({
   }, []);
 
   return (
-    <nav className="flex items-center justify-around">
+    <nav className="flex items-center justify-around sticky top-[50px] bg-neutral-950 z-10">
       {NAV_ITEMS.map((item) => (
-        <div
+        <button
           key={item.label}
-          className={`flex flex-col gap-1.5 items-center p-3 justify-center cursor-pointer border border-t-0 border-neutral-700 first:rounded-l last:rounded-r first:border-l-0 last:border-r-0 w-full ${
+          className={`flex flex-col gap-1.5 items-center p-3 justify-center cursor-pointer border-2 border-neutral-700 first:border-l-0 last:border-r-0 w-full ${
             activeItem === item.label
               ? "bg-neutral-200 text-black"
               : "hover:bg-neutral-800"
           }`}
-          onClick={() => setActiveItem(item.label)}
+          onClick={() => buttonClickHandler(item.label)}
         >
           <item.icon size={28} />
           <p className="text-lg font-semibold">
@@ -47,7 +54,7 @@ export const NavbarTabs = ({
             )}{" "}
             {item.label}
           </p>
-        </div>
+        </button>
       ))}
     </nav>
   );
