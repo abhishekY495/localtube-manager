@@ -10,15 +10,13 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <div className="p-2">
-      <App />
-      <Toaster
-        position="bottom-left"
-        reverseOrder={true}
-        containerStyle={{
-          zIndex: 2147483647,
-        }}
-      />
-    </div>
+    <App />
+    <Toaster
+      position="bottom-left"
+      reverseOrder={true}
+      containerStyle={{
+        zIndex: 2147483647,
+      }}
+    />
   </React.StrictMode>,
 );
