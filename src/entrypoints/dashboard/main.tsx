@@ -10,7 +10,7 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <div className="h-screen bg-neutral-950 p-2 text-white font-sans">
+    <div className="p-2">
       <App />
       <Toaster
         position="bottom-left"
