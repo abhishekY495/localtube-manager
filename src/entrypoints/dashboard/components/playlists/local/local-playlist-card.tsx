@@ -49,7 +49,10 @@ export const LocalPlaylistCard = ({
         {/*  */}
         <div className="flex flex-col gap-2.5 p-2 pt-1 px-2.5 pb-3">
           <div className="flex flex-col w-full">
-            <p title={playlist.name} className="text-lg font-medium truncate">
+            <p
+              title={playlist.name}
+              className="text-neutral-200 truncate text-base font-medium"
+            >
               {playlist.name}
             </p>
           </div>
