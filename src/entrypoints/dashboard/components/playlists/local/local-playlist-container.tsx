@@ -1,3 +1,4 @@
+import { useEffect, useMemo } from "react";
 import type { LocalPlaylist } from "@/entrypoints/utils/types";
 import { SearchBar } from "@/entrypoints/components/search-bar";
 import { useProgressiveList } from "@/entrypoints/hooks/use-progressive-list";
@@ -8,11 +9,13 @@ export const LocalPlaylistContainer = ({
   localPlaylist,
   searchQuery,
   setSearchQuery,
+  setPlaylistName,
   onRefresh,
 }: {
   localPlaylist: LocalPlaylist[];
   searchQuery: string;
   setSearchQuery: (query: string) => void;
+  setPlaylistName: (name: string | null) => void;
   onRefresh: () => void;
 }) => {
   const filteredLocalPlaylist = useMemo(() => {
@@ -80,6 +83,7 @@ export const LocalPlaylistContainer = ({
                     key={playlist.name}
                     playlist={playlist}
                     onRefresh={onRefresh}
+                    setPlaylistName={setPlaylistName}
                   />
                 ))}
                 {hasMoreLocalPlaylist && (

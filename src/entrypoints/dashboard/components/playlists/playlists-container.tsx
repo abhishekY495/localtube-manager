@@ -11,20 +11,33 @@ import { getAllLocalPlaylists } from "@/entrypoints/indexed-db/local-playlists";
 import { PlaylistsTabs } from "./playlists-tabs";
 import { YoutubePlaylistContainer } from "./youtube/youtube-playlist-container";
 import { LocalPlaylistContainer } from "./local/local-playlist-container";
+import { LocalPlaylistWithVideosContainer } from "./local/local-playlist-with-videos-container";
 
 export const PlaylistsContainer = ({
   refreshKey,
   onRefresh,
+  playlistName,
+  setPlaylistName,
 }: {
   refreshKey: number;
   onRefresh: () => void;
+  playlistName: string | null;
+  setPlaylistName: (name: string | null) => void;
 }) => {
-  const [activeTab, setActiveTab] = useState<ActiveTab>("youtube");
+  const [activeTab, setActiveTab] = useState<ActiveTab>(
+    playlistName ? "local" : "youtube",
+  );
   const [youtubePlaylist, setYoutubePlaylist] = useState<YoutubePlaylist[]>([]);
   const [localPlaylist, setLocalPlaylist] = useState<LocalPlaylist[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (playlistName) {
+      setActiveTab("local");
+    }
+  }, [playlistName]);
 
   useEffect(() => {
     const fetchYoutubeAndLocalPlaylists = async () => {
@@ -71,22 +84,34 @@ export const PlaylistsContainer = ({
         setSearchQuery={setSearchQuery}
         youtubePlaylistCount={youtubePlaylist.length}
         localPlaylistCount={localPlaylist.length}
+        setPlaylistName={setPlaylistName}
       />
-      {activeTab === "youtube" && (
-        <YoutubePlaylistContainer
-          youtubePlaylist={youtubePlaylist}
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
+      {playlistName ? (
+        <LocalPlaylistWithVideosContainer
+          playlistName={playlistName}
+          setPlaylistName={setPlaylistName}
           onRefresh={onRefresh}
         />
-      )}
-      {activeTab === "local" && (
-        <LocalPlaylistContainer
-          localPlaylist={localPlaylist}
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-          onRefresh={onRefresh}
-        />
+      ) : (
+        <>
+          {activeTab === "youtube" && (
+            <YoutubePlaylistContainer
+              youtubePlaylist={youtubePlaylist}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+              onRefresh={onRefresh}
+            />
+          )}
+          {activeTab === "local" && (
+            <LocalPlaylistContainer
+              localPlaylist={localPlaylist}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+              setPlaylistName={setPlaylistName}
+              onRefresh={onRefresh}
+            />
+          )}
+        </>
       )}
     </>
   );

@@ -1,33 +1,30 @@
 import { useState, useEffect } from "react";
-import type { LocalPlaylist, Video } from "@/entrypoints/utils/types";
-import { getLocalPlaylistByName } from "@/entrypoints/indexed-db/local-playlists";
-import { VideoDetails } from "../components/video-details";
-import { PencilIcon } from "lucide-react";
 import { SearchBar } from "@/entrypoints/components/search-bar";
-import { UpdateLocalPlaylistNameModal } from "../components/update-local-playlist-name-modal";
-import { DeleteLocalPlaylistModal } from "../components/delete-local-playlist-modal";
+import { getLocalPlaylistByName } from "@/entrypoints/indexed-db/local-playlists";
+import type { LocalPlaylist, Video } from "@/entrypoints/utils/types";
+import { VideoDetails } from "./video-details";
+import { UpdateLocalPlaylistNameModal } from "./update-local-playlist-name-modal";
+import { PencilIcon } from "lucide-react";
+import { RemoveLocalPlaylistModal } from "./remove-local-playlist-modal";
 
-export const PlaylistPage = ({ playlistName }: { playlistName: string }) => {
+export const LocalPlaylistWithVideosContainer = ({
+  playlistName,
+  setPlaylistName,
+  onRefresh,
+}: {
+  playlistName: string;
+  setPlaylistName: (name: string | null) => void;
+  onRefresh: () => void;
+}) => {
   const [isUpdatePlaylistNameModalOpen, setIsUpdatePlaylistNameModalOpen] =
     useState(false);
-  const [isDeletePlaylistModalOpen, setIsDeletePlaylistModalOpen] =
+  const [isRemovePlaylistModalOpen, setIsRemovePlaylistModalOpen] =
     useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [playlist, setPlaylist] = useState<LocalPlaylist | null>(null);
   const [currentVideo, setCurrentVideo] = useState<Video | null>(
     playlist?.videos[0] ?? null,
   );
-
-  useEffect(() => {
-    const fetchPlaylist = async () => {
-      const playlist = await getLocalPlaylistByName(playlistName);
-      if (playlist) {
-        setPlaylist(playlist);
-        setCurrentVideo(playlist.videos[0] ?? null);
-      }
-    };
-    fetchPlaylist();
-  }, [playlistName]);
 
   const handleVideoRemoved = (videoId: string) => {
     if (!playlist) {
@@ -68,9 +65,25 @@ export const PlaylistPage = ({ playlistName }: { playlistName: string }) => {
   };
 
   const handlePlaylistDeleted = () => {
-    window.history.replaceState(null, "", "#local-playlists");
-    window.location.reload();
+    const location = window.location.href;
+    const url = location.split("#")[0];
+    window.location.href = `${url}#playlists`;
+    setPlaylistName(null);
+    onRefresh();
   };
+
+  useEffect(() => {
+    const fetchPlaylist = async () => {
+      const playlist = await getLocalPlaylistByName(
+        decodeURIComponent(playlistName),
+      );
+      if (playlist) {
+        setPlaylist(playlist);
+        setCurrentVideo(playlist.videos[0] ?? null);
+      }
+    };
+    fetchPlaylist();
+  }, [playlistName]);
 
   if (!playlist) {
     return (
@@ -86,8 +99,8 @@ export const PlaylistPage = ({ playlistName }: { playlistName: string }) => {
 
   return (
     <>
-      <div className="flex flex-1 min-h-0 gap-0 rounded">
-        <div className="flex h-full w-[600px] flex-col border-8 border-neutral-900">
+      <div className="flex rounded py-4 h-[78vh]">
+        <div className="flex w-[600px] flex-col border-8 border-neutral-900">
           {/*  */}
           <div className="flex items-center justify-between gap-2 p-3 pt-1 bg-neutral-900">
             <div className="flex items-center gap-2">
@@ -97,7 +110,9 @@ export const PlaylistPage = ({ playlistName }: { playlistName: string }) => {
                 onClick={() => setIsUpdatePlaylistNameModalOpen(true)}
               />
               <div className="flex items-center gap-2">
-                <p className="text-xl">{playlist.name}</p>
+                <p className="text-xl truncate w-[200px]" title={playlist.name}>
+                  {playlist.name}
+                </p>
                 <p className="text-xs mt-1">
                   <span className="text-neutral-500 mr-2">•</span>
                   <span className="text-neutral-300">
@@ -107,25 +122,25 @@ export const PlaylistPage = ({ playlistName }: { playlistName: string }) => {
               </div>
             </div>
             <button
-              onClick={() => setIsDeletePlaylistModalOpen(true)}
+              onClick={() => setIsRemovePlaylistModalOpen(true)}
               className="bg-red-500/20 border border-red-900 pt-0.5 pb-1.5 px-4 rounded cursor-pointer hover:bg-red-900"
             >
               Delete
             </button>
           </div>
           {/*  */}
-          <div className="flex flex-col overflow-y-auto">
-            <SearchBar
-              searchQuery={searchQuery}
-              setSearchQuery={setSearchQuery}
-              className="border-neutral-800"
-            />
-            {filteredVideos.length === 0 ? (
-              <p className="mt-16 font-semibold text-base text-center text-neutral-400">
-                No videos found
-              </p>
-            ) : (
-              filteredVideos.map((video) => {
+          <SearchBar
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            className="border-neutral-800"
+          />
+          {filteredVideos.length === 0 ? (
+            <p className="mt-16 font-semibold text-base text-center text-neutral-400">
+              No videos found
+            </p>
+          ) : (
+            <div className="flex flex-col overflow-y-auto">
+              {filteredVideos.map((video) => {
                 return (
                   <VideoDetails
                     key={video.urlSlug}
@@ -136,9 +151,9 @@ export const PlaylistPage = ({ playlistName }: { playlistName: string }) => {
                     onVideoRemoved={handleVideoRemoved}
                   />
                 );
-              })
-            )}
-          </div>
+              })}
+            </div>
+          )}
         </div>
         {/*  */}
         {currentVideo && (
@@ -160,11 +175,11 @@ export const PlaylistPage = ({ playlistName }: { playlistName: string }) => {
           onPlaylistRenamed={handlePlaylistRenamed}
         />
       )}
-      {isDeletePlaylistModalOpen && (
-        <DeleteLocalPlaylistModal
-          setIsDeletePlaylistModalOpen={setIsDeletePlaylistModalOpen}
+      {isRemovePlaylistModalOpen && (
+        <RemoveLocalPlaylistModal
+          setIsRemoveModalOpen={setIsRemovePlaylistModalOpen}
           playlistName={playlist.name}
-          onPlaylistDeleted={handlePlaylistDeleted}
+          onRefresh={handlePlaylistDeleted}
         />
       )}
     </>

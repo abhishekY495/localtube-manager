@@ -11,12 +11,18 @@ export default function App() {
   const [activeItem, setActiveItem] = useState<NavItemLabel>(
     NAV_ITEM_LABELS.SUBSCRIPTIONS,
   );
+  const [playlistName, setPlaylistName] = useState<string | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
-  const handleRefresh = () => setRefreshKey((currentKey) => currentKey + 1);
   const location = window.location.href;
   const slug = location.split("#")[1];
 
+  const handleRefresh = () => setRefreshKey((currentKey) => currentKey + 1);
+
   useEffect(() => {
+    const query = location.split("?")[1];
+    const name = query?.split("=")[1];
+    setPlaylistName(name);
+    //
     if (slug === "subscriptions") {
       setActiveItem(NAV_ITEM_LABELS.SUBSCRIPTIONS);
     } else if (slug === "settings") {
@@ -27,8 +33,10 @@ export default function App() {
       setActiveItem(NAV_ITEM_LABELS.CHANNELS);
     } else if (slug === "playlists") {
       setActiveItem(NAV_ITEM_LABELS.PLAYLISTS);
+    } else if (slug === "local-playlists" || playlistName) {
+      setActiveItem(NAV_ITEM_LABELS.PLAYLISTS);
     }
-  }, [slug]);
+  }, [slug, playlistName]);
 
   return (
     <div className="mx-auto flex h-full max-w-[85%] flex-col bg-neutral-950">
@@ -58,7 +66,12 @@ export default function App() {
           activeItem === NAV_ITEM_LABELS.PLAYLISTS ? "block" : "hidden"
         }
       >
-        <PlaylistsContainer refreshKey={refreshKey} onRefresh={handleRefresh} />
+        <PlaylistsContainer
+          refreshKey={refreshKey}
+          onRefresh={handleRefresh}
+          playlistName={playlistName}
+          setPlaylistName={setPlaylistName}
+        />
       </div>
       <div
         className={activeItem === NAV_ITEM_LABELS.SETTINGS ? "block" : "hidden"}

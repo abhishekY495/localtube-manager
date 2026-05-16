@@ -6,13 +6,14 @@ import { RemoveLocalPlaylistModal } from "./remove-local-playlist-modal";
 
 export const LocalPlaylistCard = ({
   playlist,
+  setPlaylistName,
   onRefresh,
 }: {
   playlist: LocalPlaylist;
+  setPlaylistName: (name: string | null) => void;
   onRefresh: () => void;
 }) => {
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
-
   let playlistThumbnail;
 
   const firstVideo = playlist.videos[0];
@@ -23,7 +24,10 @@ export const LocalPlaylistCard = ({
   }
 
   const openPlaylist = () => {
-    window.location.href = `/dashboard.html#local-playlists?name=${encodeURIComponent(playlist.name)}`;
+    const location = window.location.href;
+    const url = location.split("#")[0];
+    setPlaylistName(playlist.name);
+    window.location.href = `${url}#local-playlists?name=${encodeURIComponent(playlist.name)}`;
   };
 
   return (
