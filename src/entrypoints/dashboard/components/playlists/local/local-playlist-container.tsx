@@ -68,16 +68,13 @@ export const LocalPlaylistContainer = ({
             setSearchQuery={handleSearchQueryChange}
             className="sticky top-[186px] bg-neutral-950 z-10"
           />
-          <div
-            ref={listContainerRef}
-            className="min-h-0 flex flex-1 flex-col pb-14"
-          >
+          <div ref={listContainerRef} className="flex flex-col py-5">
             {filteredLocalPlaylist.length === 0 ? (
               <p className="text-center text-neutral-400 mt-16 text-lg">
                 No local playlists found
               </p>
             ) : (
-              <div className="min-h-0 grid grid-cols-5 gap-6 py-5">
+              <div className="grid grid-cols-5 gap-6">
                 {visibleLocalPlaylist.map((playlist) => (
                   <LocalPlaylistCard
                     key={playlist.name}
