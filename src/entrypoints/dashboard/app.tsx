@@ -66,7 +66,10 @@ export default function App() {
           activeItem === NAV_ITEM_LABELS.CHANNELS ? "block pb-16" : "hidden"
         }
       >
-        <SubscribedChannelsContainer />
+        <SubscribedChannelsContainer
+          refreshKey={refreshKey}
+          onRefresh={handleRefresh}
+        />
       </div>
       <div
         className={
