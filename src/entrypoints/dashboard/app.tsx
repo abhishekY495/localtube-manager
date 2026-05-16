@@ -54,7 +54,10 @@ export default function App() {
           activeItem === NAV_ITEM_LABELS.LIKED_VIDEOS ? "block" : "hidden"
         }
       >
-        <LikedVideosContainer />
+        <LikedVideosContainer
+          refreshKey={refreshKey}
+          onRefresh={handleRefresh}
+        />
       </div>
       <div
         className={activeItem === NAV_ITEM_LABELS.CHANNELS ? "block" : "hidden"}
