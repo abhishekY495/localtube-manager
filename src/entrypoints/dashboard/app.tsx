@@ -49,7 +49,10 @@ export default function App() {
             : "hidden"
         }
       >
-        <SubscriptionsContainer />
+        <SubscriptionsContainer
+          refreshKey={refreshKey}
+          onRefresh={handleRefresh}
+        />
       </div>
       <div
         className={
