@@ -44,14 +44,16 @@ export default function App() {
       <NavbarTabs setActiveItem={setActiveItem} activeItem={activeItem} />
       <div
         className={
-          activeItem === NAV_ITEM_LABELS.SUBSCRIPTIONS ? "block" : "hidden"
+          activeItem === NAV_ITEM_LABELS.SUBSCRIPTIONS
+            ? "block pb-16"
+            : "hidden"
         }
       >
         <SubscriptionsContainer />
       </div>
       <div
         className={
-          activeItem === NAV_ITEM_LABELS.LIKED_VIDEOS ? "block" : "hidden"
+          activeItem === NAV_ITEM_LABELS.LIKED_VIDEOS ? "block pb-16" : "hidden"
         }
       >
         <LikedVideosContainer
@@ -60,13 +62,15 @@ export default function App() {
         />
       </div>
       <div
-        className={activeItem === NAV_ITEM_LABELS.CHANNELS ? "block" : "hidden"}
+        className={
+          activeItem === NAV_ITEM_LABELS.CHANNELS ? "block pb-16" : "hidden"
+        }
       >
         <SubscribedChannelsContainer />
       </div>
       <div
         className={
-          activeItem === NAV_ITEM_LABELS.PLAYLISTS ? "block" : "hidden"
+          activeItem === NAV_ITEM_LABELS.PLAYLISTS ? "block pb-16" : "hidden"
         }
       >
         <PlaylistsContainer
@@ -77,7 +81,9 @@ export default function App() {
         />
       </div>
       <div
-        className={activeItem === NAV_ITEM_LABELS.SETTINGS ? "block" : "hidden"}
+        className={
+          activeItem === NAV_ITEM_LABELS.SETTINGS ? "block pb-16" : "hidden"
+        }
       >
         <SettingsContainer />
       </div>
