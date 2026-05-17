@@ -26,7 +26,7 @@ export const Select = ({ setting }: { setting: Setting }) => {
     <select
       value={selectedOption}
       onChange={handleChange}
-      className="text-sm font-medium bg-neutral-800 text-neutral-100 rounded cursor-pointer outline-none ring-0 focus:border-neutral-700 focus:outline-none focus:ring-0 focus-visible:outline-none py-2 px-4 border border-neutral-700"
+      className="text-sm font-medium bg-neutral-800 text-neutral-100 rounded cursor-pointer outline-none ring-0 focus:border-neutral-700 focus:outline-none focus:ring-0 focus-visible:outline-none py-2 px-4 pr-10 border border-neutral-700"
       style={{
         appearance: "none",
         WebkitAppearance: "none",
