@@ -49,7 +49,7 @@ export default function App() {
       if (!response.success) {
         return;
       }
-      setShowUpdateMessage(response.data.value);
+      setShowUpdateMessage(response.data.value as boolean);
     };
     fetchShowUpdateMessage();
   }, []);

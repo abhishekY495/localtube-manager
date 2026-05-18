@@ -41,9 +41,11 @@ export type LocalPlaylist = {
   videos: Video[];
 };
 
+export type OpenAs = "sidebar" | "new-tab";
+
 export type Setting = {
   key: keyof typeof DEFAULT_SETTINGS;
-  value: boolean;
+  value: boolean | OpenAs;
 };
 
 export type SubscriptionsActiveTab = "videos" | "shorts";
@@ -210,14 +212,14 @@ export type DeleteLocalPlaylistByNameRequest = {
 
 export type UpdateSettingRequest = {
   key: keyof typeof DEFAULT_SETTINGS;
-  value: boolean;
+  value: boolean | OpenAs;
 };
 
 export type GetSettingRequest = {
   key: keyof typeof DEFAULT_SETTINGS;
 };
 export type GetSettingResponse = {
-  value: boolean;
+  value: boolean | OpenAs;
 };
 
 export type ExportDatabaseToJsonResponse = {

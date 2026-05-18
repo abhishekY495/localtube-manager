@@ -1,20 +1,18 @@
-import { useState } from "react";
 import type { Setting } from "@/entrypoints/utils/types";
-import { Switch } from "../switch";
+import { Switch } from "./switch";
+import { Select } from "./select";
 
-export const SwitchSettingCard = ({
+export const SettingCard = ({
   heading,
   description,
   setting,
+  type,
 }: {
   heading: string;
   description: string;
   setting: Setting;
+  type: "switch" | "select";
 }) => {
-  const [isChecked, setIsChecked] = useState(
-    typeof setting.value === "boolean" ? setting.value : false,
-  );
-
   return (
     <div
       className="flex flex-col bg-neutral-800 rounded"
@@ -25,11 +23,8 @@ export const SwitchSettingCard = ({
           <p style={{ fontWeight: 500, fontSize: "18px" }}>{heading}</p>
           <p className="text-neutral-400">{description}</p>
         </div>
-        <Switch
-          keyName={setting.key}
-          checked={isChecked}
-          onCheckedChange={setIsChecked}
-        />
+        {type === "switch" && <Switch setting={setting} />}
+        {type === "select" && <Select setting={setting} />}
       </div>
     </div>
   );
