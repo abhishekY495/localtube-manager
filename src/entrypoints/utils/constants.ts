@@ -302,6 +302,7 @@ export const DEFAULT_SETTINGS = {
 export const CRON_JOB_INTERVAL = 15;
 
 export const RENDER_BATCH_SIZE = 15;
+export const FETCH_CHANNEL_DETAILS_BATCH_SIZE = 50;
 
 export const DB_NAME = "ltm-database";
 export const OLD_DB_NAME = "YouTubeDB";
