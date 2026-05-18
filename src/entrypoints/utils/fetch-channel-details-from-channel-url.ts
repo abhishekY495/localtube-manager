@@ -14,7 +14,7 @@ export const fetchChannelDetailsFromChannelUrl = async (
 
   if (!url) return null;
 
-  const response = await fetch(url.replace("http", "https"));
+  const response = await fetch(url.replace(/^http:\/\//, "https://"));
   if (!response.ok) return null;
 
   const html = await response.text();
@@ -37,9 +37,14 @@ export const fetchChannelDetailsFromChannelUrl = async (
   if (!channelHandleElement) return null;
   channelHandle = channelHandleElement;
 
+  const normalizedChannelName =
+    channelName.startsWith('"') && channelName.endsWith('"')
+      ? channelName.slice(1, -1)
+      : channelName;
+
   return {
     id: channelId,
-    name: channelName,
+    name: normalizedChannelName,
     handle: channelHandle,
     image: channelImageUrl,
     addedAt: new Date().toISOString(),
