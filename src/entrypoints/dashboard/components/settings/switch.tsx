@@ -33,7 +33,7 @@ export const Switch = ({ setting }: { setting: Setting }) => {
         onClick={handleCheckedChange}
       >
         <div
-          className={`${isChecked ? "bg-neutral-700 translate-x-full" : "bg-neutral-100 translate-x-[2px]"} rounded-full cursor-pointer w-[22px] h-[20px] transition-all duration-200`}
+          className={`${isChecked ? "bg-neutral-700 translate-x-full" : "bg-neutral-100 translate-x-px"} rounded-full cursor-pointer w-[22px] h-[20px] transition-all duration-200`}
         ></div>
       </div>
     </div>
