@@ -15,7 +15,7 @@ export default defineConfig({
   manifest: ({ browser }) => ({
     name: "LocalTube Manager",
     description: "A browser extension to use YouTube without a Google account",
-    version: "5.1.0",
+    version: "5.1.1",
     action: {},
     permissions:
       browser === "firefox"
