@@ -271,7 +271,7 @@ export const ADD_TO_LOCAL_PLAYLIST_ICON = `<svg xmlns="http://www.w3.org/2000/sv
 export const CHANNEL_URL_REGEX =
   /^https?:\/\/(www\.)?youtube\.com\/(?:(@[\w.-]+)|(channel\/UC[A-Za-z0-9_-]{22})|(c\/[\w.-]+)|(user\/[\w.-]+)|([\w.-]+))(\/.*)?$/;
 export const CHANNEL_ID_REGEX = /UC[a-zA-Z0-9_-]{22}/;
-export const CHANNEL_HANDLE_REGEX = /@\w+/;
+export const CHANNEL_HANDLE_REGEX = /@[\w.-]+/;
 export const CHANNEL_VIDEO_COUNT_REGEX = /^\d+ videos$/;
 
 export const YOUTUBE_EMBED_REFERRER_RULE_ID = 1;

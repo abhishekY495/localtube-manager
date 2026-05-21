@@ -1,4 +1,4 @@
-import { SELECTORS } from "../constants";
+import { CHANNEL_HANDLE_REGEX, SELECTORS } from "../constants";
 import { findElementBySelectors } from "../find-element-by-selectors";
 import type { Channel } from "../types";
 
@@ -14,8 +14,8 @@ export const getChannelDataFromChannelPage = async (
   );
   channelHandle =
     channelHandleFromChannelPageElement?.textContent
-      .match(/@\w+/)?.[0]
-      .replace("@", "") ?? null;
+      ?.match(CHANNEL_HANDLE_REGEX)?.[0]
+      ?.replace("@", "") ?? null;
 
   const channelImageFromChannelPageElement = await findElementBySelectors(
     SELECTORS.CHANNEL_IMAGE_FROM_CHANNEL_PAGE_ELEMENTS,
