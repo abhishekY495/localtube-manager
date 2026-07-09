@@ -27,7 +27,7 @@ export const getChannelDetailsFromCSV = async (csvContent: string) => {
     );
 
     if (i + FETCH_CHANNEL_DETAILS_BATCH_SIZE < rows.length) {
-      await wait(1000);
+      await wait(2000);
     }
   }
 
