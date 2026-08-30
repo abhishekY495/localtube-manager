@@ -1,3 +1,5 @@
+import { wait } from "./wait";
+
 type FindElementBySelectorsOptions = {
   root?: ParentNode;
   maxAttempts?: number;
@@ -6,11 +8,6 @@ type FindElementBySelectorsOptions = {
 
 const DEFAULT_MAX_ATTEMPTS = 3;
 const DEFAULT_RETRY_DELAY_MS = 500;
-
-const wait = (ms: number) =>
-  new Promise<void>((resolve) => {
-    setTimeout(resolve, ms);
-  });
 
 export const findElementBySelectors = async (
   selectors: readonly string[],
