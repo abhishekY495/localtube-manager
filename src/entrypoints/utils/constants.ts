@@ -192,7 +192,8 @@ export const SELECTORS = {
     "#page-manager",
     "ytd-browse[page-subtype='playlist']",
     "#primary",
-    "ytd-playlist-video-renderer",
+    "yt-section-list-renderer",
+    "#contents",
     "a",
   ],
   PLAYLIST_VIDEOS_COUNT_ELEMENTS: [
